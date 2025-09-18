@@ -1,0 +1,638 @@
+﻿
+@{
+    ViewBag.Title = "index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*Releaser*@
+
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<style>
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .tbl-content {
+        height: 300px;
+        overflow-x: auto;
+        margin-top: 0px;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    td {
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    ::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .tbl-header {
+        width: 99.6%;
+    }
+           td:nth-child(7), th:nth-child(7) {width:10% !important; }
+    td:nth-child(8), th:nth-child(8) {width:10% !important; }
+      td:nth-child(9), th:nth-child(9) {width:5% !important; }
+</style>
+<section role="main" class="content-body" ng-controller="ServiceCreationController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Service Master</span></li>
+                <li><span>Release</span></li>
+            </ol>
+        </div>
+    </header>
+
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify" ng-show="NotifiyRes">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises"> </div>
+            </div>
+        </div>
+    </header>*@
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify" ng-show="NotifiyRes">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row" ng-show="showlist">
+        <div class="col-xs-12">
+            <section class="panel form-wizard">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Service Release 
+                        <div class="card-actions" style="text-transform:capitalize;right: 170px;width: 200px;">
+                            <ul style="list-style:none;">
+                                <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: lightblue;float: left;width: 12px;height: 12px"></span>&nbsp;Selected Item</li>
+                                <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: #ac9898;float: left;width: 12px;height: 12px"></span>&nbsp;Saved</li>
+                            </ul>
+                        </div>
+                    <span style="float:right;color:#000000;"> No.of records : {{tot}},Saved : {{saveditems}} @*, Balance : {{balanceitems}}*@</span></h2>
+                </header>
+                <div class="panel-body">
+
+
+
+
+
+
+                    <form name="form" ng-submit="form.$valid && docheck()" novalidate>
+
+
+                        <div class="table-responsive">
+
+                            <div @*style="width:99%"*@ class="tbl-header">
+                                <table class="table table-bordered mb-none">
+                                    <thead class="top-border" align="center">
+                                        <tr>
+
+                                            <th><input type="text" placeholder="ITEMID" class="form-control" ng-model="sCode" ng-blur="searchMaster1()"></th>
+                                            <th><input type="text" placeholder="SERVICECODE" class="form-control" ng-model="iCode" ng-blur="searchMaster1()"></th>
+                                            <th><input type="text" placeholder="SOURCE" class="form-control" ng-model="sSource" ng-blur="searchMaster1()"></th>
+                                            <th><input type="text" placeholder="ShortDesc" class="form-control" ng-model="sShort" ng-blur="searchMaster1()"></th>
+                                            <th><input type="text" placeholder="LongDesc" class="form-control" ng-model="sLong" ng-blur="searchMaster1()"></th>
+                                            <th>
+                                                <select ng-model="sCategory" class="form-control" ng-change="searchMaster1()" ng-options="x.SeviceCategoryname as x.SeviceCategoryname for x in getcatSC1 | unique:'SeviceCategoryname'">
+                                                    <option value="" selected="selected">All</option>
+                                                </select>
+
+                                            </th>
+                                            <th>
+                                                <select ng-model="sGroup" class="form-control" ng-change="searchMaster1()" ng-options="x.ServiceGroupname as x.ServiceGroupname for x in getcatSC1 | filter:{'SeviceCategoryname':sCategory}:true | unique:'ServiceGroupname'">
+                                                    <option value="" selected="selected">All</option>
+                                                </select>
+                                            </th>
+                                            <th>
+                                                <select ng-model="sUser" class="form-control" ng-change="searchMaster1()" ng-options="x for x in UserList">
+                                                    <option value="" selected="selected">All</option>
+                                                </select>
+                                            </th>
+                                            @*<th style="width:10%;"><input type="text" placeholder="DD/MM/YYYY" class="form-control">
+                        </th>*@
+
+                                            <th>
+                                                <select ng-model="sStatus" ng-change="searchMaster1()" class="form-control">
+                                                    <option value="" selected="selected">All</option>
+                                                    <option value="Cleanse">Cleanse</option>
+                                                    <option value="QC">QC</option>
+                                                    <option value="QA">QA</option>
+                                                    <option value="Released">Completed</option>
+
+                                                </select>
+                                            </th>
+
+
+
+                                        </tr>
+
+
+
+
+                                        @*<tr>
+                        <th style="width:5%">&nbsp;</th>
+                        <th style="width:10%"><input type="text" placeholder="Code" class="form-control" ng-model="sCode" /></th>
+                        <th style="width:30%"><input type="text" placeholder="Source Description" class="form-control" ng-model="sSource" /></th>
+                        <th style="width:25%"><input type="text" placeholder="PV data" class="form-control" ng-model="sPvdata" /></th>
+                        <th style="width:10%"><input type="text" placeholder="Noun" class="form-control" ng-model="sNoun" /></th>
+                        <th style="width:20%;"><input type="text" placeholder="Modifier" class="form-control" ng-model="sModifier" /></th>
+                    </tr>*@
+                                        <tr>
+                                            <th>ItemID </th>
+                                            <th>Service Code</th>
+                                            <th>Legacy</th>
+                                            <th>ShortDesc</th>
+                                            <th>LongDesc</th>
+                                            <th>ServiceCategory</th>
+                                            <th>ServiceGroup</th>
+                                            <th>Cataloguer/ QA/ QC</th>
+                                            <th>Status</th>
+                                            @*<th style="width:10%">Catalog/Review/Release</th>*@
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                            <div style="display:block;max-height:180px;overflow-y:scroll;">
+                                <table class="table table-bordered mb-none">
+                                    <tbody>
+                                        <tr id="{{$index}}" ng-click="RowClick(cat1,$index)" ng-class="(cat1.ServiceStatus=='QA')?'trsaved':''" ng-repeat="cat1 in DataList">
+                                            <td><label ng-bind="cat1.ItemId"></label></td>
+                                            <td><label ng-bind="cat1.ServiceCode"></label></td>
+                                            <td title={{cat1.Legacy}}><label ng-bind="cat1.Legacy.length > 18 ? (cat1.Legacy | limitTo: 18) +'...' : cat1.Legacy"></label></td>
+                                            <td title={{cat1.ShortDesc}}><label ng-bind="cat1.ShortDesc.length > 20 ? (cat1.ShortDesc | limitTo: 20) +'...' : cat1.ShortDesc"></label></td>
+                                            <td title={{cat1.LongDesc}}><label ng-bind="cat1.LongDesc.length > 20 ? (cat1.LongDesc | limitTo: 20) +'...' : cat1.LongDesc"></label></td>
+                                            <td title={{cat1.ServiceCategoryName}}><label ng-bind="cat1.ServiceCategoryName.length > 15 ? (cat1.ServiceCategoryName | limitTo: 15) +'...' : cat1.ServiceCategoryName">"></label></td>
+                                            <td title={{cat1.ServiceGroupName}}><label ng-bind="cat1.ServiceGroupName.length > 15 ? (cat1.ServiceGroupName | limitTo: 15) +'...' : cat1.ServiceGroupName">" ></label></td>
+
+                                            @*<td style="width:14.4%"><label ng-bind="cat1.Last_updatedBy.Name"></label></td>
+                                           <td style="width:14.4%"><label ng-bind="cat1.last_updated_date"></label></td>*@
+                                            <td><label ng-bind="cat1.Cleanser"></label>|<label ng-bind="cat1.Reviewer.Name"></label>|<label ng-bind="cat1.Releaser.Name"></label></td>
+                                            <td><label ng-bind="(cat1.ServiceStatus== 'Release'|| cat1.ServiceStatus=='QA') ? cat1.Duplicates='QA':(cat1.ServiceStatus== 'Rejected') ? cat1.Duplicates='Rejected': (cat1.ServiceStatus=='Review' || cat1.ServiceStatus=='QC') ? cat1.Duplicates='QC':(cat1.ServiceStatus=='Completed')? cat1.Duplicates='Completed':'Cleanse'"></label></td>
+                                            @*<td style="width:10%"><label ng-bind="cat1.requester.Name"></label>|<label ng-bind="cat1.Cleanserr.Name"></label>|<label ng-bind="cat1.Reviewer.Name"></label>|<label ng-bind="cat1.Releaser.Name"></label></td>*@
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+
+
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="tabs">
+                                        <ul class="nav nav-tabs">
+                                            <li class="{{checkcode1}}">
+                                                <a class="nav-link" href="#Desc" data-toggle="tab"><i class="fa fa-file-alt"></i> Description</a>
+                                            </li>
+                                            @*<li class="{{checkcode}}">
+                                                <a class="nav-link" href="#code" data-toggle="tab"><i class="fa fa-book"></i>Code Logic</a>
+                                            </li>*@
+                                        </ul>
+                                        <div class="tab-content">
+                                            <div id="Desc" class="tab-pane {{checkcode1}}">
+                                               
+                                                    <div class="col-md-12 no-padding form-group">
+                                                        <div class="col-md-6 no-padding">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">Plant</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.PlantCode.$invalid }">
+                                                                        <select ng-model="obj.PlantCode" id="PlantCode" name="PlantCode" class="form-control" ng-options="x.Plantcode as x.Plantname for x in getplant | filter :{'Islive':true}" required>
+                                                                            <option value="" selected="selected">Select Plant</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">UOM</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceUomcodeSC.$invalid }">
+                                                                        <select ng-model="obj.UomCode" id="ServiceUomcodeSC" name="ServiceUomcodeSC" class="form-control" ng-options="x.UOMNAME as x.UOMNAME for x in getUOMSC" required>
+                                                                            <option value="" selected="selected">Select UOM</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">Valuation</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceValuationcodeSC.$invalid }">
+                                                                        <select ng-model="obj.Valuationcode" id="ServiceValuationcodeSC" name="ServiceValuationcodeSC" class="form-control" ng-options="x.ServiceValuationcode as x.ServiceValuationname for x in getVALSC | filter: {'Islive':true}">
+                                                                            <option value="" selected="selected">Select Valuation</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                         </div>
+                                                        <div class="col-md-6 no-padding">
+                                                            @*<div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">Category</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceCategorycodeSC.$invalid }">
+                                                                        
+                                                                        <select ng-model="obj.ServiceCategoryCode" class="form-control" id="ServiceCategorycodeSC" name="ServiceCategorycodeSC" ng-options="x.Segment as x.Segment+' - '+ x.SegmentTitle for x in Commodities | unique:'Segment' " required>
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">Group</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceGroupcodeSC.$invalid }">
+                                                                       
+                                                                        <select ng-model="obj.ServiceGroupCode" class="form-control" id="ServiceGroupcodeSC" name="ServiceGroupcodeSC" ng-options="x.Family as x.Family+' - '+ x.FamilyTitle for x in Commodities| unique:'Family' | filter :{'Segment':  obj.ServiceCategoryCode}" required>
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">Service</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceGroupcodeSC.$invalid }">
+                                                                       
+                                                                        <select ng-model="obj.MainCode" class="form-control" id="Service" name="ServiceGroupcodeSC" ng-options="x.Class as x.Class+' - '+ x.ClassTitle for x in Commodities| unique:'Class'  | filter :{'Family':  obj.ServiceGroupCode}" required>
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-2" for="textareaDefault">Activity</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceGroupcodeSC1.$invalid }">
+                                                                        
+                                                                        <select ng-model="obj.SubCode" class="form-control" id="Activity" name="ServiceGroupcodeSC1" ng-change="getattibuteTable(obj.SubCode)" ng-options="x.Commodity as x.Commodity+' - '+ x.CommodityTitle for x in Commodities | filter :{'Class':  obj.MainCode}" required>
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                            <div class="form-group">
+                                                                <label class="col-md-2" for="textareaDefault">Noun</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.nun.$invalid }">
+
+                                                                        <input type="text" class="form-control immediate-help" name="nun" ng-pattern="/^(\D)+$/" ng-model="obj.Noun" ng-blur="obj.Noun=obj.Noun.toUpperCase();" ng-change="loadmodifier(obj.Noun.toUpperCase())" autofocus auto-complete required style="width:90%;float:left;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-2" for="textareaDefault">Modifier</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.modll.$invalid }">
+
+                                                                        <select ng-model="obj.Modifier" class="form-control immediate-help" name="modll" required ng-change="getattibuteTable()" ng-options="x.Modifier as x.Modifier for x in Modifiers" style="width:90%;float:left;">
+
+                                                                            <option value="">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-2" for="textareaDefault">UNSPSC</label>
+                                                                <div class="col-md-10">
+                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.unspsc.$invalid }">
+
+                                                                        <input type="text" class="form-control immediate-help" name="unspsc" ng-model="obj.Unspsc" required style="width:90%;float:left;">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                <div class="col-md-12 no-padding form-group">
+                                                    <div class="form-group">
+                                                        <div class="col-md-1 no-padding">
+                                                            <div class="form-group">
+                                                                <label class="control-label col-md-12" for="textareaDefault">Legacy</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <div class="form-group">
+                                                                <textarea class="form-control" rows="3" ng-model="obj.Legacy"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                  
+
+
+
+                                                        <div id="divattribute" class="form-group col-md-12 no-padding" ng-show="Attributess !=null ">
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-7">
+                                                                    <table id="maintable" class="table mb-none LeftPaddingRemoving">
+                                                                        <thead class="top-border">
+                                                                            <tr>
+                                                                                <th style="width:40%">Attributes</th>
+                                                                                <th style="width:40%">Value</th>
+                                                                                <th style="width:20%">Abbreviate</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr ng-repeat="uo in Attributess">
+                                                                                <td>
+                                                                                    <input type="hidden" ng-model="uo.Sequence" /><label class="form-control" ng-bind="uo.Attributes" ng-model="uo.Attributes" ng-class="{'tdback':uo.Default=='Yes'}" style="font-weight:bold" />
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div ng-class="{'has-error':form.$submitted && form.val{{$index}}.$error.pattern}">
+                                                                                        <input id="val{{$index}}" type="text" list="lstitms" ng-click="SelectAttr(obj.Noun,obj.Modifier,uo.Attributes)" ng-blur="checkValue(obj.Noun,obj.Modifier,uo.Attributes,uo.Value,$index)" class="form-control" ng-model="uo.Value" autocomplete="off" capitalize>
+
+                                                                                    </div>
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <div id="checkval{{$index}}" style="display:none">
+                                                                                        <div class="col-md-10 no-padding"><input ng-model="uo.Abbrivation" type="text" placeholder="Abbreviate Value" class="form-control" /></div>
+                                                                                        <div class="col-md-2 no-padding">
+                                                                                            <button id="btnabv{{$index}}" type="button" name="btnAdd" ng-click="AddValue1(obj.Noun,obj.Modifier,uo.Attributes,uo.Value,uo.Abbrivation,$index)" style="background: #fff;border: none;color: #3e79cb;text-decoration: underline;">Add</button>
+                                                                                            @*<a ng-click="AddValue1(obj.ServiceCategorycode,obj.ServiceGroupcode,uo.Attributes,uo.Value,uo.Abbrivation,$index)">Add</a>*@
+                                                                                        </div>
+                                                                                        @*<div class="col-md-1 no-padding"> <a ng-click="CancelValue1($index)">Cancel</a> </div>*@
+                                                                                    </div>
+                                                                                    <div ng-show="form.val{{$index}}.$error.pattern" class="input-help">
+                                                                                        <h4 ng-show="form.val{{$index}}.$error.pattern">Enter numeric only</h4>
+                                                                                    </div>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                            </div>
+                                                            <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label class="" for="textareaDefault">Short Desc</label>
+                                                                    <div class="" style="background-color:#f5f5f5;">
+                                                                        <label class="control-label" for="textareaDefault" @*ng-model="obj.ShortDesc"*@ ng-bind="obj.ShortDesc"></label>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="" for="textareaDefault">Long Desc</label>
+                                                                    <div class="" style="background-color:#f5f5f5;">
+
+                                                                        <label class="control-label" for="textareaDefault" @*ng-model="obj.LongDesc"*@ ng-bind="obj.LongDesc"></label>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-1 control-label no-padding" for="textareaDefault">Short Desc</label>
+                                                                    <div class="col-md-1 no-padding" style="width:2.3%;"></div>
+                                                                    <div class="col-md-10" style="background-color:#f5f5f5;">
+                                                                        <label class="control-label" for="textareaDefault" ng-bind="obj.ShortDesc"></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-1 control-label no-padding" for="textareaDefault">Long Desc</label>
+                                                                    <div class="col-md-1 no-padding" style="width:2.3%;"></div>
+                                                                    <div class="col-md-10" style="background-color:#f5f5f5;">
+                                                                        <label class="control-label" for="textareaDefault" ng-bind="obj.LongDesc"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>*@
+                                                    </div>
+                                                    <div id="code" class="tab-pane" @*class="tab-pane {{checkcode}}"*@>
+                                                        <div class="row">
+                                                            <div class="col-md-6">
+                                                                <h4 class="access-order ng-binding">Unspsc Logic</h4>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label" for="textareaDefault">Class Title Search</label>
+                                                                    <div class="col-md-8">
+                                                                        <input type="text" class="form-control" ng-model="ClassTitlesh" />
+                                                                    </div>
+                                                                    <div class="col-md-1 no-padding">
+                                                                        <button type="button" ng-show="ClassTitlesh != null" class="btn btn-xs btn-primary" name="search" ng-click="Searchclasstitle(ClassTitlesh)"><i class="fa fa-search"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label" for="textareaDefault">Comm Title Search</label>
+                                                                    <div class="col-md-8">
+                                                                        <input type="text" class="form-control" ng-model="CommodityTitlesh" />
+                                                                    </div>
+                                                                    <div class="col-md-1 no-padding">
+                                                                        <button type="button" ng-show="CommodityTitlesh != null" class="btn btn-xs btn-primary" name="search1" ng-click="SearchCommodityTitle(CommodityTitlesh)"><i class="fa fa-search"></i></button>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label" for="textareaDefault">Class</label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" class="form-control" ng-model="obj.Class" id="class" name="Class" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label" for="textareaDefault">Class Title</label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" class="form-control" ng-model="obj.ClassTitle" id="clsttl" name="ClassTitle" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label" for="textareaDefault">Commodity</label>
+                                                                    <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.uncpsccommodity.$invalid }">
+                                                                        <input type="text" ng-blur="getsubsubsubcodesc()" style="border-color:{{unspsccom }}" name="uncpsccommodity" class="form-control" ng-model="obj.Unspsc" @*ng-required="CLogic_unspsc"*@ />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-3 control-label" for="textareaDefault">Commodity Title</label>
+                                                                    <div class="col-md-9">
+                                                                        <input type="text" class="form-control" ng-model="obj.CommodityTitle" id="Comttl" name="CommdityTitle" />
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            @*<div class="col-md-6" ng-hide="codeLogic">
+                                                                <h4 class="access-order ng-binding">Coda Logic</h4>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label class="col-md-3 control-label">Main Code</label>
+                                                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.MainCodeSC.$invalid }">
+                                                                            <select ng-model="obj.MainCode" ng-change="getsubcodeSC(obj.MainCode)" id="MaincodeSC" name="MainCodeSC" class="form-control" ng-options="x.MainCode as x.MainDiscription for x in getmainSC | filter :{'Islive':true}" ng-required="CLogic_maincode">
+                                                                                <option value="" selected="selected">Select Main Code</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label class="col-md-3 control-label">Sub Code</label>
+
+                                                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.SubCodeSC.$invalid }">
+                                                                            <select ng-model="obj.SubCode"  ng-change="getsubsubcodesc2(obj.MainCode,obj.SubCode)" id="SubCodeSC" name="SubCodeSC" class="form-control" ng-options="x.SubCode as x.SubDiscription for x in getsubSC | filter: {'Islive':true}" ng-required="CLogic_maincode">
+                                                                                <option value="" selected="selected">Select Sub Code</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <div class="col-md-12">
+                                                                        <label class="col-md-3 control-label">Sub-Sub Code</label>
+                                                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.SubSubCodeSC.$invalid }">
+                                                                            <select ng-model="obj.SubSubCode" style="border-color:{{subsub}}" ng-change="getsubsubsubcodesc2()" id="SubSubCodeSC" name="SubSubCodeSC" class="form-control" ng-options="x.SubSubCode as x.SubSubDiscription for x in getsubsubSC | filter: {'Islive':true}" ng-required="CLogic_maincode">
+                                                                                <option value="" selected="selected">Select Sub-Sub Code</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>*@
+
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div id="cotentid4" style="display:none">
+                                                        <div class="content">
+                                                            <div class="panel-body">
+                                                                <div class="col-md-12">
+
+                                                                    <div ng-hide="COMM==null">
+                                                                        <div class="all-pop">
+                                                                            <table class="table table-bordered mb-none">
+                                                                                <thead class="top-border" align="center">
+                                                                                    <tr>
+                                                                                        <th style="width:20%">Class</th>
+                                                                                        <th style="width:25%">Class Title</th>
+                                                                                        <th style="width:30%">Commodity</th>
+                                                                                        <th style="width:25%">Commodity Title</th>
+
+                                                                                    </tr>
+                                                                                </thead>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div style="max-height:180px;">
+
+                                                                            <table class="table table-bordered mb-none">
+
+                                                                                <tbody>
+
+                                                                                    <tr ng-repeat="C in COMM" id="{{$index}}" ng-click="COMMClick(C,$index)">
+
+                                                                                        <td style="width:20%"><label ng-bind="C.Class"></label></td>
+                                                                                        <td style="width:25%"><label ng-bind="C.ClassTitle"></label></td>
+                                                                                        <td style="width:30%"><label ng-bind="C.Commodity"></label></td>
+                                                                                        <td style="width:25%"><label ng-bind="C.CommodityTitle"></label></td>
+                                                                                    </tr>
+
+                                                                                </tbody>
+                                                                            </table>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-1 no-padding">
+                                                            <label class="control-label col-md-12" for="textareaDefault">Remark</label>
+                                                        </div>
+                                                        <div class="col-md-11">
+                                                            <textarea class="form-control" rows="3" ng-model="obj.Remarks"></textarea>
+                                                        </div>
+                                                    </div>
+
+
+                                                    @*<div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="form-group" style="text-align:right;">
+                                                                <button class="btn btn-primary" type="button" ng-click="docheck()" ng-show="Showsubmit">Save</button>
+                                                                <button class="btn btn-primary" type="submit" ng-show="Showsubmit">Submit</button>
+                                                                <button class="btn btn-primary" ng-click="senttoReview()" type="button" ng-show="Showsubmit">Rework</button>
+                                                                <button class="btn btn-primary" ng-click="rejectitem()" type="button" ng-show="Showsubmit">Reject</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>*@
+                                            <div class="form-group">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-4" style="text-align:center">
+                                                    <div id="divduplicate" style="display:none;" class="input-help1">
+                                                        <div style="display: block;max-height: 150px;min-width:600px;overflow-y: auto;">
+                                                            <i ng-click="closeData1()" class="far fa-times-circle fa-2x pull-right"></i>
+                                                            <h4 ng-bind="'Below item(s) already exist'"></h4>
+                                                            <div ng-repeat="ls in listptnodup1" class="item-border">
+                                                                <label><label style="font-weight:bold" ng-bind="'Item Code: '"></label><label ng-bind="ls.ItemId"></label></label>
+                                                                <label><label style="font-weight:bold" ng-bind="'Short Desc: '"></label><label ng-bind="ls.ShortDesc"></label></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <button class="btn btn-primary" type="submit"  ng-show="Showsubmit">Save</button>
+                                                        <button class="btn btn-primary" type="button" ng-click="createData()" ng-show="Showsubmit">Submit</button>
+                                                        <button class="btn btn-primary" ng-click="senttoReview()" type="button" ng-hide="hidesubmit" ng-show="Showsubmit">Rework</button>
+                                                        <button class="btn btn-primary" ng-click="rejectitem()" type="button" ng-show="Showsubmit">Reject</button>
+                                                        <button class="btn btn-primary" ng-click="clarificationitem()" type="button" ng-show="Showsubmit">Clarification</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4"></div>
+
+                                            </div>
+                                                </div>
+                                            </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <datalist id="lstitms">
+                        <option data-ng-repeat="ls in Values" value="{{ls}}">
+                    </datalist>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<script src="~/Scripts/ctrls/ServiceRelease.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+
+

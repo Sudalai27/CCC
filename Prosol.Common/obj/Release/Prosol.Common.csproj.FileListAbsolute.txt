@@ -1,0 +1,86 @@
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\bin\Release\log4net.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\bin\Release\log4net.xml
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\obj\Release\Prosol.Common.csprojResolveAssemblyReference.cache
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+D:\prosol_dev\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\prosol_dev\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\prosol_dev\Prosol.Common\bin\Release\log4net.dll
+D:\prosol_dev\Prosol.Common\bin\Release\log4net.xml
+D:\prosol_dev\Prosol.Common\obj\Release\Prosol.Common.csprojResolveAssemblyReference.cache
+D:\prosol_dev\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\prosol_dev\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\bin\Release\MvcDemo.Common.dll
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\bin\Release\log4net.dll
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\bin\Release\log4net.xml
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\obj\Release\Prosol.Common.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\obj\Release\MvcDemo.Common.dll
+C:\Users\admin\Desktop\PROSOL_DEV\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+E:\FEWA_work\Prosol.Common\bin\Release\MvcDemo.Common.dll
+E:\FEWA_work\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+E:\FEWA_work\Prosol.Common\bin\Release\log4net.dll
+E:\FEWA_work\Prosol.Common\bin\Release\log4net.xml
+E:\FEWA_work\Prosol.Common\obj\Release\Prosol.Common.csprojResolveAssemblyReference.cache
+E:\FEWA_work\Prosol.Common\obj\Release\MvcDemo.Common.dll
+E:\FEWA_work\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+D:\Fewa_Docs\FEWA_work\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\Fewa_Docs\FEWA_work\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\Fewa_Docs\FEWA_work\Prosol.Common\bin\Release\log4net.dll
+D:\Fewa_Docs\FEWA_work\Prosol.Common\bin\Release\log4net.xml
+D:\Fewa_Docs\FEWA_work\Prosol.Common\obj\Release\Prosol.Common.csproj.AssemblyReference.cache
+D:\Fewa_Docs\FEWA_work\Prosol.Common\obj\Release\Prosol.Common.csproj.CoreCompileInputs.cache
+D:\Fewa_Docs\FEWA_work\Prosol.Common\obj\Release\Prosol.Common.csproj.CopyComplete
+D:\Fewa_Docs\FEWA_work\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\Fewa_Docs\FEWA_work\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\bin\Release\log4net.dll
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\bin\Release\log4net.xml
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\obj\Release\Prosol.Common.csproj.AssemblyReference.cache
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\obj\Release\Prosol.Common.csproj.CoreCompileInputs.cache
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\obj\Release\Prosol.Common.csproj.CopyComplete
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\Fewa_Docs\FEWA_work_Live\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\bin\Release\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\bin\Release\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\obj\Release\Prosol.Common.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\obj\Release\Prosol.Common.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\obj\Release\Prosol.Common.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\Prosol.Common.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\Prosol.Common.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\Prosol.Common.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.S3.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.Core.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.S3.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.S3.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.S3.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\QRCoder.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.Core.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.S3.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\AWSSDK.S3.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\bin\Release\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\Prosol.Common.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\Prosol.Common.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\Prosol.Common.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Common\obj\Release\MvcDemo.Common.pdb

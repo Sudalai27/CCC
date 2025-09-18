@@ -1,0 +1,168 @@
+﻿
+@{ ViewBag.Title = "Dashboard";
+                Layout = "~/Views/Shared/_Layout.cshtml"; }
+
+<link href="~/Content/Style.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+
+<section role="main" class="content-body" ng-controller="DashboardController">
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title" style="text-align: center;font-size: 18px;">  Material Master Overview </h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group" style="margin-left: 50px">
+                        <div class="col-md-3 no-padding" style="position: relative;left: 25px;">
+                            <div class="col-md-4 tat no-padding">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">TAT</h2>
+                                <img src="~/Images/tat-bl.png" class="imgtat" />
+                                <div class="ab1">
+                                    <span ng-bind="repAvg"></span>
+                                    </br>
+                                    <label class="days">Days</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-9 no-padding" style="position: relative;right: 70px;">
+                            <div class="col-md-2 sq-container">
+                                <div class="sq" style="display:flex;flex-direction:column">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">PV Pending</h2>
+                                    <div class="square">
+                                        <span ng-bind="pvpend">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">In Catalogue</h2>
+                                    <div class="square">
+                                        <span ng-bind="cat">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">In QC</h2>
+                                    <div class="square">
+                                        <span ng-bind="qc">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Clarification</h2>
+                                    <div class="square">
+                                        <span ng-bind="clf">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Released</h2>
+                                    <div class="square">
+                                        <span ng-bind="rel">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Total Count</h2>
+                                    <div class="square">
+                                        <span ng-bind="total">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-2">
+                            <div class="col-4 left-container">
+                                <div class="round">
+                                    <div style="text-align: center">
+                                        <h2 class="panel-title" style="text-align: center; font-weight: 700">Plant wise New Request</h2>
+
+                                    </div>
+                                    <canvas class="my-3 h-25" id="pie"></canvas>
+                                </div>
+                                @*<div class="round">
+            <div style="text-align: center">
+                <h2 class="panel-title" style="text-align: center; font-weight: 700">Plant wise CLF Request</h2>
+
+            </div>
+            <canvas class="my-3 h-25" id="pie1"></canvas>
+        </div>*@
+                                <div class="round">
+                                    <div id="chartContainer">
+                                        <div style="text-align: center">
+                                            <h2 class="panel-title" style="text-align: center; font-weight: 700">
+                                                Open Request
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <canvas id="donut"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+
+                            <div class="col-md-6 no-padding">
+                                <div class="a-square">
+                                    <div class="card-header" style="text-align: center">
+                                        <h2 class="panel-title" style="text-align: center; font-weight: 700">
+                                            Month-wise New Request
+                                        </h2>
+                                    </div>
+                                    <div style="padding: 2px">
+                                        <select ng-model="totalYear" ng-change="bindTotalItems()" @*ng-options="plant1.Plantcode as plant1.Plantcode+'-'+plant1.Plantname for plant1 in (Plantoptions1| filter:{'Companycode': Company_Code })" ng-required="true"*@>
+                                            <option ng-repeat="y in yearList" ng-bind="y.year" value={{y.year}}></option>
+                                        </select>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas height="125" id="baravg"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6 no-padding">
+                                <div class="a-square">
+                                    <div class="card-header" style="text-align: center">
+                                        <h2 class="panel-title" style="text-align: center; font-weight: 700">
+                                            Open Request
+                                        </h2>
+                                    </div>
+                                    <div style="padding: 2px">
+                                        <select ng-model="pendYear" ng-change="bindPendItems()" @*ng-options="plant1.Plantcode as plant1.Plantcode+'-'+plant1.Plantname for plant1 in (Plantoptions1| filter:{'Companycode': Company_Code })" ng-required="true"*@>
+                                            <option ng-repeat="y in yearList" ng-bind="y.year" value={{y.year}}></option>
+                                        </select>
+                                    </div>
+                                    <div class="card-body">
+                                        <canvas height="125" id="prog"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+
+<script src="~/Scripts/ctrls/Dashboard1.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/chart.min.js"></script>
+@*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>*@
+

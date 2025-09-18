@@ -1,0 +1,448 @@
+﻿
+@{
+    ViewBag.Title = "FunctLoc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+@*<link href="~/Content/jBox.css" rel="stylesheet" />*@
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+
+<link href="/Content/jBox.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="Funlocontroller">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Asset Master</span></li>
+                    <li><span>Function Location</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Function Location</h2>
+                </header>
+                <div class="panel-body">                   
+
+                    <form name="form" ng-submit="form.$valid && Create()">
+                        <div class="col-md-12">
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Levels</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" id="target" ng-model="f.drp">
+
+                                            <option ng-selected="true" value="1">Level 1</option>
+                                            <option value="2">Level 2</option>
+                                            <option value="3">Level 3</option>
+                                            <option value="4">Level 4</option>
+                                            <option value="5">Level 5</option>
+                                            <option value="6">Level 6</option>
+                                        </select>
+
+                                    </div>
+
+                                </div>
+                                <input ng-hide="true" ng-model="f._id">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">FunctLocation</label>
+                                    <div class="col-md-8">
+                                        <input type="text" name="funloc" class="form-control immediate-help" ng-model="f.FunctLocation" ng-required="l2">
+                                    </div>
+                                    <div ng-show="form.funloc.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.funloc.$error.required">FunctLocation should not be blank</h4>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">FunctLocCat</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.FunctLocCat">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Description</label>
+                                    <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.Desc1.$invalid }">
+                                        <input type="text" name="Desc1" class="form-control immediate-help" ng-model="f.FunctDesc" ng-required="l2">
+                                    </div>
+                                    <div ng-show="form.Desc.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.Desc1.$error.required">Description should not be blank</h4>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">ABC indic</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.ABCindic">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">SupFunctLoc</label>
+                                    <div class="col-md-7" ng-class="{'has-error': form.$submitted && form.SupFunctLoc1.$invalid }">
+                                        <input type="text" ng-disabled="dis" name="SupFunctLoc1" class="form-control immediate-help" ng-model="f.SupFunctLoc" ng-required="l1">
+                                    </div>
+                                    <div class="col-md-1 no-padding" ng-hide="sb">
+                                        <button type="button" ng-show="f.SupFunctLoc != null" class="btn btn-xs btn-primary" name="search" ng-click="Searchfun(f.SupFunctLoc)"><i class="fa fa-search"></i></button>
+                                    </div>
+                                    <div class="col-md-1 no-padding" ng-hide="db">
+                                        <button type="button" class="btn btn-xs btn-primary" ng-click="remv()"><i class="fas fa-times"></i></button>
+                                    </div>
+                                    <div ng-show="form.SupFunctLoc1.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.SupFunctLoc1.$error.required">SupFunctLoc should not be blank</h4>
+                                    </div>
+
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Object type</label>
+                                    <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.ObjTyp1.$invalid }">
+                                        <input type="text" ng-model="f.Objecttype" name="ObjTyp1" class="form-control immediate-help" ng-required="l2">
+                                    </div>
+                                    <div ng-show="form.ObjTyp1.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.ObjTyp1.$error.required">Object type should not be blank</h4>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Start Date</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Startdate">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Auth. group</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.AuthGroup">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Main WorkCtr</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.MainWrk">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">WBS element</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.WBSelement">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Plant section</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Plantsection">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Catalog profile</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Catalogprofile">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Single inst</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Singleinst">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+
+
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Manufacturer</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Manufacturer">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">ManufCountry</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.ManufCon">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Model number</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Modelno">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">ManufSerialNo.</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.ManufSerialNo">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Funcloc Class</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.FunclocClass1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Asset</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Asset">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Comment</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" ng-model="f.Comment">
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <div class="col-md-2"></div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                        <button class="btn btn-primary" ng-show="btnUpdate" type="button" ng-click="update()">Update</button>
+                                    </div>
+
+                                    <div class="col-md-3"><input type="button" value="Clear" class="btn btn-primary" ng-click="Clear()" /></div>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-4"></div>
+                        </div>
+
+                    </form>
+                    <div class="col-md-12 form-group">
+
+                        <div class="table-responsive">
+                            <div class="col-md-4">
+                                <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                            </div>
+                            <div class="control-label col-md-4">
+                                No.of.Records: <label ng-bind="totItem" />
+                            </div>
+                            <div class="control-label col-md-1" style="text-align:right;">
+                                        Search
+                                    </div><div class="col-md-3">
+                                        <input class="form-control" ng-model="searchfunloc" ng-blur="Searchfunloc()" type="text" />
+                                    </div>
+                            <table @*datatable="ng" dt-options="dtOptions"*@ class="table table-bordered mb-none">
+                                <thead class="top-border">
+                                    <tr class="top-border">
+                                        <th>Functional Location</th>
+                                        <th>Functional Desc</th>
+                                        <th>Super Functional Location</th>
+                                        <th>Object Type</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="fun in Result" id="{{$index}}">
+                                        <td><label ng-bind="fun.FunctLocation"></label></td>
+                                        <td><label ng-bind="fun.FunctDesc"></label></td>
+                                        <td><label ng-bind="fun.SupFunctLoc"></label></td>
+                                        <td><label ng-bind="fun.Objecttype"></label></td>
+                                        <td class="actions">
+                                            <a ng-click="edit(fun,$index)" style="cursor:pointer" title="Edit" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                            <a ng-click="Del(fun,$index)" style="cursor:pointer" title="Delete" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                            <a ng-click="Clone(fun,$index)" style="cursor:pointer" title="Clone" class="on-default remove-row"><i class="fa fa-paste"></i></a>
+                                        </td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                            <pagination ng-model="currentPage"
+                                        total-items="totItem"
+                                        items-per-page="numPerPage"
+                                        max-size="10"
+                                        boundary-links="true"
+                                        ng-click="bindflInx(currentPage)">
+                            </pagination>
+                        </div>
+                    
+                        @*<div class="table-responsive">
+                                <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                    <thead>
+                                        <tr class="top-border">
+                                            <th>Functional Location</th>
+                                            <th>Functional Desc</th>
+                                            <th>Super Functional Location</th>
+                                            <th>Object Type</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="fun in Result" id="{{$index}}">
+                                            <td><label ng-bind="fun.FunctLocation"></label></td>
+                                            <td><label ng-bind="fun.FunctDesc"></label></td>
+                                            <td><label ng-bind="fun.SupFunctLoc"></label></td>
+                                            <td><label ng-bind="fun.Objecttype"></label></td>
+                                            <td class="actions">
+                                                <a ng-click="edit(fun,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                                <a ng-click="Del(fun,$index)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>*@
+
+
+                    </div>
+                    @*<table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                            <thead class="top-border">
+                                <tr role="row">
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-sort="ascending" aria-label="Functional Location">Functional Location</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Functiona lDesc">Functional Desc</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Role">Role</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Super Functional Location">Super Functional Location</th>
+
+                                    <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px;" aria-label="action">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="x in Result" id="{{$index}}">
+                                    <td>
+                                        <label>{{x.FunctLocation}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{x.FunctDesc}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{x.SupFunctLoc}}</label>
+                                    </td>
+                                    <td>
+                                        <label>{{x.Objecttype}}</label>
+                                    </td>
+
+                                    <td class="actions">
+                                        <a class="on-default edit-row"><i class="fa fa-pencil-alt" ng-click="edit(x,$index)"></i></a>
+
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>*@
+
+
+                    <div id="cotentid1" style="display:none">
+                        <div class="content">
+                            <div class="panel-body">
+                                <div class="col-md-12">
+
+                                    <div ng-hide="SearchResult==null">
+                                        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                                                <div id="divNotifiy" class="alert" ng-show="Notifiy" ng-class="Notifys">
+                                                    <button type="button" class="close" ng-click="Notifiy = !Notifiy"><i class="fas fa-times"></i></button>
+                                                    <label ng-bind="ser" class="erroe-hold" />
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                            </div>
+                                        </div>
+                                        <div class="all-pop">
+                                         
+                                            <table class="table table-bordered mb-none">
+                                                <thead class="top-border" align="center">
+                                                    <tr>
+
+                                                        <th style="width:10%">Functional Location</th>
+                                                        <th style="width:20%">Functional Desc</th>
+                                                        <th style="width:15%">Super Functional Location</th>
+                                                        <th style="width:5%">Object Type</th>
+                                                        <th style="width:8%">Tech Id No</th>
+                                                        <th style="width:10%">Equipment Desc</th>
+                                                        <th style="width:10%">Manufacturer</th>
+                                                        <th style="width:8%">ABCindic</th>
+                                                        <th style="width:5%">Model No</th>
+                                                        <th style="width:9%">ManufSerialNo</th>
+
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div style="max-height:180px;">
+
+                                            <table class="table table-bordered mb-none">
+
+                                                <tbody>
+
+                                                    <tr ng-repeat="fun in SearchResult" id="{{$index}}" ng-click="FunClick(fun,$index)">
+
+                                                        <td style="width:10%"><label ng-bind="fun.FunctLocation"></label></td>
+                                                        <td style="width:20%"><label ng-bind="fun.FunctDesc"></label></td>
+                                                        <td style="width:15%"><label ng-bind="fun.SupFunctLoc"></label></td>
+                                                        <td style="width:5%"><label ng-bind="fun.Objecttype"></label></td>
+                                                        <td style="width:8%"><label ng-bind="fun.TechIdentNo"></label></td>
+                                                        <td style="width:10%"><label ng-bind="fun.EquipDesc"></label></td>
+                                                        <td style="width:10%"><label ng-bind="fun.Manufacturer"></label></td>
+                                                        <td style="width:8%"><label ng-bind="fun.ABCindic"></label></td>
+                                                        <td style="width:5%"><label ng-bind="fun.Modelno"></label></td>
+                                                        <td style="width:9%"><label ng-bind="fun.ManufSerialNo"></label></td>
+
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                         
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<script>$("#target").val($("#target option:first").val());</script>
+<script src="/Scripts/jBox.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/Asset.js"></script>
+
+

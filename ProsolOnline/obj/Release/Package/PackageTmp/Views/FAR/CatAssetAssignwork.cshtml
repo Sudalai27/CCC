@@ -1,0 +1,314 @@
+﻿
+@{
+    ViewBag.Title = "CatAssetAssignwork";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="/Content/jBox.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="Assignworkcontroller">
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">ASSIGN WORK</h2>
+                </header>
+
+                <div class="panel-body">
+                    <div class="form-group">
+
+                        <div class="col-md-3">
+                            <label class="col-md-2 no-padding control-label" for="inputDefault">FAR ID</label>
+                            <div class="col-md-8 no-padding">
+
+                                @*<select data-plugin-selectTwo class="form-control populate">
+                                        <optgroup label="">
+                                            <option value={{far}} ng-repeat="far in FARMaster | filter: searchFar">{{far    }}</option>
+
+                                        </optgroup>
+                                    </select>*@
+
+                                @*<div class="dropdown" auto-close="outsideClick">
+                                        <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop"  data-toggle="dropdown">
+                                            {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
+                                        </button>
+                                        <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                        <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                            <li role="presentation">
+                                                <input disable-auto-close type="search" style="position:relative;display: flex;width: 100%;" ng-model="searchFar" placeholder="Search">
+                                            </li>
+                                            <li role="presentation" ng-repeat="far in FARMaster | filter: searchFar">
+                                                <a role="menuitem" ng-click="BindFARList(far)">{{far}}</a>
+                                            </li>
+                                        </ul>
+
+                                    </div>*@
+                                <style>
+                                    .mycustom-ul {
+                                        width: 100%;
+                                        max-height: 300px;
+                                        overflow: auto;
+                                    }
+                                </style>
+
+                                <div class="dropdown" auto-close="outsideClick">
+                                    <button class="btn btn-default dropdown-toggle  Drop-btn" type="button" id="individualDrop" data-toggle="dropdown">
+                                        {{BtnFARmodel}}<span class="caret mycustom-caret"></span>
+                                    </button>
+                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" style="max-height: 245px;">
+                                        <input disable-auto-close type="search" ng-model="searchFar" placeholder="Search" style="width:100%"></input>
+                                        <li role="presentation" ng-repeat="far in FARMaster | filter: searchFar">
+                                            <a role="menuitem" ng-click="BindFARList(far)">{{far}}</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="button" class="btn btn-xs btn-primary" name="search" ng-click="clearFar()">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-3 no-padding control-label" for="inputDefault">Region</label>
+
+                            <div class="col-md-9 no-padding control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+                                <input type="text" class="form-control" ng-model="asset.Region" ng-disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-3 no-padding control-label" for="inputDefault">Asset Desc.</label>
+
+                            <div class="col-md-9 no-padding control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+                                <input type="text" class="form-control" ng-model="asset.AssetDesc" ng-disabled="true">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="col-md-3 no-padding control-label" for="inputDefault">PV Users</label>
+
+                            <div class="col-md-9 no-padding control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+                                <select ng-model="UserName" name="assignUserNamepv" class="form-control immediate-help" ng-change="userFilter(UserName)" ng-options="x.UserName as x.UserName for x in assigngetuserpv">
+                                    <option value="" selected="selected">--Select User--</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+                    <table class="col-md-12" style="width: 100%" ng-show="filteredassign1.length > 0">
+                        <tr style="background: white">
+                            <th colspan="8">
+                                <div class="col-md-12">
+                                    <div class="text-left control-label col-md-6">
+                                        No.of.Selected Records:<label ng-bind="selected1" />
+                                    </div>
+                                    <div class="text-right control-label col-md-6">
+                                        No.of.Records:<label ng-bind="filteredassign1.length" />
+                                    </div>
+                                </div>
+                            </th>
+                        </tr>
+                    </table>
+                    <div class="col-md-12 table-responsive fixTableHead" ng-show="filteredassign1.length > 0">
+                        <table class="table table-bordered mb-none" style="width: 100%">
+                            <thead class="top-border" align="center">
+
+
+                                <!--<tr>-->
+                                @*<th><input type="text" placeholder="FAR ID" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>
+                                    <th><input type="text" placeholder="Region" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>*@
+
+                                @*<th>
+                                        <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
+                                            <option value="" selected="selected">All</option>
+                                        </select>
+                                    </th>
+
+                                    <th>
+                                        <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
+                                            <option value="" selected="selected">All</option>
+                                            <option>Catalogue</option>
+                                            <option>Catalogue Rework</option>
+                                            <option>QC</option>
+                                            <option>QA</option>
+                                            <option>Released</option>
+
+                                        </select>
+                                    </th>
+                                    <th>
+                                        Select
+                                    </th>*@
+
+
+
+                                <!--</tr>-->
+                                <tr class="top-tr">
+                                    @*<th ng-click="sortData('UniqueId')">
+            FAR ID<div ng-class="getSortClass('UniqueId')"></div>
+        </th>*@
+                                    @*<th>
+            Region
+        </th>*@
+                                    @*<th ng-click="sortData('Legacy')">
+            Area<div ng-class="getSortClass('Legacy')"></div>
+        </th>*@
+                                    <th ng-click="sortData('Shortdesc')" style="width: 10%">
+                                        Item ID <div ng-class="getSortClass('Shortdesc')"></div>
+                                    </th>
+                                    <th ng-click="sortData('Shortdesc')" style="width: 10%">
+                                        FAR ID <div ng-class="getSortClass('Shortdesc')"></div>
+                                    </th>
+                                    <th ng-click="sortData('Shortdesc')" style="width: 15%">
+                                        Asset Number <div ng-class="getSortClass('Shortdesc')"></div>
+                                    </th>
+                                    <th style="width: 15%">
+                                        Asset Location
+                                    </th>
+                                    <th style="width: 25%">
+                                        Location Hierarchy
+                                    </th>
+                                    <th style="width: 30%">
+                                        Asset Description
+                                    </th>
+                                    <th style="width: 10%">
+                                        PV User
+                                    </th>
+                                    @*<th>
+            Equipment Desc
+        </th>*@
+                                    @*<th style="width: 12%">PV/Cat/QC</th>
+
+        <th style="width: 8%">Status</th>*@
+                                    <th style="width: 2%; z-index: 101">
+                                        <input type="checkbox" id="recheckall" ng-model='rechkSelected' ng-click="reselectAll()" />
+                                    </th>
+
+                                </tr>
+                            </thead>
+                            <tbody style="width: 100%">
+                                <tr id="{{$index}}" @*ng-click="RowClick(cat1,$index)"*@ @*ng-class="{ 'selected': isSelectedRow($index) }"*@ ng-class="(cat1.ItemStatus == 3 || cat1.ItemStatus == 5) ? 'trsaved' : (cat1.ItemStatus == 2 && cat1.Rework == 'Cat') ? 'trrework' : (isSelectedRow($index) ? 'selected' : '')" ng-repeat="cat1 in filteredassign1 ">
+
+                                    @*<td style="width: 13.5%"><label ng-bind="cat1.FixedAssetNo"></label> </td>*@
+                                    @*<td style="width: 13.5%"><label ng-bind="cat1.Region"></label></td>*@
+                                    @*<td><label ng-bind="cat1.Area"></label></td>*@
+                                    <td style="width: 10%"><label ng-bind="cat1.UniqueId"></label></td>
+                                    <td style="width: 10%"><label ng-bind="cat1.FixedAssetNo"></label></td>
+                                    <td style="width: 10%"><label ng-bind="cat1.AssetNo"></label></td>
+                                    <td style="width: 10%"><label ng-bind="cat1.Location"></label></td>
+                                    <td style="width: 20%" title="{{cat1.LocationHierarchy}}"><label ng-bind="cat1.LocationHierarchy.length >30 ? (cat1.LocationHierarchy | limitTo: 30) +'...' : cat1.LocationHierarchy"></label></td>
+                                    <td style="width: 30%" title="{{cat1.Description}}"> <label ng-bind="cat1.Description.length >30 ? (cat1.Description | limitTo: 30) +'...' : cat1.Description"></label></td>
+                                    <td style="width: 10%"><label ng-bind="cat1.PVuser.Name"></label></td>
+                                    @*<td><label ng-bind="cat1.EquipmentDesc"></label></td>*@
+                                    @*<td style="width: 8%"><label>{{cat1.PVuser.Name}} | {{cat1.Catalogue.Name}} | {{cat1.Review.Name}} </label></td>
+
+                                        <td style="width: 8%"><label ng-bind="(cat1.ItemStatus == 4 || cat1.ItemStatus == 5 ) ? 'QC':'Catalogue'"></label></td>*@
+                                    @*<td style="width: 8%"><label ng-bind="cat1.ItemStatus"></label></td>*@
+                                    <td style="width: 5%">
+                                        <input type="checkbox" ng-click="resinglechk(cat1.UniqueId,$index)" id="rechk{{$index}}" />
+                                    </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                        @*<pagination ng-model="currentPage"
+                                        total-items="totItem"
+                                        items-per-page="numPerPage"
+                                        max-size="5"
+                                        boundary-links="true"
+                                        ng-click="bindflInx(currentPage)">
+                            </pagination>*@
+                    </div>
+                    <div class="form-group">
+
+                        <div class="table-responsive">
+
+                            <div class="tbl-header">
+
+
+                            </div>
+                            <div style="display:block;max-height:200px;overflow-y:scroll;" class="tbl-content">
+                                <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
+                                <table class="table table-bordered">
+                                </table>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="tab-content">
+
+                        <div>
+                            @*<div cg-busy="promise" class="tblLoad"></div>*@
+                            <div class="table-hide">
+                                <div class="form-group" ng-show="show2 == true">
+                                    <div class="col-md-12">
+                                        @*<div class="col-md-4">
+                                                <select ng-model="selecteditempv" ng-change="ddlItems1()" ng-init="selecteditempv=10" ng-options="lst for lst in [10,25,50,100]"></select>
+                                            </div>
+                                            <div class="control-label col-md-4">
+                                                No.of.Selected Records:<label ng-bind="selected2" />
+                                            </div>
+
+                                            <div class="control-label col-md-4">
+                                                No.of.Records:<label ng-bind="len2" />
+                                            </div>*@
+                                        <div class="col-md-12">
+                                            <form name="form4" ng-submit="form4.$valid && assignto()">
+                                                <div class="form-group">
+                                                    <div class="mb-md">
+
+                                                        <div class="col-md-2 search-assign" ng-class="{'has-error': form4.$submitted && form4.assignUserNamepv.$invalid}">
+                                                            <select ng-model="assignUserNamepv" name="assignUserNamepv" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in assigngetuser">
+                                                                <option value="" selected="selected">--Select User--</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <button id="submit_button button-assign" type="submit" class="btn btn-primary">Assign To Cataloguer</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/catAssignWork.js"></script>
+

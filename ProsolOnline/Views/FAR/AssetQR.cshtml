@@ -1,0 +1,169 @@
+﻿
+@{
+    ViewBag.Title = "AssetQR";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/css/jquery.magnify.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/Custom-select.css" rel="stylesheet" />
+<link href="~/Content/uploadfile.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="AssetQRController">
+
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Asset Bulk QR Generation</h2>
+                </header>   
+                <div class="panel-body">
+
+
+                    @*<div class="tabs form-group">
+            <ul class="nav nav-tabs">
+                <li class="active">
+                    <a href="#asset-single" data-toggle="tab" aria-expanded="false">Single QR</a>
+                </li>
+                <li class="">
+                    <a href="#asset-bulk" data-toggle="tab" aria-expanded="false">Bulk QR</a>
+                </li>
+            </ul>
+            <div class="tab-content">
+                <div id="asset-single" class="tab-pane active">
+                    <form name="form" ng-submit="form.$valid && AssetBulkQR()" novalidate>
+                        <div class="form-group single-item">
+                            <div class="col-md-12">
+                                    <label class="col-md-1 control-label">Asset No.</label>
+                                    <div class="col-md-3">
+                                        <input type="text" style="width:120px" class="form-control" name="newtag" ng-model="AssetNo" placeholder="Asset Number">
+                                    </div>
+                                    <label class="col-md-1 control-label">Asset Tag</label>
+                                    <div class="col-md-3">
+                                        <input type="text" style="width:120px" class="form-control" name="newtag" ng-model="TagNo" placeholder="Tag Number">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button ng-show="AssetNo" style=" padding: 0px 5px;" class="btn btn-primary" type="button" ng-click="GenerateQR(AssetNo,AssetNo,TagNo)">
+                                            <i class="fas fa-qrcode" style="font-size:12px"></i>
+                                        </button>&nbsp;
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary" style="padding: 2px 15px;" ng-show="TagImage">Submit</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div cg-busy="promise" style="top:15px"></div>
+                                    </div>
+
+                            </div>
+                            <div class="col-md-12 table-responsive" ng-show="TagImage">
+                                <a ng-href="/QRImages/{{TagImage}}" data-magnify="gallery" data-gallery="gallery4">
+                                    <img ng-src="/QRImages/{{TagImage}}" class="img-fluid rounded">
+                                </a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div id="asset-bulk" class="tab-pane">
+
+                </div>
+            </div>
+        </div>*@
+
+                    <form name="form" ng-submit="form.$valid && AssetBulkQR()" novalidate>
+                        <div class="form-group single-item">
+                            <div class="col-md-12">
+                                <div class="col-md-9">
+                                    <label class="col-md-2 control-label">Asset Bulk</label>
+                                    <div class="col-md-4">
+                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                        <button class="btn btn-primary" style="padding: 2px 15px;" ng-disabled="false != ShowHide">Load</button>&nbsp;
+                                        <button class="btn btn-primary" style="padding: 2px 15px;" ng-show="len > 0" ng-click="downloadPDF()">Download PDF</button>
+                                        @*<button class="btn btn-primary" style="padding: 2px 15px;" ng-show="len > 0">Submit</button>*@
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div cg-busy="promise" style="top:15px"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <a class="download pull-right" href="~/Common/AssetBulkQR.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 table-responsive" ng-show="len > 0">
+                                <div class="pull-right">
+                                    No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len" />
+                                </div>
+                                @*<a title="Download PDF" class="download pull-right" ng-click="downloadPDF()"><i class="fa fa-download"></i></a>*@
+                                <select ng-model="selecteditem" ng-change="ddlItems()" ng-init="selecteditem=10" ng-options="lst for lst in [10,25,50,100]"></select>
+                                <table class="table table-bordered mb-none">
+                                    <thead class="top-border ng-scope">
+                                        <tr>
+                                            <th style="width:40%">Asset Number</th>
+                                            <th style="width:40%">Tag Number</th>
+                                            <th style="width:20%">QR Image</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="x in generatedData">
+                                            <td>{{x.assetNo}}</td>
+                                            <td>{{x.tagNo}}</td>
+                                            <td>
+                                                <a ng-href="/QRImages/{{x.tagURL}}" data-magnify="gallery" data-gallery="gallery4">
+                                                    <img style="width:100px" ng-src="/QRImages/{{x.tagURL}}" class="img-fluid rounded">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <pagination ng-model="currentPage"
+                                            total-items="GetLD.length"
+                                            items-per-page="numPerPage"
+                                            max-size="maxSize"
+                                            boundary-links="true">
+                                </pagination>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+</section>
+<script>
+    $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+</script>
+<script src="/Scripts/ctrls/AssetMasterCtrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+<script src="~/Scripts/jquery.uploadfile.min.js"></script>
+<script src="~/Scripts/customSelect.js"></script>
+<script src="~/Scripts/fileupload.js"></script>
+<script src="~/Scripts/jquery.multi-select.js"></script>
+<script src="~/Scripts/jquery.magnify.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+

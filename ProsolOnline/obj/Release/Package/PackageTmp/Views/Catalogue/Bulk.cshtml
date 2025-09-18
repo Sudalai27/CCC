@@ -1,0 +1,412 @@
+﻿
+@{
+    ViewBag.Title = "BulkData";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="CatalogueController">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Catalogue</span></li>
+                    <li><span>Bulk Data</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height: 36px;text-align: center;">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="height:35px;padding-top:5px;padding-bottom:5px">
+                    <div class="alert" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+
+
+                </div>
+                <div class="col-md-2"></div>
+
+            </div>
+            </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+        </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Bulk Data</h2>
+                        </header>
+                        <div class="panel-body">
+
+
+
+                            <div class="tabs">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#Master" data-toggle="tab" aria-expanded="false">Master Data</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#NM" data-toggle="tab" aria-expanded="true">NM Bulk</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#Single" data-toggle="tab" aria-expanded="true">Single Attribute</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#Attribute" data-toggle="tab" aria-expanded="true"> Attribute</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#Vendor" data-toggle="tab" aria-expanded="false"> Vendor Details</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#Equipment" data-toggle="tab" aria-expanded="false"> Equipment Details</a>
+                                    </li>
+                                    <li class="">
+                                        <a href="#ShortLong" data-toggle="tab" aria-expanded="false">Generate ShortLong</a>
+                                    </li>
+                                    @*<li class="">
+                                        <a href="#url" data-toggle="tab" aria-expanded="false">Status / URL</a>
+                                    </li>*@
+
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="Master" class="tab-pane active">
+                                        <form name="form" ng-submit="form.$valid && Bulkdata()" novalidate>
+                                            @*<div class="form-group single-item">
+                <div class="col-md-12 no-padding">
+                        <label class="col-md-1 control-label">File Upload</label>
+                        <div class="col-md-4">
+                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                            </div>
+
+                        </div>
+                        <div class="col-md-1">
+
+                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                        </div>
+                    <div class="col-md-1">
+                        <div cg-busy="promise" style="top:15px"></div>
+                    </div>
+
+                        <div class="col-md-3">
+                            <a class="download pull-right" href="/Common/Book1.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                        </div>
+
+
+
+
+
+                    </div>*@
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <div cg-busy="promise" style="top:15px"></div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book1.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="NM" class="tab-pane">
+                                        <form name="form" ng-submit="form.$valid && BulkNM()" novalidate>
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1"><div style="color:red"><h4>{{Timer}}</h4></div></div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/NM.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div id="Single" class="tab-pane">
+                                        <form name="form" ng-submit="form.$valid && BulkSingleAttribute()" novalidate>
+
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book7.xlsx"><i class="fa fa-download"></i>&nbsp; Download Single Attribute Template</a>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div id="Attribute" class="tab-pane">
+                                        <form name="form" ng-submit="form.$valid && BulkAttribute()" novalidate>
+
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book2.xlsx"><i class="fa fa-download"></i>&nbsp; Download Attribute Template</a>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div id="Vendor" class="tab-pane">
+                                        <form name="form" ng-submit="form.$valid && Vendordata()" novalidate>
+
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book3.xlsx"><i class="fa fa-download"></i>&nbsp; Download Vendor Template</a>
+                                                    </div>
+
+
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div id="Equipment" class="tab-pane">
+
+                                        <form name="form" ng-submit="form.$valid && Equipdata()" novalidate>
+
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book4.xlsx"><i class="fa fa-download"></i>&nbsp; Download Equipment Template</a>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div id="ShortLong" class="tab-pane">
+
+                                        <form name="form" ng-submit="form.$valid && ShortLong()" novalidate>
+
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book5.xlsx"><i class="fa fa-download"></i>&nbsp; Download ShortLong Template</a>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <div id="url" class="tab-pane">
+
+                                        <form name="form" ng-submit="form.$valid && BulkUrl()" novalidate>
+
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12 no-padding">
+
+                                                    <label class="col-md-1 control-label">File Upload</label>
+                                                    <div class="col-md-4">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:15px"></div>*@
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="/Common/Book6.xlsx"><i class="fa fa-download"></i>&nbsp; Download URL Template</a>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+
+</section>
+
+<script src="~/Scripts/ctrls/BulkData.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+

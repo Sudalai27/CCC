@@ -1,0 +1,339 @@
+﻿
+
+    .edit-button {
+    color: forestgreen;
+    font-size: 16px;
+    margin-left: 5px;
+margin-right: 5px;
+}
+.delete-button {
+color: #dc7777;
+    font-size: 16px;
+    margin-left: 5px;
+margin-right: 5px;
+    }
+td.actions.act-search a{
+    padding-left: 13px;
+    color: #0099e6;
+}
+.popup.service-pop {
+    width: 60%;
+}
+.label-align {
+    text-align: right;
+}
+.label-disc {
+    min-height: 25px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.req-hand {
+    cursor: pointer;
+}
+div#ui-datepicker-div {
+    width: 15%;
+    max-height: 252px;
+}
+a.download.pull-right:hover {
+    color: #000;
+    text-decoration: none;
+}
+.action-pop {
+    font-size: 15px;
+    color: #3e79cb;
+    text-align: center;
+}
+h4.access-order.ng-binding {
+    background: #306897;
+    color: #fff;
+    font-size: 12px;
+    padding: 4px;
+    font-weight: bold;
+}
+/*Ascending Css*/
+ .arrow-up {
+width:0;
+height:0;
+border-left:5px solid transparent;
+border-right:5px solid transparent;
+border-bottom:10px solid #ffffff;
+float:right;
+display:inline-block;
+}
+.arrow-down{
+width:0;
+height:0;
+border-left:5px solid transparent;
+border-right:5px solid transparent;
+border-top:10px solid #ffffff;
+float:right;
+display:inline-block;
+}
+table#datatable-default th {
+    cursor: pointer;
+}
+/*Ascendind css close*/
+.jBox-title div strong {
+    color: #166fea;
+    font-size: 13px;
+}
+@media only screen and (min-width:900px) {  
+ .price-table-wrapper.compare-box {
+        margin-top: 140px !important;
+    }
+}
+@media only screen and (min-width : 1200px) and (max-width :1920px) {
+    .price-table-wrapper.compare-box {
+        margin-top: 340px !important;
+    }
+}
+@media only screen and (max-width: 1920px) and (min-width: 1050px) { 
+    .price-table-wrapper.compare-box {
+        margin-top: 270px !important;
+    }
+}
+@media only screen and (max-width: 1600px) { 
+    .price-table-wrapper.compare-box {
+        margin-top: 138px !important;
+    }
+}
+@media only screen and (min-width : 800px) and (max-width :1024px)  {
+        .price-table-wrapper.compare-box {
+        margin-top: 144px !important;
+    }
+}
+@media only screen  and (min-width : 768px) and (max-width :1366px)  {
+        .price-table-wrapper.compare-box {
+        margin-top: 128px !important;
+    }
+}
+@media only screen and (min-width : 700px) and (max-width :1400px)  {
+        .price-table-wrapper.compare-box {
+        margin-top: 128px !important;
+    }
+}
+.price-table-wrapper.compare-box {
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    left: -5px;
+    margin-top: 140px;
+}
+th.bg-color {
+    margin: 0px;
+    background-color: #306897 !important;
+    color: #fff;
+    text-align: center;
+}
+tr.bg-color1 th {
+    background-color: #a3c1e4 !important;
+}
+ .gray {
+        color: lightgray;
+    }
+
+    .green {
+        color: green;
+    }
+
+    .orange {
+        color: orange;
+    }
+    label.blue {
+    color: blue;
+}
+    .no-padding {
+        padding: 0px;
+    }
+
+    p.user-para {
+        color: #333;
+        font-size: 10px;
+        margin: 0px;
+    }
+
+    h6.user-h6 {
+        margin-bottom: 0px;
+        font-weight:bold;
+    }
+
+    .edit-button {
+    color: forestgreen;
+    font-size: 16px;
+    margin-left: 5px;
+margin-right: 5px;
+}
+.delete-button {
+color: #dc7777;
+    font-size: 16px;
+    margin-left: 5px;
+margin-right: 5px;
+    }
+td.actions.act-search a{
+    padding-left: 13px;
+    color: #0099e6;
+}
+.popup.service-pop {
+    width: 60%;
+}
+.label-align {
+    text-align: right;
+}
+.label-disc {
+    min-height: 25px;
+    border: 1px solid #ccc;
+    width: 100%;
+}
+
+.req-hand {
+    cursor: pointer;
+}
+div#ui-datepicker-div {
+    width: 15%;
+    max-height: 252px;
+}
+.detail-plan .panel-title a {
+    color: #000000 !important;
+    font-size: 12px !important;
+}
+.detail-plan .panel-title {
+    background: #F4F4F4;
+    padding: 5px;
+}
+.panel-title > a:before {
+    float: right !important;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f139";
+    padding-right: 5px;
+    font-size: 18px;
+    color: #306897;
+}
+.panel-title > a.collapsed:before {
+    float: right !important;
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    content: "\f13a";
+    font-size: 18px;
+    color: #306897;
+}
+.icon-increase {
+    font-size: 15px;
+    color: #3e79cb;
+}
+.check-pop label:before {
+    border: 1px solid #0088cc !important;
+}
+.legacy-pop {
+    position: fixed;background: #fff;width:75%;margin-top: -25px;
+}
+.input-help.text-alert {
+    margin-left: 5%;
+    margin-top: -25px;
+}
+.require-label:after {
+    content: "*";
+    color: red;
+    font-size: 15px;
+}
+tr.top-tr th {
+    background: #306897 !important;
+    color: #fff;
+}
+.faq .panel-accordion {
+    border-top: 2px solid #3e79cb;
+}
+.faq {
+    margin-top:20px;
+}
+.faq .panel-body p, .faq .panel-body a {
+    color: #333333;
+    font-weight: normal;
+}
+tr.top-tr th {
+    text-transform: uppercase;
+}
+.fa.pull-right {
+    margin-left: .3em;
+}
+.bold {
+    font-size: 14px;
+    font-weight: bold;
+}
+.header.header-nav-menu .header-nav-main nav > ul > li.active > a {
+    background: #a3c1e4;
+    z-index: 999;
+    font-weight: bold;
+    font-size: 13px;
+    color: #121212;
+}
+.header.header-nav-menu .header-nav-main nav > ul > li.active > a.dropdown-toggle:after {
+        border-color: #3a3a3a transparent transparent transparent;
+}
+*::selection {
+        color: #fafafa;
+    background: #306897;
+}
+/*select {
+    -webkit-border-radius:25px; -moz-border-radius:25px; border-radius:25px;
+}*/
+
+/*option:hover {
+    background-color:yellow !important;
+}
+
+option {
+    -webkit-border-radius:25px; -moz-border-radius:25px; border-radius:25px;
+    color:#fff;
+    background-color:#306897;
+}*/
+.img-show-categ {
+    width: 250px;
+    height: 200px;
+}
+.gray.ng-scope {
+    color: #000000;
+    background: lightgray;
+    text-align: center;
+}
+.service .dropdown-menu {
+    left: 300px !important;
+
+}
+.text-color {
+    background: #c2d8eb;
+    font-weight:700;
+}
+
+.tbl-content {
+    overflow-x: auto;
+    margin-top: 0px;
+}
+.tbl-header {
+    width: 99.6%;
+}
+table.table.table_style td {
+    padding: .75rem;
+    font-size: 14px;
+    font-weight: 500;
+}
+    @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }

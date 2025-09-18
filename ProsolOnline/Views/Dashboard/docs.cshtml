@@ -1,0 +1,349 @@
+﻿
+
+@{
+    ViewBag.Title = "Sample Files";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body">
+  
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+   
+    <form ng-controller="SampledocsctrlController">
+        <div class="row">
+            <div class="col-xs-12">
+                <section class="panel form-wizard" id="w4">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Sample Files</h2>
+                    </header>
+                    <div class="panel-body">
+                        <div class="col-md-6">
+                            <div class="panel-group faq" id="accordion">
+                                <div class="panel panel-accordion detail-plan">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#1">
+                                                Material Master Files 
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="1" class="accordion-body collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-3 control-label">Upload File</label>
+                                                        <div class="col-md-8">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData1(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 no-padding">
+                                                            <button class="btn btn-primary" ng-click="UploadFileBulk()">Upload</button>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="flex-row flex-nowrap">
+                                                            <div ng-repeat="fle in Folderfiles1">
+
+                                                                <div @*class="col-sm-6" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;"*@>
+                                                                    <a @*ng-show="@Request.RequestContext.HttpContext.Session["show"] == true"*@ng-click="Remove1(fle)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                    <a target="_blank" href="~/Attachment/SearchMailAttach/{{fle}}" style="color: #000;font-weight: 300;">
+                                                                       
+                                                                        <h6>{{fle}}</h6>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div id="1" class="accordion-body collapse">
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <p><strong>The dashboard signifies the overall big picture of the file status in the tool and the data is represented pictographically.</strong></p>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <div class="panel panel-accordion detail-plan">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#2">
+                                                Service Master Files
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="2" class="accordion-body collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-3 control-label">Upload File</label>
+                                                        <div class="col-md-8">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData2(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 no-padding">
+                                                            <button class="btn btn-primary" ng-click="UploadFileBulk1()">Upload</button>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="flex-row flex-nowrap">
+                                                            <div ng-repeat="fle in Folderfiles2">
+
+                                                                <div @*class="col-sm-6" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;"*@>
+                                                                    <a @*ng-show="@Request.RequestContext.HttpContext.Session["show"] == true"*@ ng-click="Remove2(fle)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                    <a target="_blank" href="~/Attachment/sampledocs1/{{fle}}" style="color: #000;font-weight: 300;">
+                                                                        <div ng-show="fle.substr(fle.lastIndexOf('.') + 1) == 'xlsx'"><img src="~/Images/icon.png" /></div>
+                                                                        <h6>{{fle}}</h6>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-accordion detail-plan">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#3">
+                                                Asset Master Files
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="3" class="accordion-body collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-3 control-label">Upload File</label>
+                                                        <div class="col-md-8">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData3(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 no-padding">
+                                                            <button class="btn btn-primary" ng-click="UploadFileBulk2()">Upload</button>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="flex-row flex-nowrap">
+                                                            <div ng-repeat="fle in Folderfiles3">
+
+                                                                <div @*class="col-sm-6" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;"*@>
+                                                                    <a @*ng-show="@Request.RequestContext.HttpContext.Session["show"] == true"*@ ng-click="Remove3(fle)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                    <a target="_blank" href="~/Attachment/sampledocs2/{{fle}}" style="color: #000;font-weight: 300;">
+                                                                        <div ng-show="fle.substr(fle.lastIndexOf('.') + 1) == 'xlsx'"><img src="~/Images/icon.png" /></div>
+                                                                        <h6>{{fle}}</h6>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel-group faq" id="accordion">
+                                <div class="panel panel-accordion detail-plan">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#15">
+                                                Bill Of Material Files
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="15" class="accordion-body collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-3 control-label">Upload File</label>
+                                                        <div class="col-md-8">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData4(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 no-padding">
+                                                            <button class="btn btn-primary" ng-click="UploadFileBulk3()">Upload</button>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="flex-row flex-nowrap">
+                                                            <div ng-repeat="fle in Folderfiles4">
+
+                                                                <div @*class="col-sm-6" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;"*@>
+                                                                    <a @*ng-show="@Request.RequestContext.HttpContext.Session["show"] == true"*@ ng-click="Remove4(fle)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                    <a target="_blank" href="~/Attachment/sampledocs3/{{fle}}" style="color: #000;font-weight: 300;">
+                                                                        <div ng-show="fle.substr(fle.lastIndexOf('.') + 1) == 'xlsx'"><img src="~/Images/icon.png" /></div>
+                                                                        <h6>{{fle}}</h6>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-accordion detail-plan">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#16">
+                                               Business Partner Files
+                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="16" class="accordion-body collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-3 control-label">Upload File</label>
+                                                        <div class="col-md-8">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData5(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 no-padding">
+                                                            <button class="btn btn-primary" ng-click="UploadFileBulk4()">Upload</button>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="flex-row flex-nowrap">
+                                                            <div ng-repeat="fle in Folderfiles5">
+
+                                                                <div @*class="col-sm-6" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;"*@>
+                                                                    <a @*ng-show="@Request.RequestContext.HttpContext.Session["show"] == true"*@ ng-click="Remove5(fle)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                    <a target="_blank" href="~/Attachment/sampledocs4/{{fle}}" style="color: #000;font-weight: 300;">
+                                                                        <div ng-show="fle.substr(fle.lastIndexOf('.') + 1) == 'xlsx'"><img src="~/Images/icon.png" /></div>
+                                                                        <h6>{{fle}}</h6>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="panel panel-accordion detail-plan">
+                                    <div class="panel-heading">
+                                        <h4 class="panel-title">
+                                            <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#17">
+                                                Data Health Checkup Files                                            </a>
+                                        </h4>
+                                    </div>
+                                    <div id="17" class="accordion-body collapse">
+                                        <div class="panel-body">
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-3 control-label">Upload File</label>
+                                                        <div class="col-md-8">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData6(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1 no-padding">
+                                                            <button class="btn btn-primary" ng-click="UploadFileBulk5()">Upload</button>&nbsp;
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="flex-row flex-nowrap">
+                                                            <div ng-repeat="fle in Folderfiles6">
+
+                                                                <div @*class="col-sm-6" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;"*@>
+                                                                    <a @*ng-show="@Request.RequestContext.HttpContext.Session["show"] == true"*@ ng-click="Remove6(fle)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                    <a target="_blank" href="~/Attachment/sampledocs5/{{fle}}" style="color: #000;font-weight: 300;">
+                                                                        <div ng-show="fle.substr(fle.lastIndexOf('.') + 1) == 'xlsx'"><img src="~/Images/icon.png" /></div>
+                                                                        <h6>{{fle}}</h6>
+                                                                    </a>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        </form>
+</section>
+<script src="/Scripts/ctrls/Sampledocsctrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<style>
+    .flex-row.flex-nowrap .flex-scroll .col-sm-2 {
+        width: 150px;
+        height: 150px;
+    }
+
+    .flex-row.flex-nowrap .flex-scroll {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .flex-row.flex-nowrap {
+        display: flex;
+        overflow: auto;
+    }
+</style>
+
+

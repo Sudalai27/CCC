@@ -1,0 +1,425 @@
+﻿@{
+    ViewBag.Title = "Health Check";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>*@
+
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<style>
+    .table_style tr {
+        background-color: #d2deef;
+        border: 3px solid white;
+    }
+
+    .table_style td, th {
+        border: 3px solid white;
+    }
+
+    .loader {
+            border: 16px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 16px solid #f8941e;
+            border-bottom: 16px solid #26247b;
+            width: 120px;
+            height: 120px;
+            margin-left: 45%;
+            margin-top: 50px;
+            margin-bottom: 50px;
+            -webkit-animation: spin 2s linear infinite;
+            animation: spin 2s linear infinite;
+        }
+
+</style>
+
+
+<section role="main" class="content-body" ng-controller="HealthcheckController">
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes =! NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Health Check</h2>
+                </header>
+                <div class="panel-body" style="background:#eae8e8;">
+                    <form name="form" ng-submit="form.$valid && checkdata()" novalidate>
+                        
+                         
+
+                            <div class="form-group single-item">
+                                <div class="col-md-12" ng-hide="successFlag">
+                                    <div class="col-md-10">
+                                        <label class="col-md-2 control-label">File Upload</label>
+                                        <div class="col-md-4">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2" style="text-align:left">
+                                          
+                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                        </div>
+                                        <div class="col-md-6">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <a class="download pull-right" href="/Common/health_check_upload_template.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                    </div>
+
+                                </div>
+                                
+                                <div ng-show="successFlag">
+                                        
+                                    <div class="col-md-12" style="margin-top: 10px;text-align:center;" id="docx">
+                                                <h3 style="padding: 10px ">
+                                                    Health Check Report
+                                                </h3>
+                                            </div>
+                                      
+                                    <div class="col-md-12" id="loading_div" style="display: none;">
+                                            <div class="loader"></div>
+                                        </div>
+                               
+                                    <div class="col-md-12" style="margin-top: 20px;" id="result_div">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive" style="overflow: hidden;">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Duplicate Report
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>Total Items</td>
+                                                                <td id="total_items">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Duplicate on Material Code</td>
+                                                                <td id="duplicate_m_c">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Duplicate on Short Description</td>
+                                                                <td id="duplicate_short">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Duplicate on Long Description</td>
+                                                                <td id="duplicate_long">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                            <tr>
+                                                                <td>Source Duplicate</td>
+                                                                <td id="source_duplicate_count">0</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <table class="table table_style" style="margin-top: -19px;">
+                                                        <tbody id="source_dup_html" style="display: none;"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Short Description Report
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td>Equal to 0</td>
+                                                                <td id="short_0">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>0 - 15</td>
+                                                                <td id="short_0_15">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>15 - 40</td>
+                                                                <td id="short_15_40">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>More than 40</td>
+                                                                <td id="short_40">0</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Long Description Report
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td>Equal to 0</td>
+                                                                <td id="long_0">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>0 - 40</td>
+                                                                <td id="long_0_40">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>40 - 100</td>
+                                                                <td id="long_40_100">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>More than 100</td>
+                                                                <td id="long_100">0</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Part / Ref / Drg no. Report
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td>Total Part no in items</td>
+                                                                <td id="total_pn">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total Ref no in items</td>
+                                                                <td id="total_refno">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total Drg no in items</td>
+                                                                <td id="total_drgno">0</td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Manufacture Report
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+
+                                                            <tr>
+                                                                <td>Total Manufacture in items</td>
+                                                                <td id="total_manu">0</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Manufacturers List</td>
+                                                                <td style="text-align: center;">
+                                                                    <input class="btn btn-success" type="button" value="View" style="background-color:#5b9bd5; border-color:#5b9bd5;" ng-click="show_result('manu_list_html','table-row-group')" />
+                                                                </td>
+                                                            </tr>
+
+                                                        </tbody>
+                                                        <tbody id="manu_list_html" style="display: none;"></tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Uom Report
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Unit of Measure</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="uom_data_html"></tbody>
+                                                       
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Top Noun List
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Noun</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="top_noun_html"></tbody>
+                                               
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Top Modifier List
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Modifier</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="top_modifier_html"></tbody>
+                                                      
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Material Type List
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Term</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="material_type_html"></tbody>
+                                                     
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Material Group List
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Term</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="material_group_html"></tbody>
+                                                       
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Plant List
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Plant</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="plant_html"></tbody>
+                                                        
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <div class="table table-responsive">
+                                                    <h4 style="padding: 10px;text-align:center; ">
+                                                        Vendor List
+                                                    </h4>
+                                                    <table class="table table_style">
+                                                        <tbody>
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Vendor Name</th>
+                                                                <th>Approx. Count</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="vendor_html"></tbody>
+                                                       
+                                                    </table>
+                                                </div>
+                                            </div>
+
+                                            </div>
+
+                                        </div>
+                               
+                                        
+                                </div>
+
+                                
+                               
+                            </div>
+                        
+                    </form>
+                </div>
+                
+             
+            </section>
+        </div>
+    </div>
+    <script>
+        function show_div(){
+	var x = document.getElementById('detail_view');
+if (x.style.display === "block") {
+	x.style.display = "none";
+  } else {
+	x.style.display = "block";
+  }
+}
+    </script>
+ 
+</section>
+<script src="/Scripts/ctrls/healthcheck.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>

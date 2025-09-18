@@ -1,0 +1,180 @@
+﻿
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<section role="main" class="content-body" ng-controller="AccountController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>My Profile</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">PROFILE</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-6">
+
+
+                        <form name="form" ng-submit="form.$valid && Profilesubmit()" novalidate>
+
+
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">User Name</label>
+                                <div class="col-sm-8 control-label">
+                                    <label ng-bind="UserName" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="inputDefault">Plant</label>
+                                <div class="col-md-8 control-label">
+                                    <label ng-bind="Plantcode" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="inputDefault">Department</label>
+                                <div class="col-md-8 control-label">
+                                    <label ng-bind="Departmentname" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="inputDefault">Role of User</label>
+                                <div class="col-md-8 control-label">
+                                    <label ng-bind="Usertype" />
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="inputDefault">Email ID</label>
+                                <div class="col-md-8 control-label">
+                                    <label ng-bind="EmailId" />
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+
+                                <label class="col-md-4 control-label" for="inputDefault">First Name</label>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.FirstName.$invalid || form.FirstName.$error.pattern}">
+
+                                    <input type="text" ng-model="FirstName" name="FirstName" ng-pattern="/[A-Za-z]/" class="form-control immediate-help" id="FirstName" required>
+                                    <div ng-show="form.FirstName.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.FirstName.$error.required">FirstName should not be blank</h4>
+                                        <h4 class="alert" ng-show="form.FirstName.$error.pattern">Enter characters only</h4>
+
+                                    </div>
+                                </div>
+                                @*<div class="col-md-1 profile-edit"><i class="fa fa-pencil-alt"></i></div>*@
+                            </div>
+                            <div class="form-group">
+
+                                <label class="col-md-4 control-label" for="inputDefault">Last Name</label>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.LastName.$invalid || form.LastName.$error.pattern}">
+
+                                    <input type="text" ng-model="LastName" name="LastName" ng-pattern="/[A-Za-z]/" class="form-control immediate-help" id="LastName" required>
+                                    <div ng-show="form.LastName.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.LastName.$error.required">LastName should not be blank</h4>
+                                        <h4 class="alert" ng-show="form.LastName.$error.pattern">Enter characters only</h4>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-1 profile-edit"><i class="fa fa-pencil-alt"></i></div>*@
+                            </div>
+                        
+
+
+
+                            @*<div class="form-group">
+            <label class="col-md-4 control-label" for="inputDefault">Password</label>
+            <div class="col-md-8">
+                <label type="password" ng-bind="Password" name="Password" class="form-control immediate-help" id="Password" />
+            </div>
+        </div>*@
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="inputDefault">Contact</label>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.Mobile.$invalid || form.Mobile.$error.pattern}">
+                                    <input type="text" ng-model="Mobile" name="Mobile" ng-pattern="/^([0|\+[0-9]{1,5})?([1-9][0-9]{0,20})$/" class="form-control immediate-help" id="Mobile" required>
+
+                                    <div ng-show="form.Mobile.$invalid" class="input-help">
+                                        <h4 class="alert" ng-show="form.Mobile.$error.required">Mobileno should not be blank</h4>
+                                        <h4 class="alert" ng-show="form.Mobile.$error.pattern">Enter Number only Or should not exit more than 27 digit</h4>
+                                    </div>
+                                </div>
+                                @*<div class="col-md-1 profile-edit"><i class="fa fa-pencil-alt"></i></div>*@
+                            </div>
+
+                            @*<div class="form-group">
+                                    <label class="col-md-4 control-label">Image</label>
+                                    <div class="col-md-8">
+                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                            <div class="form-control"  data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" id="fileUpload" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                        </div><br />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-4">
+                                        <img src="{{FileData}}" ng-show="FileData == null ? false:true" width="100" height="100" />
+                                    </div>
+                                    <div class="col-md-4">
+                                        <img ng-src="{{image_source}}" ng-show="image_source == null ? false:true" width="100" height="100">&nbsp;
+                                    </div>
+
+                                </div>*@
+                            <div class="form-group">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4 form-submit" style="text-align:right;">
+                                    <button type="submit" class="mb-xs mt-xs mr-xs btn btn-primary">Update</button>
+                                    @*<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="clear()">Cancel</button>*@
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-6"></div>
+                </div>
+
+            </section>
+
+        </div>
+        <div class="col-md-6"></div>
+    </div>
+
+</section>
+<script src="/Scripts/ctrls/Accountctrl.js"></script>
+

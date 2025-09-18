@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewBag.Title = "EmailSettings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body"ng-controller="EmailSettingscontroller" >
+    
+
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Email Settings</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <form ng-submit="CreateEmail()">
+                                <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="control-label">From Id</label>
+                                </div>
+                                    <div class="col-sm-8">
+                                        <div class="controls" ng-class="{'has-error': form.$submitted && form.FromId.$invalid}">
+                                            <input type="hidden" ng-model="obj._id" />
+                                            <input class="form-control immediate-help" name="FromId" ng-model="obj.FromId" type="text" auto-complete5  />
+                                            <div ng-show="form.FromId.$invalid" class="input-help">
+                                                <h4 ng-show="form.FromId.$error.required">Code should not be blank</h4>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="inputDefault">Password</label>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.Password.$invalid}">
+                                    <input type="password" ng-model="obj.Password" name="Password" class="form-control immediate-help" id="Password" required>
+                                    <div ng-show="form.Password.$invalid" class="input-help">
+                                        <h4 ng-show="form.Password.$error.required">Password should not be blank</h4>
+                                        @*<h4 class="alert" ng-show="form.Password.$error.pattern">Password s</h4>*@
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="cPassword">Conform Password</label>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.cPassword.$invalid || myres1}">
+                                    @*|| form.cPassword.$error.pattern*@
+                                    <input type="password" ng-model="obj.ConformPassword" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" name="cPassword" ng-change="getcheck1()" class="form-control immediate-help" id="cPassword" required>
+                                    <div ng-show="form.cPassword.$invalid || myres1" class="input-help">
+                                        <h4 ng-show="form.cPassword.$error.required && !myres1">Confirmpassword should not be blank</h4>
+                                        <h4 class="alert" ng-show="!form.cPassword.required && myres1==true">Password mismatch</h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="control-label">SMTP Servername</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.SMTPServername.$invalid}">
+                                     
+                                        <input class="form-control immediate-help" name="SMTPServername" ng-model="obj.SMTPServerName" type="text"  />
+                                        <div ng-show="form.SMTPServername.$invalid" class="input-help">
+                                            <h4 ng-show="form.SMTPServername.$error.required">Code should not be blank</h4>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="control-label">Port No</label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.PortNo.$invalid}">
+                          
+                                        <input class="form-control immediate-help" name="PortNo" ng-model="obj.PortNo" type="text"  />
+                                        <div ng-show="form.PortNo.$invalid" class="input-help">
+                                            <h4 ng-show="form.PortNo.$error.required">Code should not be blank</h4>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="form-group">
+                                <label class="col-md-4 control-label">SMTP Servername</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="inputDefault">
+                                </div>
+                            </div>*@
+                            @*<div class="form-group">
+                                <label class="col-md-4 control-label">Port No</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="inputDefault">
+                                </div>
+                            </div>*@
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Enable SSL</label>
+                                <div class="col-md-8">
+                                    <div class="col-md-3 no-padding">
+                                        <label for="checkboxExample1" style="width: 100%;float: left;">
+                                            <div class="col-md-12 checkbox-custom checkbox-default">
+                                                <input type="checkbox" ng-model="obj.EnableSSL "  />Yes
+                                                <label for="checkboxExample1"></label>
+                                            </div>
+
+                                        </label>
+                                    </div>
+                                                                                          
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="control-label">CC</label>
+                                </div>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.cc.$invalid}">
+                                    <div class="controls">
+                                        <textarea class="form-control immediate-help" name="cc" ng-model="obj.cc" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-4">
+                                    <label class="control-label">BCC</label>
+                                </div>
+                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.BCC.$invalid}">
+                                    <div class="controls">
+                                        <textarea class="form-control immediate-help" name="BCC" ng-model="obj.BCC" rows="2"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-sm-4">
+                                    <label class="control-label">Email Test</label>
+                                </div>
+                                <div class="col-md-7" ng-class="{'has-error': form.$submitted && form.emailtest.$invalid}">
+
+                                    <div class="controls">
+                                        <input class="form-control immediate-help" name="emailtest" ng-model="obj.emailtest" type="email" />
+                                    </div>
+
+
+
+                                </div>
+                                <div class="col-sm-1">
+                                    <button type="button" class="btn btn-primary" ng-click="sendmail()">Send</button>
+                                </div>
+
+               
+                                <div class="form-group">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-4">
+                                        <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+
+                                    </div>
+                                </div>
+</form>
+                    </div>
+
+                    <div class="col-md-6">
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+
+    </div>
+
+</section>
+<script src="/Scripts/ctrls/EmailSettings.js"></script>

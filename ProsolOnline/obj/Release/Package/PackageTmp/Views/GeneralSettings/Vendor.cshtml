@@ -1,0 +1,1668 @@
+﻿
+@{
+    ViewBag.Title = "Vendor";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@*<link href="/Content/angular-busy.min.css" rel="stylesheet" />*@
+<style>
+    label.col-md-3.control-label, label.col-md-4.control-label {
+    text-transform: uppercase;
+}
+/*label.col-md-3.control-label, label.col-md-4.control-label {
+    text-align: right;
+    padding-left: 0px;
+    padding-right: 0px;
+}
+div#entry label.col-md-2.control-label {
+    text-align: right;
+}*/
+</style>
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<section role="main" class="content-body" ng-controller="VendorController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+
+                <li><span>Tools</span></li>
+                <li><span>Vendor Detail</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-2"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <button ng-click="DownloadMfr()" ng-show="Vendors!=null && resdwn1!=false" class="download pull-right" title="Download Vendors"><a><i class="fa fa-download"></i>&nbsp; Download Vendor</a></button>&nbsp;&nbsp; 
+                 <a class="download pull-right" ng-show="resdwn!=false" href="/Common/VendorTemplate.xlsx" ><i class="fa fa-download"></i>&nbsp; Download Template</a>
+            </div>
+        </div>
+    </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+
+
+                    <h2 class="panel-title">Business Partner</h2>
+                </header>
+
+                <div class="form-group create-panels">
+
+                    <div class="form-group">
+                        <label class="col-md-1 control-label" for="inputDefault" style="padding-right:0px;">Business Partner Type</label>
+                        <div class="col-md-11">
+                           
+                            <div class="radio-custom" style="width:100px;float:left">
+                                <input type="radio" ng-checked="true" value="Customer" ng-change="clearchk()" ng-model="Type">
+                                <label name="Islive">Customer</label>
+                            </div>
+                            <div class="radio-custom" style="width:100px;float:left">
+                                <input type="radio" value="Vendor" ng-change="clearchk()" ng-model="Type">
+                                <label name="Islive">Vendor</label>
+                            </div>
+                            <div class="radio-custom" style="width:100px;float:left">
+                                <input type="radio"  value="Both" ng-change="clearchk()" ng-model="Type">
+                                <label name="Islive">Both</label>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Sales Org</label>
+                                <div class="col-md-8">
+                                    <input name="ShortNme" ng-model="Csale.SalOrg" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Division</label>
+                                <div class="col-md-8">
+                                    <input name="ShortNme" ng-model="Csale.Divsion" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Distribution Channel</label>
+                                <div class="col-md-8">
+                                    <input name="ShortNme" ng-model="Csale.DistChln" class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    <div class="tabs create-panel">
+                        <ul class="nav nav-tabs">
+                            @*<li class="active">
+                                <a href="#single"  ng-click="resdwn=false;resdwn1=true" data-toggle="tab">Single Entry</a>
+                            </li>
+                            <li>
+                                <a href="#entry" data-toggle="tab" ng-click="resdwn=true;resdwn1=false">Bulk Upload</a>
+                            </li>*@
+                            <li><a href="#Bp_General" data-toggle="tab">BUSINESS PARTNER</a></li>
+                            <li><a href="#Bp_Bank" data-toggle="tab">BANK</a></li>
+                            <li><a ng-show="Type == 'Customer'||Type == 'Both'" href="#Cust_Com" data-toggle="tab">FINANCE</a></li>
+                            <li><a ng-show="Type == 'Customer'||Type == 'Both'" href="#Cust_Sale" data-toggle="tab">CUSTOMER SALES</a></li>
+                            <li><a ng-show="Type == 'Vendor'||Type == 'Both'" href="#Vend_Com" data-toggle="tab">VENDOR COM</a></li>
+                            <li><a ng-show="Type == 'Vendor' ||Type == 'Both'" href="#Vend_Org" data-toggle="tab">VENDOR ORGANIZATION</a></li>
+                            @*<button ng-click="DownloadMfr()" ng-show="Vendors!=null && resdwn1!=false" class="btn btn-primary pull-right" title="Download Vendors"><a><i class="fa fa-download"></i>&nbsp; Download Vendor</a></button>&nbsp;&nbsp;*@
+                            
+                        </ul>
+                        <div class="tab-content">
+                            <div id="single" class="tab-pane">
+                                <form name="form" ng-submit="form.$valid && createVendor()" novalidate>
+
+                                    <div class="row">
+
+                                        @*<div class="col-sm-12">
+                            <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                <label ng-bind="Res" class="erroe-hold" />
+                            </div>
+                        </div>*@
+
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                @*<div class="form-group">
+                                    <label class="col-md-3 control-label">Code </label>
+                                    <div class="col-md-9">
+                                        <input type="hidden" ng-model="vendor._id" /> <input name="code" ng-disabled="true" ng-model="vendor.Code" class="form-control" type="text">
+
+                                    </div>
+                                </div>*@
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Short Desc Name</label>
+                                                    <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.ShortNme.$invalid}">
+                                                        <input name="ShortNme" ng-model="vendor.ShortDescName" class="form-control" ng-minlength="2" ng-blur="vendor.ShortDescName=vendor.ShortDescName.toUpperCase();" ng-maxlength="8" type="text" required>
+                                                        <div ng-show="form.ShortNme.$invalid" class="input-help">
+                                                            <h4 ng-show="form.ShortNme.$error">Short Desc Name should be Min :2, Max :8 characters</h4>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Name</label>
+                                                    <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.name.$invalid}">
+                                                        <input name="name" maxlength="40" ng-model="vendor.Name" ng-blur="vendor.Name=vendor.Name.toUpperCase();" autocomplete="off" class="form-control immediate-help" type="text" auto-complete required>
+                                                        <div ng-show="form.name.$invalid" class="input-help">
+                                                            <h4 ng-show="form.name.$error.required">Name should not be blank</h4>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Name2</label>
+                                                    <div class="col-md-9">
+                                                        <input name="name2" ng-model="vendor.Name2" ng-blur="vendor.Name2=vendor.Name2.toUpperCase();" maxlength="40" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Name3</label>
+                                                    <div class="col-md-9">
+                                                        <input name="name3" maxlength="40" ng-model="vendor.Name3" ng-blur="vendor.Name3=vendor.Name3.toUpperCase();" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Name4</label>
+                                                    <div class="col-md-9">
+                                                        <input name="name4" maxlength="40" ng-model="vendor.Name4" ng-blur="vendor.Name4=vendor.Name4.toUpperCase();" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Address</label>
+                                                    <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.address1.$invalid}">
+                                                        <input name="address1" maxlength="60" ng-model="vendor.Address" autocomplete="off" class="form-control immediate-help" type="text" required>
+                                                        <div ng-show="form.address1.$invalid" class="input-help">
+                                                            <h4 ng-show="form.address1.$error.required">Address should not be blank</h4>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Address2</label>
+                                                    <div class="col-md-9">
+                                                        <input name="address2" maxlength="40" ng-model="vendor.Address2" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="col-md-4">
+
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Address3</label>
+                                                    <div class="col-md-9">
+                                                        <input name="address3" maxlength="40" ng-model="vendor.Address3" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Address4</label>
+                                                    <div class="col-md-9">
+                                                        <input name="address4" maxlength="40" ng-model="vendor.Address4" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">City</label>
+                                                    <div class="col-md-9">
+                                                        <input name="city" maxlength="40" ng-model="vendor.City" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Postal Code</label>
+                                                    <div class="col-md-9">
+                                                        <input name="postal" maxlength="10" ng-model="vendor.Postal" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">State</label>
+                                                    <div class="col-md-9">
+                                                        <input name="region" maxlength="30" ng-model="vendor.Region" class="form-control" type="text">
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Country</label>
+                                                    <div class="col-md-9">
+                                                        <input name="country" maxlength="30" ng-model="vendor.Country" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Tel.No</label>
+                                                    <div class="col-md-9">
+                                                        <input name="phone" maxlength="30" ng-model="vendor.Phone" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Fax</label>
+                                                    <div class="col-md-9">
+                                                        <input name="fax" maxlength="30" ng-model="vendor.Fax" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Mobile</label>
+                                                    <div class="col-md-9">
+                                                        <input name="mobile" maxlength="30" ng-model="vendor.Mobile" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Email</label>
+                                                    <div class="col-md-9">
+                                                        <input name="email" maxlength="241" ng-model="vendor.Email" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Website</label>
+                                                    <div class="col-md-9">
+                                                        <input name="email" maxlength="241" ng-model="vendor.Website" class="form-control" type="text">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Acquired By</label>
+                                                    <div class="col-md-9">
+                                                        @*<input name="fax" maxlength="30" ng-model="vendor.Acquiredby" class="form-control" type="text">*@
+
+                                                        @*<select class="form-control" id="ddlAcquire" ng-model="vendor.Acquiredby" ng-options="x.Code as x.Name for x in (VendorLst | filter:{'Enabled': true } | filter:{'Acquiredby':null}:true)">
+                                            <option value="" selected="selected">Select</option>
+                                        </select>*@
+                                                        <input class="form-control" ng-model="vendor.AcquiredCompanyName" auto-complete type="text" />
+                                                    </div>
+                                                </div>
+                                                @*<div class="form-group">
+                                                                        <label class="col-md-3 control-label">Enabled</label>
+                                                                        <div class="col-md-9">
+                                                                            <div class="checkbox-custom checkbox-default">
+                                                                                <input type="checkbox" ng-model="vendor.Enabled" ng-checked="vendor.Enabled" /><label for="checkboxExample1"></label>
+                                </div>
+
+                                                                            </div>
+                                                                    </div>*@
+
+
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-9"></div>
+                                                <div class="col-md-4">
+                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-show="btnUpdate" type="submit">Update</button>
+                                                    &nbsp;&nbsp;<button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="table-responsive" ng-show="Vendors!=null">
+                                                <div class="col-md-4">
+                                                    <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                </div>
+                                                <div class="control-label col-md-4">
+                                                    No.of.Records: <label ng-bind="len" />
+                                                </div>
+                                                <div class="control-label col-md-1" style="text-align:right;">
+                                                    Search
+                                                </div><div class="col-md-3">
+                                                    <input class="form-control" ng-model="srchText" ng-blur="SearchVendorList()" type="text" />
+                                                </div>
+                                                <table class="table table-bordered mb-none">
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th>Code</th>
+                                                            <th>Short Desc Name</th>
+                                                            <th>Name</th>
+                                                            <th>Address</th>
+                                                            <th>Acquired By</th>
+                                                            <th>Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr id="{{$index}}" ng-repeat="x in Vendors | orderBy:'-Enabled'">
+                                                            <td><label>{{x.Code}}</label></td>
+                                                            <td><label>{{x.ShortDescName}}</label></td>
+                                                            <td><label>{{x.Name}} {{x.Name2}} {{x.Name3}} {{x.Name4}}</label></td>
+
+                                                            <td><label>{{x.Address}} {{x.Address2}} {{x.Address3}} {{x.Address4}}</label></td>
+
+                                                            <td><label>{{x.AcquiredCompanyName}}  {{x.Acquiredby}}</label></td>
+                                                            <td class="actions">
+                                                                <a ng-click="Vendoredit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>&nbsp;<label class="switch">
+                                                                    <input type="checkbox" ng-model="x.Enabled" ng-checked="x.Enabled" ng-click="VendorDel($index,x.Enabled,x._id)">
+                                                                    <div class="slider round"></div>
+                                                                </label>
+                                                                <a ng-click="VendorDel(x._id)" style="display:none" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+
+                                                <pagination ng-model="currentPage"
+                                                            total-items="totItem"
+                                                            items-per-page="numPerPage"
+                                                            max-size="10"
+                                                            boundary-links="true"
+                                                            ng-click="BindVendorinx(currentPage)">
+                                                </pagination>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <div id="entry" class="tab-pane">
+                                <a class="download pull-right" ng-show="resdwn!=false" href="/Common/VendorTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                <div class="panel-body" ng-controller="BulkVendorController">
+                                    <form name="form1" ng-submit="form1.$valid && BulkVendor()" novalidate>
+                                        <div class="panel-body">
+                                            <div class="row">
+
+                                                <div class="col-md-12">
+
+                                                    <label class="col-md-2 control-label">File Upload</label>
+                                                    <div class="col-md-5">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    @*<div class="col-md-1"><div cg-busy="promise"></div></div>*@
+                                                    <div class="col-md-1"></div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="Bp_General" class="tab-pane active">
+                                <form name="form2">
+
+                                    <div class="tabs tabs-vertical tabs-left cataloguer-all">
+                                        <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                            <li class="cataloguer-tab active boxes active-box">
+                                                <a href="#Bp-general" data-toggle="tab">BP-General</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#BP-Contacts" data-toggle="tab">BP-Contacts</a>
+                                            </li>
+
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#BP-Address" data-toggle="tab">BP-Address</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#BP-Other" data-toggle="tab">BP-Others</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content cataloguer-box">
+                                            <div id="Bp-general" class="tab-pane  active active-box">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">BP Number</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">BP Category</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">BP Type</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">BP Grouping</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">BP No. in Ext. System</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">Authorization Group</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="BP-Contacts" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Title</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Name 1</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Name 2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Name 3</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Search Term 1</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Search Term 2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    </div>
+                                            </div>
+                                            <div id="BP-Address" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Building</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Room no</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">BP Grouping</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Floor</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Street</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Street 1</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Street 2</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">City</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Zip code</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Country</label>
+                                                            <div class="col-md-8">
+                                                                <select class="form-control">
+                                                                    <option value="" selected="selected">Select</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Region</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Post code1</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Post code2</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">PO box</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    </div>
+                                            </div>
+                                            <div id="BP-Other" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Language</label>
+                                                            <div class="col-md-8">
+                                                                <select class="form-control">
+                                                                    <option value="" selected="selected">Select</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Transport zone</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Telephone</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Tele extn</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        </div>
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Fax</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Fax extn</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Tax jurisdiction</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        </div>
+
+
+                                                      
+                                                    </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-2" style="text-align: center;">
+                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Save & Next</button><button class="btn btn-primary ng-hide" ng-show="btnUpdate" type="submit">Update</button>
+                                                </div>
+                                                <div class="col-md-5"></div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+
+                           
+                                </form>
+                            </div>
+                            <div id="Bp_Bank" class="tab-pane">
+                                <form name="form2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Bank Key</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.BankKey" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Bank Account</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.BankAcc" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Bank Country</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.BankAcc" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Control key</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.Cntrl" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Reference</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.Refer" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label no-padding">Partner bank type</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.Prtnrtype" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Account Name</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.AccName" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4">
+                                               
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Account holder</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.Acchldr" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Valid from</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.Validfrom" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Valid Upto</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="Bnk.Validupto" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-2">
+                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Save & Next</button><button class="btn btn-primary ng-hide" ng-show="btnUpdate" type="submit">Update</button>
+                                               
+                                            </div>
+                                            <div class="col-md-5"></div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="Cust_Com" class="tab-pane">
+                                <form name="form2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Recon. account</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="cust.Account" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Company Code</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="cust.companycode" class="form-control">
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Pay Terms</label>
+                                                    <div class="col-md-9">
+                                                        <input name="ShortNme" ng-model="cust.payterms" class="form-control">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-md-3"></label>
+                                                    <div class="col-md-9">
+                                                        <button class="btn btn-primary" type="submit">Save & Next</button>
+                                                     </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div id="Cust_Sale" class="tab-pane">
+                                <form name="form2">
+                                    <div class="tabs tabs-vertical tabs-left cataloguer-all">
+                                        <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                            <li class="cataloguer-tab active boxes active-box">
+                                                <a href="#Admin" data-toggle="tab">Admin</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Bank" data-toggle="tab">Bank</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Company" data-toggle="tab">Company</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Delivery" data-toggle="tab">Delivery</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Finance" data-toggle="tab">Finance</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Order" data-toggle="tab">Order</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Partner" data-toggle="tab">Partner</a>
+                                            </li>
+                                            <li class="cataloguer-tab active-box boxes">
+                                                <a href="#Sales" data-toggle="tab">Sales</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content cataloguer-box">
+                                            <div id="Admin" class="tab-pane  active active-box">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">Company code</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">Sales org</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">Dist Chann</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">Divison</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 Control-label">Cust no</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="Bank" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Bank key</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Bank account</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Bank country</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Control key</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Partner bank type</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Account no</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Reference</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Account holder</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Valid from</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Valid to</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div id="Company" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Recon account</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Payment term</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                    </div>
+                                                </div>
+                                                </div>
+
+                                                <div id="Delivery" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Complete delivery</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Over dely tolerance</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Under dely tolerance</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Dely priority</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">POD relevant</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Shipping condition</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Dely plant</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Finance" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Credit control area</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Inco-term1</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Inco term2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Pay term</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Acc ass grp cust</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Currency</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                            <div id="Order" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-5">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Order combination</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label">Order probability</label>
+                                                            <div class="col-md-8">
+                                                                <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-5">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div id="Partner" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Partner no</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Partner function</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Partner description</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>                                                        
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            
+                                            <div id="Sales" class="tab-pane">
+                                                <div class="panel-body active-box">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Sales office</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Sales grp</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Cust price procedure</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Cust grp</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">ABC class</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Price grp</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Price list</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Cust stats grp</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-2" style="text-align: center;">
+                                                        <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Save & Next</button><button class="btn btn-primary ng-hide" ng-show="btnUpdate" type="submit">Update</button>
+                                                    </div>
+                                                    <div class="col-md-5"></div>
+
+                                                </div>
+                                            </div>
+                                                </div>
+
+
+                 
+</form>
+                            </div>
+                            <div id="Vend_Com" class="tab-pane">
+                                <div id="Cust_Sale" class="tab-pane">
+                                    <form name="form2">
+                                        <div class="tabs tabs-vertical tabs-left cataloguer-all">
+                                            <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                                <li class="cataloguer-tab active boxes active-box">
+                                                    <a href="#Vend_Admin" data-toggle="tab">Admin</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Bank" data-toggle="tab">Bank</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Company" data-toggle="tab">Company</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Delivery" data-toggle="tab">Delivery</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Finance" data-toggle="tab">Finance</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Order" data-toggle="tab">Order</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Partner" data-toggle="tab">Partner</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Sales" data-toggle="tab">Sales</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="Vend_Admin" class="tab-pane  active active-box">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Company code</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Sales org</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Dist Chann</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Divison</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Cust no</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Vend_Bank" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Bank key</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Bank account</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Bank country</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Control key</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Partner bank type</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Account no</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Reference</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Account holder</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Valid from</label>
+                                                                    <div class="col-md-8">
+                                                                        <select class="form-control">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Valid to</label>
+                                                                    <div class="col-md-8">
+                                                                        <select class="form-control">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div id="Vend_Company" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Recon account</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Payment term</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="Vend_Delivery" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Complete delivery</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Over dely tolerance</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Under dely tolerance</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Dely priority</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">POD relevant</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Shipping condition</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Dely plant</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Vend_Finance" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Credit control area</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Inco-term1</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Inco term2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Pay term</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Acc ass grp cust</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Currency</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <div id="Vend_Order" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Order combination</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Order probability</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Vend_Partner" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Partner no</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Partner function</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Partner description</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div id="Vend_Sales" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Sales office</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Sales grp</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Cust price procedure</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Cust grp</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">ABC class</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Price grp</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Price list</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BusinessPartner" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Cust stats grp</label>
+                                                                    <div class="col-md-8">
+                                                                        <select class="form-control">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-12">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-2" style="text-align: center;">
+                                                        <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Save & Next</button><button class="btn btn-primary ng-hide" ng-show="btnUpdate" type="submit">Update</button>
+                                                    </div>
+                                                    <div class="col-md-5"></div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+
+                                    </form>
+                                </div>
+                            <div id="Vend_Org" class="tab-pane">
+                                <form name="form2">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="col-md-4">
+
+                                            </div>
+                                            <div class="col-md-4">
+
+                                            </div>
+                                            <div class="col-md-4">
+                     
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>        
+                        
+                        
+                        </div>
+                                    </div>
+                            </div>
+</section>
+        </div>
+
+
+    </div>
+
+
+
+
+</section>
+@*<script src="/Scripts/angular-busy.min.js"></script>*@
+<script src="/Scripts/ctrls/Ventorctrl.js"></script>

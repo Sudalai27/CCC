@@ -1,0 +1,1140 @@
+﻿
+@{
+    ViewBag.Title = "Bomtracking";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<style>
+    /* ————————————————————–
+      Tree core styles
+    */
+    .tree .own:before {
+        position: absolute;
+        top: -2px;
+        bottom: -13px;
+        left: -.5em;
+        display: block;
+        width: 0;
+        border-left: 1px solid #777;
+        content: "";
+    }
+
+    label.tree_label {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        color: #000000;
+    }
+
+    label.tree_label2 {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        color: #000000;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    #fontSizeWrapper {
+        font-size: 16px;
+    }
+
+    #fontSize {
+        width: 100px;
+        font-size: 1em;
+    }
+
+    /* ————————————————————–
+      Tree core styles
+    */
+    .tree {
+        margin: 1em;
+    }
+
+        .tree input {
+            position: absolute;
+            clip: rect(0, 0, 0, 0);
+        }
+
+            .tree input ~ ul {
+                display: none;
+            }
+
+            .tree input:checked ~ ul {
+                display: block;
+            }
+
+        /* ————————————————————–
+      Tree rows
+    */
+        .tree li {
+            line-height: 13px;
+            position: relative;
+            padding: 0 0 1em 1em;
+        }
+
+        .tree ul li {
+            padding: 1em 0 0 1em;
+        }
+
+        .tree > li:last-child {
+            padding-bottom: 0;
+        }
+
+    /* ————————————————————–
+      Tree labels
+    */
+    .tree_label {
+        position: relative;
+        display: inline-block;
+        background: #fff;
+    }
+
+    .tree_label2 {
+        position: relative;
+        display: inline-block;
+        background: #fff;
+    }
+
+    label.tree_label {
+        cursor: pointer;
+    }
+
+    label.tree_label2 {
+        cursor: pointer;
+    }
+
+    label.tree_label:hover {
+        color: #666;
+    }
+
+    label.tree_label2:hover {
+        color: #666;
+    }
+
+    /* ————————————————————–
+      Tree expanded icon
+    */
+    li .tree_label:before {
+        background: #3355a8;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        float: left;
+        margin: 0 1em 0 -26px;
+        width: 17px;
+        height: 17px;
+        border-radius: 1em;
+        content: '+';
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+    }
+
+    li .tree_label2:before {
+        background: #0099e6;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        float: left;
+        margin: 0 1em 0 -26px;
+        width: 17px;
+        height: 17px;
+        border-radius: 1em;
+        content: '+';
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+    }
+
+    :checked ~ li .tree_label:before {
+        content: '–';
+    }
+
+    :checked ~ li .tree_label2:before {
+        content: '–';
+    }
+
+    /* ————————————————————–
+      Tree branches
+    */
+    .tree li:before {
+        position: absolute;
+        top: -2px;
+        bottom: -16px;
+        left: -.5em;
+        display: block;
+        width: 0;
+        border-left: 1px solid #777;
+        content: "";
+    }
+
+    .tree_label:after {
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+        display: block;
+        height: 0.5em;
+        width: 1em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '-';
+    }
+
+    .tree_label2:after {
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+        display: block;
+        height: 0.5em;
+        width: 1em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '-';
+    }
+
+    label.tree_label2 {
+        color: darkslateblue;
+        padding-bottom: 8px;
+    }
+
+    label.tree_label1 {
+        color: #ad9f9f;
+        padding-bottom: 8px;
+    }
+
+    label.tree_labels:before {
+        position: relative;
+        z-index: 1;
+        float: left;
+        margin: 0 1em 0 -26px;
+        width: 17px;
+        height: 17px;
+        border-radius: 1em;
+        content: '';
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+    }
+
+    label.tree_labels:after {
+        position: absolute;
+        left: -0.5em;
+        display: block;
+        height: 0.5em;
+        width: 2em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '';
+    }
+
+    label.tree_label1:after {
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+        display: block;
+        height: 0.5em;
+        width: 3em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '';
+    }
+
+    label.tree_label:after {
+        border-bottom: 0;
+    }
+
+    label.tree_label2:after {
+        border-bottom: 0;
+    }
+
+    :checked ~ label.tree_label2:before {
+        content: '–';
+    }
+
+    :checked ~ label.tree_label:before {
+        content: '–';
+    }
+
+    :checked ~ label.tree_label2:after {
+        border-top: 1px solid #777;
+        width: 26px;
+        border-bottom: 0;
+        border-left: 0;
+        bottom: 0;
+        top: 0.5em;
+        height: auto;
+    }
+
+    :checked ~ label.tree_label:after {
+        border-top: 1px solid #777;
+        width: 32px;
+        border-bottom: 0;
+        border-left: 0;
+        bottom: 0;
+        top: 0.5em;
+        height: auto;
+    }
+
+    .tree li:last-child:before {
+        height: 16px;
+        bottom: auto;
+    }
+
+    .tree > li:last-child:before {
+        display: none;
+    }
+
+    .tree_custom {
+        display: block;
+        background: #eee;
+        padding: 1em;
+        border-radius: 0.3em;
+    }
+</style>
+
+<section role="main" class="content-body" ng-controller="BomTrackingcontroller">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Report</span></li>
+                    <li><span>Tracking Bill of Materials </span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div class="alert" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="promise" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+            </div>
+        <div class="col-md-4"></div>
+        </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <section class="panel form-wizard" id="w4">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">TRACKING BILL OF MATERIALS</h2>
+                        </header>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="tabs">
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="#Single" data-toggle="tab">Single Search</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#Multi" data-toggle="tab">Multi Search</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="Single" class="tab-pane active">
+                                            <form name="form" ng-submit="TrackBom()">
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-2">Search Equipment </label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" ng-blur="searchkey=searchkey.toUpperCase();" ng-model="searchkey" style="height:27px" required>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="btn btn-primary" type="submit">Search</button>&nbsp;
+                                                            <button class="btn btn-primary" type="button" ng-hide="clear" ng-click="ClearItem()">Clear</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                            <form>
+                                                <div class="col-md-12 form-group" ng-hide="reset">
+                                                    <div class="table-responsive" ng-show="sResult != null">
+                                                        <div class="col-md-4">
+                                                            <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                        </div>
+                                                        <div class="control-label col-md-4">
+                                                            No.of.Records: <label ng-bind="totItem" />
+                                                        </div>
+                                                        <div class="control-label col-md-1" style="text-align:right;">
+
+                                                        </div><div class="col-md-3">
+
+                                                        </div>
+                                                        <div style="display:block;max-height:180px;">
+                                                            <table class="table table-bordered mb-none">
+                                                                <thead class="top-border" align="center">
+                                                                    <tr>
+                                                                        <th>Equipment Id</th>
+                                                                        <th>Equipment Desc</th>
+                                                                        <th>Functional Location</th>
+                                                                        <th>Functional Desc</th>
+                                                                        <th>Object Type</th>
+                                                                        <th>Manufacturer</th>
+                                                                        <th>Manufacturer Con</th>
+                                                                        <th>Modelno</th>
+                                                                        <th>Status</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="TBM in sResult" id="{{$index}}" ng-click="TBMClick(TBM,$index)">
+                                                                        <td><label ng-bind="TBM.TechIdentNo"></label></td>
+                                                                        <td><label ng-bind="TBM.EquipDesc"></label></td>
+                                                                        <td><label ng-bind="TBM.FunctLocation"></label></td>
+                                                                        <td><label ng-bind="TBM.FunctDesc"></label></td>
+                                                                        <td><label ng-bind="TBM.Objecttype"></label></td>
+                                                                        <td><label ng-bind="TBM.Manufacturer"></label></td>
+                                                                        <td><label ng-bind="TBM.ManufCon"></label></td>
+                                                                        <td><label ng-bind="TBM.Modelno"></label></td>
+                                                                        <td><label ng-bind="TBM.status"></label></td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                    <pagination ng-model="currentPage"
+                                                                total-items="totItem"
+                                                                items-per-page="numPerPage"
+                                                                max-size="10"
+                                                                boundary-links="true"
+                                                                ng-click="bindAssetsInx(currentPage)">
+                                                    </pagination>
+                                                </div>
+                                                <div class="form-group" ng-hide="Noitem">
+                                                    <div class="col-md-12"><h4 class="access-order ng-binding" ng-hide="TechIdentNo==null">Equipment Hierarchical</h4></div>
+
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" ng-hide="TechIdentNo==null" style="font-weight:bold">Equipment ID :</label>
+                                                            <div class="col-sm-6">
+                                                                <label ng-bind="TechIdentNo" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="EquipDesc==null">Equipment Desc :</label>
+                                                            <div class="col-sm-6">
+                                                                <label ng-bind="EquipDesc" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="FunctLocation==null">Functional Location :</label>
+                                                            <div class="col-sm-6">
+                                                                <label ng-bind="FunctLocation" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="FunctDesc==null">Functional Desc :</label>
+                                                            <div class="col-sm-6">
+                                                                <label ng-bind="FunctDesc" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="Objecttype==null">Object Type : </label>
+                                                            <div class="col-sm-6">
+                                                                <label ng-bind="Objecttype" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="Manufacturer==null">Manufacturer : </label>
+                                                            <div class="col-sm-6">
+                                                                <label ng-bind="Manufacturer" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+
+
+                                                        <ul style="list-style: none;border: 1px solid #ccc;min-height: 26px;background: #c2d8eb;">
+                                                            <li class="col-md-3" style="padding-left: 10px;">
+                                                                Item code
+                                                            </li>
+                                                            <li class="col-md-5" style="padding-left: 10px;">
+                                                                Description
+                                                            </li>
+                                                            <li class="col-md-2">
+                                                                Part Quanty
+                                                            </li>
+                                                            <li class="col-md-1 no-padding">
+                                                                Category
+                                                            </li>
+                                                            <li class="col-md-1 no-padding">
+                                                                Search
+                                                            </li>
+                                                        </ul>
+
+
+                                                        <div class="tree col-md-12">
+                                                            <ul>
+                                                                <li ng-repeat="x in trackebom | orderBy:'+itemcat'">
+
+                                                                    <input type="checkbox" id={{x.Itemcode}} />
+                                                                    <label ng-hide="(x.itemcat=='L')" class="tree_label blue" for={{x.Itemcode}} style="width: 100%;">
+                                                                        @{
+// var val1 = new( { { x.Itemcode } });
+                                                                        }
+                                                                        <a href="@Url.Action("Release","Catalogue")?itemId={{x.Itemcode}}" target="_blank" onclick="return confirm('Are you sure want to edit?')"> <label class="col-md-3">{{x.Itemcode}}</label></a>
+                                                                        <label class="col-md-5 no-padding">{{x.Shortdesc}}</label>
+                                                                        <label class="col-md-2">{{x.partqnt}}</label>
+                                                                        <label class="col-md-1">{{x.itemcat}}</label>
+                                                                        <label claas="col-md-1" ng-click="Open(x.Itemcode,$index)"><i class="fa fa-search"></i></label>
+
+                                                                    </label>
+                                                                    <label ng-hide="(x.itemcat=='I')" class="tree_labels blue" for={{x.Itemcode}} style="width: 100%;">
+                                                                        <a href="@Url.Action("Release","Catalogue")?itemId={{x.Itemcode}}" target="_blank" onclick="return confirm('Are you sure want to edit?')">
+                                                                            <span style="width: 21%;float: left;">{{x.Itemcode}}</span>
+                                                                        </a>
+                                                                        <span class="col-md-6">{{x.Shortdesc}}</span>
+                                                                        <span class="col-md-1">{{x.partqnt}}</span>
+                                                                        <span class="col-md-1" style="text-align: center;">{{x.itemcat}}</span>
+                                                                        <span class="col-md-1" style="text-align: center;"><i class="fa fa-search" ng-click="Open(x.Itemcode,$index)"></i></span>
+
+                                                                    </label>
+                                                                    <ul>
+                                                                        <li ng-repeat="y in trackmbom  | filter: {'HeaderBID': x.Itemcode } | orderBy:'+itemcat'">
+                                                                            <input type="checkbox" id={{y.Itemcode}} />
+                                                                            <label ng-hide="(y.itemcat=='L')" class="tree_label2 yellow" for={{y.Itemcode}} style="width: 100%;">
+
+                                                                                <a href="@Url.Action("Release","Catalogue")?itemId={{y.Itemcode}}" target="_blank" onclick="return confirm('Are you sure want to edit?')">
+                                                                                    <label style="width:22%">{{y.Itemcode}}</label>
+                                                                                </a>
+                                                                                <label style="width:44%">{{y.Shortdesc}}</label>
+                                                                                <label style="width:17%">{{y.partqnt}}</label>
+                                                                                <label style="width:7%">{{y.itemcat}}</label>
+                                                                                <label style="width:5%"><i class="fa fa-search" ng-click="Open(y.Itemcode,$index)"></i></label>
+                                                                            </label>
+                                                                            <label ng-hide="(y.itemcat=='I')" class="tree_labels yellow" for={{y.Itemcode}} style="width: 100%;">
+                                                                                <div style="width:22%;float:left"> <a href="@Url.Action("Release","Catalogue")?itemId={{y.Itemcode}}" target="_blank" onclick="return confirm('Are you sure want to edit?')"><span>{{y.Itemcode}}</span></a></div>
+                                                                                <div style="width:45%;float:left"><span>{{y.Shortdesc}}</span></div>
+                                                                                <div style="width:17%;float:left"><span>{{y.partqnt}}</span></div>
+                                                                                <div style="width:7.5%;float:left">   <span>{{y.itemcat}}</span></div>
+                                                                                <div style="width:5%;float:left"><i class="fa fa-search" ng-click="Open(y.Itemcode,$index)"></i></div>
+                                                                            </label>
+                                                                            <ul>
+                                                                                <li ng-repeat="z in trackmmbom  | filter: {'HeaderBID': y.Itemcode }| orderBy:'+itemcat'">
+                                                                                    <input type="checkbox" id={{z.Itemcode}} />
+                                                                                    <label class="tree_labels red" for={{z.Itemcode}} style="width: 100%;">
+                                                                                        <div style="width:19%;float:left"><a href="@Url.Action("Release","Catalogue")?itemId={{z.Itemcode}}" target="_blank" onclick="return confirm('Are you sure want to edit?')"> <span>{{z.Itemcode}}</span></a></div>
+                                                                                        <div style="width:46.4%;float:left"> <span>{{z.Shortdesc}}</span></div>
+                                                                                        <div style="width:18%;float:left">    <span>{{z.partqnt}}</span></div>
+                                                                                        <div style="width:8%;float:left"> <span>{{z.itemcat}}</span></div>
+                                                                                        <div style="width:5%;float:left"><i class="fa fa-search" ng-click="Open(z.Itemcode,$index)"></i></div>
+                                                                                    </label>
+                                                                                </li>
+                                                                            </ul>
+
+                                                                        </li>
+                                                                    </ul>
+                                                                    <script>
+                                                                        var obj = {};
+                                                                        $('.tree_label1').each(function () {
+                                                                            var text = $.trim($(this).text());
+                                                                            if (obj[text]) {
+                                                                                $(this).remove();
+                                                                            } else {
+                                                                                obj[text] = true;
+                                                                            }
+                                                                        })
+                                                                    </script>
+                                                                </li>
+
+                                                            </ul>
+                                                        </div>
+
+
+                                                        <script>
+                                                            $(document).ready(function () {
+                                                                $("#tree").explr();
+                                                            });
+                                                        </script>
+
+                                                    </div>
+                                                       <div class="col-md-8"></div>
+                                                    <div class="form-group col-md-3 no-padding" style="text-align:right">
+                                                        <input type="button" ng-click="Export()" class="btn btn-primary" value="Export" />
+                                                    </div>
+                                                </div>
+                                                <div id="cotentid" style="display:none">
+                                                    <div class="content">
+                                                        <div class="panel-body">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-4 popup-scroll">
+                                                                    <div class="all-pop">
+                                                                        <form>
+                                                                            <div class="form-group">
+
+                                                                                <div class="text-center" style="background: #c2d8eb;">Item Data</div>
+
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Item Code</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="ccontrol-label" ng-bind="cat.Itemcode">{{cat.Itemcode}}</label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Material Code</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="ccontrol-label" ng-bind="cat.Materialcode"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label">Legacy</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Legacy"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Short Desc</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Shortdesc"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label">Long Desc</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Longdesc"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Noun</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Noun"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label">Modifier</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Modifier"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Addition Info</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Additionalinfo"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+
+                                                                                <div class="text-center" style="background: #c2d8eb;">Vender Suplier</div>
+
+                                                                            </div>
+                                                                            <div class="table-responsive">
+
+
+                                                                                <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                                    <thead class="top-border">
+
+                                                                                    </thead>
+                                                                                    @*<tr class="data-contact-person" ng-repeat="rw in rows">*@
+
+                                                                                    <tr ng-repeat="ls in cat.Vendorsuppliers">
+                                                                                        <td>
+                                                                                            <label class="control-label col-md-6" ng-bind="ls.Type"></label> : {{ls.Name}}<br />
+                                                                                            <label class="control-label col-md-6" ng-bind="ls.Refflag"></label> : {{ls.RefNo}}
+                                                                                        </td>
+
+                                                                                    </tr>
+                                                                                </table>
+
+                                                                            </div>
+                                                                            <div class="form-group">
+
+                                                                                <div class="text-center" style="background: #c2d8eb;">Code Logics</div>
+
+                                                                            </div>
+
+                                                                            <div class="form-group ">
+                                                                                <label class="col-md-5 control-label">UNSPSC</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.Unspsc"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group ">
+                                                                                <label class="col-md-5 control-label">HSNID</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat.HSNID"></label>
+                                                                                </div>
+                                                                                <div class="form-group ">
+                                                                                    <label class="col-md-5 control-label">HSNDesc</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat.HSNDesc"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                            <div class="form-group ">
+                                                                                <div class="col-md-7">
+                                                                                    <img src="{{img.FileData}}" ng-show="img.FileData == null ? false:true" width="200" height="130" />
+                                                                                </div>
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 popup-scroll">
+                                                                    <div class="all-pop">
+
+                                                                        <div class="form-group">
+
+                                                                            <div class="text-center" style="background: #c2d8eb;">Attribute Detail</div>
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <table class="table table-bordered mb-none" style="width: 100% !important;margin: 0 auto;">
+                                                                                <thead class="top-border">
+                                                                                    <tr>
+                                                                                        <td><label class="control-label" style="font-weight:bold">Attribute</label></td>
+                                                                                        <td><label class="control-label" style="font-weight:bold">Value</label></td>
+                                                                                        <td><label class="control-label" style="font-weight:bold">Unit</label></td>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+
+                                                                                    <tr ng-repeat="ls in cat.Characteristics">
+                                                                                        <td><label class="control-label" ng-bind="ls.Characteristic"></label></td>
+                                                                                        <td>
+
+                                                                                            @*<label class="col-md-6 control-label" ng-bind="ls.Value"></label>*@
+                                                                                            {{ls.Value}}
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            {{ls.UOM}}
+                                                                                            @*<label class="col-md-1 control-label" ng-bind="ls.UOM"></label>*@
+
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+
+
+
+                                                                        </div>
+
+                                                                        <div class="form-group">
+
+                                                                            <div class="text-center" style="background: #c2d8eb;">Equipment Detail</div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Equipment Name</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Equipment.Name"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Equipment Manufacturer</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Equipment.Manufacturer"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Equipment Model No</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Equipment.Modelno"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Equipment Tag No</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Equipment.Tagno"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Equipment Serial No</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Equipment.Serialno"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Additional Information</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Equipment.Additionalinfo"></label>
+                                                                            </div>
+
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 popup-scroll">
+                                                                    <div class="all-pop">
+                                                                        <div class="form-group">
+
+                                                                            <div class="text-center" style="background: #c2d8eb;">Plant</div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Plant</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Plant_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Profit Center</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ProfitCenter_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Storage Location</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.StorageLocation_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Storage Bin</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.StorageBin_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Valuation Class</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ValuationClass_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Valuation Type</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ValuationType_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Price Control</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.PriceControl_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Standard Price</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.StandardPrice_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Moving Avg price</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.MovingAvgprice_"></label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Valuation Category</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ValuationCategory_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Variance Key</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.VarianceKey_"></label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+
+                                                                            <div class="text-center" style="background: #c2d8eb;">General</div>
+
+                                                                        </div>
+
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Industry sector</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Industrysector_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Material Type</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Materialtype_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Base UOP</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.BaseUOP_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Unit of Issue</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Unit_issue_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Alternate Unit</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.AlternateUOM_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Inspection Type</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Inspectiontype_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Inspection Code</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Inspectioncode_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Old Material No</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Oldmaterialno_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Division</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Division_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Sales Unit</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.Salesunit_"></label>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group ">
+
+                                                                            <div class="text-center" style="background:#c2d8eb;">MRP Data</div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">MRP Type</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.MRPType_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">MRP Controller</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.MRPController_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">LOT Size</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.LOTSize_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Re-Order Point</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ReOrderPoint_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Procurement Type</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ProcurementType_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Safety Stock</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.SafetyStock_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Planning Strgy Grp</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.PlanningStrgyGrp_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Avail Check</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.AvailCheck_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Schedule Margin</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ScheduleMargin_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+
+                                                                            <div class="text-center" style="background: #c2d8eb;">Sales & Others</div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Acc Asignmt Category</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.AccAsignmtCategory_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Tax Classification Group</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.TaxClassificationGroup_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Item Category Group</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.ItemCategoryGroup_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Sales Organization</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.SalesOrganization_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Distribution Channel</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.DistributionChannel_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Material Strategic Group</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.MaterialStrategicGroup_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Purchasing Group</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.PurchasingGroup_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Purchasing Value Key</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="erp.PurchasingValueKey_"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="Multi" class="tab-pane">
+                                            <form name="form" ng-submit="BulkBom()">
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-2">Search Equipment </label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" ng-model="bsearchkey" style="height:27px" required>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="btn btn-primary" type="submit">Search</button>&nbsp;
+                                                            <button class="btn btn-primary" type="button" ng-hide="clear1" ng-click="ClearItem1()">Clear</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                            <div class="col-md-12 form-group" ng-hide="reset1">
+
+                                                <div class="table-responsive" ng-show="blukresult != null">
+                                                  
+                                                    <div style="display:block;max-height:180px;">
+                                                        <table class="table table-bordered mb-none">
+                                                            <thead class="top-border" align="center">
+                                                                <tr>
+                                                                    <th>Equipment Id</th>
+                                                                    <th>Equipment Desc</th>
+                                                                    <th>Functional Location</th>
+                                                                    <th>Functional Desc</th>
+                                                                    <th>Object Type</th>
+                                                                    <th>Manufacturer</th>
+                                                                    <th>Manufacturer Con</th>
+                                                                    <th>Modelno</th>
+                                                                    <th>Status</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="s in blukresult" id="{{$index}}">
+                                                                    <td><label ng-bind="s.TechIdentNo"></label></td>
+                                                                    <td><label ng-bind="s.EquipDesc"></label></td>
+                                                                    <td><label ng-bind="s.FunctLocation"></label></td>
+                                                                    <td><label ng-bind="s.FunctDesc"></label></td>
+                                                                    <td><label ng-bind="s.Objecttype"></label></td>
+                                                                    <td><label ng-bind="s.Manufacturer"></label></td>
+                                                                    <td><label ng-bind="s.ManufCon"></label></td>
+                                                                    <td><label ng-bind="s.Modelno"></label></td>
+                                                                    <td><label ng-bind="s.status"></label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                           
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-5"></div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" ng-hide="bexp" ng-click="BulkExport()" type="submit">Export</button>
+
+                                                    </div>
+                                                    <div class="col-md-5"></div>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/BomTracking.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+<script src="/Scripts/ctrls/downloadexcel.js"></script>

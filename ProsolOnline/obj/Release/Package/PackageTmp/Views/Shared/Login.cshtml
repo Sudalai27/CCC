@@ -1,0 +1,217 @@
+﻿@{
+    Layout = null;
+}
+
+<!doctype html>
+<html class="fixed">
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    @*<base href="/gailgas/">*@
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link href="/Content/theme.css" rel="stylesheet" />
+    <link href="/Content/theme-custom.css" rel="stylesheet" />
+    <link href="/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="/Content/bootstrap.css" rel="stylesheet" />
+    <link href="/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="/Content/css/input.css" rel="stylesheet" />
+
+    <style>
+        .img-reduce-size img {
+            width: 100%;
+            height:640px;
+        }
+        .main-body {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+        }
+        .page {
+            display: flex;
+            flex-direction: column;
+            min-height: 80vh;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+<!--<body ng-app="loginctrl" ng-controller="logincontroller" style="background:#fff">
+
+   
+
+
+
+
+   
+            <div class="main-body">
+                <div class="page">
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col-md-7">
+                                <div class="row">
+                                    <div class="img-reduce-size">
+                                        <img src="https://www.adports.ae/wp-content/uploads/2022/06/small-CF144960.jpg" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-8 body-sign"">
+                                     <div class="center-sign">
+                                    <div class="" style=" padding-top: 65px; padding-bottom: 65px;">
+                                        <div class="panel-title-sign">
+                                            <span class="logo">
+                                                <img src="/Images/logo.svg" style=" width:50%;">
+                                            </span>-->
+                                            @*<h2 class="title text-uppercase text-weight-bold m-none"><i class="fa fa-lock fa-2x mr-xs"></i>&nbsp; </h2>*@
+                                        <!--</div>
+                                        <div>
+                                            <form name="form" ng-submit="form.$valid && checklogin_details()" novalidate>
+                                                <h3 style="color: #2e3955">Welcome back!</h3>
+                                                <h5>Please signin to continue</h5>
+                                                <div class="form-group mb-lg">
+                                                    <label>Username</label>
+                                                    <div ng-class="{'has-error': form.$submitted && form.username.$invalid }" class="input-group input-group-icon controls">
+                                                        <input name="username" type="text" ng-model="login.UserName" class="form-control input-lg immediate-help" ng-required="true" />
+                                                        <div ng-show="form.username.$invalid" class="input-help">
+                                                            <h4>UserName Required</h4>
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="form-group mb-lg">
+                                                    <div class="clearfix">
+                                                        <label class="pull-left">Password</label>
+
+                                                    </div>
+                                                    <div ng-class="{'has-error': form.$submitted && form.pwd.$invalid }" class="input-group input-group-icon controls">
+                                                        <input name="pwd" type="password" ng-model="login.Password" class="form-control input-lg immediate-help" ng-required="true" />
+                                                        <div ng-show="form.pwd.$invalid" class="input-help">
+                                                            <h4>Password Required</h4>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-sm-12">
+                                                        <button type="submit" class="btn btn-primary hidden-xs" style="width: 100%; background: #2D3955;color:#fff">Sign In</button>
+                                                    </div>
+                                                    <div class="col-sm-5">-->
+                                                        @*<a href="@Url.Action("Index","passwordrecovery")" class="pull-right">Forgot Password?</a>*@
+                                                    <!--</div>
+
+                                                </div>
+                                                <span><label id="validation1" ng-bind="Error1" style="color:red"></label></span>
+                                                <p class="text-center" style="font-size: 12px;color:#000;">© 2024 CODASOL. All Rights Reserved</p>
+                                            </form>
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+
+        
+    <!-- end: page -->
+    <!--<script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="/Scripts/jquery.js"></script>
+    <script src="/Scripts/theme.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+
+    <script src="/Scripts/ctrls/loginpage.js"></script>
+</body>-->
+<body ng-app="loginctrl" ng-controller="logincontroller" style="background-color: #2e3955 !important; background: url(Images/dashboard-bg.jpg); background-position: bottom right; background-repeat: no-repeat;">
+
+
+
+
+
+
+    <section class="body-sign">
+        <div class="center-sign">
+            <div>
+
+                <div class="panel panel-sign" style="border: 1px solid #b8c7da !important">
+                    <div class="panel-title-sign center" style="background: #fff; border-radius: 5px 5px 0px 0px; padding:10px 0px 10px 0px ">
+                        <span class="logo center">
+                            <img src="/Images/logo.svg" style=" width: 95%;">
+                        </span>
+                        @*<h2 class="title text-uppercase text-weight-bold m-none"><i class="fa fa-lock fa-2x mr-xs"></i>&nbsp; </h2>*@
+                    </div>
+                    <div class="panel-body">
+                        <form name="form" ng-submit="form.$valid && checklogin_details()" novalidate>
+                            <div class="form-group mb-lg">
+                                <label>Username</label>
+                                <div ng-class="{'has-error': form.$submitted && form.username.$invalid }" class="input-group input-group-icon controls">
+                                    <input name="username" type="text" ng-model="login.UserName" class="form-control input-lg immediate-help" ng-required="true" />
+                                    <div ng-show="form.username.$invalid" class="input-help">
+                                        <h4>UserName Required</h4>
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <span class="icon icon-lg">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group mb-lg">
+                                <div class="clearfix">
+                                    <label class="pull-left">Password</label>
+
+                                </div>
+                                <div ng-class="{'has-error': form.$submitted && form.pwd.$invalid }" class="input-group input-group-icon controls">
+                                    <input name="pwd" type="password" ng-model="login.Password" class="form-control input-lg immediate-help" ng-required="true" />
+                                    <div ng-show="form.pwd.$invalid" class="input-help">
+                                        <h4>Password Required</h4>
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <span class="icon icon-lg">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8 text-right" ">
+                                    <button type="submit" class="btn btn-primary hidden-xs">Sign In</button>
+                                </div>
+                                <div class="col-sm-4">
+                                    <a style="font-size: 10px;" href="@Url.Action("Index","passwordrecovery")" class="pull-right">Forgot Password?</a>
+                                </div>
+
+                            </div>
+                            <span><label id="validation1" ng-bind="Error1" style="color:red"></label></span>
+
+                        </form>
+                    </div>
+                </div>
+                <p class="text-center" style="font-size: 12px;color:#fff;">© 2025 CODASOL. All Rights Reserved</p>
+            </div>
+
+        </div>
+    </section>
+     end: page 
+    <script src="/Scripts/angular.js"></script>
+    <script src="/Scripts/angular-route.js"></script>
+    <script src="/Scripts/jquery.js"></script>
+    <script src="/Scripts/theme.js"></script>
+    <script src="/Scripts/bootstrap.js"></script>
+
+    <script src="/Scripts/ctrls/loginpage.js"></script>
+</body>
+</html>

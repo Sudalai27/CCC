@@ -1,0 +1,635 @@
+﻿
+@{
+    ViewBag.Title = "AssetAssignwork";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+@*<link href="~/Content/jBox.css" rel="stylesheet" />*@
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="/Content/jBox.css" rel="stylesheet" />
+<style>
+    .fixTableHead tr th {
+        top: -1px !important;
+    }
+
+    .table-responsive.fixTableHead {
+        max-height: 200px !important;
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+
+    .fixTableHead thead th {
+        position: sticky;
+        top: 0;
+    }
+    .trrlsd {
+        background-color: #00800059;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="Funlocontroller">
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Asset Assign work</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
+                        <div class="tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#PVAssign" data-toggle="tab" aria-expanded="true"><i class="fa fa-user-plus"></i>PV Assign</a>
+                                </li>
+                                <li class="">
+                                    <a href="#PVre-assign" data-toggle="tab" aria-expanded="false"><i class="fa fa-user-secret"></i>PV Re-Assign</a>
+                                </li>
+                                <li class="">
+                                    <a href="#BulkUser-assign" data-toggle="tab" aria-expanded="false"><i class="fa fa-user-secret"></i> Bulk PV-Assign</a>
+                                </li>
+                                <li class="" ng-show="usr == 'Coda'">
+                                    <a href="#BulkCatAssign" data-toggle="tab" aria-expanded="false"><i class="fa fa-excel"></i>Bulk Cat-Assign</a>
+                                </li>
+                                <li class="">
+                                    <a href="#BulkQcAssign" data-toggle="tab" aria-expanded="false"><i class="fa fa-excel"></i>Bulk QC-Assign</a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content">
+                                <div id="PVAssign" class="tab-pane active">
+                                    <div class="row">
+                                        <form name="form" ng-submit="form.$valid && assigntoPV()">
+                                            <div class="form-group ">
+
+
+
+                                                <div class="col-md-6 checkbox-custom checkbox-default ng-binding">
+                                                    <input type="radio" name="selectedPV" value="PV" ng-model="assignData"> PV Assign &nbsp; &nbsp;   @*<input type="radio" name="selectedPV" value="Cat" ng-model="assignData"> Directly assign to catalogue*@
+
+                                                </div>
+                                                <div class="col-md-6 checkbox-custom checkbox-default ng-binding">
+
+
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="form-group">
+
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-md-3 control-label" for="inputDefault">FAR ID</label>
+                                                    <div class="col-md-7">
+                                                        <div class="dropdown" auto-close="outsideClick">
+                                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 5px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                            </button>
+                                                            <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" ">
+                                                                <li role="presentation">
+                                                                    <input disable-auto-close type="search" style="position:relative;display: flex;width: 100%;" ng-model="searchFar" placeholder="Search">
+                                                                </li>
+                                                                <li role="presentation" ng-repeat="far in FARMaster | filter: searchFar">
+                                                                    <a role="menuitem" ng-click="BindFARList(far)">{{far}}</a>
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="button" class="col-md-1 btn btn-xs btn-primary" name="search" ng-click="clearFar()">
+                                                        <i class="fas fa-sync-alt"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label class="col-md-3 control-label" for="inputDefault">Location Hierarchy</label>
+                                                    <div class="col-md-7">
+                                                        <div class="dropdown" auto-close="outsideClick">
+                                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 5px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                {{BtnLocationmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                            </button>
+                                                            <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" style="width: 450px">
+                                                                <li role="presentation">
+                                                                    <input disable-auto-close type="search" style="position:relative;display: flex;width: 100%;" ng-model="searchLH" placeholder="Search">
+                                                                </li>
+                                                                <li role="presentation" ng-repeat="far in LochList | filter: searchLH | unique: LocationHierarchy">
+                                                                    <a role="menuitem" ng-click="BindLocList(far)">{{far}}</a>
+                                                                </li>
+                                                            </ul>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="button" class="col-md-1 btn btn-xs btn-primary" name="search" ng-click="clearFar()">
+                                                        <i class="fas fa-sync-alt"></i>
+                                                    </button>
+                                                </div>
+                                                @*<div class="form-group col-md-3">
+                                    <label class="col-md-3 control-label" for="inputDefault">Region</label>
+
+                                    <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+                                        <input type="text" class="form-control" ng-model="asset.Region" ng-disabled="true">
+                                    </div>
+                                </div>*@
+                                                @*<div class="form-group col-md-4">
+                                    <label class="col-md-4 control-label" for="inputDefault">Asset Desciption</label>
+
+                                    <div class="col-md-5 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+                                        <input type="text" class="form-control" ng-model="asset.AssetDesc" ng-disabled="true">
+                                    </div>
+                                </div>*@
+
+                                            </div>
+
+                                            <table class="col-md-12 table-responsive" style="width: 100%" ng-show="get_reassigndata.length > 0">
+                                                <tr style="background: white">
+                                                    <th colspan="8">
+                                                        <div class="col-md-12">
+                                                            <div class="text-left control-label col-md-6">
+                                                                No.of.Selected Records:<label ng-bind="selected1" />
+                                                            </div>
+                                                            <div class="text-right control-label col-md-6">
+                                                                No.of.Records:<label ng-bind="len1" />
+                                                            </div>
+                                                        </div>
+                                                    </th>
+                                                </tr>
+                                            </table>
+                                            <div class="col-md-12 table-responsive fixTableHead">
+                                                <table class="table table-bordered mb-none" style="width: 100%">
+                                                    <thead class="top-border" align="center">
+
+
+                                                        <!--<tr>-->
+                                                        @*<th><input type="text" placeholder="FAR ID" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>
+                                        <th><input type="text" placeholder="Region" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>*@
+
+                                                        @*<th>
+                                            <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
+                                                <option value="" selected="selected">All</option>
+                                            </select>
+                                        </th>
+
+                                        <th>
+                                            <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
+                                                <option value="" selected="selected">All</option>
+                                                <option>Catalogue</option>
+                                                <option>Catalogue Rework</option>
+                                                <option>QC</option>
+                                                <option>QA</option>
+                                                <option>Released</option>
+
+                                            </select>
+                                        </th>
+                                        <th>
+                                            Select
+                                        </th>*@
+
+
+
+                                                        <!--</tr>-->
+                                                        <tr class="top-tr">
+                                                            @*<th ng-click="sortData('UniqueId')">
+                                                FAR ID<div ng-class="getSortClass('UniqueId')"></div>
+                                            </th>*@
+                                                            @*<th>
+                                                Region
+                                            </th>*@
+                                                            @*<th ng-click="sortData('Legacy')">
+                                                Area<div ng-class="getSortClass('Legacy')"></div>
+                                            </th>*@
+                                                            <th ng-click="sortData('Shortdesc')" style="width: 10%">
+                                                                Item ID <div ng-class="getSortClass('Shortdesc')"></div>
+                                                            </th>
+                                                            <th ng-click="sortData('Shortdesc')" style="width: 10%">
+                                                                FAR ID <div ng-class="getSortClass('Shortdesc')"></div>
+                                                            </th>
+                                                            <th ng-click="sortData('Shortdesc')" style="width: 15%">
+                                                                Asset Number <div ng-class="getSortClass('Shortdesc')"></div>
+                                                            </th>
+                                                            <th style="width: 15%">
+                                                                Asset Location
+                                                            </th>
+                                                            <th style="width: 25%">
+                                                                Location Hierarchy
+                                                            </th>
+                                                            <th style="width: 30%">
+                                                                Asset Description
+                                                            </th>
+                                                            @*<th>
+                                                Equipment Desc
+                                            </th>*@
+                                                            @*<th style="width: 12%">PV/Cat/QC</th>
+
+                                            <th style="width: 8%">Status</th>*@
+                                                            <th style="width: 2%; z-index: 101">
+                                                                <input type="checkbox" id="recheckall" ng-model='rechkSelected' ng-click="reselectAll()" />
+                                                            </th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody style="width: 100%">
+                                                        <tr id="{{$index}}" @*ng-click="RowClick(cat1,$index)"*@ @*ng-class="{ 'selected': isSelectedRow($index) }"*@ ng-class="(cat1.ItemStatus == 6) ? 'trrlsd' : (cat1.ItemStatus == 2 && cat1.Rework == 'Cat') ? 'trrework' : (isSelectedRow($index) ? 'selected' : '')" ng-repeat="cat1 in get_reassigndata">
+
+                                                            @*<td style="width: 13.5%"><label ng-bind="cat1.FixedAssetNo"></label> </td>*@
+                                                            @*<td style="width: 13.5%"><label ng-bind="cat1.ItemStatus"></label></td>*@
+                                                            @*<td><label ng-bind="cat1.Area"></label></td>*@
+                                                            <td style="width: 10%"><label ng-bind="cat1.UniqueId"></label></td>
+                                                            <td style="width: 10%"><label ng-bind="cat1.FixedAssetNo"></label></td>
+                                                            <td style="width: 10%"><label ng-bind="cat1.AssetNo"></label></td>
+                                                            <td style="width: 10%"><label ng-bind="cat1.Location"></label></td>
+                                                            <td style="width: 20%" title="{{cat1.LocationHierarchy}}"><label ng-bind="cat1.LocationHierarchy.length >30 ? (cat1.LocationHierarchy | limitTo: 30) +'...' : cat1.LocationHierarchy"></label></td>
+                                                            <td style="width: 30%" title="{{cat1.Description}}"> <label ng-bind="cat1.Description.length >30 ? (cat1.Description | limitTo: 30) +'...' : cat1.Description"></label></td>
+                                                            @*<td><label ng-bind="cat1.EquipmentDesc"></label></td>*@
+                                                            @*<td style="width: 8%"><label>{{cat1.PVuser.Name}} | {{cat1.Catalogue.Name}} | {{cat1.Review.Name}} </label></td>
+
+                                            <td style="width: 8%"><label ng-bind="(cat1.ItemStatus == 4 || cat1.ItemStatus == 5 ) ? 'QC':'Catalogue'"></label></td>*@
+                                                            @*<td style="width: 8%"><label ng-bind="cat1.ItemStatus"></label></td>*@
+                                                            <td style="width: 5%">
+                                                                <input type="checkbox" ng-click="resinglechk(cat1.UniqueId,$index)" id="rechk{{$index}}" />
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+
+
+
+
+                                            <div class="form-group">
+
+                                                <div class="col-md-12" ng-show="assignData=='PV'">
+                                                    <div class="mb-md col-md-8" ng-class="{'has-error': form.$submitted && form.UserName.$invalid}">
+                                                        <div class="col-md-3 search-assign">
+
+                                                            <select ng-model="UserName" name="assignUserNamepv" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in assigngetuserpv">
+                                                                <option value="" selected="selected">--Select User--</option>
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <button id="submit_button button-assign" type="submit" class="btn btn-primary">Assign To PVUser</button>
+                                                            @*<button id="submit_button2" type="button" class="btn btn-primary" ng-click="reset1()">Reset</button>*@
+                                                        </div>
+
+
+                                                        <div class="col-md-2">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12" ng-show="assignData=='Cat'">
+
+                                                    <div class="form-group">
+                                                        <div class="mb-md">
+
+                                                            <div class="col-md-2 search-assign" ng-class="{'has-error': form4.$submitted && form4.assignUserNamepv.$invalid}">
+                                                                <select ng-model="assignUserNamepv" name="assignUserNamepv" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in assigngetuser">
+                                                                    <option value="" selected="selected">--Select User--</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button id="submit_button button-assign" type="button" ng-click="assignto()" class="btn btn-primary">Assign To Cataloguer</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+
+
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="PVre-assign" class="tab-pane">
+                                    <form name="formr1" ng-submit="formr1.$valid && PVreassignto()" novalidate>
+                                        <div class="row">
+                                            <div class="form-group">
+                                                <div class="col-md-6">
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">Select Role  </label>
+                                                        <div class="mb-md" ng-class="{'has-error': formr1.$submitted && formr1.role.$invalid}">
+                                                            <div class="col-md-8">
+                                                                <select name="role" ng-model="role" data-plugin-selectTwo class="form-control immediate-help" title="Please select at least one role" ng-change="findcontrol()" required>
+                                                                    <option value="">--Select Role--</option>
+                                                                    <option value="PV User">PV User </option>
+                                                                    <option value="Cataloguer">Cataloguer </option>
+                                                                    <option value="Reviewer">Reviewer </option>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">Select User  </label>
+                                                        <div class="mb-md" ng-class="{'has-error': formr1.$submitted && formr1.UserName.$invalid}">
+                                                            <div class="col-md-8">
+                                                                <select ng-model="UserName" name="UserName" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in getuser" ng-change="PV_reassign()" required>
+                                                                    <option value="" selected="selected">--Select User--</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="table-responsive" ng-show="show3 == true">
+
+                                                <div class="tbl-header">
+                                                    <table style="width: 100%">
+                                                        <tr style="background: white">
+                                                            <th colspan="8">
+                                                                <div class="col-md-12">
+                                                                    <div class="text-left control-label col-md-6">
+                                                                        No.of.Selected Records:<label ng-bind="selected1" />
+                                                                    </div>
+                                                                    <div class="text-right control-label col-md-6">
+                                                                        No.of.Records:<label ng-bind="len1" />
+                                                                    </div>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </table>
+                                                    <div class="table-responsive fixTableHead">
+                                                        <table class="table table-bordered mb-none" style="width: 100%">
+                                                            <thead class="top-border" align="center">
+
+
+                                                                <!--<tr>-->
+                                                                @*<th><input type="text" placeholder="FAR ID" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>
+                                                <th><input type="text" placeholder="Region" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>*@
+
+                                                                @*<th>
+                                                    <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
+                                                        <option value="" selected="selected">All</option>
+                                                    </select>
+                                                </th>
+
+                                                <th>
+                                                    <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
+                                                        <option value="" selected="selected">All</option>
+                                                        <option>Catalogue</option>
+                                                        <option>Catalogue Rework</option>
+                                                        <option>QC</option>
+                                                        <option>QA</option>
+                                                        <option>Released</option>
+
+                                                    </select>
+                                                </th>
+                                                <th>
+                                                    Select
+                                                </th>*@
+
+
+
+                                                                <!--</tr>-->
+                                                                <tr class="top-tr">
+                                                                    @*<th ng-click="sortData('UniqueId')">
+                                                        FAR ID<div ng-class="getSortClass('UniqueId')"></div>
+                                                    </th>*@
+                                                                    @*<th>
+                                                        Region
+                                                    </th>*@
+                                                                    @*<th ng-click="sortData('Legacy')">
+                                                        Area<div ng-class="getSortClass('Legacy')"></div>
+                                                    </th>*@
+                                                                    <th ng-click="sortData('Shortdesc')" style="width: 10%">
+                                                                        Item ID <div ng-class="getSortClass('Shortdesc')"></div>
+                                                                    </th>
+                                                                    <th ng-click="sortData('Shortdesc')" style="width: 10%">
+                                                                        FAR ID <div ng-class="getSortClass('Shortdesc')"></div>
+                                                                    </th>
+                                                                    <th ng-click="sortData('Shortdesc')" style="width: 15%">
+                                                                        Asset Number <div ng-class="getSortClass('Shortdesc')"></div>
+                                                                    </th>
+                                                                    <th style="width: 15%">
+                                                                        Asset Location
+                                                                    </th>
+                                                                    <th style="width: 25%">
+                                                                        Location Hierarchy
+                                                                    </th>
+                                                                    <th style="width: 30%">
+                                                                        Asset Description
+                                                                    </th>
+                                                                    @*<th>
+                                                        Equipment Desc
+                                                    </th>*@
+                                                                    @*<th style="width: 12%">PV/Cat/QC</th>
+
+                                                    <th style="width: 8%">Status</th>*@
+                                                                    <th style="width: 2%; z-index: 101">
+                                                                        <input type="checkbox" id="recheckall" ng-model='rechkSelected' ng-click="reselectAll()" />
+                                                                    </th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody style="width: 100%">
+                                                                <tr id="{{$index}}" @*ng-click="RowClick(cat1,$index)"*@ @*ng-class="{ 'selected': isSelectedRow($index) }"*@ ng-class="(cat1.ItemStatus == 3 || cat1.ItemStatus == 5) ? 'trsaved' : (cat1.ItemStatus == 2 && cat1.Rework == 'Cat') ? 'trrework' : (isSelectedRow($index) ? 'selected' : '')" ng-repeat="cat1 in get_PVreassigndata | filter: BtnLocationmodel">
+
+                                                                    @*<td style="width: 13.5%"><label ng-bind="cat1.FixedAssetNo"></label> </td>*@
+                                                                    @*<td style="width: 13.5%"><label ng-bind="cat1.Region"></label></td>*@
+                                                                    @*<td><label ng-bind="cat1.Area"></label></td>*@
+                                                                    <td style="width: 10%"><label ng-bind="cat1.UniqueId"></label></td>
+                                                                    <td style="width: 10%"><label ng-bind="cat1.FixedAssetNo"></label></td>
+                                                                    <td style="width: 10%"><label ng-bind="cat1.AssetNo"></label></td>
+                                                                    <td style="width: 10%"><label ng-bind="cat1.Location"></label></td>
+                                                                    <td style="width: 20%" title="{{cat1.LocationHierarchy}}"><label ng-bind="cat1.LocationHierarchy.length >30 ? (cat1.LocationHierarchy | limitTo: 30) +'...' : cat1.LocationHierarchy"></label></td>
+                                                                    <td style="width: 30%" title="{{cat1.Description}}"> <label ng-bind="cat1.Description.length >30 ? (cat1.Description | limitTo: 30) +'...' : cat1.Description"></label></td>
+                                                                    @*<td><label ng-bind="cat1.EquipmentDesc"></label></td>*@
+                                                                    @*<td style="width: 8%"><label>{{cat1.PVuser.Name}} | {{cat1.Catalogue.Name}} | {{cat1.Review.Name}} </label></td>
+
+                                                    <td style="width: 8%"><label ng-bind="(cat1.ItemStatus == 4 || cat1.ItemStatus == 5 ) ? 'QC':'Catalogue'"></label></td>*@
+                                                                    @*<td style="width: 8%"><label ng-bind="cat1.ItemStatus"></label></td>*@
+                                                                    <td style="width: 5%">
+                                                                        <input type="checkbox" ng-click="resinglechk1(cat1.UniqueId,$index)" id="rechk{{$index}}" />
+                                                                    </td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+                                                        @*<pagination ng-model="currentPage"
+                                                    total-items="totItem"
+                                                    items-per-page="numPerPage"
+                                                    max-size="5"
+                                                    boundary-links="true"
+                                                    ng-click="bindflInx(currentPage)">
+                                        </pagination>*@
+                                                    </div>
+                                                </div>
+                                                <div style="display:block;max-height:200px;overflow-y:scroll;" class="tbl-content">
+                                                    <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
+                                                    <table class="table table-bordered">
+                                                    </table>
+
+                                                </div>
+
+
+                                            </div>
+                                            <div class="form-group" ng-show="show3 == true">
+
+                                                <div class="col-md-12">
+                                                    <div class="mb-md col-md-8" ng-class="{'has-error': form.$submitted && form.UserName.$invalid}">
+                                                        <div class="col-md-3 search-assign">
+
+                                                            <select ng-model="reassignUserName" name="assignUserNamepv" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in PVreassigngetuser">
+                                                                <option value="" selected="selected">--Select User--</option>
+                                                            </select>
+
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <button id="submit_button button-assign" type="submit" class="btn btn-primary">ReAssign To</button>
+                                                            <button id="submit_button2" type="button" class="btn btn-primary" ng-click="reset1()">Reset</button>
+                                                            <button id="submit_button2" type="button" class="btn btn-primary" ng-click="exportTrack()">Download Excel</button>
+                                                        </div>
+
+
+                                                        <div class="col-md-2">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div id="BulkUser-assign" class="tab-pane">
+                                    <form name="form" ng-submit="form.$valid && AssetCatBulkdata()" novalidate>
+                                        <div class="form-group single-item">
+                                            <div class="col-md-12">
+                                                <div class="col-md-8">
+                                                    <label class="col-md-2 control-label">BulkCat-Assign</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                        <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                <div class="col-md-3">
+                                                    <a class="download pull-right" href="~/Common/Asset_BulkPVAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                </div>
+
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div id="BulkCatAssign" class="tab-pane ">
+                                    <div class="row">
+                                        <form name="form" ng-submit="form.$valid && Bulkdata()" novalidate>
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-8">
+                                                        <label class="col-md-2 control-label">File Upload</label>
+                                                        <div class="col-md-7">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="~/Common/Asset_BulkCatAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="BulkQcAssign" class="tab-pane ">
+                                    <div class="row">
+                                        <form name="form" ng-submit="form.$valid && BulkQcdata()" novalidate>
+                                            <div class="form-group single-item">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-8">
+                                                        <label class="col-md-2 control-label">File Upload</label>
+                                                        <div class="col-md-7">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-3">
+                                                        <a class="download pull-right" href="~/Common/Asset_BulkCatAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                    </div>
+
+
+                                                </div>
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+</section>
+        </div>
+    </div>
+</section>
+<script>$("#target").val($("#target option:first").val());</script>
+<script src="/Scripts/jBox.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/ctrls/AssetAssign.js"></script>

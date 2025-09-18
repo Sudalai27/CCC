@@ -1,0 +1,77 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Excelview</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/angular")
+    <script src="/Scripts/handsontable.full.min.js"></script>
+    <link href="/Content/handsontable.full.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .wtHolder {
+            height: auto !important;
+            overflow-y: scroll;
+        }
+
+        .htUIMultipleSelectHot.handsontable {
+            overflow-y: scroll !important;
+            width: auto !important;
+        }
+
+        .wtHider {
+            padding: 0 5px 5px 0;
+        }
+
+        .ht_clone_top {
+            width: auto !important;
+        }
+
+        .ht_clone_left {
+            height: auto !important;
+        }
+
+        .ht_clone_top, .ht_clone_left, .ht_clone_top_left_corner {
+            z-index: 1 !important;
+        }
+    </style>
+</head>
+<body ng-app="ProsolApp" ng-controller="CatalogueController">
+    <form name="form">
+
+        <div class="row">
+            @*<div class="col-md-12">
+                    <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>*@
+            <div class="col-md-12">
+                <div id="myHandsonTable" class="hot handsontable dataTable" style="height:auto"></div>
+            </div>
+            <div class="col-md-12">
+
+                <div class="col-md-3">&nbsp;</div>
+                <div class="col-md-2" ng-hide="true">
+                    <button class="intext-btn btn btn-primary center-block" type="button" ng-click="SaveItemsList()" id="Save" name="Save">Save Data</button>
+                </div>
+                <div class="col-md-1"><a class="intext-btn btn btn-primary center-block" style="text-decoration:none" href="@Url.Action("Release","Catalogue")">Close</a></div>
+                <div class="col-md-4"><label ng-bind="Res" style="color:red; text-align:center"></label></div>
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+    </form>
+    <script src="/Scripts/ctrls/Catviewctrl.js"></script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+</body>
+</html>

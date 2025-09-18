@@ -1,0 +1,664 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="DashboardController" >
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Dashboard</span></li>
+            </ol>
+        </div>
+    </header>*@
+        @*<header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-3"></div>
+                <div class="col-md-6">
+                    <h4 style="color: #3355a8;font-weight: 900;margin-top: 10px;font-size: 25px;">Dashboard</h4>
+                </div>
+                <div class="col-md-3"><div cg-busy="promise"></div></div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <!-- start: page -->
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">DASHBOARD</h2>
+        </header>
+
+        <div class="tab-content">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="form-group" id="container">
+                        <section class="panel">
+                            <div class="panel-body">
+
+                                <table class="table table-bordered table-striped mb-none col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="6" class="bg-color">Item created by plant</th>
+                                        </tr>
+                                        <tr class="bg-color1">
+                                            <th>Plant</th>
+                                            <th>Total Items</th>
+                                            <th>Duplicates</th>
+
+                                            @*<th>Deactivated Codes</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mdl in PlantList">
+                                            <td ng-bind="mdl.PlantName"></td>
+                                            <td ng-bind="mdl.TotCreated"></td>
+                                            <td ng-bind="mdl.TotReject"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </section>
+                        <div id="chart_div1" style="height:200px;border:1px solid #cccccc;font-style:normal !important">Loading...</div>
+                        <section class="panel">
+                            <div class="panel-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-striped mb-none col-md-12">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="4" class="bg-color">Cleansing/Enrichment detail by plant</th>
+                                            </tr>
+                                            <tr class="bg-color1">
+                                                <th>Plant</th>
+                                                <th>Catalogue</th>
+                                                <th>Review</th>
+                                                <th>Release</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="mdl in PlantList">
+                                                <td ng-bind="mdl.PlantName"></td>
+                                                <td ng-bind="mdl.TotCatalogue"></td>
+                                                <td ng-bind="mdl.TotReview"></td>
+                                                <td ng-bind="mdl.TotRelease"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+
+                            </div>
+                        </section>
+                        <div id="chart_div2" style="width:100%;height:200px;border:1px solid #cccccc;">Loading...</div>
+                        @*<section class="panel">
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered table-striped mb-none col-md-12">
+                                            <thead>
+                                                <tr>
+                                                    <th colspan="4" class="bg-color">Item request detail by plant</th>
+                                                </tr>
+                                                <tr class="bg-color1">
+                                                    <th>Plant</th>
+                                                    <th>Requested</th>
+                                                    <th>Approved</th>
+                                                    <th>Rejected</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="mdl in PlantList">
+                                                    <td>{{mdl.PlantName}}</td>
+                                                    <td>{{mdl.TotRequest}}</td>
+                                                    <td>{{mdl.TotApprove}}</td>
+                                                    <td>{{mdl.TotReject}}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                </div>
+                            </section>
+                            <div id="chart_div" style="width:100%;height:200px;border:1px solid #cccccc;">Loading...</div>*@
+                        <br />
+                        <div id="chart_div4" style="width:100%;height:200px;border:1px solid #cccccc;">Loading...</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <div class="tabs">
+                            <section class="panel" style="border:2px solid #306897;">
+                                <header class="card-header">
+                                    <h5 style="background: #306897;margin: 0px;color: #fff;padding: 3px;text-align:center"><strong>@Request.RequestContext.HttpContext.Session["username"].ToString().ToUpper()</strong> Dashboard</h5>
+                                </header>
+                                <div class="panel-body" style="background:#eae5e5">
+                                    <div class="tabs form-group">
+                                        <ul class="nav nav-tabs" style="border-bottom:1px solid #afa8a8">
+                                            <li ng-class="{'active': RelList[0].showdetail!=null && RelList[0].showdetail.length>0}" ng-show="RelList[0].showdetail!=null && RelList[0].showdetail.length>0">
+                                                <a href="#Releaser" data-toggle="tab"> Releaser</a>
+                                            </li>
+                                            <li ng-class="{'active': RelList[0].showdetail==null && RevList[0].showdetail!=null && RevList[0].showdetail.length>0}" ng-show="RevList[0].showdetail!=null && RevList[0].showdetail.length>0">
+                                                <a href="#Reviwer" data-toggle="tab">Reviewer</a>
+                                            </li>
+                                            <li ng-class="{'active': RevList[0].showdetail==null && CatList[0].showdetail!=null && CatList[0].showdetail.length>0}" ng-show="CatList[0].showdetail!=null && CatList[0].showdetail.length>0">
+                                                <a href="#Cataloguer" data-toggle="tab">Cataloguer</a>
+                                            </li>
+                                            <li ng-class="{'active': CatList[0].showdetail==null && AppList[0].showdetail!=null && AppList[0].showdetail.length>0}" ng-show="AppList[0].showdetail!=null && AppList[0].showdetail.length>0">
+                                                <a href="#Approver" data-toggle="tab">Approver</a>
+                                            </li>
+                                            <li ng-class="{'active': AppList[0].showdetail==null && ReqList[0].showdetail!=null && ReqList[0].showdetail.length>0}" ng-show="ReqList[0].showdetail!=null && ReqList[0].showdetail.length>0">
+                                                <a href="#Requester" data-toggle="tab">Requester</a>
+                                            </li>
+                                        </ul>
+                                        <div class="tab-content" style="background:#eae5e5">
+                                            <div id="Releaser" class="tab-pane" ng-class="{'active': RelList[0].showdetail!=null && RelList[0].showdetail.length>0}">
+
+                                                <div ng-show="RelList[0].showdetail!=null && RelList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="rel.showdetail!=null" class="table table-bordered" ng-repeat="rel in RelList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="rel.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Completed</th>
+                                                                        <th>Rework</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in rel.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </section>
+
+                                                </div>
+                                                <div>
+                                                    <h5 ng-show="RelTargetList[0].showdetail!=null || RevTargetList[0].showdetail!=null || CatTargetList[0].showdetail!=null || AppTargetList[0].showdetail != null" style="padding-left:50px;">All reviews send to <strong>@Request.RequestContext.HttpContext.Session["username"]</strong></h5>
+                                                </div>
+                                                <div ng-show="RelTargetList[0].showdetail!=null && RelTargetList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="rev.showdetail!=null" class="table table-bordered" ng-repeat="rev in RelTargetList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="rev.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Completed</th>
+                                                                        <th>Rework</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in rev.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div id="Reviwer" class="tab-pane" ng-class="{'active': RelList[0].showdetail==null && RevList[0].showdetail!=null && RevList[0].showdetail.length>0}">
+                                                @*<div>
+                            <h5 style="padding-left:50px;">Current user status(<strong>@Request.RequestContext.HttpContext.Session["username"]</strong>)</h5>
+                        </div>*@
+                                                <div ng-show="RevList[0].showdetail!=null && RevList[0].showdetail!=null.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+                                                            <table ng-show="rev.showdetail!=null" class="table table-bordered" ng-repeat="rev in RevList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="rev.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Completed</th>
+                                                                        <th>Rework</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in rev.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                                <div>
+                                                    <h5 ng-show="RelTargetList[0].showdetail!=null || RevTargetList[0].showdetail!=null || CatTargetList[0].showdetail!=null || AppTargetList[0].showdetail != null" style="padding-left:50px;">All cataloguers send to <strong>@Request.RequestContext.HttpContext.Session["username"]</strong></h5>
+                                                </div>
+                                                <div ng-show="RevTargetList[0].showdetail!=null && RevTargetList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+                                                            <table ng-show="Cat.showdetail!=null" class="table table-bordered" ng-repeat="Cat in RevTargetList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="Cat.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Completed</th>
+                                                                        <th>Rework</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in Cat.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div id="Cataloguer" class="tab-pane" ng-class="{'active': RevList[0].showdetail==null && CatList[0].showdetail!=null && CatList[0].showdetail.length>0}">
+                                                @*<div>
+                            <h5 style="padding-left:50px;">Current user status(<strong>@Request.RequestContext.HttpContext.Session["username"]</strong>)</h5>
+                        </div>*@
+                                                <div ng-show="CatList[0].showdetail!=null && CatList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="Cat.showdetail!=null" class="table table-bordered" ng-repeat="Cat in CatList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="Cat.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Completed</th>
+                                                                        <th>Rework</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in Cat.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                                <div>
+                                                    <h5 ng-show="RelTargetList[0].showdetail!=null || RevTargetList[0].showdetail!=null || CatTargetList[0].showdetail!=null || AppTargetList[0].showdetail != null" style="padding-left:50px;">All approvers send to <strong>@Request.RequestContext.HttpContext.Session["username"]</strong></h5>
+                                                </div>
+                                                <div ng-show="CatTargetList[0].showdetail!=null && CatTargetList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="app.showdetail!=null" class="table table-bordered" ng-repeat="app in CatTargetList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="app.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Approved</th>
+                                                                        <th>Rejected</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in app.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div id="Approver" class="tab-pane" ng-class="{'active': CatList[0].showdetail==null && AppList[0].showdetail!=null && AppList[0].showdetail.length>0}">
+                                                @*<div>
+                            <h5 style="padding-left:50px;">Current user status(<strong>@Request.RequestContext.HttpContext.Session["username"]</strong>)</h5>
+                        </div>*@
+                                                <div ng-show="AppList[0].showdetail!=null && AppList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="app.showdetail!=null" class="table table-bordered" ng-repeat="app in AppList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="app.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Approved</th>
+                                                                        <th>Rejected</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in app.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                                <div>
+                                                    <h5 ng-show="RelTargetList[0].showdetail!=null || RevTargetList[0].showdetail!=null || CatTargetList[0].showdetail!=null || AppTargetList[0].showdetail != null" style="padding-left:50px;">All requesters send to <strong>@Request.RequestContext.HttpContext.Session["username"]</strong></h5>
+                                                </div>
+                                                <div ng-show="AppTargetList[0].showdetail != null && AppTargetList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="req.showdetail!=null" class="table table-bordered" ng-repeat="req in AppTargetList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="req.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Approved</th>
+                                                                        <th>Rejected</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in req.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                            <div id="Requester" class="tab-pane" ng-class="{'active': AppList[0].showdetail==null && ReqList[0].showdetail!=null && ReqList[0].showdetail.length>0}">
+                                                @*<div>
+                            <h5 style="padding-left:50px;">Current user status(<strong>@Request.RequestContext.HttpContext.Session["username"]</strong>)</h5>
+                        </div>*@
+                                                <div ng-show="ReqList[0].showdetail!=null && ReqList[0].showdetail.length>0">
+                                                    <section class="panel">
+                                                        <div class="panel-body">
+
+                                                            <table ng-show="req.showdetail!=null" class="table table-bordered" ng-repeat="req in ReqList">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th colspan="4" class="bg-color" ng-bind="req.PlantName"></th>
+                                                                    </tr>
+                                                                    <tr class="bg-color2">
+                                                                        <th>User Name</th>
+                                                                        <th>Pending</th>
+                                                                        <th>Approved</th>
+                                                                        <th>Rejected</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="mdl in req.showdetail">
+                                                                        <td ng-bind="mdl.Username"></td>
+                                                                        <td ng-bind="mdl.Pending"></td>
+                                                                        <td ng-bind="mdl.Completed"></td>
+                                                                        <td ng-bind="mdl.Rework"></td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+                                                        </div>
+                                                    </section>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                        </div>
+                    </div>
+
+                    @*<div class="panel-body">
+                            <table class="table table-bordered table-striped mb-none col-md-12">
+                                <thead>
+                                    <tr class="bg-color1">
+                                        <th>Date Time</th>
+                                        <th>Action Performed</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>*@
+                    @*<div class="panel-body" style="min-height:10px; max-height:400px;overflow-y: scroll;background:#fff ">
+                        <table class="table table-bordered table-striped mb-none col-md-12">*@
+
+                    @*<tbody>*@
+
+                    @*<tr ng-repeat="mdl in ItemHistoryList | orderBy:Datetime">
+
+                            <td>{{//mdl.Datetime.replace('/Date(','').replace(')/','') | date:"MMM dd yyyy hh:mm a"}}</td>
+                            <td>{{//mdl.ActionPerformed}}</td>
+                        </tr>*@
+                    @*</tbody>*@
+                    @*</table>
+                        </div>*@
+                    <section class="panel">
+                        <header class="card-header">
+                            <h5 style="background: #306897;margin: 0px;color: #fff;padding: 3px;text-align:center">Date wise report</h5>
+                        </header>
+                        <div class="panel-body">
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="col-md-2"><label>Date</label></div>
+                                    <div class="col-md-4">
+                                        <input type="text" id="txtdte2" name="Fromdate" ng-model="dte" class="form-control" autocomplete="off" placeholder="From Date" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="text" id="txtdte3" name="Todate" ng-model="dte1" class="form-control" autocomplete="off" placeholder="To Date" required>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-primary" ng-click="bindItemHistoryGO()">Go</button>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div ng-show="showOverallReport == true">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <div style="width:96%">
+                                            <table class="table table-bordered mb-none">
+                                                <thead>
+                                                    <tr class="table-dash">
+                                                        @*<th style="text-align:center"></th>*@
+                                                        <th style="text-align:center;width:100%" colspan="5">DAILY STATUS</th>
+                                                        @*<th style="text-align:center" colspan="2">NEW</th>
+                                                            <th style="text-align:center" colspan="2">CLF</th>
+                                                            <th style="text-align:center" colspan="2">UPDATE</th>
+                                                            <th style="text-align:center" colspan="2">ISSUE</th>*@
+
+
+                                                    </tr>
+                                                    <tr class="all-data">
+                                                        <th style="width:20%;text-align:center;">Req.Date</th>
+                                                        <th style="width:20%;text-align:center;">Total</th>
+                                                        <th style="width:20%;text-align:center;">Completed</th>
+                                                        <th style="width:20%;text-align:center;">Pending</th>
+                                                        <th style="width:20%;text-align:center;">Clarification</th>
+                                                        @*<th>Completed</th>
+                                                            <th>Pending</th>
+                                                            <th>Completed</th>
+                                                            <th>Pending</th>
+                                                            <th>Completed</th>
+                                                            <th>Pending</th>
+                                                            <th>Completed</th>
+                                                            <th>Pending</th>*@
+
+                                                    </tr>
+                                                </thead>
+                                            </table>
+                                        </div>
+                                        <div style="display:block;max-height:200px;overflow-y:scroll;width:98.5%">
+                                            <table class="table table-bordered mb-none daily-rep">
+
+                                                <tbody>
+
+                                                    <tr id="{{$index}}" ng-click="clickToOpen((mdl.CreatedOn.replace('/Date(','').replace(')/','') | date:'MMM dd yyyy'),$index)"  ng-repeat="mdl in ItemHistoryList | orderBy:'CreatedOn'" class="all-data">
+                                                        <td style="width:20%;text-align:center;">{{mdl.CreatedOn =='/Date(-62135596800000)/'?'': mdl.CreatedOn.replace('/Date(','').replace(')/','') | date:"MMM dd yyyy"}}</td>
+                                                        <td style="width: 20%;text-align:center;" ng-bind="mdl.total"></td>
+                                                        <td style="width: 20%;text-align:center;" ng-bind="mdl.Completed"></td>
+                                                        <td style="width: 20%;text-align:center;" ng-bind="mdl.Pending"></td>
+                                                        <td style="width:20%;text-align:center;" ng-bind="mdl.Clarification"></td>
+
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="col-md-12">
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th colspan="7" class="bg-color">Overall Count</th>
+                                            </tr>
+                                            <tr style="background: #fff;">
+                                                <th style="text-align:center">User Name</th>
+                                                <th style="text-align:center"> Total</th>
+                                                <th style="text-align:center"> Completed</th>
+                                                <th style="text-align:center"> Pending</th>
+                                                <th style="text-align:center"> Clarification</th>
+                                                @*<th style="text-align:center">QualityControl REQ</th>
+                                                    <th style="text-align:center">QualityControl Completed</th>
+                                                    <th style="text-align:center">QualityControl Pending</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="mdl1 in overalldata | orderBy:'-cat_comp'" @*class="all-data"*@ style="background: #fff;">
+                                                <td style="text-align:center" ng-bind="mdl1.name"></td>
+                                                <td style="text-align:center" ng-bind="mdl1.cat_req"></td>
+                                                <td style="text-align:center" ng-bind="mdl1.cat_comp"></td>
+                                                <td style="text-align:center" ng-bind="mdl1.cat_pen"></td>
+                                                <td style="text-align:center" ng-bind="mdl1.cat_clf"></td>
+
+                                                @*<td style="text-align:center">{{mdl1.rev_req}}</td>
+                                                    <td style="text-align:center">{{mdl1.rev_req_comp}}</td>
+                                                    <td style="text-align:center">{{mdl1.rev_req_pen}}</td>*@
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                            <div ng-show="showOverallReport == false" class="col-md-12">No Record Found....</div>
+                        </div>
+                    </section>
+                    <div class="form-group">
+                        <div id="chart_div3" style="width:650px;height:200px;border:1px solid #cccccc;">Loading...</div>
+
+                        @*<div class="tabs tabs-dark">
+                                <ul class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#Noun" data-toggle="tab">Noun & Modifier</a>
+                                    </li>
+                                    <li>
+                                        <a href="#Vendor" data-toggle="tab" ng-click="loadNM()">Vendor/Manufacturer</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div id="Noun" class="tab-pane active">
+                                        <div id="chart_div4" style="width:650px;height:200px;border:1px solid #cccccc;">Loading...</div>
+                                    </div>
+                                    <div id="Vendor" class="tab-pane">
+                                        <div id="chart_div3" style="width:650px;height:200px;border:1px solid #cccccc;">Loading...</div>
+                                    </div>
+                                </div>
+                            </div>*@
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+</section>
+
+
+<script src="/Scripts/ctrls/Dashboardctrl.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+   @* <script src="/Scripts/jsapi.js"></script>*@
+<script type="text/javascript">
+
+
+    google.charts.load('visualization', '1', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(function () {
+        angular.element("div#container").scope().drawChart();
+    });
+ 
+    
+
+</script>
+<script src="/Scripts/angular-busy.min.js"></script>
+
+

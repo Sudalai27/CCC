@@ -1,0 +1,930 @@
+﻿
+@{
+    ViewBag.Title = "Search By Reference";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/jBox.css" rel="stylesheet" />
+
+<style>
+    .box {
+        width: 20%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid orange;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: orange;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        z-index: 1042;
+        opacity: 0;
+        overflow: scroll;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 90%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -5px;
+            right: 3px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+
+            .popup .close:hover {
+                color: orange;
+            }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    .popup-scroll {
+        border: 1px solid #c2d8eb;
+        height: 650px;
+        width: 33%;
+        margin-left: 2px;
+        float: left;
+        overflow-y: scroll;
+        overflow-x: none !important;
+    }
+
+    .pop-bg {
+        background: #f0f0f0;
+    }
+
+    .all-pop .form-group {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+</style>
+
+<section role="main" class="content-body" ng-controller="SearchByReferenceController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Search</span></li>
+                <li><span>By Reference</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+    <!-- start: page -->
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Reference Search</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form class="form-horizontal form-bordered" ng-submit="chkandshowresults()">
+                            <div class="form-group">
+                                <div class="col-md-12 margin_for_ddl">
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Code</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" id="inputDefault" ng-model="code">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+
+                                <div class="col-md-12 margin_for_ddl">
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Noun</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnNounmodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="serchFilter" placeholder="Search" style="width:100%;" />
+                                                <li role="presentation" ng-repeat="Noun in NounOptions | filter:{'Noun':  serchFilter || undefined}"><a role="menuitem" ng-click="selectEntity(Noun.Noun)" ng-bind="Noun.Noun"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Modifier</label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle  Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnModifiermodel">
+                                                @*<span class="caret mycustom-caret"></span>*@
+                                            </button>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="serchFilter1" placeholder="Search" style="width:100%"></input>
+                                                <li role="presentation" ng-repeat="Modifier in ModifierOptions | filter:{'Modifier':  serchFilter1 || undefined}"><a role="menuitem" ng-click="selectEntity1(BtnNounmodel,Modifier.Modifier)" ng-bind="Modifier.Modifier"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <h4 class="ref-title">Reference Fields</h4>
+
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Industry Sector</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnIndustrySectormodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterIndustrySector" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in IndustrySectorOptions | filter:{'Title':  filterIndustrySector || undefined}"><a role="menuitem" ng-click="selectIndustrySector(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Material Type</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnMaterialTypemodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterMaterialType" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in MaterialTypeOptions | filter:{'Title':  filterMaterialType || undefined}"><a role="menuitem" ng-click="selectMaterialType(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class=" control-label" for="inputDefault">Inspection Type</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnInspectionTypemodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterInspectionType" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in InspectionTypeOptions | filter:{'Title':  filterInspectionType || undefined}"><a role="menuitem" ng-click="selectInspectionType(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="margin-top:10px;">
+                                    <div class="col-md-1 margin_for_ddl">
+                                        <label class="control-label" for="inputDefault">Plant</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnPlantmodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterPlant" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Plantname in PlantOptions | filter:{'Plantname':  filterPlant || undefined}"><a role="menuitem" ng-click="selectPlant(Plantname.Plantname)" ng-bind="Plantname.Plantname"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Storage Location</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnStorageLocationmodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterStorageLocation" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in StorageLocationOptions | filter:{'Title':  filterStorageLocation || undefined}"><a role="menuitem" ng-click="selectStorageLocation(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Storage Bin</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnStorageBinmodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterStorageBin" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in StorageBinOptions | filter:{'Title':  filterStorageBin || undefined}"><a role="menuitem" ng-click="selectStorageBin(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="margin-top:10px;">
+
+                                    <div class="col-md-1">
+                                        <label class=" control-label" for="inputDefault">Profit Center</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnProfitCentermodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterProfitCenter" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in ProfitCenterOptions | filter:{'Title':  filterProfitCenter || undefined}"><a role="menuitem" ng-click="selectProfitCenter(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Valuation Class</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnValuationClassmodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterValuationClass" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in ValuationClassOptions | filter:{'Title':  filterValuationClass || undefined}"><a role="menuitem" ng-click="selectValuationClass(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Price Control</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnPriceControlmodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterPriceControl" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in PriceControlOptions | filter:{'Title':  filterPriceControl || undefined}"><a role="menuitem" ng-click="selectPriceControl(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" style="margin-top:10px;">
+                                    <div class="col-md-1 margin_for_ddl">
+                                        <label class="control-label" for="inputDefault">MRP Type</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnMRPTypemodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterMRPType" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in MRPTypeOptions | filter:{'Title':  filterMRPType || undefined} "><a role="menuitem" ng-click="selectMRPType(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">MRP Controller</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnMRPControllermodel">
+                                                @*<span class="caret mycustom-caret" style=""></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterMRPController" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in MRPControllerOptions | filter:{'Title':  filterMRPController || undefined}"><a role="menuitem" ng-click="selectMRPController(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <label class="control-label" for="inputDefault">Procurement Type</label>
+                                    </div>
+                                    <div class="col-md-3 margin_for_ddl">
+                                        <div class="dropdown" auto-close="outsideClick">
+                                            <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown" ng-bind="BtnProcurementTypemodel">
+                                                @*<span class="caret mycustom-caret"></span>*@
+                                            </button>
+                                            <span ng-show="submitted"><label class="error"></label></span>
+                                            <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                <input disable-auto-close type="search" ng-model="filterProcurementType" placeholder="Search" style="width:100%;"></input>
+                                                <li role="presentation" ng-repeat="Title in ProcurementTypeOptions | filter:{'Title':  filterProcurementType || undefined}"><a role="menuitem" ng-click="selectProcurementType(Title.Title)" ng-bind="Title.Title"></a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-2">
+                                    <input id="button" type="submit" class="btn btn-primary" value="Search">&nbsp;&nbsp;<input id="button" type="button" ng-click="clearall()" class="btn btn-primary" value="Clear">
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-12" ng-show="sResult!=null">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-none">
+                                    <thead class="top-border">
+                                        <tr>
+                                            <th>Material Code</th>
+                                            <th>Short Desc</th>
+                                            <th>Long Desc</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="src in sResult">
+                                            <td><label ng-hide="true" ng-bind="src.Itemcode"></label><label ng-bind="src.Materialcode"></label></td>
+                                            <td><label ng-bind="src.Shortdesc"></label></td>
+                                            <td><label ng-bind="src.Longdesc"></label></td>
+                                            @*<td class="actions">
+                                                <div id="Modal-2" ng-click="clickToOpen(src.Itemcode)" style="cursor:pointer"><i class="fa fa-search"></i></div>
+                                               
+
+                                            </td>*@
+                                            <td class="actions">
+                                                <div ng-show="CataloguerIndicator" class="col-md-9">
+                                                    <a target="_blank" href="~/Catalogue/Index?itemId={{src.Itemcode}}">Create similar item</a>
+                                                </div>
+                                                <div class="col-md-3" id="Modal-2" ng-click="clickToOpen(src.Itemcode)" style="cursor:pointer"><i class="fa fa-search"></i></div>
+                                                @*<a class="modal-with-form" style="cursor:pointer" href="#popup1" ng-click="clickToOpen(src.Itemcode)"><i class="fa fa-search"></i></a>*@
+
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <div id="srefconId" style="display:none;">
+                                    <div class="content">
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+                                                <div class="col-md-4 popup-scroll">
+                                                    <div class="all-pop">
+                                                        <form>
+                                                            <div class="form-group">
+
+                                                                <div class="text-center" style="background: #c2d8eb;">Item Data</div>
+
+                                                            </div>
+                                                            <div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Item Code</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="ccontrol-label" ng-bind="cat.Itemcode">{{cat.Itemcode}}</label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Material Code</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Materialcode"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Legacy</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Legacy"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Short Desc</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Shortdesc"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Long Desc</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Longdesc"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Noun</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Noun"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Modifier</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Modifier"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Addition Info</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Additionalinfo"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Manufacturer</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Manufacturer"></label>
+                                                                </div>
+                                                            </div>
+                                                            @*<div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Manufacturer Code</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Manufacturercode"></label>
+                                                                </div>
+                                                            </div>*@
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Part Number</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Partno"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Application</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Application"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label">Drawing No.</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Drawingno"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group pop-bg">
+                                                                <label class="col-md-5 control-label">Reference No.</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Referenceno"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label">UNSPSC</label>
+                                                                <div class="col-md-7">
+                                                                    <label class="control-label" ng-bind="cat.Unspsc"></label>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <div class="col-md-7">
+                                                                    <img src="{{img.FileData}}" ng-show="img.FileData == null ? false:true" width="200" height="130" />
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 popup-scroll">
+                                                    <div class="all-pop">
+
+                                                        <div class="form-group">
+
+                                                            <div class="text-center" style="background: #c2d8eb;">Attribute Detail</div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <table class="table table-bordered mb-none" style="width: 92% !important;margin: 0 auto;">
+                                                                <thead class="top-border">
+                                                                    <tr>
+                                                                        <td><label class="control-label" style="font-weight:bold">Attribute</label></td>
+                                                                        <td><label class="control-label" style="font-weight:bold"> Value</label></td>
+                                                                        <td><label class="control-label" style="font-weight:bold"> Unit</label></td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr ng-repeat="ls in cat.Characteristics">
+                                                                        <td><label class="control-label" ng-bind="ls.Characteristic"></label></td>
+                                                                        <td>
+
+                                                                            @*<label class="col-md-6 control-label" ng-bind="ls.Value"></label>*@
+                                                                            {{ls.Value}}
+                                                                        </td>
+                                                                        <td>
+                                                                            {{ls.UOM}}
+                                                                            @*<label class="col-md-1 control-label" ng-bind="ls.UOM"></label>*@
+
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+
+
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <div class="text-center" style="background: #c2d8eb;">Equipment Detail</div>
+
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Equipment Name</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="cat.Equipment.Name"></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Equipment Manufacturer</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="cat.Equipment.Manufacturer"></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Equipment Model No</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="cat.Equipment.Modelno"></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Equipment Tag No</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="cat.Equipment.Tagno"></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Equipment Serial No</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="cat.Equipment.Serialno"></label>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Additional Information</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="cat.Equipment.Additionalinfo"></label>
+                                                            </div>
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 popup-scroll">
+                                                    <div class="all-pop">
+                                                        <div class="form-group">
+
+                                                            <div class="text-center" style="background: #c2d8eb;">Plant</div>
+
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Plant</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Plant_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Profit Center</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ProfitCenter_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Storage Location</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.StorageLocation_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Storage Bin</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.StorageBin_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Valuation Class</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ValuationClass_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Valuation Type</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ValuationType_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Price Control</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.PriceControl_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Standard Price</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.StandardPrice_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Moving Avg price</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.MovingAvgprice_"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Valuation Category</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ValuationCategory_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Variance Key</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.VarianceKey_"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group">
+
+                                                            <div class="text-center" style="background: #c2d8eb;">General</div>
+
+                                                        </div>
+
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Industry sector</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Industrysector_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Material Type</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Materialtype_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Base UOP</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.BaseUOP_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Unit of Issue</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Unit_issue_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Alternate UOM</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.AlternateUOM_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Inspection Type</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Inspectiontype_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Inspection Code</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Inspectioncode_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Old Material No</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Oldmaterialno_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Division</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Division_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Sales Unit</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.Salesunit_"></label>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="form-group ">
+
+                                                            <div class="text-center" style="background:#c2d8eb;">MRP Data</div>
+
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">MRP Type</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.MRPType_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">MRP Controller</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.MRPController_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">LOT Size</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.LOTSize_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Re-Order Point</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ReOrderPoint_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Procurement Type</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ProcurementType_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Safety Stock</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.SafetyStock_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Planning Strgy Grp</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.PlanningStrgyGrp_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Avail Check</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.AvailCheck_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Schedule Margin</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ScheduleMargin_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+
+                                                            <div class="text-center" style="background: #c2d8eb;">Sales & Others</div>
+
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Acc Asignmt Category</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.AccAsignmtCategory_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Tax Classification Group</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.TaxClassificationGroup_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Item Category Group</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.ItemCategoryGroup_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Sales Organization</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.SalesOrganization_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Distribution Channel</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.DistributionChannel_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Material Strategic Group</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.MaterialStrategicGroup_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group pop-bg">
+                                                            <label class="col-md-5 control-label">Purchasing Group</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.PurchasingGroup_"></label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="col-md-5 control-label">Purchasing Value Key</label>
+                                                            <div class="col-md-7">
+                                                                <label class="control-label" ng-bind="erp.PurchasingValueKey_"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+                @*<div id="popup1" class="overlay">
+                    <div class="popup">
+                        <a class="close" href="#">×</a>
+                      
+                    </div>
+                </div>*@
+
+            </section>
+        </div>
+    </div>
+
+    @*For POPUP*@
+
+
+</section>
+<script src="/Scripts/ctrls/SearchByReference.js"></script>
+<script src="~/Scripts/jBox.js"></script>

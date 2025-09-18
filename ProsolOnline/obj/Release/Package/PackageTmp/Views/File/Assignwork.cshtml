@@ -1,0 +1,637 @@
+﻿@{
+    ViewBag.Title = "Assign Work";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+    <section role="main" class="content-body" ng-controller="Assignworkcontroller">
+        @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Search</span></li>
+                    <li><span>Assign Work</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold " />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div cg-busy="cgBusyPromises"> </div>
+                </div>
+            </div>
+        </header>*@
+        <header class="alert-messages">
+            <div class="col-md-12">
+                   <div class="col-md-6"></div>
+                <div class="col-md-2">
+                    <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+                </div>
+            </div>
+        </header>
+        <div class="col-md-12">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+            <div class="row">
+
+                <div class="col-xs-12">
+                    <section class="panel form-wizard" id="w4">
+                        <header class="panel-heading">
+
+                            <h2 class="panel-title">ASSIGN WORK</h2>
+                        </header>
+                     
+                        <div class="panel-body" >
+                            @*<div class="form-group">
+                                <div class="col-md-1"></div>
+                                <div class="alert col-md-10" ng-show="NotifiyRes" ng-class="Notify">
+                                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                    <label ng-bind="Res" class="error-hover" />
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>*@
+                            <div class="form-group">
+                                <div class="tabs">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#Assign" data-toggle="tab" aria-expanded="true"><i class="fa fa-user-plus"></i> Assign</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#re-assign" data-toggle="tab" aria-expanded="false"><i class="fa fa-user-secret"></i> Re-Assign</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#pv-data" data-toggle="tab" aria-expanded="false"><i class="fa fa-dedent"></i> PV-Data</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#BulkPVAssign" data-toggle="tab" aria-expanded="false"><i class="fa fa-excel"></i>Bulk PV-Assign</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#BulkCatAssign" data-toggle="tab" aria-expanded="false"><i class="fa fa-excel"></i>Bulk Cat-Assign</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#BulkQcAssign" data-toggle="tab" aria-expanded="false"><i class="fa fa-excel"></i>Bulk QC-Assign</a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#Rework" data-toggle="tab" aria-expanded="false"><i class="fa fa-excel"></i>Bulk Rework</a>
+                                        </li>
+
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="Assign" class="tab-pane active">
+                                            <div class="row">
+                                                <form name="form1" ng-submit="form1.$valid && assigncodesearch()" novalidate>
+                                                    <div class="form-group">
+                                                        <div class="mb-md" ng-class="{'has-error': form1.$submitted && form1.code.$invalid}">
+                                                            <div class="controls">
+                                                                <div class="col-md-4">
+
+                                                                    <textarea class="form-control immediate-help" rows="2" id="code" ng-model="code" ng-list="&#10;" ng-trim="false" name="code" required></textarea>
+                                                                    <div ng-show="form1.code.$invalid" class="input-help">
+                                                                        <h4 ng-show="form1.code.$error.required">Field should not be blank</h4>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-md-3">
+                                                            <button id="submit_button" type="submit" class="btn btn-primary">Code Search</button>
+
+                                                            <button id="submit_button1" type="button" class="btn btn-primary" ng-click="reset()">Reset</button>
+
+                                                        </div>
+
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                            @*<div cg-busy="promise" class="tblLoad"></div>*@
+                                            <div class="table-hide" ng-show="show1 == true">
+
+                                                <div class="form-group">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <select ng-model="selecteditem" ng-change="ddlItems()" ng-init="selecteditem=10" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                        </div>
+
+                                                        <div class="control-label col-md-4 text-center">
+                                                            No.of.Selected Records:<label ng-bind="selected" />
+                                                        </div>
+
+
+                                                        <div class="control-label col-md-4 text-right">
+                                                            No.of.Records:<label ng-bind="len" />
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="table-responsive">
+
+                                                                <table class="table table-bordered mb-none">
+                                                                    <thead>
+                                                                        <tr class="top-border ng-scope">
+                                                                            <th><input type="checkbox" id="checkall" ng-model='chkSelected' ng-click="selectAll()" /> Itemcode </th>
+                                                                            <th>LEGACY</th>
+                                                                            <th>NOUN</th>
+                                                                            <th>MODIFIER</th>
+                                                                            <th>PV DATA</th>
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="x in filteredassign">
+                                                                            <td>
+                                                                                <input type="checkbox" ng-click="singlechk(x.Itemcode,$index)" ng-model="x.Duplicates" id="chk{{$index}}" />
+                                                                                {{x.Itemcode}}
+                                                                            </td>
+
+                                                                            <td>
+                                                                                {{x.Legacy}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Noun}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Modifier}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Legacy2}}
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                                <pagination ng-model="currentPage"
+                                                                            total-items="get_assigndata.length"
+                                                                            items-per-page="numPerPage"
+                                                                            max-size="maxSize"
+                                                                            boundary-links="true">
+                                                                </pagination>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            <div class="col-md-12" ng-show="show1 == true">
+                                                <form name="form2" ng-submit="form2.$valid && assignto()" novalidate>
+                                                    <div class="form-group">
+                                                        <div class="mb-md">
+                                                            <div class="col-md-2" ng-class="{'has-error': form2.$submitted && form2.ddlPlant.$invalid}">
+                                                                <select class="form-control" id="ddlPlant" ng-model="Plant" ng-change="changePlant()" ng-options="x.Plantcode as x.Plantname for x in PlantList"></select>
+                                                            </div>
+                                                            <div class="col-md-2 search-assign" ng-class="{'has-error': form2.$submitted && form2.assignUserName.$invalid}">
+                                                                <select ng-model="assignUserName" name="assignUserName" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in assigngetuser" required>
+                                                                    <option value="" selected="selected">--Select User--</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md-2">
+                                                                <button id="submit_buttond" type="submit" class="btn btn-primary">Assign To</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <div id="re-assign" class="tab-pane">
+
+                                            <form name="formr1" ng-submit="formr1.$valid && reassignto()" novalidate>
+                                                <div class="row">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6">
+
+                                                            <div class="form-group">
+
+                                                                <label class="col-md-4 control-label">Select Plant</label>
+                                                                <div class="mb-md" ng-class="{'has-error': formr1.$submitted && formr1.ddlPlant.$invalid}">
+                                                                    <div class="col-md-8">
+
+                                                                        <select class="form-control" id="ddlPlant" ng-model="Plant" ng-change="changePlant()" ng-options="x.Plantcode as x.Plantname for x in PlantList"></select>
+
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+
+                                                                <label class="col-md-4 control-label">Select Role  </label>
+                                                                <div class="mb-md" ng-class="{'has-error': formr1.$submitted && formr1.role.$invalid}">
+                                                                    <div class="col-md-8">
+                                                                        <select name="role" ng-model="role" data-plugin-selectTwo class="form-control immediate-help" title="Please select at least one role" ng-change="findcontrol()" required>
+                                                                            <option value="">--Select Role--</option>
+                                                                            <option value="Cataloguer">Cataloguer </option>
+                                                                            <option value="Reviewer">Reviewer </option>
+                                                                            <option value="Releaser">Releaser </option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+
+                                                                <label class="col-md-4 control-label">Select User  </label>
+                                                                <div class="mb-md" ng-class="{'has-error': formr1.$submitted && formr1.UserName.$invalid}">
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="UserName" name="UserName" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in getuser" ng-change="reassigncodesearch()" required>
+                                                                            <option value="" selected="selected">--Select User--</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    @*<div cg-busy="promise1" class="tblLoad"></div>*@
+                                                    <div class="form-group" ng-show="show2 == true">
+                                                        <div class="col-md-12">
+                                                            <div class="text-left control-label col-md-6">
+                                                                No.of.Selected Records:<label ng-bind="selected1" />
+                                                            </div>
+                                                            <div class="text-right control-label col-md-6">
+                                                                No.of.Records:<label ng-bind="len1" />
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="table-responsive" style="max-height: 300px;overflow-y: scroll;">
+
+                                                                    <table class="table table-bordered mb-none">
+                                                                        <thead>
+                                                                            <tr class="top-border ng-scope">
+
+                                                                                <th><input type="checkbox" id="recheckall" ng-model='rechkSelected' ng-click="reselectAll()" /> ITEMCODE </th>
+                                                                                <th>LEGACY</th>
+                                                                                <th>NOUN</th>
+                                                                                <th>MODIFIER</th>
+                                                                                <th>PV DATA</th>
+
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                            <tr ng-repeat="x in get_reassigndata">
+                                                                                <td>
+                                                                                    <input type="checkbox" ng-click="resinglechk(x.Itemcode,$index)" id="rechk{{$index}}" />
+                                                                                    {{x.Itemcode}}
+                                                                                </td>
+
+                                                                                <td>
+                                                                                    {{x.Legacy}}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{x.Noun}}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{x.Modifier}}
+                                                                                </td>
+                                                                                <td>
+                                                                                    {{x.Legacy2}}
+                                                                                </td>
+                                                                            </tr>
+
+                                                                        </tbody>
+                                                                    </table>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+                                                    <div class="form-group" ng-show="show2 == true">
+
+                                                        <div class="col-md-12">
+                                                            <div class="mb-md col-md-8" ng-class="{'has-error': formr1.$submitted && formr1.reassignUserName.$invalid}">
+                                                                <div class="col-md-3 search-assign">
+
+                                                                    <select ng-model="reassignUserName" name="reassignUserName" class="form-control immediate-help " ng-options="x.UserName as x.UserName for x in reassigngetuser" required>
+                                                                        <option value="" selected="selected">--Select User--</option>
+                                                                    </select>
+
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <button id="submit_button button-assign" type="submit" class="btn btn-primary">Reassign</button>
+                                                                    <button id="submit_button2" type="button" class="btn btn-primary" ng-click="reset1()">Reset</button>
+                                                                </div>
+                                                                @*<div class="col-md-1">
+                                    <input id="submit_button2" type="submit" class="btn btn-primary" ng-click="reassignexport()" value="Download">
+                                </div>*@
+                                                                <div class="col-md-2">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div id="pv-data" class="tab-pane">
+                                            @*<div cg-busy="promise" class="tblLoad"></div>*@
+                                            <div class="table-hide" ng-show="show3 == true">
+
+                                                <div class="form-group">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <select ng-model="selecteditempv" ng-change="ddlItems1()" ng-init="selecteditempv=10" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                        </div>
+
+                                                        <div class="control-label col-md-4">
+                                                            No.of.Selected Records:<label ng-bind="selected2" />
+                                                        </div>
+
+
+                                                        <div class="control-label col-md-4">
+                                                            No.of.Records:<label ng-bind="len2" />
+                                                        </div>
+
+                                                        <div class="col-md-12">
+                                                            <div class="table-responsive">
+                                                                <table class="table table-bordered mb-none">
+                                                                    <thead class="top-border" align="center">
+                                                                        <tr>
+
+                                                                            <th style="width:16.6% !important">
+                                                                                <input type="text" placeholder="Code" class="form-control" ng-model="sCode" ng-blur="searchMasterpv()" />
+
+                                                                            </th>
+                                                                            <th style="width:16.6% !important">
+                                                                                <select ng-model="sPlant" class="form-control" ng-change="searchMasterpv()" ng-options="x.Plantcode as x.Plantname for x in PlantListpv">
+                                                                                    <option value="" selected="selected">All</option>
+                                                                                </select>
+
+                                                                            </th>
+                                                                            <th style="width:16.6% !important">
+                                                                                <select class="form-control" ng-model="StorageLocation" ng-change="searchMasterpv()" ng-options="x.Code as x.Title for x in (strloc | filter: {'Label': 'Storage location' } && {'Plantcode': erp.Plant } :true)">
+                                                                                    <option value="" selected="selected">All</option>
+                                                                                </select>
+                                                                            </th>
+                                                                            <th style="width:16.6% !important">
+                                                                                @*<select ng-model="StorageBin" class="form-control" ng-change="searchMasterpv()" ng-options="x.Code as x.Title for x in strloc | filter:{'Label':StorageLocation}:true | unique:'Title'">
+                                                    <option value="" selected="selected">All</option>
+                                                </select>*@
+                                                                                <select class="form-control" ng-model="storagebin" ng-change="searchmasterpv()" ng-options="x.code as x.Title for x in Masterlist1">
+                                                                                    <option value="" selected="selected">All</option>
+                                                                                </select>
+
+                                                                            </th>
+                                                                            <th style="width:16.6% !important">
+                                                                                <select ng-model="sNoun" class="form-control" ng-change="searchmasterpv()" ng-options="x.Noun as x.Noun for x in NounList">
+                                                                                    <option value="" selected="selected">All</option>
+                                                                                </select>
+
+                                                                            </th>
+                                                                            <th style="width:16.6% !important">
+                                                                                <select ng-model="sModifier" class="form-control" ng-change="searchmasterpv()" ng-options="x.Modifier as x.Modifier for x in NounList | filter:{'Noun':sNoun}:true">
+                                                                                    <option value="" selected="selected">All</option>
+                                                                                </select>
+                                                                            </th>
+                                                                        </tr>
+                                                                        <tr class="top-border ng-scope">
+                                                                            <th><input type="checkbox" id="checkall" ng-model='chkSelectedpv' ng-click="selectAllpv()" /> ITEMCODE </th>
+                                                                            <th>PLANT</th>
+                                                                            <th>STORAGE LOC</th>
+                                                                            <th>STORAGE BIN</th>
+                                                                            <th>NOUN</th>
+                                                                            <th>MODIFIER</th>
+                                                                            @*<th>PV DATA</th>*@
+
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        <tr ng-repeat="x in filteredassign1">
+                                                                            <td>
+                                                                                <input type="checkbox" ng-click="singlechkpv(x.Itemcode,$index)" ng-model="x.Duplicates1" id="chkpv{{$index}}" />
+                                                                                {{x.Itemcode}}
+                                                                            </td>
+
+                                                                            <td>
+                                                                                {{x.Plant}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Storage_Location1}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Storage_Bin1}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Noun}}
+                                                                            </td>
+                                                                            <td>
+                                                                                {{x.Modifier}}
+                                                                            </td>
+                                                                            @*<td>
+                                                {{x.Legacy2}}
+                                            </td>*@
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+
+                                                                <pagination ng-model="currentPage1"
+                                                                            total-items="get_assigndata1.length"
+                                                                            items-per-page="numPerPage"
+                                                                            max-size="maxSize"
+                                                                            boundary-links="true">
+                                                                </pagination>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12" ng-show="show3 == true">
+                                                            <form name="form4" ng-submit="form4.$valid && assigntopv()" novalidate>
+                                                                <div class="form-group">
+                                                                    <div class="mb-md">
+                                                                        <div class="col-md-2" ng-class="{'has-error': form4.$submitted && form4.ddlPlant11.$invalid}">
+                                                                            <select ng-model="Plantpv" class="form-control" id="ddlPlant11" @*ng-change="getpvuser()"*@ ng-options="x.Plantcode as x.Plantname for x in PlantListpvuser">
+                                                                                <option value="" selected="selected">Select Plant</option>
+                                                                            </select>
+                                                                            @*<select class="form-control" id="ddlPlant" ng-model="Plant1" ng-change="changePlant1()" ng-options="x.Plantcode as x.Plantname for x in PlantList1"></select>*@
+                                                                        </div>
+                                                                        <div class="col-md-2 search-assign" ng-class="{'has-error': form4.$submitted && form4.assignUserNamepv.$invalid}">
+                                                                            <select ng-model="assignUserNamepv" name="assignUserNamepv" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in assigngetuserpv">
+                                                                                <option value="" selected="selected">--Select User--</option>
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-md-2">
+                                                                            <button id="submit_buttond" type="submit" class="btn btn-primary">Assign To PV user</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <div id="BulkPVAssign" class="tab-pane ">
+                                            <div class="row">
+                                                <form name="form" ng-submit="form.$valid && BulkPvdata()" novalidate>
+                                                    <div class="form-group single-item">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-8">
+                                                                <label class="col-md-2 control-label">File Upload</label>
+                                                                <div class="col-md-7">
+                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                                    <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-3">
+                                                                <a class="download pull-right" href="~/Common/BulkAssign.xlsx"><i class="fa fa-download"></i>&nbsp;Download Template</a>
+                                                            </div>
+
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="BulkCatAssign" class="tab-pane ">
+                                            <div class="row">
+                                                <form name="form" ng-submit="form.$valid && Bulkdata()" novalidate>
+                                                    <div class="form-group single-item">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-8">
+                                                                <label class="col-md-2 control-label">File Upload</label>
+                                                                <div class="col-md-7">
+                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                                    <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-3">
+                                                                <a class="download pull-right" href="~/Common/BulkAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                            </div>
+
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="BulkQcAssign" class="tab-pane ">
+                                            <div class="row">
+                                                <form name="form" ng-submit="form.$valid && BulkQcdata()" novalidate>
+                                                    <div class="form-group single-item">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-8">
+                                                                <label class="col-md-2 control-label">File Upload</label>
+                                                                <div class="col-md-7">
+                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                    @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                                    <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                                </div>
+                                                                <div class="col-md-1">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-1"></div>
+                                                            <div class="col-md-3">
+                                                                <a class="download pull-right" href="~/Common/BulkAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                                            </div>
+
+
+                                                        </div>
+
+
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <div id="Rework" class="tab-pane">
+
+                                            <form name="form" ng-submit="form.$valid && Rework()" novalidate>
+
+                                                <div class="form-group single-item">
+                                                    <div class="col-md-12 no-padding">
+
+                                                        <label class="col-md-2 control-label">File Upload</label>
+                                                        <div class="col-md-4">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-1">
+
+                                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                        </div>
+                                                        <div class="col-md-2">
+                                                            <div cg-busy="promise" style="top:15px"></div>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <a class="download pull-right" href="/Common/Book8.xlsx"><i class="fa fa-download"></i>&nbsp; Download Rework Template</a>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                        </div>
+                                    </div>
+                            </div>
+                    </section>
+                </div>
+           </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/AssignWorkctrl.js"></script>
+
+

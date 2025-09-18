@@ -1,0 +1,1301 @@
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ApplicationInsights.config
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\csc.exe
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\vbc.exe
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ProsolOnline.dll.config
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ProsolOnline.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ProsolOnline.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ClosedXML.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Excel.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ExcelLibrary.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\FastMember.Signed.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Bson.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MvcDemo.Common.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Nest.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Ninject.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Prosol.Core.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Prosol.Data.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Helpers.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Mvc.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Optimization.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Razor.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\WebActivatorEx.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\WebGrease.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\log4net.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Prosol.Core.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Prosol.Data.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\ClosedXML.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Excel.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Bson.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Nest.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Ninject.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Helpers.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Mvc.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Optimization.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.Razor.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\log4net.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.xml
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\obj\Release\ProsolOnline.csprojResolveAssemblyReference.cache
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\PROSOL CORE\PROSOL_DEV\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\prosol_dev\ProsolOnline\bin\ApplicationInsights.config
+D:\prosol_dev\ProsolOnline\bin\roslyn\csc.exe
+D:\prosol_dev\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\prosol_dev\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\prosol_dev\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\prosol_dev\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\prosol_dev\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\prosol_dev\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\prosol_dev\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\prosol_dev\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\prosol_dev\ProsolOnline\bin\roslyn\vbc.exe
+D:\prosol_dev\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\prosol_dev\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\prosol_dev\ProsolOnline\bin\ProsolOnline.dll.config
+D:\prosol_dev\ProsolOnline\bin\ProsolOnline.dll
+D:\prosol_dev\ProsolOnline\bin\ProsolOnline.pdb
+D:\prosol_dev\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\prosol_dev\ProsolOnline\bin\ClosedXML.dll
+D:\prosol_dev\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\prosol_dev\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\prosol_dev\ProsolOnline\bin\Excel.dll
+D:\prosol_dev\ProsolOnline\bin\FastMember.Signed.dll
+D:\prosol_dev\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Bson.dll
+D:\prosol_dev\ProsolOnline\bin\MvcDemo.Common.dll
+D:\prosol_dev\ProsolOnline\bin\Nest.dll
+D:\prosol_dev\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\prosol_dev\ProsolOnline\bin\Ninject.dll
+D:\prosol_dev\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\prosol_dev\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\prosol_dev\ProsolOnline\bin\Prosol.Core.dll
+D:\prosol_dev\ProsolOnline\bin\Prosol.Data.dll
+D:\prosol_dev\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.Helpers.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.Http.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.Mvc.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.Optimization.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.Razor.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.WebPages.dll
+D:\prosol_dev\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\prosol_dev\ProsolOnline\bin\WebActivatorEx.dll
+D:\prosol_dev\ProsolOnline\bin\WebGrease.dll
+D:\prosol_dev\ProsolOnline\bin\log4net.dll
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Driver.dll
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\prosol_dev\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\prosol_dev\ProsolOnline\bin\Prosol.Core.pdb
+D:\prosol_dev\ProsolOnline\bin\Prosol.Data.pdb
+D:\prosol_dev\ProsolOnline\bin\ClosedXML.xml
+D:\prosol_dev\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\prosol_dev\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\prosol_dev\ProsolOnline\bin\Excel.pdb
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\prosol_dev\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Bson.xml
+D:\prosol_dev\ProsolOnline\bin\Nest.xml
+D:\prosol_dev\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\prosol_dev\ProsolOnline\bin\Ninject.xml
+D:\prosol_dev\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\prosol_dev\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\prosol_dev\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.Http.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.Helpers.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.Mvc.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.Optimization.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.Razor.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.WebPages.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\prosol_dev\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\prosol_dev\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\prosol_dev\ProsolOnline\bin\log4net.xml
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\prosol_dev\ProsolOnline\bin\MongoDB.Driver.xml
+D:\prosol_dev\ProsolOnline\obj\Release\ProsolOnline.csprojResolveAssemblyReference.cache
+D:\prosol_dev\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\prosol_dev\ProsolOnline\obj\Release\ProsolOnline.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ApplicationInsights.config
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\csc.exe
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\vbc.exe
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ProsolOnline.dll.config
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ProsolOnline.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ProsolOnline.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Antlr3.Runtime.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ClosedXML.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Elasticsearch.Net.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Excel.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\FastMember.Signed.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.Web.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Bson.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MvcDemo.Common.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Nest.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Newtonsoft.Json.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Ninject.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Common.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Mvc.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Prosol.Core.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Prosol.Data.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Net.Http.Formatting.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Helpers.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.WebHost.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Mvc.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Optimization.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Razor.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\WebActivatorEx.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\WebGrease.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\log4net.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.Core.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MvcDemo.Common.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Prosol.Core.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Prosol.Data.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\ClosedXML.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Elasticsearch.Net.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Excel.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.Web.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Bson.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Nest.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Newtonsoft.Json.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Ninject.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Common.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Ninject.Web.Mvc.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Net.Http.Formatting.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Http.WebHost.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Helpers.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Mvc.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Optimization.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.Razor.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\Antlr3.Runtime.pdb
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\log4net.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\bin\MongoDB.Driver.xml
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\obj\Release\ProsolOnline.csprojResolveAssemblyReference.cache
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\obj\Release\ProsolOnline.dll
+C:\Users\admin\Desktop\PROSOL_DEV\ProsolOnline\obj\Release\ProsolOnline.pdb
+E:\FEWA_work\ProsolOnline\bin\ApplicationInsights.config
+E:\FEWA_work\ProsolOnline\bin\roslyn\csc.exe
+E:\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+E:\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+E:\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+E:\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+E:\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+E:\FEWA_work\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+E:\FEWA_work\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+E:\FEWA_work\ProsolOnline\bin\roslyn\vbc.exe
+E:\FEWA_work\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+E:\FEWA_work\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+E:\FEWA_work\ProsolOnline\bin\ProsolOnline.dll.config
+E:\FEWA_work\ProsolOnline\bin\ProsolOnline.dll
+E:\FEWA_work\ProsolOnline\bin\ProsolOnline.pdb
+E:\FEWA_work\ProsolOnline\bin\Antlr3.Runtime.dll
+E:\FEWA_work\ProsolOnline\bin\ClosedXML.dll
+E:\FEWA_work\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+E:\FEWA_work\ProsolOnline\bin\Elasticsearch.Net.dll
+E:\FEWA_work\ProsolOnline\bin\Excel.dll
+E:\FEWA_work\ProsolOnline\bin\FastMember.Signed.dll
+E:\FEWA_work\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.Web.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Bson.dll
+E:\FEWA_work\ProsolOnline\bin\MvcDemo.Common.dll
+E:\FEWA_work\ProsolOnline\bin\Nest.dll
+E:\FEWA_work\ProsolOnline\bin\Newtonsoft.Json.dll
+E:\FEWA_work\ProsolOnline\bin\Ninject.dll
+E:\FEWA_work\ProsolOnline\bin\Ninject.Web.Common.dll
+E:\FEWA_work\ProsolOnline\bin\Ninject.Web.Mvc.dll
+E:\FEWA_work\ProsolOnline\bin\Prosol.Core.dll
+E:\FEWA_work\ProsolOnline\bin\Prosol.Data.dll
+E:\FEWA_work\ProsolOnline\bin\System.Net.Http.Formatting.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.Helpers.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.Http.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.Http.WebHost.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.Mvc.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.Optimization.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.Razor.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.WebPages.dll
+E:\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+E:\FEWA_work\ProsolOnline\bin\WebActivatorEx.dll
+E:\FEWA_work\ProsolOnline\bin\WebGrease.dll
+E:\FEWA_work\ProsolOnline\bin\log4net.dll
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Driver.dll
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Driver.Core.dll
+E:\FEWA_work\ProsolOnline\bin\MvcDemo.Common.pdb
+E:\FEWA_work\ProsolOnline\bin\Prosol.Core.pdb
+E:\FEWA_work\ProsolOnline\bin\Prosol.Data.pdb
+E:\FEWA_work\ProsolOnline\bin\ClosedXML.xml
+E:\FEWA_work\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+E:\FEWA_work\ProsolOnline\bin\Elasticsearch.Net.xml
+E:\FEWA_work\ProsolOnline\bin\Excel.pdb
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.Web.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+E:\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Bson.xml
+E:\FEWA_work\ProsolOnline\bin\Nest.xml
+E:\FEWA_work\ProsolOnline\bin\Newtonsoft.Json.xml
+E:\FEWA_work\ProsolOnline\bin\Ninject.xml
+E:\FEWA_work\ProsolOnline\bin\Ninject.Web.Common.xml
+E:\FEWA_work\ProsolOnline\bin\Ninject.Web.Mvc.xml
+E:\FEWA_work\ProsolOnline\bin\System.Net.Http.Formatting.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.Http.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.Http.WebHost.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.Helpers.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.Mvc.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.Optimization.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.Razor.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.WebPages.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+E:\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+E:\FEWA_work\ProsolOnline\bin\Antlr3.Runtime.pdb
+E:\FEWA_work\ProsolOnline\bin\log4net.xml
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+E:\FEWA_work\ProsolOnline\bin\MongoDB.Driver.xml
+E:\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.csprojResolveAssemblyReference.cache
+E:\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.dll
+E:\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ApplicationInsights.config
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\csc.exe
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\vbc.exe
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ProsolOnline.dll.config
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ProsolOnline.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ProsolOnline.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ClosedXML.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Excel.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\FastMember.Signed.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Bson.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MvcDemo.Common.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Nest.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Ninject.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Prosol.Core.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Prosol.Data.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Helpers.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Http.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Mvc.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Optimization.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Razor.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.WebPages.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\WebActivatorEx.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\WebGrease.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\log4net.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Driver.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Prosol.Core.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Prosol.Core.dll.config
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Prosol.Data.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\ClosedXML.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Excel.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Bson.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Nest.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Ninject.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Http.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Helpers.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Mvc.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Optimization.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.Razor.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.WebPages.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\log4net.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\bin\MongoDB.Driver.xml
+D:\Fewa_Docs\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\Fewa_Docs\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\Fewa_Docs\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\Fewa_Docs\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\Fewa_Docs\FEWA_work\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ApplicationInsights.config
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\csc.exe
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\vbc.exe
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ProsolOnline.dll.config
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ProsolOnline.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ProsolOnline.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ClosedXML.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Excel.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\FastMember.Signed.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Bson.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MvcDemo.Common.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Nest.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Ninject.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Prosol.Core.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Prosol.Data.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Helpers.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Http.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Mvc.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Optimization.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Razor.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.WebPages.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\WebActivatorEx.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\WebGrease.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\log4net.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Driver.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Prosol.Core.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Prosol.Core.dll.config
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Prosol.Data.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\ClosedXML.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Excel.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Bson.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Nest.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Ninject.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Http.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Helpers.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Mvc.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Optimization.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.Razor.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.WebPages.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\log4net.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\bin\MongoDB.Driver.xml
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\Fewa_Docs\FEWA_work_Live\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ApplicationInsights.config
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\csc.exe
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\vbc.exe
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ProsolOnline.dll.config
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ProsolOnline.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ProsolOnline.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ClosedXML.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Excel.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\FastMember.Signed.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Bson.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Driver.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Nest.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Ninject.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Prosol.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Prosol.Data.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Helpers.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Http.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Mvc.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Optimization.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Razor.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.WebPages.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\WebActivatorEx.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\WebGrease.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Prosol.Core.dll.config
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Prosol.Data.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\ClosedXML.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Excel.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Bson.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Driver.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Nest.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Ninject.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Http.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Helpers.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Mvc.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Optimization.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.Razor.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.WebPages.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\bin\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Dumb\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ApplicationInsights.config
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\csc.exe
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\vbc.exe
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.dll.config
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ClosedXML.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Excel.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\FastMember.Signed.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Bson.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Nest.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Data.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Helpers.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Mvc.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Optimization.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Razor.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\WebActivatorEx.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\WebGrease.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.dll.config
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Data.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ClosedXML.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Excel.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Bson.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Nest.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Helpers.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Mvc.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Optimization.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Razor.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ApplicationInsights.config
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\csc.exe
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\vbc.exe
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ProsolOnline.dll.config
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ProsolOnline.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ProsolOnline.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ClosedXML.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Excel.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\FastMember.Signed.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Bson.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MvcDemo.Common.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Nest.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Core.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Data.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Helpers.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Mvc.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Optimization.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Razor.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\WebActivatorEx.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\WebGrease.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\log4net.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Core.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Core.dll.config
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Data.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ClosedXML.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Excel.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Bson.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Nest.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Helpers.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Mvc.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Optimization.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Razor.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\bin\log4net.xml
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ApplicationInsights.config
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\csc.exe
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\vbc.exe
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ProsolOnline.dll.config
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ProsolOnline.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ProsolOnline.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ClosedXML.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Excel.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\FastMember.Signed.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Bson.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MvcDemo.Common.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Nest.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Core.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Data.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Helpers.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Mvc.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Optimization.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Razor.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\WebActivatorEx.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\WebGrease.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\log4net.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Core.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Core.dll.config
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Prosol.Data.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\ClosedXML.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Excel.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Bson.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Nest.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Helpers.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Mvc.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Optimization.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.Razor.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\bin\log4net.xml
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\1_INHOUSE\Oman_Main\Oman_Final - Current\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ApplicationInsights.config
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\csc.exe
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\vbc.exe
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.dll.config
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\AWSSDK.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\AWSSDK.S3.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ClosedXML.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\EPPlus.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\EPPlus.Interfaces.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Excel.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\FastMember.Signed.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Bson.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MvcDemo.Common.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Nest.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Data.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\QRCoder.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Helpers.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Mvc.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Optimization.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Razor.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\WebActivatorEx.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\WebGrease.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\zxing.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\zxing.presentation.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\log4net.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.dll.config
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Prosol.Data.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\AWSSDK.Core.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\AWSSDK.Core.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\AWSSDK.S3.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\AWSSDK.S3.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\ClosedXML.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\EPPlus.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Excel.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Bson.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Nest.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Helpers.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Mvc.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Optimization.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.Razor.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\zxing.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\zxing.presentation.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\bin\log4net.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ApplicationInsights.config
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\csc.exe
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.CSharp.Core.targets
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.VisualBasic.Core.targets
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\System.Collections.Immutable.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\System.Reflection.Metadata.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\vbc.exe
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\VBCSCompiler.exe.config
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.dll.config
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ProsolOnline.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\AWSSDK.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\AWSSDK.S3.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ClosedXML.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Elasticsearch.Net.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\EPPlus.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\EPPlus.Interfaces.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Excel.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\FastMember.Signed.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ICSharpCode.SharpZipLib.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Agent.Intercept.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.PerfCounterCollector.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Web.Infrastructure.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Bson.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MvcDemo.Common.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Nest.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Newtonsoft.Json.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Ninject.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Common.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Prosol.Data.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\QRCoder.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Helpers.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Mvc.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Optimization.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Razor.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\WebActivatorEx.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\WebGrease.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\zxing.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\zxing.presentation.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\log4net.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MvcDemo.Common.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Prosol.Core.dll.config
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Prosol.Data.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\AWSSDK.Core.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\AWSSDK.Core.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\AWSSDK.S3.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\AWSSDK.S3.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ClosedXML.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\DocumentFormat.OpenXml.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Elasticsearch.Net.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\EPPlus.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Excel.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.DependencyCollector.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.ServerTelemetryChannel.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.Web.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.AI.WindowsServer.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.ApplicationInsights.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.ServiceLocation.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Configuration.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.Mvc.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Microsoft.Practices.Unity.RegistrationByConvention.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Bson.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\MongoDB.Driver.Legacy.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Nest.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Newtonsoft.Json.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Ninject.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Common.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Ninject.Web.Mvc.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Net.Http.Formatting.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Http.WebHost.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Helpers.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Mvc.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Optimization.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.Razor.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Deployment.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\System.Web.WebPages.Razor.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\zxing.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\zxing.presentation.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\log4net.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.AssemblyReference.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CoreCompileInputs.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.csproj.CopyComplete
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Release\ProsolOnline.pdb

@@ -1,0 +1,1906 @@
+﻿@{
+    ViewBag.Title = "servicemaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+@*<link href="~/Content/jBox.css" rel="stylesheet" />*@
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<style>
+    table.dataTable tbody td {
+        padding: 2px;
+    }
+</style>
+<section role="main" class="content-body">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Service Master</span></li>
+                    <li><span>Servicemaster</span></li>
+                </ol>
+            </div>
+        </header>
+
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" ng-show="NotifiyRes" style="display:none;" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold " />
+                    </div>
+                </div>
+
+                <div class="col-md-2">*@
+    @*<button class="download pull-right" title="Downlaod Template" ng-show="makevisiable1"><a href="/Common/BulkServiceCatagory.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a></button>*@
+    @*</div>
+            </div>
+        </header>*@
+
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" ng-show="NotifiyRes" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Service Master</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="tabs tabs-vertical tabs-left cataloguer-all" style="margin-bottom:10px;">
+                            <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                @*<li class="cataloguer-tab boxes active-box  active">
+                                        <a href="#catagory" data-toggle="tab">Catagory</a>
+                                    </li>
+                                    <li class="cataloguer-tab active-box boxes">
+                                        <a href="#Group" data-toggle="tab"> Group</a>
+                                    </li>*@
+                                @*<li class="cataloguer-tab active-box boxes">
+                                        <a href="#activity" data-toggle="tab">  Activity</a>
+                                    </li>*@
+                                @* <li class="cataloguer-tab active-box boxes" ng-click="close_clear_all()">
+                                        <a href="#Uom" data-toggle="tab"> Uom</a>
+                                    </li>*@
+                                <li class="cataloguer-tab active-box boxes active">
+                                    <a href="#Method-Service" data-toggle="tab" class="nav-link">Method of Service Code</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes" ng-click="hidefields()">
+                                    <a href="#Valuation" data-toggle="tab"> Valuation Class</a>
+                                </li>
+                                @*<li class="cataloguer-tab active-box boxes">
+                                        <a href="#Coding" data-toggle="tab">Coding Logics</a>
+                                    </li>*@
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Attributes" data-toggle="tab">ServiceMaster Template @*Attributes*@</a>
+                                </li>
+                                @*<li class="cataloguer-tab active-box boxes">
+                                    <a href="#DefaultAttr" data-toggle="tab">Default Attribute</a>
+                                </li>*@
+                                @*<li class="cataloguer-tab active-box boxes">
+                                        <a href="#value_Abbr" data-toggle="tab"> Value & Abbr</a>
+                                    </li>*@
+                                @*<li class="cataloguer-tab active-box boxes">
+                                        <a href="#Plant" data-toggle="tab"> Plant</a>
+                                    </li>*@
+                            </ul>
+                            <div class="tab-content cataloguer-box">
+                                <div id="catagory" class="tab-pane active-box" ng-controller="ServiceCategoryController">
+                                    <div class="panel-body active-box">
+                                        <div class="tabs tabs-vertical">
+                                            <ul class="nav nav-tabs" style="width: 15%;">
+                                                <li class="active-box boxes tab-bg active">
+                                                    <a href="#Single" data-toggle="tab" @*ng-click="visiable1()"*@>Single</a>
+                                                </li>
+                                                <li class="active-box boxes tab-bg">
+                                                    <a href="#Bulk" data-toggle="tab" @*ng-click="visiable()"*@>Bulk Upload</a>
+                                                </li>
+
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="Single" class="tab-pane active">
+
+
+
+                                                    <div id="catagory" class="tab-pane active-box active">
+                                                        <div class="panel-body">
+                                                            <form name="form_catagory_single" ng-submit="form_catagory_single.$valid && createData()" novalidate>
+
+                                                                <div class="panel-body active-box">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="form-group">
+
+                                                                                <div class="col-md-12">
+                                                                                    <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                                    <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" ng-show="shinsertupdate">
+
+
+                                                                        <div class="col-md-6">
+                                                                            @*<div class="form-group">
+                                                                                    <div class="col-sm-4">
+                                                                                        <label class="control-label">SAP Category Code</label>
+                                                                                    </div>
+                                                                                    <div class="col-sm-8">
+                                                                                        <div class="controls" ng-class="{'has-error': form.$submitted && form.SAPCategorycode.$invalid}">
+
+                                                                                            <input class="form-control immediate-help" name="SAPCategorycode" ng-model="obj.SAPCategorycode" type="text" required />
+                                                                                            <div ng-show="form.SAPCategorycode.$invalid" class="input-help">
+                                                                                                <h4 ng-show="form.SAPCategorycode.$error.required">Code should not be blank</h4>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>*@
+                                                                            <div class="form-group">
+                                                                                <div class="col-sm-4">
+                                                                                    <label class="control-label">Catagory Code</label>
+                                                                                </div>
+                                                                                <div class="col-sm-8">
+                                                                                    <div class="controls" ng-class="{'has-error': form_catagory_single.$submitted && form_catagory_single.ServiceCategorycode.$invalid}">
+                                                                                        <input type="hidden" ng-model="obj._id" />
+                                                                                        <input class="form-control immediate-help" name="ServiceCategorycode" ng-model="obj.SeviceCategorycode" type="text" required />
+                                                                                        <div ng-show="form_catagory_single.ServiceCategorycode.$invalid" class="input-help">
+                                                                                            <h4 ng-show="form_catagory_single.ServiceCategorycode.$error.required">Code should not be blank</h4>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="col-sm-4">
+                                                                                    <label class="control-label">Catagory Title</label>
+                                                                                </div>
+                                                                                <div class="col-md-8" ng-class="{'has-error': form_catagory_single.$submitted && form_catagory_single.ServiceCategoryname.$invalid}">
+                                                                                    <div class="controls">
+                                                                                        <textarea class="form-control immediate-help" name="ServiceCategoryname" ng-model="obj.SeviceCategoryname" rows="3" required></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <div class="col-sm-6"></div>
+                                                                                <div class="col-sm-6" style="text-align:right;">
+
+
+                                                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                                    <button class="btn btn-primary" ng-click="form_catagory_single.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                                    <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6"></div>
+
+
+
+                                                                    </div>
+
+
+                                                                    <div class="table-responsive" ng-show="shwusr !=null">
+                                                                        <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                            <thead class="top-border">
+                                                                                <tr>
+                                                                                    @* <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 30px; " aria-sort="ascending" aria-label="Code">SAP CategoryCode</th>*@
+                                                                                    <th>CategoryCode</th>
+                                                                                    <th>CategoryTitle</th>
+                                                                                    <th>Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+
+                                                                                <tr ng-repeat="x in shwusr">
+                                                                                    <td>
+                                                                                        <span ng-bind="x.SeviceCategorycode"></span>
+                                                                                        @*<label>{{x.SeviceCategorycode}}</label>*@
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <span ng-bind="x.SeviceCategoryname"></span>
+                                                                                        @*<label>{{x.SeviceCategoryname}}</label>*@
+                                                                                    </td>
+                                                                                    <td class="actions">
+                                                                                        <label class="switch">
+                                                                                            <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="ServiceCategory($index,x.Islive,x._id)">
+                                                                                            <div class="slider round"></div>
+                                                                                        </label>
+                                                                                        <a ng-click="ServiceCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                                        <a ng-click="ServiceCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+
+                                                                                    </td>
+                                                                                </tr>
+
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+
+
+                                                                </div>
+
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div id="Bulk" class="tab-pane">
+                                                    <div class="panel-body">
+                                                        <form name="form_catagory_bulk" ng-submit="form_catagory_bulk.$valid && BulkCategory()" novalidate>
+                                                            <div class="panel-body active-box">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-7"> </div>
+                                                                        <div class="col-md-5">
+                                                                            <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                <a href="/Common/BulkServiceCatagory.xlsx" style="background:#fff;"><i class="fa fa-download example-2"></i>&nbsp; Category Template</a>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-2 text-right">
+                                                                                <label class="control-label">File Upload</label>
+                                                                            </div>
+                                                                            <div class="col-md-10 no-padding">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-3 no-padding">
+                                                                                    <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        @*<div class="col-md-1"><div cg-busy="promise"></div></div>*@
+                                                                        @*<div class="col-md-3"><div class="mb-md"><button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template"><a href="/Common/BulkServiceCatagory.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Category Template</a></button></div></div>*@
+
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+
+                                </div>
+
+                                <div id="Group" class="tab-pane active-box" ng-controller="ServiceGroupController">
+                                    <div class="panel-body active-box">
+                                        <div class="tabs tabs-vertical">
+                                            <ul class="nav nav-tabs" style="width: 15%;">
+                                                <li class="active-box boxes tab-bg active">
+                                                    <a href="#group-Single" data-toggle="tab">Single</a>
+                                                </li>
+                                                <li class="active-box boxes tab-bg">
+                                                    <a href="#group-Bulk" data-toggle="tab">Bulk Upload</a>
+                                                </li>
+
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="group-Single" class="tab-pane active">
+                                                    <div class="panel-body" @*ng-controller="ServiceGroupController"*@>
+                                                        <form name="form1" ng-submit="form.$valid && createData()" novalidate>
+                                                            <div class="panel-body active-box">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+
+                                                                            <div class="col-md-12">
+                                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" ng-show="shinsertupdate">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+
+                                                                            <div class="col-sm-4">
+                                                                                <label class="control-label" for="textareaDefault">Category</label>
+                                                                            </div>
+                                                                            <div class="col-md-8">
+                                                                                <input type="hidden" ng-model="obj._id" />
+                                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceCategorycode1.$invalid }">
+                                                                                    <select ng-model="obj.SeviceCategorycode" id="ServiceCategorycode" name="ServiceCategorycode1" class="form-control" ng-options="x.SeviceCategorycode as x.SeviceCategoryname for x in shwusr1 | filter :{'Islive':true}" required>
+                                                                                        <option value="" selected="selected">Select Category</option>
+
+                                                                                    </select>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                        @*<div class="form-group">
+                                                                                <div class="col-sm-4">
+                                                                                    <label class="control-label">SAP Group Code</label>
+                                                                                </div>
+                                                                                <div class="col-sm-8" ng-class="{'has-error': form.$submitted && form.SAPGroupcode.$invalid}">
+                                                                                    <div class="controls">
+                                                                                        <input class="form-control immediate-help" name="SAPGroupcode" ng-model="obj.SAPGroupcode" type="text" required />
+                                                                                        <div ng-show="form.SAPGroupcode.$invalid" class="input-help">
+                                                                                            <h4 ng-show="form.SAPGroupcode.$error.required">Code should not be blank</h4>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>*@
+                                                                        <div class="form-group">
+                                                                            <div class="col-sm-4">
+                                                                                <label class="control-label">Group Code</label>
+                                                                            </div>
+                                                                            <div class="col-sm-8" ng-class="{'has-error': form.$submitted && form.ServiceGroupcode.$invalid}">
+                                                                                <div class="controls">
+
+                                                                                    @*<input type="hidden" ng-model="obj._id" />*@
+                                                                                    <input class="form-control immediate-help" name="ServiceGroupcode" ng-model="obj.ServiceGroupcode" type="text" required />
+                                                                                    <div ng-show="form.ServiceGroupcode.$invalid" class="input-help">
+                                                                                        <h4 ng-show="form.ServiceGroupcode.$error.required">Code should not be blank</h4>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-sm-4">
+                                                                                <label class="control-label">Group Title</label>
+                                                                            </div>
+                                                                            <div class="col-sm-8" ng-class="{'has-error': form.$submitted && form.ServiceGroupname.$invalid}">
+                                                                                <div class="controls">
+                                                                                    <textarea class="form-control immediate-help" name="ServiceGroupname" ng-model="obj.ServiceGroupname" rows="3" required></textarea>
+                                                                                    <div ng-show="form.ServiceGroupname.$invalid" class="input-help">
+                                                                                        <h4 ng-show="form.ServiceGroupname.$error.required">Title should not be blank</h4>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="col-sm-6"></div>
+                                                                            <div class="col-sm-6" style="text-align:right;">
+
+                                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                                <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6"></div>
+
+                                                                </div>
+                                                                <div class="col-md-12">
+                                                                    <div class="table-responsive" ng-show="shwusr2 !=null">
+                                                                        <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                            <thead class="top-border">
+                                                                                <tr>
+                                                                                    <th style="width:25%">Catagory Title</th>
+                                                                                    <th style="width:25%">Group Code</th>
+                                                                                    <th style="width:35%">Group Title</th>
+                                                                                    <th style="width:15%">Action</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+
+                                                                                <tr ng-repeat="x in shwusr2">
+                                                                                    <td>
+                                                                                        <label>{{x.SeviceCategoryname}}</label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <label>{{x.ServiceGroupcode}}</label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <label>{{x.ServiceGroupname}}</label>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <label class="switch">
+                                                                                            <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="ServiceGroup($index,x.Islive,x._id)">
+                                                                                            <div class="slider round"></div>
+                                                                                        </label>
+                                                                                        <a ng-click="GroupCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                                        <a ng-click="GroupCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </form>
+
+                                                    </div>
+                                                </div>
+
+                                                <div id="group-Bulk" class="tab-pane">
+                                                    <div class="panel-body">
+                                                        <form name="form" ng-submit="form.$valid && BulkGroup()" novalidate>
+                                                            <div class="panel-body active-box">
+                                                                <div class="row">
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-7"> </div>
+                                                                        <div class="col-md-5">
+                                                                            <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                <a href="/Common/BulkServiceGroup.xlsx" style="background:#fff;"><i class="fa fa-download example-2"></i>&nbsp; Group Template</a>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="col-md-12">
+                                                                        <div class="form-group">
+                                                                            <div class="col-md-2 text-right">
+                                                                                <label class="control-label">File Upload</label>
+                                                                            </div>
+                                                                            <div class="col-md-10 no-padding">
+                                                                                <div class="col-md-6">
+                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-3 no-padding">
+                                                                                    <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                        @*<div class="col-md-1"><div cg-busy="promise"></div></div>*@
+                                                                        @*<div class="col-md-3"><div class="mb-md"><button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template"><a href="/Common/BulkServiceCatagory.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Category Template</a></button></div></div>*@
+
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div id="Uom" class="tab-pane active-box ">
+                                    <div class="panel-body" ng-controller="ServiceUomController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" ng-show="shinsertupdate">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4" for="textareaDefault">Uom Code</label>
+                                                            <div class="col-md-8">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceUomcode.$invalid}">
+
+                                                                    <input type="hidden" ng-model="obj._id" />
+                                                                    <input class="form-control immediate-help" name="ServiceUomcode" ng-model="obj.ServiceUomcode" type="text" required />
+                                                                    <div ng-show="form.ServiceUomcode.$invalid" class="input-help">
+
+                                                                        <h4 ng-show="form.ServiceUomcode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4" for="textareaDefault">Uom Title</label>
+                                                            <div class="col-md-8">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceUomname.$invalid}">
+
+                                                                    <textarea class="form-control immediate-help" name="ServiceUomname" ng-model="obj.ServiceUomname" rows="3" required></textarea>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6"></div>
+                                                            <div class="col-sm-6">
+                                                                <div class="col-sm-12" style="text-align:right;">
+                                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                    <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                    <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-6"></div>
+                                                </div>
+                                                <div class="table-responsive" ng-show="getUom!=null">
+                                                    @*<div class="table-responsive col-md-12">*@
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Uom Code</th>
+                                                                <th>UomTitle</th>
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+
+                                                            <tr ng-repeat="x in getUom">
+                                                                <td>
+                                                                    <label>{{x.ServiceUomcode}}</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label>{{x.ServiceUomname}}</label>
+                                                                </td>
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="ServiceUom($index,x.Islive,x._id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                    <a ng-click="UOMCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                    <a ng-click="UOMCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+                                                                </td>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="Valuation" class="tab-pane active-box">
+                                    <div class="panel-body" ng-controller="ServiceValuationController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-12">
+                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-6" ng-show="shinsertupdate">
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4" for="textareaDefault">Valuation Code</label>
+                                                            <div class="col-md-8">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceValuationcode.$invalid}">
+                                                                    <input type="hidden" ng-model="obj._id" />
+                                                                    <input class="form-control immediate-help" name="ServiceValuationcode" ng-model="obj.ServiceValuationcode" type="text" required />
+                                                                    <div ng-show="form.ServiceValuationcode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.ServiceValuationcode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-4" for="textareaDefault">Valuation Title</label>
+                                                            <div class="col-md-8">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceValuationname.$invalid}">
+                                                                    <textarea class="form-control immediate-help" name="ServiceValuationname" ng-model="obj.ServiceValuationname" rows="3" required></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6"></div>
+                                                            <div class="col-sm-6">
+                                                                <div class="col-sm-12" style="text-align:right;">
+                                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                    <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                    <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive col-md-12" ng-show="getValuation !=null">
+                                                            @*<div class="table-responsive col-md-12">*@
+                                                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                <thead class="top-border">
+                                                                    <tr role="row">
+                                                                        <th width="45%">Valuation Code</th>
+                                                                        <th width="50%">ValuationTitle</th>
+                                                                        <th width="5%">Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="ng-scope">
+
+                                                                    <tr ng-repeat="x in getValuation">
+                                                                        <td>
+                                                                            <label>{{x.ServiceValuationcode}}</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label>{{x.ServiceValuationname}}</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label class="switch">
+                                                                                <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="ServiceValuation($index,x.Islive,x._id)">
+                                                                                <div class="slider round"></div>
+                                                                            </label>
+                                                                            <a ng-click="ValuationCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                            <a ng-click="ValuationCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+                                                                        </td>
+
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="Method-Service" class="tab-pane active-box active">
+                                    <div class="panel-body active-box" ng-controller="ServiceCodeLogicController">
+                                        <div class="col-md-12">
+                                            <form name="serviclogic" ng-submit="serviclogic.$valid && createcodelogicforservice()">
+                                                <div class="form-group">
+                                                    <label class="col-md-2 control-label">Code Logic</label>
+                                                    <div class="col-md-12">
+                                                        <div class="radio-custom radio-primary col-md-2">
+                                                            <input type="radio" ng-checked="true" value="UNSPSC Code" ng-model="obj.SERVICECODELOGIC" ng-change="showunspscversion()">
+                                                            <label name="codelogic">UNSPSC Code</label>
+                                                        </div>
+                                                        @*<div class="radio-custom radio-primary col-md-2">
+                                                            <input type="radio" value="Customized Code" ng-model="obj.SERVICECODELOGIC" ng-change="showunspscversion()">
+                                                            <label name="codelogic">Customized Code</label>
+                                                        </div>*@
+                                                        <div class="radio-custom radio-primary col-md-2">
+                                                            <input type="radio" value="Item Code" ng-model="obj.SERVICECODELOGIC" ng-change="showunspscversion()">
+                                                            <label name="codelogic">Item Code</label>
+                                                        </div>
+                                                        <div class="col-md-3" ng-show="showversion">
+                                                            <label class="col-md-3 control-label">Version </label>
+                                                            <div class="col-md-9" ng-class="{'has-error': serviclogic.$submitted && serviclogic.ddlsl1.$invalid }">
+                                                                <select name="ddlsl1" class="form-control" ng-model="obj.Version" ng-options="x for x in Versionddl" ng-required="unspscddl">
+                                                                    <option value="">  Select </option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="form-group">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-4 form-submit form-group">
+                                                        <button id="submit_button1" ng-hide="role" type="submit" ng-disabled="!serviclogic.$dirty" class="btn btn-primary">Submit</button>
+
+                                                    </div>
+                                                    <div class="col-md-3 form-submit">
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div id="Coding" class="tab-pane active-box">
+                                    <div class="panel-body active-box">
+                                        <div class="tabs tabs-vertical">
+                                            <ul class="nav nav-tabs" style="width: 15%;">
+                                                <li class="active-box boxes tab-bg active">
+                                                    <a href="#main-code" data-toggle="tab">Main Codes</a>
+                                                </li>
+                                                <li class="active-box boxes tab-bg">
+                                                    <a href="#sub-code" data-toggle="tab">Sub Codes</a>
+                                                </li>
+                                                <li class="active-box boxes tab-bg">
+                                                    <a href="#sub-subcode" data-toggle="tab">Sub-Sub Codes</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="main-code" class="tab-pane active" ng-controller="MainCodeController">
+
+                                                    <div class="panel-body active-box">
+                                                        <div class="tabs tabs-vertical">
+                                                            <ul class="nav nav-tabs" style="width: 15%;">
+                                                                <li class="active-box boxes tab-bg active">
+                                                                    <a href="#main-Single" data-toggle="tab">Single</a>
+                                                                </li>
+                                                                <li class="active-box boxes tab-bg">
+                                                                    <a href="#main-Bulk" data-toggle="tab">Bulk Upload</a>
+                                                                </li>
+
+                                                            </ul>
+                                                            <div class="tab-content cataloguer-box">
+                                                                <div id="main-Single" class="tab-pane active">
+
+                                                                    <div class="panel-body" @*ng-controller="MainCodeController"*@>
+                                                                        <form name="form1" ng-submit="form.$valid && createData()" novalidate>
+
+
+                                                                            <div class="panel-body active-box">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="form-group">
+
+                                                                                            <div class="col-md-12">
+                                                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+
+                                                                                    <div ng-show="shinsertupdate">
+                                                                                        <div class="col-md-8">
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-4" for="textareaDefault">Category</label>
+                                                                                                <div class="col-md-8">
+                                                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceCategorycodeMC.$invalid }">
+                                                                                                        <select ng-model="obj.SeviceCategorycode" id="ServiceCategorycodeMC" name="ServiceCategorycodeMC" class="form-control" ng-options="x.SeviceCategorycode as x.SeviceCategoryname for x in getcatMC | filter :{'Islive':true}" required>
+                                                                                                            <option value="" selected="selected">Select Category</option>
+                                                                                                        </select>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group">
+                                                                                                <div class="col-md-4">
+                                                                                                    <label class="control-label">Main Code</label>
+                                                                                                </div>
+                                                                                                <div class="col-md-8">
+                                                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.Maincode.$invalid}">
+                                                                                                        <input type="hidden" ng-model="obj._id" />
+                                                                                                        <input class="form-control immediate-help" name="Maincode" ng-model="obj.MainCode" type="text" required />
+                                                                                                        <div ng-show="form.Maincode.$invalid" class="input-help">
+                                                                                                            <h4 ng-show="form.Maincode.$error.required">Code should not be blank</h4>
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                            <div class="form-group">
+                                                                                                <div class="col-sm-4">
+                                                                                                    <label class="control-label">Main Title</label>
+                                                                                                </div>
+                                                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.MainDiscription.$invalid}">
+                                                                                                    <div class="controls">
+                                                                                                        <textarea class="form-control immediate-help" name="MainDiscription" ng-model="obj.MainDiscription" rows="2" required></textarea>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="form-group">
+                                                                                                <div class="col-sm-6"></div>
+                                                                                                <div class="col-sm-6">
+                                                                                                    <div class="col-sm-12" style="text-align:right;">
+                                                                                                        <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                                                        <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                                                        <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-md-4">
+
+                                                                                        </div>
+
+                                                                                    </div>
+
+
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="table-responsive col-md-12" ng-show="Maincode !=null">
+                                                                                            @*<div class="table-responsive col-md-12">*@
+                                                                                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                                                <thead class="top-border">
+                                                                                                    <tr role="row">
+                                                                                                        <th>Category</th>
+                                                                                                        <th>Main Code</th>
+                                                                                                        <th>Main Title</th>
+                                                                                                        <th>Action</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody class="ng-scope">
+
+                                                                                                    <tr ng-repeat="x in Maincode">
+                                                                                                        <td>
+                                                                                                            <label>{{x.SeviceCategoryname}}</label>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <label>{{x.MainCode}}</label>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <label>{{x.MainDiscription}}</label>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <label class="switch">
+                                                                                                                <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="MainCode($index,x.Islive,x._id)">
+                                                                                                                <div class="slider round"></div>
+                                                                                                            </label>
+                                                                                                            <a ng-click="MainCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                                                            <a ng-click="MainCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+                                                                                                        </td>
+
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </form>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div id="main-Bulk" class="tab-pane">
+                                                                    <div class="panel-body active-box">
+                                                                        <form name="form" ng-submit="form.$valid && BulkServiceMainCode()" novalidate>
+                                                                            <div class="panel-body active-box">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="col-md-7"> </div>
+                                                                                        <div class="col-md-5">
+                                                                                            <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                                <a href="/Common/BulkServiceMainCode.xlsx" style="background:#fff"><i class="fa fa-download example-2"></i>&nbsp; MainCode Template</a>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-12">
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="col-md-2 control-label text-right">File Upload  </label>
+                                                                                            <div class="col-md-8 no-padding">
+                                                                                                <div class="col-md-8 no-padding">
+                                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="hidden"><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-2 ">
+                                                                                                    <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                                </div>
+
+                                                                                            </div>
+
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </form>
+
+                                                                    </div>
+
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div id="sub-code" class="tab-pane" @*ng-controller="SubCodeController"*@>
+                                                    <div class="panel-body active-box">
+                                                        <div class="tabs tabs-vertical">
+                                                            <ul class="nav nav-tabs" style="width: 15%;">
+                                                                <li class="active-box boxes tab-bg active">
+                                                                    <a href="#sub-Single" data-toggle="tab">Single</a>
+                                                                </li>
+                                                                <li class="active-box boxes tab-bg">
+                                                                    <a href="#sub-Bulk" data-toggle="tab">Bulk Upload</a>
+                                                                </li>
+
+                                                            </ul>
+                                                            <div class="tab-content cataloguer-box">
+                                                                <div id="sub-Single" class="tab-pane active">
+
+                                                                    <div class="panel-body active-box" ng-controller="SubCodeController">
+                                                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                                                            <div class="panel-body active-box">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="form-group">
+
+                                                                                            <div class="col-md-12">
+                                                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row">
+
+                                                                                    <div class="col-md-8" ng-show="shinsertupdate">
+                                                                                        <div class="form-group">
+
+                                                                                            <div class="col-sm-4">
+                                                                                                <label class="control-label" for="textareaDefault">Main Code</label>
+                                                                                            </div>
+                                                                                            <div class="col-md-8">
+
+                                                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.MainCode1.$invalid }">
+                                                                                                    <select ng-model="obj.MainCode" id="MainCode" name="MainCode1" class="form-control" ng-options="x.MainCode as x.MainDiscription for x in MainCode1 | filter :{'Islive':true}" required>
+                                                                                                        <option value="" selected="selected">Select Main Code</option>
+
+                                                                                                    </select>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <div class="col-sm-4">
+                                                                                                <label class="control-label"> Sub Code</label>
+                                                                                            </div>
+                                                                                            <div class="col-sm-8" ng-class="{'has-error': form.$submitted && form.SubCode.$invalid}">
+                                                                                                <div class="controls">
+                                                                                                    <input type="hidden" ng-model="obj._id" />
+                                                                                                    <input class="form-control immediate-help" name="SubCode" ng-model="obj.SubCode" type="text" required />
+                                                                                                    <div ng-show="form.SubCode.$invalid" class="input-help">
+                                                                                                        <h4 ng-show="form.SubCode.$error.required">Code should not be blank</h4>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <div class="col-sm-4">
+                                                                                                <label class="control-label">Sub Code Title</label>
+                                                                                            </div>
+                                                                                            <div class="col-sm-8" ng-class="{'has-error': form.$submitted && form.SubDiscription.$invalid}">
+                                                                                                <div class="controls">
+                                                                                                    <textarea class="form-control immediate-help" name="SubDiscription" ng-model="obj.SubDiscription" rows="3" required></textarea>
+                                                                                                    <div ng-show="form.SubDiscription.$invalid" class="input-help">
+                                                                                                        <h4 ng-show="form.SubDiscription.$error.required">Title should not be blank</h4>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <div class="col-sm-6"></div>
+                                                                                            <div class="col-sm-6">
+                                                                                                <div class="col-sm-12" style="text-align:right;">
+                                                                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                                                    <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                                                    <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-4"></div>
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="table-responsive" ng-show="Subcode !=null">
+                                                                                            @*<div class="table-responsive col-md-12">*@
+                                                                                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                                                <thead class="top-border">
+                                                                                                    <tr>
+                                                                                                        <th style="width:15% !important;">Main Code</th>
+                                                                                                        <th style="width:20% !important;">Sub Code</>
+                                                                                                        <th style="width:40% !important;">Sub Code Title</th>
+                                                                                                        <th style="width:15% !important;">Action</th>
+                                                                                                    </tr>
+                                                                                                </thead>
+                                                                                                <tbody class="ng-scope">
+
+                                                                                                    <tr ng-repeat="x in Subcode">
+                                                                                                        <td>
+                                                                                                            <label>{{x.MainDiscription}}</label>
+                                                                                                        </td>
+
+                                                                                                        <td>
+                                                                                                            <label>{{x.SubCode}}</label>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <label>{{x.SubDiscription}}</label>
+                                                                                                        </td>
+                                                                                                        <td>
+                                                                                                            <label class="switch">
+                                                                                                                <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="SubCode($index,x.Islive,x._id)">
+                                                                                                                <div class="slider round"></div>
+                                                                                                            </label>
+                                                                                                            <a ng-click="SubCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                                                            <a ng-click="SubCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </tbody>
+                                                                                            </table>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </form>
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <div id="sub-Bulk" class="tab-pane" ng-controller="SubCodeController">
+                                                                    <div class="panel-body active-box">
+                                                                        <form name="form" ng-submit="form.$valid && BulkServiceSubCode()" novalidate>
+                                                                            <div class="panel-body active-box">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="col-md-7"> </div>
+                                                                                        <div class="col-md-5">
+                                                                                            <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                                <a href="/Common/BulkServiceSubCode.xlsx" style="background:#fff"><i class="fa fa-download example-2"></i>&nbsp; SubCode Template</a>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-12">
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="col-md-2 control-label text-right">File Upload  </label>
+                                                                                            <div class="col-md-8 no-padding">
+                                                                                                <div class="col-md-8 no-padding">
+                                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="hidden"><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-2 ">
+                                                                                                    <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                                </div>
+
+                                                                                            </div>
+
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </form>
+
+                                                                    </div>
+
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                </div>
+                                                <div id="sub-subcode" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="tabs tabs-vertical">
+                                                            <ul class="nav nav-tabs" style="width: 15%;">
+                                                                <li class="active-box boxes tab-bg active">
+                                                                    <a href="#sub-sub-Single" data-toggle="tab">Single</a>
+                                                                </li>
+                                                                <li class="active-box boxes tab-bg">
+                                                                    <a href="#sub-sub-Bulk" data-toggle="tab">Bulk Upload</a>
+                                                                </li>
+
+                                                            </ul>
+                                                            <div class="tab-content cataloguer-box">
+                                                                <div id="sub-sub-Single" class="tab-pane active">
+
+                                                                    <div class="panel-body active-box" ng-controller="SubSubCodeController">
+                                                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                                                            <div class="panel-body active-box">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="form-group">
+
+                                                                                            <div class="col-md-12">
+                                                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                                                            </div>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="row" ng-show="shinsertupdate">
+                                                                                    <div class="col-md-8" ng-show="shinsertupdate">
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-4" for="textareaDefault">Main Code</label>
+                                                                                            <div class="col-md-8">
+                                                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.MainCode2.$invalid }">
+                                                                                                    <select ng-model="obj.MainCode" ng-change="getsubcode(obj.MainCode)" id="Maincode2" name="MainCode2" class="form-control" ng-options="x.MainCode as x.MainDiscription for x in getmain | filter :{'Islive':true}" required>
+                                                                                                        <option value="" selected="selected">Select Main Code</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-4" for="textareaDefault">Sub Code</label>
+                                                                                            <div class="col-md-8">
+                                                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.SubCode1.$invalid }">
+                                                                                                    <select ng-model="obj.SubCode" id="SubCode2" name="SubCode1" class="form-control" ng-options="x.SubCode as x.SubDiscription for x in getsub | filter: {'Islive':true}" required>
+                                                                                                        <option value="" selected="selected">Select Sub Code</option>
+                                                                                                    </select>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-4" for="textareaDefault">Sub-Sub Code</label>
+                                                                                            <div class="col-md-8">
+                                                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.SubSubCode.$invalid}">
+                                                                                                    <input type="hidden" ng-model="obj._id" />
+                                                                                                    <input class="form-control immediate-help" name="SubSubCode" ng-model="obj.SubSubCode" type="text" required />
+                                                                                                    <div ng-show="form.SubSubCode.$invalid" class="input-help">
+                                                                                                        <h4 ng-show="form.SubSubCode.$error.required">Code should not be blank</h4>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <label class="control-label col-md-4" for="textareaDefault">Sub-Sub Title</label>
+                                                                                            <div class="col-md-8">
+                                                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.SubSubDiscription.$invalid}">
+                                                                                                    <textarea class="form-control immediate-help" name="SubSubDiscription" ng-model="obj.SubSubDiscription" rows="3" required></textarea>
+                                                                                                    <div ng-show="form.SubSubDiscription.$invalid" class="input-help">
+                                                                                                        <h4 ng-show="form.SubSubDiscription.$error.required">Title should not be blank</h4>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="form-group">
+                                                                                            <div class="col-sm-6"></div>
+                                                                                            <div class="col-sm-6">
+                                                                                                <div class="col-sm-12" style="text-align:right;">
+                                                                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                                                    <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                                                    <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                    <div class="col-md-4"> </div>
+                                                                                </div>
+
+                                                                                <div class="col-md-12">
+                                                                                    <div class="table-responsive col-md-12" ng-show="SubSub!=null">
+                                                                                        @*<div class="table-responsive col-md-12">*@
+                                                                                        <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                                            <thead class="top-border">
+                                                                                                <tr>
+                                                                                                    <th style="width:7%">MainCode </th>
+                                                                                                    <th style="width:15%">MainCode Title</th>
+                                                                                                    <th style="width:7%">SubCode</th>
+                                                                                                    <th style="width:20%">SubCode Title</th>
+
+                                                                                                    <th style="width:7%">Sub-SubCode</th>
+                                                                                                    <th style="width:25%">Sub-SubCode Title</th>
+                                                                                                    <th style="width:19%">Action</th>
+                                                                                                </tr>
+                                                                                            </thead>
+                                                                                            <tbody class="ng-scope">
+
+                                                                                                <tr ng-repeat="x in SubSub">
+                                                                                                    <td style="width:7%">
+                                                                                                        <label>{{x.MainCode}}</label>
+                                                                                                    </td>
+                                                                                                    <td style="width:15%">
+                                                                                                        <label>{{x.MainDiscription}}</label>
+                                                                                                    </td>
+                                                                                                    <td style="width:7%">
+                                                                                                        <label>{{x.SubCode}}</label>
+                                                                                                    </td>
+                                                                                                    <td style="width:20%">
+                                                                                                        <label>{{x.SubDiscription}}</label>
+                                                                                                    </td>
+
+                                                                                                    <td style="width:7%">
+                                                                                                        <label>{{x.SubSubCode}}</label>
+                                                                                                    </td>
+                                                                                                    <td style="width:25%">
+                                                                                                        <label>{{x.SubSubDiscription}}</label>
+                                                                                                    </td>
+                                                                                                    <td style="width:19%">
+                                                                                                        <label class="switch">
+                                                                                                            <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="Sub_SubCode($index,x.Islive,x._id)">
+                                                                                                            <div class="slider round"></div>
+                                                                                                        </label>
+                                                                                                        <a ng-click="SubSubCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                                                        <a ng-click="SubSubCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </div>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </form>
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <div id="sub-sub-Bulk" class="tab-pane" ng-controller="SubSubCodeController">
+                                                                    <div class="panel-body active-box">
+                                                                        <form name="form" ng-submit="form.$valid && BulkServiceSubSubCode()" novalidate>
+                                                                            <div class="panel-body active-box">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12">
+                                                                                        <div class="col-md-7"> </div>
+                                                                                        <div class="col-md-5">
+                                                                                            <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                                <a href="/Common/BulkServiceSubSubCode.xlsx" style="background:#fff"><i class="fa fa-download example-2"></i>&nbsp; SubSubCode Template</a>
+                                                                                            </button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-12">
+
+                                                                                        <div class="form-group">
+                                                                                            <label class="col-md-2 control-label text-right">File Upload  </label>
+                                                                                            <div class="col-md-8 no-padding">
+                                                                                                <div class="col-md-8 no-padding">
+                                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="hidden"><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                                <div class="col-md-2 ">
+                                                                                                    <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                                </div>
+
+                                                                                            </div>
+
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </form>
+
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+
+
+                                </div>
+
+                                <div id="Attributes" class="tab-pane active-box" ng-controller="AttributeController">
+                                    <div class="panel-body">
+                                        <div class="panel-body active-box">
+                                            <div class="tabs tabs-vertical tabs-left">
+                                                <ul class="nav nav-tabs col-sm-3 col-xs-5">
+                                                    <li class="active-box boxes tab-bg active">
+                                                        <a href="#Master" data-toggle="tab"> Master Template</a>
+                                                    </li>
+                                                    <li class="active-box boxes tab-bg">
+                                                        <a href="#Character" data-toggle="tab">Characteristic Bulk Upload </a>
+                                                    </li>
+                                                    <li class="active-box boxes tab-bg">
+                                                        <a href="#Value" data-toggle="tab">Value Bulk Upload </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content cataloguer-box" style="background: #f1f1f1;">
+                                                    <div id="Master" class="tab-pane active">
+                                                        <div class="panel-body active-box">
+                                                            <form name="form_Attr_single" ng-submit="form.$valid && CreateAttribute()" novalidate>
+                                                                <div class="row">
+                                                                    <div class="col-md-6">
+
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-4 control-label">Noun</label>
+                                                                            <div class="col-md-8 no-padding">
+                                                                                <input type="text" class="form-control" ng-model="Noun" ng-blur="Noun=Noun.toUpperCase();" auto-complete required />
+                                                                            </div>
+                                                                            @*<label class="control-label col-md-4" for="textareaDefault">Category</label>
+                                                                                <div class="col-md-8">
+                                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.MainCode3.$invalid }">
+
+
+                                                                                        <select ng-model="obj.MainCode" class="form-control" ng-options="x.Segment as x.Segment+' - '+ x.SegmentTitle for x in Commodities | unique:'Segment' ">
+                                                                                            <option value="" selected="selected">Select</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>*@
+
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-4 control-label">Modifier</label>
+                                                                            <div class="col-md-8 no-padding">
+                                                                                <input type="text" class="form-control" ng-model="Modifier" list="Modifiers" ng-focus="Listmodifer(Noun)" ng-blur="getattibute(Noun,Modifier)" autocomplete="off" required />
+                                                                            </div>
+                                                                            @*<label class="control-label col-md-4" for="textareaDefault">Group</label>
+                                                                                <div class="col-md-8">
+                                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.SubCode3.$invalid }">
+
+                                                                                        <select ng-model="obj.SubCode" class="form-control" ng-options="x.Family as x.Family+' - '+ x.FamilyTitle for x in Commodities| unique:'Family' | filter :{'Segment':  obj.MainCode}">
+                                                                                            <option value="" selected="selected">Select</option>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>*@
+                                                                        </div>
+                                                                        @*<div class="form-group">
+                                                                                                                                                                <label class="control-label col-md-4" for="textareaDefault">Service</label>
+                                                                                                                                                                <div class="col-md-8">
+                                                                                                                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.SubCode3.$invalid }">
+
+                                                                                                                                                                        <select ng-model="obj.Service" class="form-control" ng-options="x.Class as x.Class+' - '+ x.ClassTitle for x in Commodities| unique:'Class'  | filter :{'Family':  obj.SubCode}">
+                                                                                                                                                                            <option value="" selected="selected">Select</option>
+                                                                                                                                                                        </select>
+
+                                                                                                                                                                    </div>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>
+                                                                                                                                                            <div class="form-group">
+                                                                                                                                                                <label class="control-label col-md-4" for="textareaDefault">Activity</label>
+                                                                                                                                                                <div class="col-md-8">
+                                                                                                                                                                    <div class="controls" ng-class="{'has-error': form.$submitted && form.SubCode3.$invalid }">
+
+                                                                                                                                                                        <select ng-model="Activity" class="form-control" ng-change="getattibute(Activity)" ng-options="x.Commodity as x.Commodity+' - '+ x.CommodityTitle for x in Commodities | filter :{'Class':  obj.Service}">
+                                                                                                                                                                            <option value="" selected="selected">Select</option>
+                                                                                                                                                                        </select>
+
+                                                                            </div>
+                                                                                                                                                                </div>
+                                                                                                                                                            </div>*@
+
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-4"> &nbsp;</div>
+                                                                        <div class="col-md-8">
+                                                                            <div id="divValAdd" style="display:none" class="input-help1 grid-help">
+
+                                                                                <i ng-click="saveData()" class="fa fa-check fa-2x pull-right"></i>
+                                                                                <i ng-click="closeData()" class="fas fa-times fa-2x pull-right"></i>
+                                                                                <input type="hidden" ng-model="showlb" /> {{showlb}}
+                                                                                <div><input type="text" ng-model="valueSrch" ng-change="BindGroupinxsearch()" class="form-control" /></div>
+                                                                                <div class="box-box" style="overflow-y:auto;max-height:200px;min-width: 500px;">
+                                                                                    <table class="table table-bordered mb-none">
+                                                                                        <tbody>
+                                                                                            <tr id="grp{{$index}}" ng-repeat="mdl in ValueList" @*| filter :{'Value':  valueSrch || undefined} ng-checked="{{mdl.Checked}}" *@>
+                                                                                                <td><input type="checkbox" ng-true-value="'1'" ng-checked="mdl.Checked == '1'" ng-false-value="'0'" ng-model="mdl.Checked" ng-click="checkValue(mdl._id,$index)" id="chk{{mdl._id}}" @*id="chk{{$index}}"*@ /></td>
+                                                                                                <td>{{mdl.Value}}{{mdl.vunit}}</td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    @*<label ng-repeat="mdl in ValueList | orderBy:'Abbrevated'| filter :{'Value':  valueSrch || undefined}" class="form-control" style="border:none">
+                                                                                            <div class="checkbox-custom checkbox-default">
+                                                                                                <input type="checkbox" ng-click="checkValue(mdl._id,$index)" id="chk{{$index}}" /> {{mdl.Value}}{{mdl.vunit}}<label for="checkboxExample1"></label>
+                                                                                            </div>
+                                                                                        </label>*@
+                                                                                </div>
+                                                                                <pagination ng-model="currentPage"
+                                                                                            total-items="totItem"
+                                                                                            items-per-page="numPerPage"
+                                                                                            max-size="10"
+                                                                                            boundary-links="true"
+                                                                                            ng-click="BindGroupinx(currentPage)">
+                                                                                </pagination>
+
+
+                                                                            </div>
+
+                                                                            @*<div id="divValAdd" style="display:none" class="input-help1 grid-help">
+
+                                                                                     <i ng-click="saveData()" class="fa fa-check fa-2x pull-right"></i>
+                                                                                     <i ng-click="closeData()" class="fas fa-times fa-2x pull-right"></i>
+                                                                                    <input type="hidden" ng-model="showlb" /> {{showlb}}
+                                                                                    <div><input type="text" ng-model="valueSrch" class="form-control" /></div>
+                                                                                    <div class="box-box" style="overflow-y:auto;max-height:200px;min-width: 500px;">
+                                                                                        <label ng-repeat="mdl in ValueList | orderBy:'Abbrevated'| filter :{'Value':  valueSrch || undefined}" class="form-control" style="border:none">
+                                                                                            <div class="checkbox-custom checkbox-default">
+                                                                                                <input type="checkbox" ng-click="checkValue(mdl._id,$index)" id="chk{{$index}}" /> {{mdl.Value}}{{mdl.vunit}}<label for="checkboxExample1"></label>
+                                                                                            </div>
+                                                                                        </label>
+                                                                                    </div>
+
+
+                                                                                </div>*@
+                                                                        </div>
+                                                                        @*<div class="col-md-2">&nbsp;</div>*@
+                                                                    </div>
+
+                                                                    <div class="col-md-6">
+                                                                    </div>
+                                                                </div>
+                                                                @*<div ng-show="obj.SubCode != '' && obj.SubCode != null && obj.SubCode != undefined && obj.MainCode != '' && obj.MainCode != null && obj.MainCode != undefined ">*@
+                                                                <div class="col-md-12">
+                                                                    <div class="table-responsive">
+
+
+                                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                            <thead class="top-border">
+                                                                                <tr>
+                                                                                    <th style="width:60%">Attributes</th>
+                                                                                    <th style="width: 20%">Sequence</th>
+                                                                                    <th style="width:15%">Values</th>
+                                                                                    <th style="width: 5%">Action</th>
+
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="data-contact-person" ng-repeat="CharaRw in rows">
+                                                                                    <td>
+                                                                                        <div ng-class="{'has-error': form.$submitted && form.ddlAttri{{$index}}.$invalid || charcheck}">
+
+                                                                                            @*<input ng-model="CharaRw.Attributes" name="ddlAttri{{$index}}" ng-change="changeCheck()" type="text" list="lstitms" class="form-control" autocomplete="off" required>*@
+
+                                                                                            <input class="form-control" @*ng-bind="x.AttributeName"*@ list="lstitms" ng-change="changeCheck()" name="ddlAttri{{$index}}" ng-pattern="/^(\D)+$/" ng-model="CharaRw.Attributes" ng-blur="att.Attribute=att.Attribute.toUpperCase();" type="text" required autocomplete="off" />
+                                                                                        </div>
+
+                                                                                    </td>
+                                                                                    @*<td><input type="text" class="form-control" ng-model="CharaRw.Sequence" ng-blur="CharaRw.Sequence=CharaRw.Sequence.toUpperCase();" id="CharAbv"></td>*@
+                                                                                    <td>
+                                                                                        <div ng-class="{'has-error': form.$submitted && form.lsque.$invalid || form.lsque.$error.pattern || Seqcheck1}">
+                                                                                            <input type="text" class="form-control" name="lsque" ng-pattern="/^\d+$/" ng-model="CharaRw.Sequence" ng-disabled="false" id="Sequence">
+
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    @*<td><a>Add Value</a></td>*@
+                                                                                    <td>
+
+                                                                                        <a ng-click="ShowValue(CharaRw.Attributes)">Add Value</a>
+                                                                                        <input type="hidden" ng-model="CharaRw.Values" />
+
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="checkbox-custom checkbox-default" style="margin-left:18%;">
+                                                                                            <input type="checkbox" id="checkboxExample1" ng-click="identifyremove_rows($index)">
+                                                                                            <label>&nbsp;</label>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+
+                                                                            <tfoot>
+                                                                                <tr>
+                                                                                    <td colspan="2"></td>
+                                                                                    <td>
+                                                                                        <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-disabled="form.$invalid" ng-click="addRow()" style="float:right">Add More</button>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()">Remove</button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tfoot>
+                                                                        </table>
+
+
+                                                                        <div class="col-md-12">
+
+                                                                            <div class="form-group">
+                                                                                <div class="col-sm-4"></div>
+                                                                                <div class="col-sm-4">
+                                                                                    <button class="btn btn-primary" type="submit">Create Attributes</button>
+                                                                                </div>
+                                                                                <div class="col-sm-4"></div>
+
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    @*</div>*@
+                                                                </div>
+                                                            </form>
+                                                            <datalist id="lstitms">
+                                                                <option data-ng-repeat="x in AttributesList" value="{{x.Attribute}}">
+                                                            </datalist>
+                                                            <datalist id="Modifiers">
+                                                                <option data-ng-repeat="x in Modifiers" value="{{x.Modifier}}">
+                                                            </datalist>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="Character" class="tab-pane" @*ng-controller="AttributeController"*@>
+                                                        <div class="panel-body active-box">
+                                                            <form name="form" ng-submit="form.$valid && BulkCharacteristic_Upload()" novalidate>
+                                                                <div class="panel-body active-box">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="col-md-7"> </div>
+                                                                            <div class="col-md-5">
+                                                                                <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                    <a href="/Common/bulkServiceCharateristics.xlsx" style="background:#fff"><i class="fa fa-download example-2"></i>&nbsp; Characteristic Template</a>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-2 control-label text-right">File Upload  </label>
+                                                                                <div class="col-md-10 no-padding">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="hidden"><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-3 no-padding">
+                                                                                        <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                    </div>
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div id="Value" class="tab-pane" @*ng-controller="AttributeController"*@>
+                                                        <div class="panel-body active-box">
+                                                            <form name="form" ng-submit="form.$valid && Bulkvalue_Upload()" novalidate>
+                                                                <div class="panel-body active-box">
+                                                                    <div class="row">
+                                                                        <div class="col-md-12">
+                                                                            <div class="col-md-7"> </div>
+                                                                            <div class="col-md-5">
+                                                                                <button ng-show="resdwn!=false" class="download pull-right" title="Downlaod Template">
+                                                                                    <a href="/Common/BulkServiceValue.xlsx" style="background:#fff"><i class="fa fa-download example-2"></i>&nbsp; Value Template</a>
+                                                                                </button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-12">
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-2 control-label text-right">File Upload  </label>
+                                                                                <div class="col-md-10 no-padding">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="hidden"><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData1(this.files)"></span>
+                                                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-3 no-padding">
+                                                                                        <button class="btn btn-primary" @*ng-disabled="false != ShowHide"*@>Submit</button>&nbsp;
+                                                                                    </div>
+
+                                                                                </div>
+
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </form>
+
+                                                        </div>
+
+                                                    </div>
+                                                    @*<div id="Value" class="tab-pane">
+                                                            <div class="col-md-12">
+                                                                <div class="form-group">
+                                                                    <div class="col-md-2">
+                                                                        <label class="control-label">File Upload</label>
+                                                                    </div>
+                                                                    <div class="col-md-10 no-padding">
+                                                                        <div class="col-md-6">
+                                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-3 no-padding">
+                                                                            <button class="btn btn-primary">Submit</button>&nbsp;
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>*@
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                </div>
+
+                                <div id="value_Abbr" class="tab-pane active-box">
+                                    <div class="panel-body" ng-controller="ValueAbbrController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+
+                                                            <div class="col-md-12">
+                                                                <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                                                <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row" ng-show="shinsertupdate">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <div class="col-sm-4">
+                                                                <label class="control-label">Characteristic Value</label>
+                                                            </div>
+                                                            <div class="col-sm-8">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.CharacteristicValue.$invalid}">
+                                                                    <input type="hidden" ng-model="obj._id" />
+                                                                    <input class="form-control immediate-help" name="CharacteristicValue" ng-model="obj.CharacteristicValue" type="text" required />
+                                                                    <div ng-show="form.CharacteristicValue.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.CharacteristicValue.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-4">
+                                                                <label class="control-label">Value Abbreviation</label>
+                                                            </div>
+                                                            <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.ValueAbbreviation.$invalid}">
+                                                                <div class="controls">
+                                                                    <textarea class="form-control immediate-help" name="ValueAbbreviation" ng-model="obj.ValueAbbreviation" rows="3" required></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-sm-6"></div>
+                                                            <div class="col-sm-6">
+
+                                                                <div class="col-sm-12" style="text-align:right;">
+                                                                    <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                    <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="shupdate" type="button">Update</button>&nbsp;
+                                                                    <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+
+
+                                                        @*<div class="form-group">
+                                                                <div class="col-sm-6"></div>
+                                                                <div class="col-sm-6">
+                                                                    <div class="col-sm-12" style="text-align:right;">
+                                                                        <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button>
+                                                                        <button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                        <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                        <div class="col-md-4"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+
+                                                    <div class="table-responsive" ng-show="valabbr !=null">
+                                                        <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                            <thead class="top-border">
+                                                                <tr>
+                                                                    @* <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 30px; " aria-sort="ascending" aria-label="Code">SAP CategoryCode</th>*@
+                                                                    <th>CharacteristicValue</th>
+                                                                    <th>ValueAbbreviation</th>
+                                                                    <th>Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+
+                                                                <tr ng-repeat="x in valabbr">
+                                                                    <td>
+                                                                        <span ng-bind="x.CharacteristicValue"></span>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <span ng-bind="x.ValueAbbreviation"></span>
+
+                                                                    </td>
+                                                                    <td class="actions">
+                                                                        <label class="switch">
+                                                                            <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="ValAbbr($index,x.Islive,x._id)">
+                                                                            <div class="slider round"></div>
+                                                                        </label>
+                                                                        <a ng-click="ValAbbrCodeedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil edit-button"></i></a>
+                                                                        <a ng-click="ValAbbrCodeDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+
+                                                                    </td>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="DefaultAttr" class="tab-pane active-box">
+                                    <div class="panel-body" ng-controller="DefaultAttributeController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+
+                                                        <div class="form-group">
+                                                            <label class="control-label col-md-2" for="textareaDefault">Attribute</label>
+                                                            <div class="col-md-6" ng-class="{'has-error': form.$submitted && form.ddlAttri{{$index}}.$invalid || charcheck}">
+
+                                                                @*<input ng-model="CharaRw.Attributes" name="ddlAttri{{$index}}" ng-change="changeCheck()" type="text" list="lstitms" class="form-control" autocomplete="off" required>*@
+
+                                                                <input class="form-control" list="lstitms" ng-change="changeCheck()" name="ddlAttri{{$index}}" ng-pattern="/^(\D)+$/" ng-model="CharaRw.Attributes" ng-blur="att.Attribute=att.Attribute.toUpperCase();" type="text" required autocomplete="off" />
+                                                            </div>
+
+
+                                                            @*<div class="col-md-6">
+
+                                                                 <input type="text"  class="form-control" />
+                                                                </div>*@
+                                                            <div class="col-md-2"><button class="btn btn-primary" type="submit">Add</button></div>
+
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <div class="col-md-4"></div>
+                                                            <div class="col-md-6">
+
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                    <div class="col-md-6">
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-12" ng-show="shwattr !=null">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none" @*class="table table-bordered mb-none ng-isolate-scope dataTable no-footer"*@>
+                                                        <thead class="top-border ng-scope">
+                                                            <tr>
+                                                                <th>Attribute</th>
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="ng-scope">
+                                                            <tr ng-repeat="x in shwattr">
+                                                                <td>
+                                                                    <span ng-bind="x.Attributes"></span>
+
+                                                                </td>
+
+                                                                <td class="actions">
+
+                                                                    <a ng-click="ServiceAttrDel(x._id)" class="on-default remove-row"><i class="fa fa-trash delete-button"></i></a>
+
+                                                                </td>
+                                                            </tr>
+                                                            @*<tr>
+                                                                    <td>1223</td>
+                                                                    <td><i class="fa fa-trash delete-button"></i></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>1223</td>
+                                                                    <td><i class="fa fa-trash delete-button"></i></td>
+                                                                </tr>*@
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+
+
+
+
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                    <datalist id="lstitms">
+                                        <option data-ng-repeat="x in AttributesList" value="{{x.Attribute}}">
+                                    </datalist>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/ServiceMasterCtrl.js"></script>
+@*<script src="/Scripts/ctrls/ServiceMasterBulkUpload.js"></script>*@

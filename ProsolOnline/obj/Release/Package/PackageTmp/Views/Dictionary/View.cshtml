@@ -1,0 +1,184 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section role="main" class="content-body" ng-controller="DictionaryViewController">
+   
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <!-- start: page -->
+    <div class="row" >
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Dictionary</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-6"></div>
+                    <div class="col-md-6">
+                        <a style="color: #000;"><button ng-click="DonloadNM()" class="download btn-primary pull-right" title="Download Noun and Modifier" style="margin-top: 3px;"><i class="fa fa-download"></i>&nbsp; Download Noun and Modifier</button></a>
+                    </div>
+                        <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Noun</label>
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" ng-model="noun1" style="margin-bottom: 0.5%;">
+                                </div>
+                                <div class="col-md-12">
+
+
+                                    <select class="form-control" ng-multiple="true" multiple ng-model="lst.Noun" ng-click="SelectNoun()" ng-options="lst.Noun as lst.Noun  for lst  in Nouns | unique:'Noun' | filter: noun1" style="min-height:130px;"></select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Modifier</label>
+                                @*<div class="col-md-12">
+                                    <input type="text" class="form-control" ng-model="modifier" style="margin-bottom: 0.5%;">
+                                </div>*@
+                                <div class="col-md-12">
+                                    <select class="form-control" multiple ng-model="lst.Modifier" ng-click="SelectModifier()" ng-options="lst.Modifier  as lst.Modifier for lst in Modifiers" style="min-height:154px;"></select>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Characteristics</label>
+                                @*<div class="col-md-12">
+                                    <input type="text" class="form-control" ng-model="charater" style="margin-bottom: 0.5%;">
+                                </div>*@
+                                <div class="col-md-12">
+
+                                    <select class="form-control" multiple ng-model="lst.Characteristic" ng-click="SelectCharater()" ng-options="lst.Characteristic  as lst.Characteristic for lst in rows | filter: charater | filter: { Definition: 'MM' } " style="min-height:154px;"></select>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Noun Synonyms</label>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" ng-model="NounSynonyms" rows="4" data-plugin-maxlength="" maxlength="140"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        @*<div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Noun & Modifier Abbreviation</label>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" ng-model="nounDef" rows="9" data-plugin-maxlength="" maxlength="140"></textarea>
+                                </div>
+                            </div>
+                        </div>*@
+                      
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">NM Definition</label>
+                                <div class="col-md-12">
+                                    <textarea class="form-control" ng-disabled="true" ng-model="modifierDef" rows="4" data-plugin-maxlength="" maxlength="140"></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+            
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Characteristics Definition</label>
+                                <div class="col-md-12">
+                                    <textarea ng-disabled="true" class="form-control" rows="4" ng-model="charaterDef" data-plugin-maxlength="" maxlength="140"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Values</label>
+                                <div class="col-md-12">
+                                    <select class="form-control" multiple ng-model="val" ng-options="o as o for o in Values" ng-click="SelectVal()" style="min-height:154px;"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">Image</label>
+                                <div class="col-md-6">
+                                    <img src="{{NM.FileData}}" ng-show="NM.FileData == null ? false:true" width="200" height="200" />
+                                </div><div class="col-md-1"></div>
+    <div class="col-md-5"><a href="http://www.google.com/search?q= {{Gsearch}}" style="color:forestgreen" target="_blank">More about : {{Gsearch}}</a></div>
+</div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label class="col-md-12 control-label">UNSPSC Code</label>
+                                <div class="col-md-12">
+                                  
+                                      
+                                        @*<div class="form-group">
+                                            <label class="col-md-4 control-label" for="textareaDefault">Class Title</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].ClassTitle" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label" for="textareaDefault">Class</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].Class" />
+                                            </div>
+                                        </div>*@
+                                        <div class="form-group">
+                                            <label class="col-md-5 control-label" for="textareaDefault">Commodity Title</label>
+                                            <div class="col-md-7">
+                                                @*<select ng-model="Unspsc" class="form-control" ng-options="x.Commodity as x.CommodityTitle for x in Commodities | filter :{'Class':  Commodities[0].Class}">
+                                                    <option value="" selected="selected">Select</option>
+                                                </select>*@
+                                                <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].CommodityTitle" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-5 control-label" for="textareaDefault">Commodity</label>
+                                            <div class="col-md-7">
+                                                <div class="col-md-10 no-padding">
+                                                    <input type="text" class="form-control" ng-disabled="true" ng-model="Unspsc" />
+                                                </div>
+                                                <div class="col-md-1"></div>
+                                                </div>
+                                        </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-12">
+                      
+                    </div>
+
+                    
+                </div>
+                </section>
+        </div>
+    </div>
+    <script src="/Scripts/ctrls/DictionaryViewctrl.js"></script>
+    <!-- end: page -->
+</section>
+
+

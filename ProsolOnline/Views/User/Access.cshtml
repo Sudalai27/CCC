@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewBag.Title = "Access Permission";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="homeController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                
+                <li><span>File</span></li>
+                <li><span>Access Permission</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises"> </div>
+            </div>
+        </div>
+    </header>*@
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">ACCESS PERMISSION</h2>
+                </header>
+
+                <div class="panel-body">
+                    <form name="form4" novalidate>
+
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" style="text-align:right;">Plant</label>
+                            <div class="col-md-4" ng-class="{'has-error': form4.$submitted && form4.ddlPlant.$invalid}">
+                                @*<input type="text" list="listItms" class="form-control" name="UserName1" ng-model="UserName1" ng-change="keyup()" required>*@
+                                <select class="form-control" id="ddlPlant" ng-model="Plant" ng-change="changePlant()" ng-options="x.Plantcode as x.Plantname for x in PlantList"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-2 control-label" style="text-align:right;">User Name</label>
+                            <div class="col-md-4" ng-class="{'has-error': form4.$submitted && form4.UserName1.$invalid}">
+                                @*<input type="text" list="listItms" class="form-control" name="UserName1" ng-model="UserName1" ng-change="keyup()" required>*@
+                                <select ng-model="UserName1" name="UserName1" class="form-control immediate-help" ng-options="x.UserName as x.UserName for x in getuser" ng-change="keyup()" required>
+                                    <option value="" selected="selected">Select User</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <fieldset>
+                                    <legend>Material Master</legend>
+                                    <div ng-repeat="x2 in gett2">
+                                        <div class="form-group col-md-6">
+                                            <fieldset style="border: 1px solid #ccc !important;">
+                                                <legend style="font-size: 12px;">{{x2}}</legend>
+                                                @*<h4 class="access-order"></h4>*@
+                                                <div ng-repeat="x in gett | filter : x2 :true">
+                                                    <table style="width:33.3%;float:left"><tr><td width="5%"><div class="checkbox-custom checkbox-default"><input type="checkbox" ng-disabled="x2=='Catalogue'" ng-model="x.Status" ng-checked="x.Status" id="checkboxExample1" /><label for="checkboxExample1"></label> </div></td><td width="45%">{{x.Pages}}</td></tr></table>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            </div>
+                        <div class="form-group">
+                            <div ng-repeat="x1 in gett1">
+                                <div class="form-group col-md-12">
+                                   
+                                        <fieldset >
+                                            <legend>{{x1}}</legend>
+                                            @*<h4 class="access-order"></h4>*@
+                                            <div ng-repeat="x in gett | filter : x1:true">
+                                                <table style="width:15%;float:left"><tr><td width="5%"><div class="checkbox-custom checkbox-default"><input type="checkbox" ng-disabled="x1=='Catalogue'" ng-model="x.Status" ng-checked="x.Status" id="checkboxExample1" /><label for="checkboxExample1"></label> </div></td><td width="45%">{{x.Pages}}</td></tr></table>
+                                            </div>
+                                        </fieldset>
+                                  
+                                </div>
+                            </div>
+                            </div>
+                           
+                        <div class="form-group">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-4"><button class="btn btn-primary" type="submit" ng-show="view==true" ng-click="form4.$valid && add()">Submit</button></div>
+                        </div>
+
+                        <datalist id="listItms">
+                            <option data-ng-repeat="ls in listItms" value="{{ls}}">
+                        </datalist>
+                    </form>
+                </div>
+            </section>
+        </div>
+        </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/UserAccessctrl.js"></script>

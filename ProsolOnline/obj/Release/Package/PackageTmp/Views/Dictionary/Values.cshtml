@@ -1,0 +1,355 @@
+﻿
+@{
+    ViewBag.Title = "ValueMaster";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<section role="main" class="content-body" ng-controller="AbbrController">
+  
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes =! NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w3">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Value Master</h2>
+                </header>
+                <div class="create-panels">
+                    <div class="form-group">
+                        <div class="tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="active">
+                                    <a href="#single" data-toggle="tab" ng-click="OnclickAbbr()"> Single Entry</a>
+                                </li>
+                                <li>
+                                    <a href="#bulk" data-toggle="tab" style="width: 105%;">Bulk Upload</a>
+                                </li>
+
+                            </ul>
+                            <div class="tab-content cataloguer-box" style="border:none !important">
+                                <div id="single" class="tab-pane active">
+                                    <div class="panel-body">
+
+                                        <form name="form" ng-submit="form.$valid && createAbbr()" novalidate>
+
+                                            <div class="panel-body">
+
+
+                                                <div class="col-sm-12 form-group">
+                                                    <div class="form-group">
+                                                        <div class="col-md-6"></div>
+                                                        <div class="col-md-6">
+                                                            <div class="control-label col-md-3 col-xs-3">
+                                                                <input type="text" id="txtFrom1" name="Fromdate" autocomplete="off" ng-model="Fromdate" class="form-control" placeholder="Start Date">
+                                                            </div>
+                                                            <div class="control-label col-md-3 col-xs-3">
+                                                                <input type="text" id="txtTo1" name="Todate" autocomplete="off" ng-model="Todate" class="form-control" placeholder="End Date">
+                                                            </div>
+                                                            <div class="col-md-6 col-xs-6">
+                                                                <button ng-click="DownloadValueMaster()" class="btn btn-primary pull-left" title="Download Value Master" style="padding:3px 12px;"><i class="fa fa-download"></i>&nbsp; Download Value Master</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-sm-6">
+                                                            <label class="col-md-3 control-label require-label">Value</label>
+                                                            <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.value.$invalid }">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="abbr._id" />
+                                                                    <input class="form-control immediate-help" name="value" placeholder="Enter Value not more than 30 text" ng-model="abbr.Value" ng-maxlength="30" maxlength="30" type="text" required capitalize/>
+                                                                    <div ng-show="form.value.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.value.$error.required">Value should not be blank</h4>
+                                                                        <h4 ng-show="form.value.$invalid">Value not more than 30 characters</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label class="col-md-3 control-label">LikelyWords</label>
+                                                            <div class="col-md-9">
+                                                                <div class="controls">
+                                                                    <input class="form-control immediate-help" name="LikelyWords" placeholder="Enter the Likely Words" ng-model="abbr.LikelyWords" type="text" capitalize/>
+                                                                    <div ng-show="form.LikelyWords.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.LikelyWords.$error.required">LikelyWords should not be blank</h4>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-sm-6">
+                                                            <label class="col-md-3 control-label require-label">Abbr</label>
+                                                            <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.abbrevate.$invalid }">
+                                                                <div class="controls">
+                                                                    <input class="form-control immediate-help" name="abbrevate" placeholder="Enter abbreviated text" ng-model="abbr.Abbrevated" type="text" required capitalize/>
+                                                                    <div ng-show="form.abbrevate.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.abbrevate.$error.required">abbreviated should not be blank</h4>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label class="col-md-3 control-label">Abbr Unit</label>
+                                                            <div class="col-md-9">
+                                                                <div class="controls">
+                                                                    <select ng-model="abbr.vunit" name="valuomname" class="form-control" ng-options="x.Unitname as x.Unitname for x in unitList">
+                                                                        <option value="" selected="selected">Select Unit</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="fornm-group">
+                                                        <div class="col-sm-6">
+                                                            <label class="col-md-3 control-label">Equivalent</label>
+                                                            <div class="col-md-9">
+                                                                <div class="controls">
+                                                                    <input class="form-control immediate-help" name="Equivalent" placeholder="Enter the Equivalent" ng-model="abbr.Equivalent" type="text" />
+                                                                    <div ng-show="form.Equivalent.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.Equivalent.$error.required">Equivalent should not be blank</h4>
+
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-6">
+                                                            <label class="col-md-3 control-label">Equi Unit</label>
+                                                            <div class="col-md-9">
+                                                                <div class="controls">
+                                                                    <select ng-model="abbr.eunit" name="equomname" class="form-control" ng-options="x.Unitname as x.Unitname for x in unitList">
+                                                                        <option value="" selected="selected">Select Unit</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-sm-5"></div>
+                                                    <div class="col-sm-7">
+                                                        <div class="col-sm-12">
+                                                            <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateAbbr()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                            <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <div class="col-md-12 form-group">
+                                                    <div class="table-responsive col-md-12" @*ng-show="Abbrs!=null"*@>
+                                                        <fieldset>
+                                                            <legend ng-hide="Abbrs == null">Approved Values</legend>
+                                                            <div class="col-md-4">
+                                                                <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                            </div>
+                                                            <div class="control-label col-md-4">
+                                                                No.of.Records: <label ng-bind="len" />
+                                                            </div>
+                                                            <div class="control-label col-md-1" style="text-align:right;">
+                                                                Search
+                                                            </div><div class="col-md-3">
+                                                                <input class="form-control" ng-model="srchText" ng-blur="SearchAbbrList()" type="text" />
+                                                            </div>
+                                                            <table class="table table-bordered mb-none">
+                                                                <thead class="top-border">
+                                                                    <tr>
+                                                                        <th style="width:20%">Value</th>
+                                                                        <th style="width:10%">abbreviated</th>
+                                                                        <th style="width:5%">Unit</th>
+                                                                        <th style="width:20%">Equivalent</th>
+                                                                        <th style="width:5%">Unit</th>
+                                                                        <th style="width:20%">LikelyWords</th>
+                                                                        <th style="width:20%">C User</th>
+                                                                        <th style="width:10%">Actions</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr id="abbr{{$index}}" ng-repeat="x in Abbrs">
+                                                                        <td style="width:20%"><label>{{x.Value}}</label></td>
+                                                                        <td style="width:10%"><label>{{x.Abbrevated}}</label></td>
+                                                                        <td style="width:5%"><label>{{x.vunit}}</label></td>
+                                                                        <td style="width:20%"><label>{{x.Equivalent}}</label></td>
+                                                                        <td style="width:5%"><label>{{x.eunit}}</label></td>
+                                                                        <td style="width:20%"><label>{{x.LikelyWords}}</label></td>
+                                                                        <td style="width:20%"><label>{{x.User}}</label></td>
+                                                                        <td class="actions text-center" style="width:10%">
+                                                                            <a ng-click="Abbredit(x,$index)" class="on-default edit-row"><i class="fas fa-pencil-alt fa-lg"></i></a>
+                                                                            <a ng-click="AbbrDel(x.Value,x.Abbrevated)" class="on-default remove-row"><i class="fas fa-trash-alt fa-lg"></i></a>
+                                                                        </td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+                                                            <pagination ng-model="currentPage"
+                                                                        total-items="totItem"
+                                                                        items-per-page="numPerPage"
+                                                                        max-size="10"
+                                                                        boundary-links="true"
+                                                                        ng-click="BindAbbrinx(currentPage)">
+                                                            </pagination>
+                                                        </fieldset>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 form-group">
+                                                    @*<div class="control-label col-md-8">
+                                            No.of.Records: <label ng-bind="Abbrs1.length" />
+                                        </div>*@
+                                                    <div class="table-responsive col-md-12" ng-show="Abbrs1!=null && Abbrs1!=''">
+
+                                                        <fieldset>
+                                                            <legend ng-hide="Abbrs1 == null">
+                                                                Un-Approved Values
+                                                            </legend>
+                                                            <div style="text-align:right" class="col-md-12"> No.of.Records: <label ng-bind="Abbrs1.length" /></div>
+                                                            <div style="max-height: 305px !important;overflow-y: scroll;" class="col-md-12">
+
+                                                                <table @*datatable="ng" dt-options="dtOptions"*@ class="table table-bordered mb-none">
+                                                                    <thead class="top-border">
+                                                                        <tr>
+                                                                            <th>Value</th>
+                                                                            <th>abbreviated</th>
+                                                                            <th>Unit</th>
+                                                                            <th>Equivalent</th>
+                                                                            <th>Unit</th>
+                                                                            <th>LikelyWords</th>
+                                                                            <th>C User</th>
+                                                                            <th>Mapped</th>
+                                                                            <th>
+                                                                                <span>Select</span>
+                                                                                <div class="checkbox-custom checkbox-default">
+                                                                                    <input type="checkbox" class="ng-pristine ng-valid ng-empty ng-touched" ng-model="chkall" ng-click="checkall()"> <label for="checkboxExample1"></label>
+                                                                                </div>
+                                                                            </th>
+                                                                            <th>Action</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+
+                                                                        <tr id="abbr{{$index}}" ng-repeat="y in Abbrs1">
+                                                                            <td><label>{{y.Value}}</label></td>
+                                                                            <td><label>{{y.Abbrevated}}</label></td>
+                                                                            <td><label>{{y.vunit}}</label></td>
+                                                                            <td><label>{{y.Equivalent}}</label></td>
+                                                                            <td><label>{{y.eunit}}</label></td>
+                                                                            <td><label>{{y.LikelyWords}}</label></td>
+                                                                            <td><label>{{y.User}}</label></td>
+                                                                            <td><label>{{y.idvalue}}</label></td>
+                                                                            <td class="actions">
+                                                                                <div class="checkbox-custom checkbox-default">
+                                                                                    <input type="checkbox" ng-model="y.bu" ng-true-value="1" ng-checked="y.bu==1" ng-false-value="0" id="Singlechk{{$index}}" ng-click="checkone($index)"> <label for="checkboxExample1"></label>
+                                                                                </div>
+                                                                                @*<a ng-click="Abbredit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                                                    <a ng-click="AbbrDel(x.Abbrevated)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>*@
+                                                                            </td>
+                                                                            <td td class="actions text-center">
+                                                                                <a ng-click="unAbbrDel(y._id)" class="on-default remove-row"><i class="fas fa-trash-alt fa-lg"></i></a>
+                                                                            </td>
+                                                                        </tr>
+
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </fieldset>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12 form-group" ng-show="Abbrs1!=null">
+                                                    <div class="col-sm-11"></div>
+                                                    <div class="col-sm-1">
+                                                        <button class="btn btn-primary" type="button" ng-click="approvevalue()" ng-show="App">Approve</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+                                <div id="bulk" class="tab-pane">
+                                    <div class="panel-body" ng-controller="BulkAbbriController">
+                                        <form name="form1" ng-submit="form1.$valid && BulkAbbri()" novalidate>
+                                            <div class="panel-body">
+                                                <div class="row">
+                                                    <div style="margin-top: 5px;">
+                                                        <a ng-show="resdwn!=false" class="download pull-right" href="/Common/AbbreviateTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-2">
+                                                            <label class="control-label" style="float: right;margin-top: 30px;">File Upload</label>
+                                                        </div>
+
+                                                        <div class="col-md-4">
+
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput" style="margin-top: 30px;">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">SelectFile</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-md-1">
+
+                                                            <button class="btn btn-primary" ng-disabled="false != ShowHide" style="margin-top: 30px;">Submit</button>&nbsp;
+
+                                                        </div>
+                                                        @*<div class="col-md-1"><div cg-busy="promise"></div></div>*@
+                                                        <div class="col-md-3"></div>
+                                                    </div>
+
+                                                </div>
+
+
+
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+
+
+
+
+
+            </section>
+        </div>
+    </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/GeneralSettingsctrl.js"></script>

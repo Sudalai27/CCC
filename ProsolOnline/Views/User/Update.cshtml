@@ -1,0 +1,318 @@
+﻿
+@{
+    ViewBag.Title = "Update";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="updatecontroller">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>User</span></li>
+                <li><span>Update</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="promise"></div>
+            </div>
+        </div>
+    </header>*@
+    
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">USER CREATION</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="col-md-5">
+                                <form name="form" novalidate>
+                                    <div class="form-group">
+                                        <input type="hidden" ng-model="obj._id" />
+                                        <label class="col-md-3 control-label" for="inputDefault">First Name</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.FirstName.$invalid || form.FirstName.$error.pattern}">
+
+                                            <input type="text" ng-model="obj.FirstName" name="FirstName" ng-pattern="/[A-Za-z]/" class="form-control immediate-help" id="FirstName" required>
+                                            <div ng-show="form.FirstName.$invalid" class="input-help">
+                                                <h4 class="alert" ng-show="form.FirstName.$error.required">FirstName should not be blank</h4>
+                                                <h4 class="alert" ng-show="form.FirstName.$error.pattern">Enter characters only</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Last Name</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.LastName.$invalid || form.LastName.$error.pattern}">
+                                            <input type="text" ng-model="obj.LastName" name="LastName" ng-pattern="/[A-Za-z]/" class="form-control immediate-help" id="LastName" required>
+                                            <div ng-show="form.LastName.$invalid" class="input-help">
+                                                <h4 class="alert" ng-show="form.LastName.$error.required">LastName should not be blank</h4>
+                                                <h4 class="alert" ng-show="form.LastName.$error.pattern">Enter characters only</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Email ID</label>
+                                        <div class="col-md-9" ng-class="{'has-error':form.$submitted && form.EmailId.$invalid || form.EmailId.$error.pattern || res1}">
+                                            <input type="email" ng-model="obj.EmailId" name="EmailId" ng-pattern="/^[^\s@*]+@[^\s@]+\.[^\s.@]{2,}$/" class="form-control immediate-help" ng-blur="checkemailid()" required>
+
+                                            <div ng-show="form.EmailId.$invalid || res1" class="input-help">
+                                                <h4 ng-show="form.EmailId.$error.required">EmailId should not be blank</h4>
+                                                <h4 ng-show="form.EmailId.$error.pattern">Invalid EmaiID</h4>
+                                                <h4 ng-show="!form.EmailId.$invalid && res1"> EmailID Already Exists</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">User ID</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted  && form.UserName.$invalid || form.UserName.$error.pattern || res}">
+                                            <input type="text" ng-model="obj.UserName" ng-pattern="/^[a-zA-Z0-9]*$/" ng-trim="false" name="UserName" class="form-control immediate-help" ng-blur="checkusername()" required>
+                                            <div ng-show="form.UserName.$invalid || res" class="input-help">
+                                                <h4 ng-show="form.UserName.$error.required">UserName should not be blank</h4>
+                                                <h4 class="alert" ng-show="form.UserName.$error.pattern">Enter alphanumeric characters only</h4>
+                                                <h4 ng-show="!form.UserName.$invalid && res">Username Already Exists</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Password</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.Password.$invalid || form.Password.$error.pattern}">
+                                            <input type="password" ng-model="obj.Password" autocomplete="off" name="Password" ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[$*@*$!%*?&])[A-Za-z\d$*@**@$!%*?&]{6,}/" class="form-control immediate-help" id="Password" required>
+                                            <div ng-show="form.Password.$invalid" class="input-help">
+                                                <h4 ng-show="form.Password.$error.required">Password should not be blank</h4>
+                                                <h4 class="alert" ng-show="form.Password.$error.pattern">Password should have minimum six characters, which consist of Uppercase, Lowercase, Number and Special characters</h4>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="cPassword">Confirm Password</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.cPassword.$invalid || myres1}">
+                                            @*|| form.cPassword.$error.pattern*@
+                                            <input type="password" ng-model="obj.ChangePassword" name="cPassword" onCopy="return false" onDrag="return false" onDrop="return false" onPaste="return false" ng-change="getcheck1()" class="form-control immediate-help" id="cPassword" required>
+                                            <div ng-show="form.cPassword.$invalid || myres1" class="input-help">
+                                                <h4 ng-show="form.cPassword.$error.required && !myres1">Confirmpassword should not be blank</h4>
+                                                <h4 class="alert" ng-show="!form.cPassword.required && myres1==true">Password mismatch</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Contact No</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.Mobile.$invalid || form.Mobile.$error.pattern}">
+                                            <input type="text" ng-model="obj.Mobile" name="Mobile" ng-pattern="/^([0|\+[0-9]{1,5})?([1-9][0-9]{0,20})$/" class="form-control immediate-help" id="Mobile" ng-maxlength="30" required>
+
+                                            <div ng-show="form.Mobile.$invalid" class="input-help">
+                                                <h4 class="alert" ng-show="form.Mobile.$error.required">Contact No should not be blank</h4>
+                                                <h4 class="alert" ng-show="form.Mobile.$error.pattern">Enter Number only Or should not exit more than 27 digit</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Plant</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.plant.$invalid}">
+                                            <select ng-model="obj.Plantcode" name="plant" id="plant" class="form-control immediate-help" ng-options="x.Plantname as x.Plantname for x in gtplant" required>
+                                                <option value="" selected="selected">Select Plant</option>
+                                            </select>
+
+                                        </div>
+                                    </div>*@
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Select Plant</label>
+                                        <div class="col-md-9 check-order" ng-class="{'has-error': form.$submitted && form.plant.$invalid}">
+                                            <label for="checkboxExample1" ng-repeat="plantname in plant" name="plant" id="plant" style="width: 50%;float: left;">
+                                                <div class="checkbox-custom checkbox-default" ng-required="true">
+                                                    <input type="checkbox"
+                                                           name="selectedrole"
+                                                           value="{{plantname.Plantname}}"
+                                                           ng-model="plantname.Islive"
+                                                           ng-checked="plantname.Islive"
+                                                           ng-click="checkplant1()"> {{plantname.Plantname}}
+                                                    <label for="checkboxExample1"></label>
+                                                </div>
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Department</label>
+                                        <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.dept.$invalid}">
+
+                                            <select ng-model="obj.Departmentname" id="dept" name="dept" class="form-control immediate-help" ng-options="x.Departmentname as x.Departmentname for x in gtdepartment" required>
+                                                <option value="" selected="selected">Select Department</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" for="inputDefault">Role of User</label>
+                                        <div ng-hide="shw" class="col-md-9 check-order" ng-class="{'has-error': form.$submitted && form.lbl.$invalid}">
+                                            <label for="checkboxExample1" ng-repeat="rolename in roles" name="lbl" id="lbl" style="width: 100%;float: left;">
+                                                <div class="col-md-4 checkbox-custom checkbox-default" ng-required="true">
+                                                    <input type="checkbox"
+                                                           name="selectedrole"
+                                                           value="{{rolename.Name}}"
+                                                           ng-model="rolename.Status"
+                                                           ng-checked="rolename.Status"
+                                                           ng-click="check1()"> {{rolename.Name}}
+                                                    <label for="checkboxExample1"></label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <select ng-show="{{$index}}!=4 && {{$index}}!=5" ng-model="rolename.TargetId" name="UserName1" ng-disabled="!rolename.Status" class="form-control immediate-help" ng-options="x.Userid as x.UserName for x in getuser | filter:roles[$index+1].Name :true ">
+                                                        <option value="" selected="selected">Select {{roles[$index+1].Name}}</option>
+                                                    </select>
+                                                </div>
+                                            </label>
+                                           
+                                        </div>
+                                        <label class="col-md-3"><input type="hidden" id="sess" value="@Request.RequestContext.HttpContext.Session["access"]"/></label>
+                                        <div class="col-md-9 check-order" ng-show="chkshow==='SuperAdmin'?true:false" ng-class="{'has-error': form.$submitted && form.lbl.$invalid}">
+                                            <label for="checkboxExample1" style="width: 100%;float: left;">
+                                                <div class="col-md-4 checkbox-custom checkbox-default" ng-required="true">
+                                                    <input type="checkbox" ng-model="chkSA" value="SuperAdmin" ng-click="checkSuperAdmin()" />SuperAdmin
+                                                    <label for="checkboxExample1"></label>
+                                                </div>
+
+                                            </label>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                       
+                                       
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="inputDefault">Status</label>
+                                            <div class="col-md-9" ng-class="{'has-error': form.$submitted && form.Islive.$invalid}">
+                                                <div class="radio-custom" style="width:100px;float:left">
+                                                    <input type="radio" ng-checked="true" value="Active" ng-model="obj.Islive">
+                                                    <label name="Islive">Active</label>
+                                                </div>
+                                                <div class="radio-custom" style="width:100px;float:left">
+                                                    <input type="radio" value="InActive" ng-model="obj.Islive">
+                                                    <label name="Islive">InActive</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label class="col-md-3 control-label" for="inputDefault">Module Access</label>
+                                            <div class="col-md-9 check-order" ng-class="{'has-error': form.$submitted && form.Module.$invalid}">
+                                                <label for="checkboxExample1" ng-repeat="m in Module" name="Module" id="Module" style="width: 50%;float: left;">
+                                                    <div class="checkbox-custom checkbox-default" ng-required="true">
+                                                        <input type="checkbox"
+                                                               name="selectedModule"
+                                                               value="{{m.Name}}"
+                                                               ng-model="m.Status"
+                                                               ng-checked="m.Status"
+                                                               ng-click="check2()"> {{m.Name}}
+                                                        <label for="checkboxExample1"></label>
+                                                    </div>
+                                                </label>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-5"></div>
+                                            <div class="col-md-4">
+                                                <button id="submit_button" type="submit" class="btn btn-primary" ng-click="form.$valid && !res1 && !res && submit()" ng-show="create==true" name="create">Create User</button>
+                                                <button id="submit_button1" type="submit" ng-click="form.$valid && !res1 && !res && edit()" ng-show="update" class="btn btn-primary" name="update">Update User</button>
+                                              
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="table-responsive">
+                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                        <thead class="top-border">
+                                            <tr role="row">
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-sort="ascending" aria-label="FirstName">UserID</th>
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="EmailId">EmailId</th>
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Role">Role</th>
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Plantcode">Plant</th>
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Status">Status</th>
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px; " aria-label="Userid" hidden="hidden">Userid</th>
+                                                <th class="sorting_disabled" rowspan="1" colspan="1" style="width: 100px;" aria-label="action">Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in shwusr">
+                                                <td>
+                                                    <label>{{x.UserName}}</label>
+                                                </td>
+                                                <td>
+                                                    <label>{{x.EmailId}}</label>
+                                                </td>
+                                                <td>
+                                                    <label>{{x.Roles}}</label>
+                                                </td>
+                                                <td>
+                                                    <label>{{x.Plantcode}}</label>
+                                                </td>
+                                                <td>
+                                                    <label>{{x.Islive}}</label>
+                                                </td>
+                                                <td hidden="hidden">
+                                                    <label>{{x.Userid}}</label>
+                                                </td>
+                                                <td class="actions">
+                                                    <a class="on-default edit-row"><i class="fa fa-pencil-alt" ng-click="search(x.Userid)"></i></a>
+
+                                                </td>
+
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+        </div>
+</section>
+
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/UserUpdatectrl.js"></script>

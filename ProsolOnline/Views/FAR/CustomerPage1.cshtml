@@ -1,0 +1,431 @@
+﻿
+@{
+    ViewBag.Title = "CustomerPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<style>
+    ::-webkit-scrollbar {
+        width: 8px !important;
+        height:10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0);
+    }
+
+    .tbl-header {
+        width: 99.6%;
+    }
+
+    td:nth-child(8), th:nth-child(7) {
+        width: 10% !important;
+    }
+
+    td:nth-child(9), th:nth-child(8) {
+        width: 6% !important;
+    }
+
+    td:nth-child(10), th:nth-child(9) {
+        width: 3% !important;
+    }
+    table.table.table-bordered.table-scroll-td td {
+        padding: 5px;
+        border: 1px solid #b3b2b2;
+    }
+
+</style>
+
+<section role="main" class="content-body" ng-controller="AssetCustomerrController">
+
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">
+                        Customer Page
+                       
+                     </h2>
+                </header>
+                <form name="form">
+                    <div class="panel-body">
+
+                        <div class="table-responsive">
+
+                            <div class="tbl-header">
+                                <table class="table table-bordered mb-none" style="white-space: nowrap; overflow-x: clip; table-layout: auto;">
+                                    <thead class="top-border" align="center">
+
+                                        <tr>
+                                            <th>Business</th>
+                                            <th>Major Class</th>
+                                            <th>Area</th>
+                                            <th>Sub Area</th>
+                                            <th>Function / Minor Class</th>
+                                            <th style="width:7%;">Approved Item</th>
+                                            <th>Waiting for approval</th>
+                                            <th>Clarification Items</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Electricity</td>
+                                            <td>Substation</td>
+                                            <td>Ajman</td>
+                                            <td>Hamidiya-1</td>
+                                            <td>Ajman Main Station</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>Electricity</td>
+                                            <td>Substation</td>
+                                            <td>Ajman</td>
+                                            <td>Hamidiya-1</td>
+                                            <td>Ajman Main Station</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Electricity</td>
+                                            <td>Substation</td>
+                                            <td>Ajman</td>
+                                            <td>Hamidiya-1</td>
+                                            <td>Ajman Main Station</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Electricity</td>
+                                            <td>Substation</td>
+                                            <td>Ajman</td>
+                                            <td>Hamidiya-1</td>
+                                            <td>Ajman Main Station</td>
+                                            <td>1</td>
+                                            <td>2</td>
+                                            <td>3</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-9">
+            <form name="form">
+                <div class="form-group">
+                    <label class="col-md-2 control-label" for="inputDefault" style="text-align: right;">System</label>
+                    <div class="col-md-4">
+
+                        <select class="form-control">
+                            <option value="" selected="selected" class="">Select</option>
+                            <option label="132KV SYSTEM">
+                                132KV SYSTEM
+                            </option>
+                            <option label="33KV SYSTEM">33KV SYSTEM</option>
+                            <option label="COMMON & AUXILIARY SYSTEM">COMMON & AUXILIARY SYSTEM</option>
+                        </select>
+                        </div>
+                        <label class="col-md-2 control-label" for="inputDefault" style="text-align: right;">Sub System</label>
+                        <div class="col-md-4">
+
+                            <select class="form-control">
+                                <option value="" selected="selected" class="">Select</option>
+                                <option label="FIRE PUMP">
+                                    FIRE PUMP
+                                </option>
+                                <option label="E203 SWITCHGEAR">E203 SWITCHGEAR</option>
+                                <option label="COMMON & AUXILIARY SYSTEM">COMMON & AUXILIARY SYSTEM</option>
+                            </select>
+
+                        </div>
+                  
+                </div>
+              
+
+
+
+            </form>
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" style="float:right;"><i class="fas fa-gear"></i> </button>
+        </div>
+        </div>
+  
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard">
+
+                <div class="panel-body">
+                   
+                        <div class="table-responsive">
+
+                           
+                                <table class="table table-bordered table-scroll-td" style="display: block; overflow-x: auto; white-space: nowrap;">
+                                    <thead class="top-border" align="center">
+
+                                        <tr>
+                                            <th>Select</th>
+                                            <th>
+                                                Equipment Description
+                                            </th>
+                                            <th>Equipment Class</th>
+                                            <th>Equipment Type</th>
+                                            <th>Bill of Materials</th>
+                                            <th>Qty</th>
+                                            <th>UOM</th>
+                                            <th>FLOC Code</th>
+                                            <th>Description of Functional Location</th>
+                                            <th>Location Codes</th>
+                                            <th>City</th>
+                                            <th>City</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" /> <label for="checkboxExample11"></label>
+                                                </div>
+                                            </td>
+                                            <td>E203/E002 LCL CNT PNL AL ZAWRA PS-2</td>
+                                            <td>PANEL</td>
+                                            <td>PANEL+Y3:Z3-CONTROL</td>
+                                            <td>VOLTMETER</td>
+                                            <td>1</td>
+                                            <td>EA</td>
+                                            <td>ELEC-SUB-AJMN-HAMI-AJMN-132S-E203</td>
+                                            <td>AJMN 132KV SYSTEM E203 SWITCHGEAR</td>
+                                            <td>WA0001</td>
+                                            <td>Ajman</td>
+                                            <td>
+                                                ELEC-SUB-AJMN-HAMI-AJMN-132S-E203
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                           
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="col-md-4"></div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label" for="inputDefault">Remark</label>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" rows="3" id="textareaDefault"></textarea>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+                                        <button type="submit" class="btn btn-primary">Approve</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                </div>
+
+            </section>
+        </div>
+    </div>
+</section>
+

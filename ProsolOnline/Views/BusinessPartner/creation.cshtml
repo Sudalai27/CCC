@@ -1,0 +1,1386 @@
+﻿
+@{
+    ViewBag.Title = "Business Partner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    label.col-md-3.control-label, label.col-md-4.control-label {
+    text-transform: uppercase;
+}
+</style>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+@*<script>
+    jQuery('body').on('click', '.next-tab', function () {
+        var next = jQuery('.nav-tabs > .active').next('li');
+        if (next.length) {
+            next.find('a').trigger('click');
+        } else {
+            jQuery('#myTabs a:first').tab('show');
+        }
+    });
+
+    jQuery('body').on('click', '.previous-tab', function () {
+        var prev = jQuery('.nav-tabs > .active').prev('li')
+        if (prev.length) {
+            prev.find('a').trigger('click');
+        } else {
+            jQuery('#myTabs a:last').tab('show');
+        }
+    });
+</script>*@
+<section role="main" class="content-body" ng-controller="VendorController">
+   
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel">
+         
+                    <header class="panel-heading">
+
+
+                        <h2 class="panel-title">Business Partner</h2>
+                    </header>
+
+                    <div class="form-group create-panels">
+
+                        <div class="form-group">
+                           
+                            <div class="col-md-12">
+                                <label class="col-md-1 control-label" for="inputDefault" style="padding-right:0px;">Business Partner Type:</label>
+                                <div class="radio-custom col-md-1" style="float:left">
+                                    <input type="radio" ng-checked="true" value="BP" ng-change="clearchk()" ng-model="Type">
+                                    <label name="Islive">Bussiness Partner</label>
+                                </div>
+                                <div class="radio-custom" style="width:100px;float:left">
+                                    <input type="radio" value="Customer" ng-change="clearchk()" ng-model="Type">
+                                    <label name="Islive">Customer</label>
+                                </div>
+                                <div class="radio-custom" style="width:100px;float:left">
+                                    <input type="radio" value="Vendor" ng-change="clearchk()" ng-model="Type">
+                                    <label name="Islive">Vendor</label>
+                                </div>
+                                <div class="radio-custom" style="width:100px;float:left">
+                                    <input type="radio" value="All" ng-change="clearchk()" ng-model="Type">
+                                    <label name="Islive">All</label>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <div class="tabs create-panel">
+                            <ul id="myTabs" class="nav nav-tabs">
+
+                                <li ng-class="active1"><a ng-show="Type == 'BP'||Type == 'All'" href="#Bp_General" data-toggle="tab">BUSINESS PARTNER</a></li>
+                                <li ng-class="active2"><a ng-show="Type == 'Customer'||Type == 'All'" href="#Cust_Sale" data-toggle="tab">CUSTOMER</a></li>
+                                <li ng-class="active3"><a ng-show="Type == 'Vendor'||Type == 'All'" href="#Vend_Com" data-toggle="tab">VENDOR</a></li>
+                            </ul>
+                            <div class="tab-content">
+
+                                <div id="Bp_General" class="tab-pane" ng-class="active1" ng-show="Type == 'BP'||Type == 'All'">
+                                    <form name="GEN" novalidate ng-submit="Create(GEN.$valid,'GEN')">
+                                        <div class="tabs tabs-vertical tabs-left cataloguer-Select">
+                                            <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-Select">
+                                                <li class="cataloguer-tab active boxes active-box">
+                                                    <a href="#GEN-general" data-toggle="tab">BP-General</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#GEN-Contacts" data-toggle="tab">BP-Contacts</a>
+                                                </li>
+
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#GEN-Address" data-toggle="tab">BP-Address</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#GEN-Other" data-toggle="tab">BP-Others</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="GEN-general" class="tab-pane  active active-box">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">BP Number<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.BPNumber.$invalid || GEN.BPNumber.$error.required)}">
+                                                                        <input name="BPNumber" ng-model="Gen.BPNumber" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">BP Category</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Gen.BPCategory" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'BP Category' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">BP Type</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Gen.BPType" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'BP Type' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">BP Grouping</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Gen.BPGrouping" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'BP Grouping' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">BP No. in Ext. System</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.BPNOEXT" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Authorization Group</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.AuthGrp" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="GEN-Contacts" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Title</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Gen.Title" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'GEN Key'}:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Name 1<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.Name1.$invalid || GEN.Name1.$error.required)}">
+                                                                        <input name="Name1" ng-model="Gen.Name1" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Name 2</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.Name2" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Name 3</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.Name3" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Search Term 1<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.Srcterm1.$invalid || GEN.Srcterm1.$error.required)}">
+                                                                        <input name="Srcterm1" ng-model="Gen.Srcterm1" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Search Term 2</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Gen.Srcterm2" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div id="GEN-Address" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Building</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Building" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Room no</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.RoomNo" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Floor</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Floor" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Street</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.Street.$invalid || GEN.Street.$error.required)}">
+                                                                    <input name="Street" ng-model="Gen.Street" class="form-control" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Street 1</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Street1" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Street 2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Stree2" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">City<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.City.$invalid || GEN.City.$error.required)}">
+                                                                    <input name="City" ng-model="Gen.City" class="form-control" required>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Zip code<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.Zipcode.$invalid || GEN.Zipcode.$error.required)}">
+                                                                    <input name="Zipcode" ng-model="Gen.Zipcode" class="form-control" required>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Country<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.Country.$invalid || GEN.Country.$error.required)}">
+                                                                    <select name="Country" ng-model="Gen.Country" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label':'Country'}:true)" required>
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Region</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Region" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Post code1</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.PostCode1" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Post code2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.PostCode2" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">PO box</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.PObox" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="GEN-Other" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Language<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': GEN.$submitted && (GEN.Language.$invalid || GEN.Language.$error.required)}">
+                                                                    <select name="Language" ng-model="Gen.Language" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label':'Language'}:true)" required>
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Transport zone</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.TransZone" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Telephone</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Tele" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Tele extn</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Teleextn" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Fax</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Fax" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Fax extn</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.Faxextn" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Tax jurisdiction</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Gen.TaxJur" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <div class="table-responsive col-md-12" ng-show="Gens != null">
+                                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <th>BPNo</th>
+                                                        <th>Name</th>
+                                                        <th>SearchTerm</th>
+                                                        <th>City</th>
+                                                        <th>Zipcode</th>
+                                                        <th>Country</th>
+                                                        <th>Language</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr id="Gens{{$index}}" ng-repeat="x in Gens">
+                                                        <td><label>{{x.BPNumber}}</label></td>
+                                                        <td><label>{{x.Name1}}</label></td>
+                                                        <td><label>{{x.Srcterm1}}</label></td>
+                                                        <td><label>{{x.City}}</label></td>
+                                                        <td><label>{{x.Zipcode}}</label></td>
+                                                        <td><label>{{x.Country}}</label></td>
+                                                        <td><label>{{x.Language}}</label></td>
+                                                        @*<td>
+                                        <label class="switch">
+                                            <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableData($index,x.Islive,x._id)">
+                                            <div class="slider round"></div>
+                                        </label>
+                                    </td>*@
+                                                        <td class="actions">
+                                                            <a ng-click="GenEdit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                                            <a ng-click="DataDel1(x._id)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-2" style="text-align: center;">
+                                                <button ng-show="btnSubmit2" class="btn btn-primary" type="submit">Submit</button>
+                                                <input type="button" ng-show="btnUpdate2" style="font-size: 14px;" value="Update" class="btn btn-primary" ng-click="Update(Gen._id)" />
+                                                <input type="button" style="font-size: 14px;" value="Clear" class="btn btn-primary" ng-click="reset('GEN')" />
+                                            </div>
+                                            <div class="col-md-5"></div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                               
+                                <div id="Cust_Sale" class="tab-pane" ng-class="active2" ng-show="Type == 'Customer'||Type == 'All'">
+                                    <form name="CUST" novalidate ng-submit="Create(CUST.$valid,'CUST')">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Sales Org</label>
+                                                <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.Salesorg.$invalid || CUST.Salesorg.$error.required)}">
+                                                    <select name="Salesorg" ng-model="Cust.Salesorg" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Sales Organization' }:true)" required>
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Dist. Channel</label>
+                                                <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.DistChan.$invalid || CUST.DistChan.$error.required)}">
+                                                    <select name="DistChan" ng-model="Cust.DistChan" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Distribution Channel' }:true)" required>
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Division</label>
+                                                <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.Divison.$invalid || CUST.Divison.$error.required)}">
+                                                    <select name="Divison" ng-model="Cust.Divison" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Division' }:true)" required>
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div class="tabs tabs-vertical tabs-left cataloguer-Select">
+                                                <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-Select">
+                                                    <li class="cataloguer-tab active boxes active-box">
+                                                        <a href="#Admin" data-toggle="tab">Admin</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Bank" data-toggle="tab">Bank</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Company" data-toggle="tab">Company</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Delivery" data-toggle="tab">Delivery</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Finance" data-toggle="tab">Finance</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Order" data-toggle="tab">Order</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Partner" data-toggle="tab">Partner Function</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab active-box boxes">
+                                                        <a href="#Sales" data-toggle="tab">Sales</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content cataloguer-box">
+                                                    <div id="Admin" class="tab-pane  active active-box">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 Control-label">BP Number<span style="color:red;font-weight:bold">*</span></label>
+                                                                        <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.BPNumber.$invalid || CUST.BPNumber.$error.required)}">
+                                                                            <div ng-hide="Type == 'Customer'"><input ng-disabled="true" name="BPNumber" ng-model="Gen.BPNumber" class="form-control"></div>
+                                                                            <div ng-show="Type == 'Customer'">
+                                                                                <select name="BPNumber" required ng-model="Cust.BPNumber" class="form-control" ng-options="x.BPNumber as x.Name1+' - ('+x.BPNumber+')' for x in Gens">
+                                                                                    <option value="" selected="selected">Select</option>
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 Control-label">Cust no</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.CustNo" class="form-control">
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    @*<div class="form-group">
+                                        <label class="col-md-4 Control-label">Sales org</label>
+                                        <div class="col-md-8">
+                                            <select name="ShortNme" ng-model="Cust.Salesorg" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Sales organization' }:true)">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 Control-label">Dist Chan</label>
+                                        <div class="col-md-8">
+                                            <select name="ShortNme" ng-model="Cust.DistChan" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Distribution Channel' }:true)">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>*@
+                                                                </div>
+                                                                <div class="col-md-5">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 Control-label">Company code<span style="color:red;font-weight:bold">*</span></label>
+                                                                        <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.Companycode.$invalid || CUST.Companycode.$error.required)}">
+                                                                            <select name="Companycode" required ng-model="Cust.Companycode" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Company Code' }:true)">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    @*<div class="form-group">
+                                        <label class="col-md-4 Control-label">Divison</label>
+                                        <div class="col-md-8">
+                                            <select name="ShortNme" ng-model="Cust.Divison" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Division' }:true)">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-4 Control-label">Cust no</label>
+                                        <div class="col-md-8">
+                                            <input name="ShortNme" ng-model="Cust.CustNo" class="form-control">
+                                        </div>
+                                    </div>*@
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="Bank" class="tab-pane">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-5">
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Bank key</label>
+                                                                        <div class="col-md-8">
+                                                                            <select name="ShortNme" ng-model="Cust.Bankkey" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'CUST Key' }:true)">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Bank account</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.BankAcc" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Bank country</label>
+                                                                        <div class="col-md-8">
+                                                                            <select name="ShortNme" ng-model="Cust.bankCountry" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Bankcountry' }:true)">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Control key</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.Cntrlkey" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Partner bank type</label>
+                                                                        <div class="col-md-8">
+                                                                            <select name="ShortNme" ng-model="Cust.PBT" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'PBT' }:true)">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Account no</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.AccNo" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Reference</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.Reference" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Account holder</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.AccHldr" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Valid from</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" id="txtFrom" name="Fromdate" ng-model="Cust.Validfrom" class="form-control" placeholder="Validfrom" autocomplete="off">
+                                                                            <span><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Valid to</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" id="txtFrom1" name="Todate" ng-model="Cust.Validto" class="form-control" placeholder="ValidTo" autocomplete="off">
+                                                                            <span><i class="fa fa-calendar" aria-hidden="true"></i></span>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                    <div id="Company" class="tab-pane">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Recon account<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.ReconAcc.$invalid || CUST.ReconAcc.$error.required)}">
+                                                                        <input name="ReconAcc" required ng-model="Cust.ReconAcc" class="form-control">
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Payment Terms</label>
+                                                                    <div class="col-md-8">
+                                                                        <select name="ShortNme" ng-model="Cust.Payterm" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Payterm' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="Delivery" class="tab-pane">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Complete delivery</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Cust.CmpltDelivery" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Over dely tolerance</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Cust.ODT" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Under dely tolerance</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Cust.UDT" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Dely priority</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Cust.DelyPrior" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">POD relevant</label>
+                                                                    <div class="col-md-8">
+                                                                        <select name="ShortNme" class="form-control" ng-model="Cust.POD">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                            <option value="Yes">Yes</option>
+                                                                            <option value="No">No</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Shipping condition<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.ShpngCndtn.$invalid || CUST.ShpngCndtn.$error.required)}">
+                                                                        <select name="ShpngCndtn" required ng-model="Cust.ShpngCndtn" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Shipping Cndtn' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Dely plant</label>
+                                                                    <div class="col-md-8">
+                                                                        <select name="ShortNme" ng-model="Cust.Delyplant" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Dely Plant' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="Finance" class="tab-pane">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Credit control area</label>
+                                                                    <div class="col-md-8">
+                                                                        <select name="ShortNme" ng-model="Cust.CCA" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Creditcontrolarea' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Inco-term1</label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.IncoTerms1.$invalid || CUST.IncoTerms1.$error.required)}">
+                                                                        <select name="IncoTerms1" ng-model="Cust.IncoTerms1" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Inco terms' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Inco term2<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.IncoTerms2.$invalid || CUST.IncoTerms2.$error.required)}">
+                                                                        <input name="IncoTerms2" ng-model="Cust.IncoTerms2" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Acc ass grp cust<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.AAGC.$invalid || CUST.AAGC.$error.required)}">
+                                                                        <input name="AAGC" ng-model="Cust.AAGC" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Currency<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.CustCur.$invalid || CUST.CustCur.$error.required)}">
+                                                                        <select name="CustCur" required ng-model="Cust.CustCur" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'CustCur' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                    <div id="Order" class="tab-pane">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Order combination<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.OrdrComb.$invalid || CUST.OrdrComb.$error.required)}">
+                                                                        <input name="OrdrComb" ng-model="Cust.OrdrComb" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Order probability<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.OrdrProb.$invalid || CUST.OrdrProb.$error.required)}">
+                                                                        <input name="OrdrProb" ng-model="Cust.OrdrProb" class="form-control" required>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div id="Partner" class="tab-pane">
+                                                        <div class="panel-body active-box">
+
+                                                            <div class="col-md-8">
+
+                                                                <div class="table-responsive">
+                                                                    &nbsp;
+
+                                                                    <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                        <thead class="top-border">
+                                                                            <tr>
+                                                                                <th style="width: 20%">Partner Function</th>
+                                                                                <th style="width: 20%">Partner No</th>
+                                                                                <th style="width: 20%">Partner Description</th>
+                                                                                <th style="width: 8%;text-align:center;">Remove|Add</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="data-contact-person" ng-repeat="rw in rows">
+                                                                                <td>
+                                                                                    <select name="PartnerFunc" ng-model="rw.PartnerFunc" class="form-control" ng-options="x.Title as x.Title for x in PartnerFuncs">
+                                                                                        <option value="" selected="selected">Select</option>
+                                                                                    </select>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input name="PartnerNo{{$index}}" id="PartnerNo{{$index}}" ng-model="rw.PartnerNo" class="form-control">
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input name="PartnerDesc{{$index}}" id="PartnerDesc{{$index}}" ng-model="rw.PartnerDesc" class="form-control">
+
+                                                                                </td>
+                                                                                <td style="text-align:center">
+                                                                                    <button type="button" id="btnDelete" class="deleteContact btn btn  btn-xs" ng-click="RemoveRow($index)" ng-disabled="$index==0"><i class="fas fa-times"></i></button>&nbsp;
+                                                                                    <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()" title="Add Row"><i class="fas fa-plus"></i></button>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+
+                                                                    </table>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="Sales" class="tab-pane">
+                                                        <div class="panel-body active-box">
+                                                            <div class="col-md-12">
+                                                                <div class="col-md-5">
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Sales office</label>
+                                                                        <div class="col-md-8">
+                                                                            <select name="ShortNme" ng-model="Cust.SalesOfc" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Sales Office' }:true)">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Sales grp</label>
+                                                                        <div class="col-md-8">
+                                                                            <select name="ShortNme" ng-model="Cust.SalesGrp" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Sales Grp' }:true)">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Cust price procedure<span style="color:red;font-weight:bold">*</span></label>
+                                                                        <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.CPP.$invalid || CUST.CPP.$error.required)}">
+                                                                            <input name="CPP" ng-model="Cust.CPP" class="form-control" required>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Cust grp</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.Custgrp" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-5">
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">ABC class</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.ABC" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Price grp</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.Pricegrp" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Price list</label>
+                                                                        <div class="col-md-8">
+                                                                            <input name="ShortNme" ng-model="Cust.Pricelst" class="form-control">
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label">Cust stats grp<span style="color:red;font-weight:bold">*</span></label>
+                                                                        <div class="col-md-8" ng-class="{'has-error': CUST.$submitted && (CUST.CSG.$invalid || CUST.CSG.$error.required)}">
+                                                                            <input name="CSG" ng-model="Cust.CSG" class="form-control" required>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="table-responsive col-md-12" ng-show="Custs != null">
+                                                <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th>BPNo</th>
+                                                            <th>Salesorg</th>
+                                                            <th>DistChan</th>
+                                                            <th>Divison</th>
+                                                            <th>Companycode</th>
+                                                            <th>SalesOfc</th>
+                                                            <th>SalesGrp</th>
+                                                            <th>CustCurrency</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr id="Custs{{$index}}" ng-repeat="x in Custs">
+                                                            <td><label>{{x.BPNumber}}</label></td>
+                                                            <td><label>{{x.Salesorg}}</label></td>
+                                                            <td><label>{{x.DistChan}}</label></td>
+                                                            <td><label>{{x.Divison}}</label></td>
+                                                            <td><label>{{x.Companycode}}</label></td>
+                                                            <td><label>{{x.SalesOfc}}</label></td>
+                                                            <td><label>{{x.SalesGrp}}</label></td>
+                                                            <td><label>{{x.CustCur}}</label></td>
+                                                            <td class="actions">
+                                                                <a ng-click="CustEdit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                                                <a ng-click="custDel(x._id)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+
+                                                            </td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+
+
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-2" style="text-align: center;">
+                                                    <button ng-show="btnSubmit" class="btn btn-primary" type="submit">Submit</button>
+                                                    <input type="button" ng-show="btnUpdate" style="font-size: 14px;" value="Update" class="btn btn-primary" ng-click="Updatecust(Cust._id)" />
+                                                    <input type="button" style="font-size: 14px;" value="Clear" class="btn btn-primary" ng-click="reset('CUST')" />
+                                                </div>
+                                                <div class="col-md-5"></div>
+                                            </div>
+</form>
+                                </div>
+                                    
+                               
+                                <div id="Vend_Com" class="tab-pane" ng-class="active3" ng-show="Type == 'Vendor'||Type == 'All'">
+                                    <form name="VEN" novalidate ng-submit="Create(VEN.$valid,'VEN')">.
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Purchase Org</label>
+                                                <div class="col-md-8" ng-class="{'has-error': VEN.$submitted && (VEN.PurchOrg.$invalid || VEN.PurchOrg.$error.required)}">
+                                                    <select name="PurchOrg" ng-model="Ven.PurchOrg" class="form-control" ng-options="x.Title as x.Title for x in (MaterialMasters | filter:{'Label': 'Sales Organization' }:true)" required>
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="tabs tabs-vertical tabs-left cataloguer-Select">
+                                            <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-Select">
+                                                <li class="cataloguer-tab active boxes active-box">
+                                                    <a href="#Vend_General" data-toggle="tab">General</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Vend_Company" data-toggle="tab">Company Code</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Tax" data-toggle="tab">Tax</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Purchase" data-toggle="tab">Purchase Org</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Prtnr" data-toggle="tab">Partner Function</a>
+                                                </li>
+
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="Vend_General" class="tab-pane  active active-box">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">BP Number<span style="color:red;font-weight:bold">*</span></label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': VEN.$submitted && (VEN.BPNumber.$invalid || VEN.BPNumber.$error.required)}">
+                                                                        <div ng-hide="Type == 'Vendor'"><input ng-disabled="true" name="BPNumber" ng-model="Gen.BPNumber" class="form-control"></div>
+                                                                        <div ng-show="Type == 'Vendor'">
+                                                                            <select name="BPNumber" required ng-model="Ven.BPNumber" class="form-control" ng-options="x.BPNumber as x.Name1+' - ('+x.BPNumber+')' for x in Gens">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Vendor No</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Ven.VendorNo" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Auth Group</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.AuthGrp" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Auth Grp' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Acct. Group</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.AccGrp" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Acc Grp' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Customer No</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Ven.CustNo" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Plant Relevant</label>
+                                                                    <div class="col-md-8">
+                                                                        <select class="form-control" ng-model="Ven.PlntRelvnt">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                            <option value="Yes" selected="selected">Yes</option>
+                                                                            <option value="No" selected="selected">No</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label"> Factory Calendar</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.FactoryCal" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Fac Cal' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 Control-label">Plant</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.Plant" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Acc Grp' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Vend_Company" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Company Code</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.CompanyCode" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Company Code' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">RECON ACCOUNT</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.RecACs" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'RecAC' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Payment Terms</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.Payterms" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Payterm' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Alternate Payee</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.AltPayee" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Alt Payee' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div id="Tax" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Tax Type</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.TaxType" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Tax type' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Tax Base</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.TaxBase" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Tax Base' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Tax Number</label>
+                                                                    <div class="col-md-8" ng-class="{'has-error': (VEN.$submitted && (VEN.taxnum.$invalid || VEN.taxnum.$error.required)) || res}">
+                                                                        <input name="taxnum" required ng-blur="validateGST()"  min="15" maxlength="15" ng-model="Ven.TaxNo" class="form-control immediate-help">
+                                                                        <div ng-show="res" class="input-help">
+                                                                          
+                                                                            <h4 ng-show="!VEN.taxnum.$invalid && res">{{msg}}</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-5">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">VAT Number</label>
+                                                                    <div class="col-md-8">
+                                                                        <input name="ShortNme" ng-model="Ven.VatNo" class="form-control">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Type of Business</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.TOB" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'business Type' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-4 control-label">Type of Industry</label>
+                                                                    <div class="col-md-8">
+                                                                        <select ng-model="Ven.TOI" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Industry Type' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div id="Purchase" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">PO Currency<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': VEN.$submitted && (VEN.POCur.$invalid || VEN.POCur.$error.required)}">
+                                                                    <select name="POCur" required ng-model="Ven.POCur" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'POC' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">INCO-TERM1</label>
+                                                                <div class="col-md-8">
+                                                                    <select ng-model="Ven.Incoterms1" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Inco terms' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">INCO-TERM2</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Ven.Incoterms2" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">GR Based IV<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': VEN.$submitted && (VEN.GRBsdIV.$invalid || VEN.GRBsdIV.$error.required)}">
+                                                                    <select name="GRBsdIV" required class="form-control" ng-model="Ven.GRBsdIV">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                        <option value="Yes" selected="selected">Yes</option>
+                                                                        <option value="No" selected="selected">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">OA Required<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control" ng-model="Ven.OAReq">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                        <option value="Yes" selected="selected">Yes</option>
+                                                                        <option value="No" selected="selected">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Purchasing Group</label>
+                                                                <div class="col-md-8">
+                                                                    <select ng-model="Ven.PurchaseGrp" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'Purchasing Grp' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">PDT (Days)</label>
+                                                                <div class="col-md-8">
+                                                                    <input name="ShortNme" ng-model="Ven.PDT" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Pricing Schema<span style="color:red;font-weight:bold">*</span></label>
+                                                                <div class="col-md-8" ng-class="{'has-error': VEN.$submitted && (VEN.PricingSchema.$invalid || VEN.PricingSchema.$error.required)}">
+                                                                    <select name="PricingSchema" required ng-model="Ven.PricingSchema" class="form-control" ng-options="x.Title as x.Title for x in (BPMasters | filter:{'Label': 'GCS' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">ERS</label>
+                                                                <div class="col-md-8">
+                                                                    <select class="form-control" ng-model="Ven.ERS">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                        <option value="Yes" selected="selected">Yes</option>
+                                                                        <option value="No" selected="selected">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Prtnr" class="tab-pane">
+                                                        <div class="panel-body active-box">
+
+                                                            <div class="col-md-8">
+
+                                                                <div class="table-responsive">
+                                                                    &nbsp;
+
+                                                                    <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                        <thead class="top-border">
+                                                                            <tr>
+                                                                                <th style="width: 20%">Partner Function</th>
+                                                                                <th style="width: 20%">Partner No</th>
+                                                                                <th style="width: 20%">Partner Description</th>
+                                                                                <th style="width: 8%;text-align:center;">Remove|Add</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr class="data-contact-person" ng-repeat="rw in rows1">
+                                                                                <td>
+                                                                                    <select name="PartnerFunc" ng-model="rw.PartnerFunc" class="form-control" ng-options="x.Title as x.Title for x in PartnerFuncs">
+                                                                                        <option value="" selected="selected">Select</option>
+                                                                                    </select>
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input name="PartnerNo{{$index}}" id="PartnerNo{{$index}}" ng-model="rw.PartnerNo" class="form-control">
+
+                                                                                </td>
+                                                                                <td>
+                                                                                    <input name="PartnerDesc{{$index}}" id="PartnerDesc{{$index}}" ng-model="rw.PartnerDesc" class="form-control">
+
+                                                                                </td>
+                                                                                <td style="text-align:center">
+                                                                                    <button type="button" id="btnDelete" class="deleteContact btn btn  btn-xs" ng-click="RemoveRow1($index)" ng-disabled="$index==0"><i class="fas fa-times"></i></button>&nbsp;
+                                                                                    <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow1()" title="Add Row"><i class="fas fa-plus"></i></button>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+
+                                                                    </table>
+
+                                                                </div>
+
+                                                            </div>
+
+                                                        </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive col-md-12" ng-show="Vens != null">
+                                            <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <th>BPNo</th>
+                                                        <th>VendorNo</th>
+                                                        <th>AccGrp</th>
+                                                        <th>PurchOrg</th>
+                                                        <th>Payterms</th>
+                                                        <th>Plant</th>
+                                                        <th>SalOfc</th>
+                                                        <th>CustNo</th>
+                                                        <th>actions</th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr id="Vens{{$index}}" ng-repeat="x in Vens">
+                                                        <td><label>{{x.BPNumber}}</label></td>
+                                                        <td><label>{{x.VendorNo}}</label></td>
+                                                        <td><label>{{x.AccGrp}}</label></td>
+                                                        <td><label>{{x.PurchOrg}}</label></td>
+                                                        <td><label>{{x.Payterms}}</label></td>
+                                                        <td><label>{{x.Plant}}</label></td>
+                                                        <td><label>{{x.SalOfc}}</label></td>
+                                                        <td><label>{{x.CustNo}}</label></td>
+                                                        <td class="actions">
+                                                            <a ng-click="VenEdit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                                            <a ng-click="venDel(x._id)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-2" style="text-align: center;">
+                                                <button class="btn btn-primary" ng-show="btnSubmit1" type="submit">Submit</button>
+                                                <input type="button" ng-show="btnUpdate1" style="font-size: 14px;" value="Update" class="btn btn-primary" ng-click="Updateven(Ven._id)" />
+                                                <input type="button" style="font-size: 14px;" value="Clear" class="btn btn-primary" ng-click="reset('VEN')" />
+                                            </div>
+                                            <div class="col-md-5"></div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                   
+                            </div>
+
+                        </div>
+
+
+                    </div>
+               
+      </section>
+        </div>
+
+
+    </div>
+
+
+
+
+</section>
+<script src="/Scripts/ctrls/BusinessPartnerctrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>

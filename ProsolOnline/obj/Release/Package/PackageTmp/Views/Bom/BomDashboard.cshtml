@@ -1,0 +1,231 @@
+﻿
+@{
+    ViewBag.Title = "BomDashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section role="main" class="content-body" ng-controller="BomDashboardController">
+    <section class="panel">
+        <header class="panel-heading">
+            <h2 class="panel-title">DASHBOARD</h2>
+        </header>
+        @*<header class="page-header">
+                <div class="right-wrapper pull-right">
+                    <ol class="breadcrumbs">
+
+                        <li><span>Dashboard</span></li>
+                    </ol>
+                </div>
+            </header>
+            <header class="page-header alert-messages">
+                <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center;">
+                </div>
+            </header>*@
+
+        <!-- start: page -->
+        <header class="alert-messages">
+            <div class="col-md-12">
+                <div class="col-md-6"></div>
+                <div class="col-md-2">
+                    <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+                </div>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group" id="container">
+                        <section class="panel">
+                            <div class="panel-body">
+
+                                <h6 style="text-align: center;font-weight: 600;font-family: arial;background:#306897;color:#fff;margin: 0px;padding: 10px;">Equipment Details</h6>
+                                <div id="piechart" style="height:200px;border:1px solid #cccccc;">Loading...</div>
+                                <table class="table table-bordered table-striped mb-none col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" class="bg-color">Total Number of Equipment:{{count}}</th>
+                                        </tr>
+                                        <tr class="bg-color1">
+                                            <th>Critical</th>
+                                            <th>Total Items</th>
+                                            <th>Completed Items</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                A
+                                            </td>
+                                            <td>{{A}}</td>
+                                            <td>{{AA}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                B
+                                            </td>
+                                            <td>{{B}}</td>
+                                            <td>{{BB}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                C
+                                            </td>
+                                            <td>{{C}}</td>
+                                            <td>{{CC}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+                        </section>
+
+
+
+
+
+
+
+
+
+
+
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group" id="container">
+
+                        <section class="panel">
+                            <div class="panel-body">
+                                <h6 style="text-align: center;font-weight: 600;font-family: arial;background:#306897;color:#fff;margin: 0px;padding: 10px;">Material Details</h6>
+                                <div id="piechart1" style="height:200px;border:1px solid #cccccc;">Loading...</div>
+                                <table class="table table-bordered table-striped mb-none col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3" class="bg-color">Total Number of Material:{{matcount}} &nbsp; | Equipment Link In Material:{{count2}}</th>
+                                        </tr>
+                                        <tr class="bg-color1" ng-hide="mdl==null">
+                                            <th>Material Type</th>
+                                            <th>Total Linked</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr ng-repeat="mdl in data">
+                                            <td>{{mdl.code}}</td>
+                                            <td>{{mdl.cunt}}</td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+
+
+
+                            </div>
+                        </section>
+
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-6">
+                    <div class="form-group" id="container">
+
+                        <section class="panel">
+                            <div class="panel-body">
+                                <table class="table table-bordered table-striped mb-none col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4" class="bg-color">Month wise IN Records</th>
+                                        </tr>
+                                        <tr class="bg-color1">
+                                            <th>Material Code</th>
+                                            <th>TechIdentNo</th>
+                                            <th>FunctLocation</th>
+                                            <th>InTime</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mdl1 in IN">
+                                            <td ng-bind="mdl1.Materialcode"></td>
+                                            <td ng-bind="mdl1.TechIdentNo"></td>
+                                            <td ng-bind="mdl1.FunctLocation"></td>
+                                            <td ng-bind="mdl1.INtime.replace('/Date(','').replace(')/','') | date:'MM/dd/yyyy HH:mm:ss'"></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group" id="container">
+
+                        <section class="panel">
+                            <div class="panel-body">
+                                <table class="table table-bordered table-striped mb-none col-md-12">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="4" class="bg-color">Month wise OUT Records</th>
+                                        </tr>
+                                        <tr class="bg-color1">
+                                            <th>Material Code</th>
+                                            <th>TechIdentNo</th>
+                                            <th>FunctLocation</th>
+                                            <th>OUTTime</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="mdl1 in OUT">
+                                            <td ng-bind="mdl1.Materialcode"></td>
+                                            <td ng-bind="mdl1.TechIdentNo"></td>
+                                            <td ng-bind="mdl1.FunctLocation"></td>
+                                            <td ng-bind="mdl1.OUTtime.replace('/Date(','').replace(')/','') | date:'MM/dd/yyyy HH:mm:ss'"></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </section>
+</section>
+
+
+
+
+
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+@* <script src="/Scripts/jsapi.js"></script>*@
+<script type="text/javascript">
+
+
+    google.charts.load('visualization', '1', { packages: ['corechart'] });
+    google.charts.setOnLoadCallback(function () {
+        angular.element("div#container").scope().Chart();
+    });
+
+
+</script>
+<script src="/Scripts/ctrls/BomDashboard.js"></script>
+
+
+
+
+
+

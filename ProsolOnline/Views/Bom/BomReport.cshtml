@@ -1,0 +1,641 @@
+﻿
+@{
+    ViewBag.Title = "BomReport";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="BomReportcontroller">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>BomReport</span></li>
+                    <li><span> Bill of Materials Report </span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+            </div>
+        <div class="col-md-4"></div>
+        </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <section class="panel form-wizard" id="w4">
+                        <header class="panel-heading">
+                            <h2 class="panel-title"> BILL OF MATERIALS REPORT</h2>
+                        </header>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="tabs">
+
+                                    <ul class="nav nav-tabs">
+                                        <li class="nav-item active">
+                                            <a class="nav-link" href="#Single" data-toggle="tab">Single Search</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#Multi" data-toggle="tab">Multi Search</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#report" data-toggle="tab">In/Out Report</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="Single" class="tab-pane active">
+                                            <form name="form" ng-submit="searching1()">
+
+                                                <div class="form-group">
+                                                    <label class="col-md-2">Search Material </label>
+                                                    <div class="col-md-4">
+                                                        <input type="text" style="height:27px" class="form-control" ng-model="searchkey1" required />
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button class="btn btn-primary" type="submit">Search</button>&nbsp;
+                                                        <button class="btn btn-primary" type="button" ng-hide="clear" ng-click="ClearItem()">Clear</button>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        @*<div cg-busy="promise" style="top:50px"></div>*@
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                            </form>
+                                            <form>
+                                                <div class="col-md-12 form-group" ng-hide="reset">
+                                                    <div class="col-md-4">
+                                                        <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                    </div>
+                                                    <div class="control-label col-md-4">
+                                                        No.of.Records: <label ng-bind="totItem" />
+                                                    </div>
+                                                    <div class="control-label col-md-1" style="text-align:right;">
+
+                                                    </div><div class="col-md-3">
+
+                                                    </div>
+                                                    <div ng-show="sResult != null">
+                                                       
+                                                            <table class="table table-bordered mb-none">
+                                                                <thead class="top-border" align="center">
+                                                                    <tr style="width:100%">
+                                                                        <th style="width:10%">Material Code</th>
+                                                                        <th style="width:20%">Short Desc</th>
+
+                                                                        <th style="width:10%">Noun</th>
+                                                                        <th style="width:10%">Modifier</th>
+                                                                        <th style="width:10%">Manufacturer</th>
+                                                                        <th style="width:10%">Partno</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="TBM in sResult" id="{{$index}}" ng-click="TBMClick(TBM,$index)" style="width:100%">
+                                                                        <td style="width:10%"><label ng-bind="TBM.Itemcode"></label></td>
+                                                                        <td style="width:20%"><label ng-bind="TBM.Shortdesc"></label></td>
+
+                                                                        <td style="width:10%"><label ng-bind="TBM.Noun"></label></td>
+                                                                        <td style="width:10%"><label ng-bind="TBM.Modifier"></label></td>
+
+                                                                        <td style="width:10%"><label ng-bind="TBM.Manufacturer"></label></td>
+                                                                        <td style="width:10%"><label ng-bind="TBM.Partno"></label></td>
+
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <pagination ng-model="currentPage"
+                                                                        total-items="totItem"
+                                                                        items-per-page="numPerPage"
+                                                                        max-size="10"
+                                                                        boundary-links="true"
+                                                                        ng-click="bindMatsInx(currentPage)">
+                                                            </pagination>
+                                                        
+                                                      
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-12 form-group" ng-hide="Report==null">
+
+                                                    <div class="col-md-12"><h4 class="access-order ng-binding" ng-hide="Itemcode==null">Report</h4></div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6 col-xs-12">
+
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 col-xs-6 control-label" ng-hide="Itemcode==null" style="font-weight:bold">Itemcode :</label>
+                                                                <div class="col-sm-6 col-xs-6">
+                                                                    <label ng-bind="Itemcode" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 col-xs-6 control-label" style="font-weight:bold" ng-hide="Shortdesc==null">ShortDesc :</label>
+                                                                <div class="col-sm-6 col-xs-6">
+                                                                    <label ng-bind="Shortdesc" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 col-xs-6 control-label" style="font-weight:bold" ng-hide="Noun==null">Noun :</label>
+                                                                <div class="col-sm-6 col-xs-6">
+                                                                    <label ng-bind="Noun" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 col-xs-6 control-label" style="font-weight:bold" ng-hide="Modifier==null">Modifier :</label>
+                                                                <div class="col-sm-6 col-xs-6">
+                                                                    <label ng-bind="Modifier" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 col-xs-6 control-label" style="font-weight:bold" ng-hide="Manufacturer==null">Manufacturer : </label>
+                                                                <div class="col-sm-6 col-xs-6">
+                                                                    <label ng-bind="Manufacturer" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-sm-4 col-xs-6 control-label" style="font-weight:bold" ng-hide="Partno==null">Part no : </label>
+                                                                <div class="col-sm-6 col-xs-6">
+                                                                    <label ng-bind="Partno" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-5 col-xs-12" ng-hide="Noitem">
+                                                            <table class="table table-responsive-md table-bordered mb-0 sum">
+                                                                <thead class="top-table">
+                                                                    <tr>
+                                                                        <th>ABC Indicator</th>
+                                                                        <th>Function Location</th>
+                                                                        <th>Equipment id</th>
+                                                                        <th>Part Quantity</th>
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="r in Report | orderBy:'-partqnt'">
+                                                                        <td ng-bind="r.ABCindic"></td>
+                                                                        <td ng-bind="r.FunctLocation"></td>
+                                                                        <td ng-bind="r.TechIdentNo"></td>
+                                                                        <td ng-bind="r.partqnt"></td>
+
+                                                                    </tr>
+
+                                                                </tbody>
+                                                                <tfoot class="sum-total">
+                                                                    <tr>
+                                                                        <td colspan="2"><strong>Total Count</strong></td>
+                                                                        <td>{{Report.length}}</td>
+                                                                        <td>{{getTotal('partqnt')}}</td>
+
+
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-5"></div>
+                                                        <div class="col-md-2 no-padding">
+                                                            <input type="button" ng-click="Export()" class="btn btn-primary" value="Export" />
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                            <div id="cotentid1" style="display:none">
+                                                <div class="content">
+                                                    <div class="panel-body">
+
+                                                        <div class="col-md-12">
+                                                            @*<div class="col-md-12" style="margin:1px 0 1px 0;">
+                                                                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                                                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                                                    <label ng-bind="Res" class="erroe-hold" />
+                                                                </div>
+                                                            </div>*@
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group">
+                                                                <div class="col-md-4"><label>Select ABC Indicator </label></div>
+                                                                <div class="col-md-5">
+                                                                    @*<div class="col-md-2 no-padding">
+                                                                            <div class="checkbox-custom checkbox-default">
+                                                                                <input type="checkbox" id="checkAll" name="checkAll" class="todo-check" checked>
+                                                                                <label class="todo-label" for="todoListItem2"><span>ALL</span></label>
+                                                                            </div>
+                                                                        </div>*@
+                                                                    <div class="col-md-4 no-padding">
+                                                                        <div class="checkbox-custom checkbox-default">
+                                                                            <input type="checkbox" id="todoListItem2" class="todo-check" value="A" ng-model="ind_A" ng-checked="true" />
+                                                                            <label class="todo-label" for="todoListItem2"><span>A</span></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 no-padding">
+                                                                        <div class="checkbox-custom checkbox-default">
+                                                                            <input type="checkbox" id="todoListItem2" class="todo-check" value="B" ng-model="ind_B" checked />
+                                                                            <label class="todo-label" for="todoListItem2"><span>B</span></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 no-padding">
+                                                                        <div class="checkbox-custom checkbox-default">
+                                                                            <input type="checkbox" id="todoListItem2" class="todo-check" value="C" ng-model="ind_C" checked />
+                                                                            <label class="todo-label" for="todoListItem2"><span>C</span></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-3">
+                                                                    <button type="submit" class="btn btn-primary" ng-click="report()">Ok</button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="Multi" class="tab-pane">
+                                            <form name="form" ng-submit="BulkMat()">
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <label class="col-md-2">Search Material </label>
+                                                        <div class="col-md-4">
+                                                            <input type="text" class="form-control" ng-model="bmsrch" style="height:27px" required>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="btn btn-primary" type="submit">Search</button>&nbsp;
+                                                            <button class="btn btn-primary" type="button" ng-hide="clear1" ng-click="ClearItem1()">Clear</button>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </form>
+                                            <h4 class="access-order ng-binding" ng-show="blukmat != null">Material Summary</h4>
+                                            <div class="form-group">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6 no-padding" ng-hide="reset1">
+
+                                                    <div class="table-responsive" ng-show="blukmat != null">
+
+                                                        <table class="table table-bordered mb-none">
+                                                            <thead class="top-border" align="center">
+                                                                <tr>
+                                                                    <th>Itemcode</th>
+                                                                    <th>Total Equipment</th>
+                                                                    <th>Total PartQuantity</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="s in blukmat" id="{{$index}}">
+                                                                    <td><label ng-bind="s.Itemcode"></label></td>
+                                                                    <td><label ng-bind="s.Total_Equipment"></label></td>
+                                                                    <td><label ng-bind="s.Total_PartQuantity"></label></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-3"></div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6">
+                                                    <div class="col-md-3"></div>
+                                                    <div class="col-md-8">
+                                                        <button class="btn btn-primary" ng-hide="b1" ng-click="BulkExport()" type="submit">Detail Export</button>
+                                                        <button class="btn btn-primary" ng-hide="b2" ng-click="BulkExportsum()" type="submit">Summary</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3"></div>
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div id="report" class="tab-pane">
+                                            <form name="form">
+                                                @*ng-submit="searching1()"*@
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">Between date</label>
+                                                        <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.Fromdate.$invalid}">
+                                                            @*<input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                                            <input type="text" id="txtFrom" name="Fromdate" ng-model="Fromdate" class="form-control" placeholder="Start Date" autocomplete="off">
+
+                                                        </div>
+                                                        <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.Todate.$invalid}">
+                                                            @*<input type="date" name="Todate" ng-model="Todate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                                            <input type="text" id="txtTo" name="Todate" ng-model="Todate" class="form-control" placeholder="End Date" autocomplete="off">
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">Options</label>
+                                                        <div class="col-md-8">
+                                                            <div class="radio-custom">
+                                                                <input type="radio" id="radioExample1" name="InTime" value="InTime" ng-model="Option">
+                                                                <label for="radioExample1">InTime</label>
+                                                            </div>
+                                                            <div class="radio-custom">
+                                                                <input type="radio" id="radioExample1" name="OutTime" value="OutTime" ng-model="Option">
+                                                                <label for="radioExample1">OutTime</label>
+                                                            </div>
+
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="controls">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Search By</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <textarea class="form-control" placeholder="Materialcode or FunctLocation or TechIdentNo" rows="2" id="code" ng-model="materialcode" ng-list="&#10;" ng-trim="false" name="code"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-4"></div>
+                                                        <div class="col-md-6 form-submit">
+                                                            <button id="submit_button" type="submit" class="btn btn-primary" ng-click="trackingload1()">Load</button>
+                                                            <button id="submit_button" type="submit" class="btn btn-primary" ng-click="exportTrack1()">Export</button>
+                                                        </div>
+                                                        <div class="col-md-2 form-submit">
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+
+
+                                            </form>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            @*<div cg-busy="promise" class="tblLoad"></div>*@
+
+                                            <section class="panel" ng-show="len != null">
+                                                <div class="panel-body">
+                                                    <header style="border-radius: 5px 5px 0 0;"></header>
+                                                    <div class="col-md-12 table-responsive">
+                                                        <div class="pull-right">
+                                                            No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len" />
+                                                        </div><div id="exportable">
+                                                            <table class="table table-bordered mb-none">
+                                                                <tr>
+                                                                    <th ng-repeat="(key, val) in tables[0]">{{key}}</th>
+                                                                </tr>
+                                                                <tr ng-repeat="item in tables">
+                                                                    <td ng-repeat="(key, val) in item">{{val}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+
+                                        </div>
+                                        <div class="col-xs-12">
+                                            @*<div cg-busy="promise" class="tblLoad"></div>*@
+
+                                            <section class="panel" ng-show="len1 != null">
+                                                <div class="panel-body">
+                                                    <header style="border-radius: 5px 5px 0 0;"></header>
+                                                    <div class="col-md-12 table-responsive">
+                                                        <div class="pull-right">
+                                                            No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len1" />
+                                                        </div><div id="exportable">
+                                                            <table class="table table-bordered mb-none">
+                                                                <tr>
+                                                                    <th ng-repeat="(key, val) in tables1[0]">{{key}}</th>
+                                                                </tr>
+                                                                <tr ng-repeat="item in tables1">
+                                                                    <td ng-repeat="(key, val) in item">{{val}}</td>
+                                                                </tr>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+
+                                        </div>
+
+                                        <div id="cotentid1" style="display:none">
+                                            <div class="content">
+                                                <div class="panel-body">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-12" style="margin:1px 0 1px 0;">
+                                                            <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                                                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                                                <label ng-bind="Res" class="erroe-hold" />
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-4"><label>Select ABC Indicator </label></div>
+                                                            <div class="col-md-5">
+                                                                @*<div class="col-md-2 no-padding">
+                                                                        <div class="checkbox-custom checkbox-default">
+                                                                            <input type="checkbox" id="checkAll" name="checkAll" class="todo-check" checked>
+                                                                            <label class="todo-label" for="todoListItem2"><span>ALL</span></label>
+                                                                        </div>
+                                                                    </div>*@
+                                                                <div class="col-md-4 no-padding">
+                                                                    <div class="checkbox-custom checkbox-default">
+                                                                        <input type="checkbox" id="todoListItem2" class="todo-check" value="A" ng-model="ind_A" ng-checked="true" />
+                                                                        <label class="todo-label" for="todoListItem2"><span>A</span></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 no-padding">
+                                                                    <div class="checkbox-custom checkbox-default">
+                                                                        <input type="checkbox" id="todoListItem2" class="todo-check" value="B" ng-model="ind_B" checked />
+                                                                        <label class="todo-label" for="todoListItem2"><span>B</span></label>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4 no-padding">
+                                                                    <div class="checkbox-custom checkbox-default">
+                                                                        <input type="checkbox" id="todoListItem2" class="todo-check" value="C" ng-model="ind_C" checked />
+                                                                        <label class="todo-label" for="todoListItem2"><span>C</span></label>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <button type="submit" class="btn btn-primary" ng-click="report()">Ok</button>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+</section>
+
+<style>
+      .box {
+        width: 20%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid orange;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: orange;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        z-index: 1042;
+        opacity: 0;
+        overflow: scroll;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 90%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -5px;
+            right: 3px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+
+            .popup .close:hover {
+                color: orange;
+            }
+
+
+
+    .popup-scroll {
+        border: 1px solid #c2d8eb;
+        height: 650px;
+        width: 33%;
+        margin-left: 2px;
+        float: left;
+        overflow-y: scroll;
+        overflow-x: none !important;
+    }
+
+    .pop-bg {
+        background: #f0f0f0;
+    }
+
+    .all-pop .form-group {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+    thead.top-table tr th {
+    background: #3e79cb;
+    color: #fff;
+}
+.sum tr td, th {
+    border-top: none !important;
+    border-bottom: none !important;
+}
+tfoot.sum-total tr td {
+    border: 1px solid #ddd !important;
+}
+tfoot.sum-total tr td {
+    font-weight: bold;
+    font-size: 14px;
+}
+</style>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/BomReport.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+<script src="/Scripts/ctrls/downloadexcel.js"></script>

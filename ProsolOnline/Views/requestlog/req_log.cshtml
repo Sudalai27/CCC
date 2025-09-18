@@ -1,0 +1,647 @@
+﻿
+@{
+    ViewBag.Title = "req_log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/jBox.css" rel="stylesheet" />
+
+<section role="main" class="content-body" ng-controller="reqlog_controller">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Request </span></li>
+                <li><span>Request Status</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+   
+    <!-- start: page -->
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row" >
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Request Status</h2>
+                </header>
+                @*<div class="col-md-12">
+                    <div class="alert" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>*@
+                <div class="form-group create-panels">
+                    <div class="tabs create-panel">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#Pending" data-toggle="tab" aria-expanded="true" ng-click="Loadpop()"> Pending</a>
+                            </li>
+                            <li>
+                                <a href="#Approved" data-toggle="tab" aria-expanded="false" ng-click="Loadpop1()"> Approved</a>
+                            </li>
+                            <li>
+                                <a href="#Rejected" data-toggle="tab" aria-expanded="false" ng-click="Loadpop2()"> Rejected</a>
+                            </li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="Pending" class="tab-pane active">
+                                <div class="form-group">
+                                    <form name="Form_appprove" @*ng-submit="Form_appprove.$valid && Approve_item()"*@ novalidate>
+                                        <div class="col-md-6">
+                                            <section class="content-with-menu mailbox">
+                                                <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+                                                    <div class="inner-body mailbox-folder">
+
+                                                        <div id="mailbox-email-list" class="mailbox-email-list">
+                                                            <div class="nano has-scrollbar nano-view">
+                                                                <div class="nano-content" tabindex="0">
+                                                                    <ul id="" class="list-unstyled">
+                                                                        <li  style="background-color:#c2d8eb">
+                                                                            <div class="col-sender">
+                                                                                <p class="m-none ib">
+                                                                                    Item Id
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="col-mail">
+                                                                                <p class="m-none mail-content">
+                                                                                    <span class="subject"> Source </span>
+                                                                                </p>
+                                                                                <p class="m-none mail-date">Requested On</p>
+                                                                            </div>
+                                                                        </li>
+
+                                                                        <li ng-repeat="data in rows" class="{{data.itemStatus}} req-hand">
+                                                                            @*<div  class={{data.itemStatus}}>*@
+                                                                            <a ng-click="load_data_to_approve($index)">
+                                                                                <div class="col-sender">
+                                                                                    <p class="m-none ib" ng-bind="data.itemId">
+                                                                                        @*{{data.itemId}}*@
+                                                                                    </p>
+                                                                                </div>
+                                                                                <div class="col-mail">
+                                                                                    <p class="m-none mail-content">
+                                                                                        <span class="subject" ng-bind="data.source"> @*{{data.source}}*@ </span>
+                                                                                    </p>
+                                                                                    <p class="m-none mail-date" ng-bind="data.requestStatus">@*{{data.requestStatus}}*@ </p>
+                                                                                </div>
+                                                                            </a>
+                                                                            @*</div>*@
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="message-listdetail">
+                                                <div class="panel-body" ng-show="req_visible">
+                                                    <h5 class="message-title"><label ng-bind="l_item"></label> @*{{Req.itemId}}*@ <label ng-bind="Req.itemId"></label></h5><a id="showstatus" ng-show="Req.itemId!=null" style="cursor:pointer;color:black" ng-click="showuserMap(Req.itemId)">View item status</a>
+                                                    <h5 class="message-date pull-right" ng-bind="Req.approver"> @*{{Req.approver}}*@</h5>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label" ng-bind="l_req_id"> </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label ng-bind="Req.requestId">@*{{Req.requestId}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label"  ng-bind="l_plant"></label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req.plant">@*{{Req.plant}}*@</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label" ng-bind="l_sl"> </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req.storage_Location">@*{{Req.storage_Location}}*@</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label" ng-bind="l_group"></label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req.group">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label" ng-bind="l_subgroup"></label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req.subGroup">@*{{Req.subGroup}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label" ng-bind="l_source"></label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req.source" ng-bind-html="Req.source">@*{{Req.source}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label"  ng-bind="l_approver"></label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req.requester">@*{{Req.requester}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Cataloguer</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div @*ng-class="{'has-error': Form_appprove.$submitted && cata_valid}"
+                                                                    <select name="ddlcataloguer" class="form-control" ng-model="ddlcataloguer" ng-options="cataloguer.Userid as cataloguer.UserName for cataloguer in cataloguerlist">
+                                                                        <option value="">  Select Cataloguer  </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Approve</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="checkbox-custom chekbox-primary">
+                                                                    <input name="approve_check" type="checkbox" ng-model="cb_approve" ng-click="uncheckreject()">
+                                                                    <label for="for-website"></label>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Reject</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <div class="checkbox-custom chekbox-primary col-md-1">
+                                                                    <input name="reject_check" type="checkbox" ng-model="cb_reject" ng-click="uncheckapprover()"
+                                                                    <label for="for-website"></label>
+                                                                </div>
+                                                                <div class="col-md-11" ng-class="{'has-error': Form_appprove.$submitted && cata_validtxt}">
+                                                                    <input type="text" name="txtreject" class="form-control" ng-model="model_reject" ng-show="rejecttxt_show" ng-keypress="chk_vali()" />
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+
+                                                            <div class="col-md-1 col-sm-offset-5 form-submit">
+                                                                <input id="submit_button" type="submit" class="btn btn-primary" value="Submit" />
+
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>*@
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="Approved" class="tab-pane">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <section class="content-with-menu mailbox">
+                                            <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+                                                <div class="inner-body mailbox-folder">
+
+                                                    <div id="mailbox-email-list" class="mailbox-email-list">
+                                                        <div class="nano has-scrollbar nano-view">
+                                                            <div class="nano-content" tabindex="0">
+                                                                <ul id="" class="list-unstyled">
+                                                                    <li  style="background-color:#c2d8eb">
+                                                                        <div class="col-sender">
+
+                                                                            <p class="m-none ib">
+                                                                                Item Id
+
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-mail">
+                                                                            <p class="m-none mail-content">
+                                                                                <span class="subject"> Source </span>
+                                                                            </p>
+                                                                            <p class="m-none mail-date">Approved on</p>
+                                                                        </div>
+                                                                    </li>
+                                                                    <li ng-repeat="data1 in rows_app" class="{{data1.itemStatus}} req-hand">
+                                                                        <a ng-click="load_data_of_approved($index)">
+                                                                            <div class="col-sender">
+
+                                                                                <p class="m-none ib" ng-bind="data1.itemId">@*{{data1.itemId}}*@</p>
+                                                                            </div>
+                                                                            <div class="col-mail">
+                                                                                <p class="m-none mail-content">
+                                                                                    {{data1.source}}
+                                                                                </p>
+                                                                                <p class="m-none mail-date" ng-bind="data1.requestStatus">@*{{data1.requestStatus}}*@</p>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="col-md-6">
+
+                                        <div class="message-listdetail">
+                                            <div class="panel-body" ng-show="app_visible">
+                                                <h5 class="message-title">Item : {{Req1.itemId}}</h5><a id="showstatus1" ng-show="Req1.itemId!=null" style="cursor:pointer;color:black" ng-click="showuserMap(Req1.itemId)">View item status</a>
+                                                <h5 class="message-date pull-right" ng-bind="Req1.approver">@*requested date*@</h5>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Request Id </label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.requestId">@*{{Req1.requestId}}*@ </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Plant</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.plant">@*{{Req1.plant}}*@ </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Storage Location </label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.storage_Location">@*{{Req1.storage_Location}}*@ </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Group</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.group">@*{{Req1.group}}*@</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Subgroup</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.subGroup">@*{{Req1.subGroup}}*@ </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Source</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.source">@*{{Req1.source}}*@ </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Approver</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label" ng-bind="Req1.requester">@*{{Req1.requester}}*@  </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @*<div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-4">
+                                                            <label class="control-label">Cataloguer</label>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="control-label">{{Req1.cataloguer}}  </label>
+                                                        </div>
+                                                    </div>
+                                                </div>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Rejected" class="tab-pane">
+                                <div class="form-group">
+                                    <div class="col-md-6">
+                                        <section class="content-with-menu mailbox">
+                                            <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+                                                <div class="inner-body mailbox-folder">
+
+                                                    <div id="mailbox-email-list" class="mailbox-email-list">
+                                                        <div class="nano has-scrollbar nano-view">
+                                                            <div class="nano-content" tabindex="0">
+
+
+                                                                <ul id="" class="list-unstyled">
+                                                                    <li  style="background-color:#c2d8eb">
+                                                                        <div class="col-sender">
+
+                                                                            <p class="m-none ib">
+                                                                                Item Id
+
+                                                                            </p>
+                                                                        </div>
+                                                                        <div class="col-mail">
+                                                                            <p class="m-none mail-content">
+                                                                                <span class="subject"> Source </span>
+                                                                            </p>
+                                                                            <p class="m-none mail-date">Rejected On</p>
+                                                                           
+                                                                        </div>
+                                                                    </li>
+                                                                    <li ng-repeat="data2 in rows_rej" class="{{data2.itemStatus}}">
+                                                                        <a href="#" ng-click="load_data_of_rejected($index)">
+                                                                            <div class="col-sender">
+
+                                                                                <p class="m-none ib" ng-bind="data2.itemId">@*{{data2.itemId}}*@</p>
+                                                                            </div>
+                                                                            <div class="col-mail">
+                                                                                <p class="m-none mail-content">
+                                                                                    <span class="subject" ng-bind="data2.source">@*{{data2.source}}*@</span>
+
+                                                                                </p>
+                                                                                <p class="m-none mail-date" ng-bind="data2.requestStatus">@*{{data2.requestStatus}}*@</p>
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+
+                                                                       
+                                                                    
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </section>
+                                    </div>
+                                    <div class="col-md-6">
+                                        
+                                            <div class="message-listdetail">
+                                                <div class="panel-body" ng-show="rej_visible">
+                                                    <h5 class="message-title">Item : {{Req2.itemId}}</h5><a id="showstatus2" ng-show="Req2.itemId!=null" style="cursor:pointer;color:black" ng-click="showuserMap(Req2.itemId)">View item status</a>
+                                                    <h5 class="message-date pull-right">{{Req2.approver}}</h5>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Request Id </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.requestId">@*{{Req2.requestId}}*@</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Plant</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.plant">@*{{Req2.plant}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Storage Location </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.storage_Location">@*{{Req2.storage_Location}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.group">@*{{Req2.group}}*@</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.subGroup">@*{{Req2.subGroup}}*@  </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Source</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.source">@*{{Req2.source}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Approver</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.requester">@*{{Req2.requester}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label">Reason</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.reason_rejection">@*{{Req2.reason_rejection}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        
+                                             </div>
+                                </div>
+                            </div>
+                            <table id="flowconId" style="display:none">
+                                <tr><td colspan="5"><h5>Request Id : <label ng-bind="itemstatusLst[0].RequestId" /></h5></td><td colspan="5"><h5>Item Code : <label ng-bind="itemstatusLst[0].Itemcode" /></h5></td></tr>
+                                <tr>
+                                    <td width="5%">
+                                        <i class="fa fa-user fa-5x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-arrow-{{itemstatusLst[0].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-user fa-5x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==1|| itemstatusLst[1].Status==-1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-arrow-right fa-2x {{itemstatusLst[1].Status==0 || itemstatusLst[1].Status==-1?'gray':''}}{{itemstatusLst[1].Status==1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-user fa-5x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-arrow-{{itemstatusLst[2].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-user fa-5x {{itemstatusLst[3].Status==0?'gray':''}}{{itemstatusLst[3].Status==1 || itemstatusLst[3].Status==-1 || itemstatusLst[3].Status==-2?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-arrow-{{itemstatusLst[4].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[3].Status==0 ||(itemstatusLst[4].Status==0 && itemstatusLst[3].Status!=1)?'gray':''}}{{itemstatusLst[4].Status==-1 ?'orange':''}}{{itemstatusLst[3].Status==1?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+                                    </td>
+                                    <td width="5%">
+                                        <i class="fa fa-user fa-5x {{itemstatusLst[4].Status==0?'gray':''}}{{itemstatusLst[4].Status==1 || itemstatusLst[4].Status==-1?'orange':''}}{{itemstatusLst[4].Status==2?'green':''}}"></i>
+
+                                    </td>
+
+
+                                </tr>
+
+                                <tr>
+                                    <td width="5%">
+
+                                        <h6 class="user-h6">Requester</h6>
+                                        <p class="user-para">{{itemstatusLst[0].UserName}}, {{itemstatusLst[0].Date}}</p>
+                                    </td>
+                                    <td width="5%"></td>
+                                    <td width="5%">
+
+                                        <h6 class="user-h6">Approver</h6>
+                                        <p class="user-para">{{itemstatusLst[1].UserName}}, {{itemstatusLst[1].Date}}</p>
+                                    </td>
+                                    <td width="5%"></td>
+                                    <td width="5%">
+
+                                        <h6 class="user-h6">Cataloguer</h6>
+                                        <p class="user-para">{{itemstatusLst[2].UserName}}, {{itemstatusLst[2].Date}}</p>
+                                    </td>
+                                    <td width="5%"></td>
+                                    <td width="5%">
+
+                                        <h6 class="user-h6">Reviewer</h6>
+                                        <p class="user-para">{{itemstatusLst[3].UserName}}, {{itemstatusLst[3].Date}}</p>
+                                    </td>
+                                    <td width="5%"></td>
+                                    <td width="5%">
+
+                                        <h6 class="user-h6">Releaser</h6>
+                                        <p class="user-para">{{itemstatusLst[4].UserName}}, {{itemstatusLst[4].Date}}</p>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+   
+</section>
+<script src="/Scripts/ctrls/Requestlog.js"></script>
+<script src="~/Scripts/jBox.js"></script>

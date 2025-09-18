@@ -1,0 +1,256 @@
+﻿
+@{
+    ViewBag.Title = "TaskList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<section role="main" class="content-body" ng-controller="Tasklistcontroller">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Asset Master</span></li>
+                <li><span>Task List</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel form-wizard">
+                <header class="panel-heading">
+                    <h2 class="panel-title">TASK LIST</h2>
+                </header>
+                <div class="panel-body" >
+                    <form name="tasklist_form" ng-submit="tasklist_form.$valid && CreateTasklist()" novalidate>
+                        <div class="col-md-12">
+
+                            <div class="col-md-5">
+                                <div class="form-group" >
+                                    <label class="col-md-3 control-label">Equipment</label>
+                                    <div class="col-md-9" ng-class="{'has-error': tasklist_form.$submitted && tasklist_form.Equipment.$invalid }">
+                                        <input type="text" class="form-control" ng-model="Equipment" name="Equipment" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Model</label>
+                                    <div class="col-md-9"  ng-class="{'has-error': tasklist_form.$submitted && tasklist_form.Model.$invalid }">
+                                        <input type="text" class="form-control" ng-model="Model" name="Model" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Make</label>
+                                    <div class="col-md-9"  ng-class="{'has-error': tasklist_form.$submitted && tasklist_form.Make.$invalid }">
+                                        <input type="text" class="form-control" ng-model="Make" name="Make" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-7"></div>
+
+                        </div>
+                        <div class="col-md-12 form-group">
+                            <div class="col-md-7">
+                                <table class="table table-responsive table-bordered ">
+                                    <thead class="top-border">
+                                        <tr>
+                                            <th style="width:5%">Op_Seq</th>
+                                            <th style="width:45%">Description</th>
+                                            <th style="width:15%">MCP</th>
+                                            <th style="width:15%">MWC</th>
+                                            <th style="width:10%">No.of MP</th>
+                                            <th style="width:10%">Remove</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="Ff in tasklist1">
+                                            <td style="width:5%"><input type="text" class="form-control" ng-model="Ff.op_seq" /></td>
+                                            <td style="width:45%"><label ng-bind="Ff.desc1"></label></td>
+                                            <td style="width:15%"><label ng-bind="Ff.mcp1"></label></td>
+                                            <td style="width:15%"><label ng-bind="Ff.mwc"></label></td>
+                                            <td style="width:10%"><label ng-bind="Ff.nmp"></label></td>
+                                            <td style="width:10%"><a ng-click="removetasklist($index)">&nbsp;<i class="fa fa-trash-alt"></i>&nbsp;</a></td>
+
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                                <div class="col-md-12">
+                                    <div class="col-md-10"></div>
+                                    <div class="col-md-2" style="">
+                                        <a ng-click="showAddfortasklist()" style="text-decoration:underline">add operation</a>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-2" style="">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                    <div class="col-md-5"></div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-md-5"></div>
+
+                        </div>
+                        <div class="col-md-5"></div>
+                    </form>
+                </div>
+
+
+                <div id="cotentidtl" style="display:none">
+                    <div class="content">
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Description</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="desc1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">MCP</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="mcp1">
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <a ng-click="showAddformcp()"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">Maintenance Work Centre</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="mwc">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label">No.of Man Power</label>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" ng-model="nmp" numberonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-7"></div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-primary" type="button" ng-click="inserttasklist()">Ok</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <div id="mcp" style="display:none">
+                    <div class="content">
+                        <div class="panel-body">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Discipline</label>
+                                    <div class="col-md-5" ng-class="{'has-error': form.$submitted && form.ddldecipline_desc.$invalid }">
+                                        <select class="form-control" id="ddldecipline_desc" name="ddldecipline_desc" ng-model="deciplinee" ng-options="x.code as x.title for x in Discipline" ng-change="changedrive()" required>
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Drive/Main Eqp/Function</label>
+                                    <div class="col-md-5" ng-class="{'has-error': form.$submitted && form.ddlDrivefunction_desc.$invalid }">
+                                        <select class="form-control" id="ddlDrivefunction_desc" name="ddlDrivefunction_desc" required ng-model="Drivefunctionn" ng-change="changedrive1()" ng-options="x.code as x.title for x in Drive_Main_Eqp_Function | filter : {'Dis' : deciplinee }">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Equipment</label>
+                                    <div class="col-md-5" ng-class="{'has-error': form.$submitted && form.ddlequipment_desc.$invalid }">
+                                        <select class="form-control" name="ddlequipment_desc" id="ddlequipment_desc" required ng-model="Equipmentt" ng-change="changedrive2()" ng-options="x.code as x.title for x in Equipmnt  | filter : {'Dis' : deciplinee }">
+                                            <option value="">Select</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2 no-padding">
+                                        <a ng-click="selectMcp()"><i class="fa fa-search"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <table class="table table-bordered mb-none">
+                                        <thead class="top-border" align="center">
+                                            <tr>
+                                                <th style="width:10%">MCP Code</th>
+                                                <th style="width:10%">Discipline</th>
+                                                <th style="width:20%">Drivefunction</th>
+                                                <th style="width:20%">Equipment</th>
+                                                @*<th style="width:30%">Func Location</th>*@
+                                                <th style="width:10%">Action</th>
+                                            </tr>
+                                        </thead>
+                                        @*<tbody>
+                                        <tr>
+                                            <td style="width:10%"><label>fhfh</label></td>
+                                            <td style="width:10%"><label>ffjj</label></td>
+                                            <td style="width:20%"><label>fjfjj</label></td>
+                                            <td style="width:20%"><label>fjfj</label></td>
+                                            <td style="width:30%"><label>fjfj</label></td>
+                                            <td style="width:10%">
+                                               <a style="text-decoration:underline">Select</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>*@
+                                        <tbody>
+                                            <tr ng-repeat="F in mcplistt2">
+                                                <td style="width:10%"><label ng-bind="F.mcpcode"></label></td>
+                                                <td style="width:10%"><label ng-bind="F.decipline_desc"></label></td>
+                                                <td style="width:20%"><label ng-bind="F.Drivefunction_desc"></label></td>
+                                                <td style="width:20%"><label ng-bind="F.equipment_desc"></label></td>
+                                                @*<td style="width:30%"><label ng-bind="F.functionlocation"></label></td>*@
+                                                <td style="width:10%">
+                                                    &nbsp; &nbsp;
+                                                    <a style="text-decoration:underline" ng-click="loadmcptofz(F.mcpcode)">Select</a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        </div>
+    
+    </section>
+<script src="/Scripts/jBox.js"></script>
+<script src="/Scripts/ctrls/Asset.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+

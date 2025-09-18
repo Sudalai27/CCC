@@ -1,0 +1,191 @@
+﻿
+@{
+    ViewBag.Title = "UNSPSC";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<section role="main" class="content-body" ng-controller="unspscController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+              
+
+                <li><span>Tools</span></li>
+                <li><span>UNSPSC Master</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <a class="download pull-right" href="/Common/UNSPSCTemplate.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+            </div>
+        </div>
+    </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">UNSPSC Master</h2> 
+                </header>
+                <div class="panel-body" >
+
+                    <form name="form" ng-submit="form.$valid && BulkUNSPSC()" novalidate>
+                            <a class="download pull-right" href="/Common/UNSPSCTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                             <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+
+                                    <div class="col-md-12">
+                                        <a ng-click="showfields()" ng-show="viewadd"> <i class="fa fa-plus" style="color:#3e79cb;font-size: 15px;"></i></a>
+                                        <a ng-click="hidefields()" ng-show="viewclose"> <i class="fas fa-times" style="color:#cf4b4b;font-size: 15px;"></i></a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            @*<div class="col-sm-12">
+                                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                    <label ng-bind="Res" class="erroe-hold" />
+                                </div>
+                            </div>*@
+
+
+                            <div class="form-group single-item" ng-show="shinsertupdate">
+                                <div class="col-md-12">
+                                    <div class="col-md-8">
+                                        <label class="col-md-2 control-label">File Upload</label>
+                                        <div class="col-md-7">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                          
+                                        </div>
+                                        <div class="col-md-1">
+                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                        </div>
+                                        <div class="col-md-1"><div class="loading-spiner-holder" data-loading><div class="loading-spiner"><img src="~/Images/loading.gif" /></div></div></div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="alert alert-info upload-alert">
+                                            <p><i class="fa fa-exclamation-circle fa-lg"></i>&nbsp; For UNSPSC bulkupload, download template excel file. All columns are mandatory NOUN and MODIFIER should be in uppercase and only characters.</p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+                           
+                         
+                              
+                                <div class="col-md-12" ng-show="UnspscLst!=null">
+
+
+                                    <div class="col-md-4">
+                                        <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                    </div>
+                                    <div class="control-label col-md-4">
+                                        No.of.Records: <label ng-bind="len" />
+                                    </div>
+                                    <div class="control-label col-md-1" style="text-align:right;">
+                                        Search
+                                    </div>
+                                    <div class="col-md-3">
+                                        <input class="form-control" ng-model="srchText" ng-blur="SearchUNSPSCList()" type="text" />
+                                    </div>
+                                    <table @*datatable="ng" dt-options="dtOptions"*@ class="table table-bordered mb-none" >
+                                        <thead class="top-border">
+                                            <tr>
+                                                <th>Noun</th>
+                                                <th>Modifier</th>
+                                                <th>Value</th>
+                                                <th>Segment</th>
+                                                <th>Segment Title</th>
+                                                <th>Family</th>
+                                                <th>Family Title</th>
+                                                <th>Class</th>
+                                                <th>Class Title</th>
+                                                <th>Commodity</th>
+                                                <th>Commodity Title</th>
+                                                <th>Version</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr ng-repeat="x in UnspscLst">
+                                                <td><label>{{x.Noun}}</label></td>
+                                                <td><label>{{x.Modifier}}</label></td>
+                                                <td><label>{{x.value}}</label></td>
+                                                <td><label>{{x.Segment}}</label></td>
+                                                <td><label>{{x.SegmentTitle}}</label></td>
+                                                <td><label>{{x.Family}}</label></td>
+                                                <td><label>{{x.FamilyTitle}}</label></td>
+                                                <td><label>{{x.Class}}</label></td>
+                                                <td><label>{{x.ClassTitle}}</label></td>
+                                                <td><label>{{x.Commodity}}</label></td>
+                                                <td><label>{{x.CommodityTitle}}</label></td>
+                                                <td><label>{{x.Version}}</label></td>
+                                                <td class="actions">
+                                                    <a ng-click="UnspscDel(x._id)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+
+                                    <pagination ng-model="currentPage"
+                                                total-items="totItem"
+                                                items-per-page="numPerPage"
+                                                max-size="10"
+                                                boundary-links="true"
+                                                ng-click="BindUNSPSCinx(currentPage)">
+                                    </pagination> 
+                                    </div>
+                                  
+                                
+                            </div>
+                    </form>
+
+                </div>
+            </section>
+        </div>
+    </div>
+
+</section>
+
+<script src="/Scripts/ctrls/UNSPSCctrl.js"></script>

@@ -1,0 +1,146 @@
+﻿@{
+    ViewBag.Title = "Characteristics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+
+<section role="main" class="content-body">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+
+                <li><span>Data Dictionary</span></li>
+                <li><span>Create Attribute</span></li>
+            </ol>
+        </div>
+    </header>
+
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-2"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>*@
+            @*<div class="col-md-2">
+                <a class="download pull-right" href="/Common/Attributetemplate.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+            </div>*@
+        @*</div>
+    </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">CREATE ATTRIBUTE</h2>
+                </header>
+                <div class="panel-body" ng-controller="AttController">
+                    <form name="form" ng-submit="form.$valid && createAtt()" novalidate>
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Attribute</label>
+                                    <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+                                        <input type="hidden" ng-model="att._id" /> <input class="form-control" list="lstitms" name="nun" ng-mouseleave="changeCheck()" ng-model="att.Attribute" ng-blur="att.Attribute=att.Attribute.toUpperCase();" type="text" required autocomplete="off" />
+                                    </div>
+                                    <label class="col-md-2 control-label"></label>
+                                </div>
+                                <div class="form-group" ng-show="ValueList != null && att.Attribute != null && att.Attribute != '' && att.Attribute != undefined">
+                                    <label class="col-md-2 control-label">Value List</label>
+                                    <div class="col-md-8">
+                                        <div><input type="text" ng-model="valueSrch" ng-change="BindGroupinxsearch()" class="form-control" /></div>
+                                        <div style="overflow-y:auto;max-height:200px;">
+                                            <table class="table table-bordered mb-none">
+                                                <tbody>
+                                                    <tr id="grp{{$index}}" ng-repeat="mdl in ValueList" @*| filter :{'Value':  valueSrch || undefined} ng-checked="{{mdl.Checked}}" *@>
+                                                        <td class="col-md-1"><input type="checkbox" ng-true-value="'1'" ng-checked="mdl.Checked == '1'" ng-false-value="'0'" ng-model="mdl.Checked" ng-click="checkValue(mdl._id,$index)" id="chk{{mdl._id}}" @*id="chk{{$index}}"*@ /></td>
+                                                        <td class="col-md-11">{{mdl.Value}}{{mdl.vunit}}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <pagination ng-model="currentPage"
+                                                    total-items="totItem"
+                                                    items-per-page="numPerPage"
+                                                    max-size="10"
+                                                    boundary-links="true"
+                                                    ng-click="BindGroupinx(currentPage)">
+                                        </pagination>
+                                    </div>
+                                    <label class="col-md-2 control-label"></label>
+                                </div>
+                            </div>
+                            <div class="col-md-6" ng-show="att.Attribute != null && att.Attribute != '' && att.Attribute != undefined">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Data Type</label>
+                                    <div class="col-md-8">
+                                        <div class="radio-custom col-md-4">
+                                            <input type="radio" ng-checked="true" value="0" ng-model="att.Validation">
+                                            <label name="format">AlphaNumeric</label>
+                                        </div>
+                                        <div class="radio-custom col-md-4">
+                                            <input type="radio" value="1" ng-model="att.Validation">
+                                            <label name="format">Numeric</label>
+                                        </div>
+                                    </div>
+                                    <label class="col-md-2 control-label"></label>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">UOM List</label>
+                                    <div class="col-md-10">
+                                        @*<div><input type="text" ng-model="uomSrch" class="form-control" /></div>   | orderBy:'UOMname'| filter :{'Unitname':  uomSrch || undefined}*@
+                                        <div style="max-height:130px;overflow-y: scroll;border: 1px solid #ccc;">
+                                            <label ng-repeat="mdl in UOMList" class="form-control" style="border:none;width:20%;float: left;    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0) !important;">
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" ng-click="checkUOM(mdl._id,$index)" id="chkU{{$index}}" /> {{mdl.Unitname}}<label for="checkboxExample1"></label>
+                                                </div>
+                                            </label>
+
+                                            <label class="col-md-2 control-label"></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group" ng-show="att.Attribute != null && att.Attribute != '' && att.Attribute != undefined">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary">Create Attribute</button>&nbsp;
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>   
+                             </form>
+                    <datalist id="lstitms">
+                        <option data-ng-repeat="x in AttributesList" value="{{x.Attribute}}">
+                    </datalist>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/DictionaryAttributeCtrl.js"></script>

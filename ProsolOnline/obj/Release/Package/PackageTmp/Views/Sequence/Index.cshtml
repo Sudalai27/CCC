@@ -1,0 +1,233 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section role="main" class="content-body" ng-controller="SequenceController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+               
+                <li><span>Tools</span></li>
+                <li><span>Sequence Master</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Sequence Master</h2>
+                </header>
+                <div class="panel-body">
+                    <form name="form" ng-submit="form.$valid && createSequence()" novalidate>
+                        @*<div class="col-md-12">
+                            <div class="col-sm-12">
+                                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                    <label ng-bind="Res" class="erroe-hold" />
+                                </div>
+                            </div>
+                        </div>*@
+                       
+                            <div class="col-md-12">
+                                <div class="col-md-8">
+
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered mb-none">
+                                            <h4>Long Desc Sequence</h4>
+                                            <thead class="top-border">
+                                                <tr>
+                                                    <th style="width:55%">Category</th>
+                                                    <th style="width:10%">Seq</th>
+                                                    <th style="width:10%">Req</th>
+                                                    <th style="width:25%">Sep</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="x in Lists| filter :'Long'">
+                                                    <td><lable>{{x.Category}}</lable></td>
+                                                    <td>
+                                                        <div class="form-group gap-box" ng-class="{'has-error': form.$submitted && form.seq2.$invalid || form.seq2.$error.pattern || Seqcheck}">
+                                                            <input type="text" ng-disabled="myshow" ng-model="x.Seq" maxlength="2" ng-pattern="/^\d+$/" name="seq2" class="form-control seq-box">
+                                                            <div ng-show="form.seq2.$invalid" class="input-help">
+                                                                <h4 ng-show="form.seq2.$error.required">Noun should not be blank</h4>
+                                                                <h4 ng-show="form.seq2.$error.pattern">Enter characters only</h4>
+
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group gap-box">
+                                                            <select class="form-control" ng-disabled="myshow" ng-class="{'alert-danger': x.Required=='No'}" ng-model="x.Required" ng-options="lst for lst in Req_lst"></select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group gap-box">
+                                                            <div class="form-group gap-box">
+                                                                <select class="form-control" ng-disabled="myshow" ng-model="x.Separator" ng-show="x.Required=='Yes'" ng-options="lst.Separator as lst.SeparatorName for lst in Sep_lst"></select>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered mb-none">
+                                        <h4>Short Desc Sequence</h4>
+                                        <h5 class="mb-md">GENERIC</h5>
+                                        <thead class="top-border">
+                                            <tr>
+                                                <th style="width:55%">Category</th>
+                                                <th style="width:10%">Seq</th>
+                                                <th style="width:10%">Req</th>
+                                                <th style="width:25%">Sep</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in Lists| filter :'Short_Generic'">
+                                                <td><lable>{{x.Category}}</lable></td>
+                                                <td>
+                                                    <div class="form-group gap-box" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.seq1.$error.pattern || Seqcheck1}">
+                                                        <input ng-disabled="myshow" name="seq1" type="text" ng-model="x.Seq" maxlength="2" ng-pattern="/^\d+$/" class="form-control seq-box" required>
+                                                        <div ng-show="form.seq1.$invalid" class="input-help">
+                                                            <h4 ng-show="form.seq1.$error.required">Sequence should not be blank</h4>
+                                                            <h4 ng-show="form.seq1.$error.pattern">Enter number only</h4>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                        <select ng-disabled="myshow" class="form-control" ng-class="{'alert-danger': x.Required=='No'}" ng-model="x.Required" ng-options="lst for lst in Req_lst"></select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                        <div class="form-group gap-box">
+                                                            <select ng-disabled="myshow" class="form-control" ng-model="x.Separator" ng-show="x.Required=='Yes'" ng-options="lst.Separator as lst.SeparatorName for lst in Sep_lst"></select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-bordered mb-none">
+                                        <h4>&nbsp;</h4>
+                                        <h5 class="mb-md">OEM</h5>
+                                        <thead class="top-border">
+                                            <tr>
+                                                <th style="width:55%">Category</th>
+                                                <th style="width:10%">Seq</th>
+                                                <th style="width:10%">Req</th>
+                                                <th style="width:25%">Sep</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="x in Lists| filter :'Short_OEM'">
+                                                <td><lable>{{x.Category}}</lable></td>
+                                                <td>
+                                                    <div class="form-group gap-box" ng-class="{'has-error': form.$submitted && form.seq3.$invalid || form.seq3.$error.pattern || Seqcheck2}">
+                                                        <input ng-disabled="myshow" type="text" name="seq3" ng-model="x.Seq" maxlength="2" ng-pattern="/^\d+$/"  class="form-control seq-box" required>
+                                                        <div ng-show="form.seq3.$invalid" class="input-help">
+                                                            <h4 ng-show="form.seq3.$error.required">Sequence should not be blank</h4>
+                                                            <h4 ng-show="form.seq3.$error.pattern">Enter number only</h4>
+
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                        <select ng-disabled="myshow" class="form-control" ng-class="{'alert-danger': x.Required=='No'}"  ng-model="x.Required" ng-options="lst for lst in Req_lst"></select>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                        <div class="form-group gap-box">
+                                                            <select ng-disabled="myshow" class="form-control" ng-model="x.Separator" ng-show="x.Required=='Yes'" ng-options="lst.Separator as lst.SeparatorName for lst in Sep_lst">
+                                                                @*<option value="">Select</option>*@
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                            <div class="col-md-12 form-group">
+                                <label class="col-md-2 control-label" for="inputDefault">Short description character length</label>
+                                <div class="col-md-1" ng-class="{'has-error': form.$submitted && form.leng.$invalid || form.leng.$error.pattern}">
+                                    <input ng-disabled="myshow" maxlength="3" ng-pattern="/^\d+$/" name="leng" ng-model="Lists[0].ShortLength" class="form-control seq-box" type="text" required>
+                                    <div ng-show="form.leng.$invalid" class="input-help">
+                                        <h4 ng-show="form.leng.$error.required">Sequence should not be blank</h4>
+                                        <h4 ng-show="form.leng.$error.pattern">Enter number only</h4>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-9"></div>
+                            </div>
+                       
+
+                            <div class="form-group">
+                                <div class="col-md-5"></div>
+                                <div class="col-md-2">
+                                    <button class="btn btn-primary" ng-show="btnSubmit" ng-click="editSequence()" type="button">Edit</button><button class="btn btn-primary" ng-show="btnUpdate" type="submit">Update</button>
+                                </div>
+                            </div>
+
+
+
+
+
+</form>
+
+
+
+</div>
+
+            </section>
+        </div>
+    </div>
+</section>
+<script src="/Scripts/ctrls/Sequencectrl.js"></script>

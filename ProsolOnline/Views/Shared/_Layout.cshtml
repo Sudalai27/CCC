@@ -1,0 +1,78 @@
+﻿<!DOCTYPE html>
+<html class="fixed" >
+
+<head>
+
+    <meta charset="UTF-8">
+    @*<base href="/gailgas/">*@
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Prosol Online</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/angular")
+
+</head>
+<body ng-app="ProsolApp" class="pace-done" @*onload="StartTimers();" onclick="ResetTimers();"*@>
+  
+    <div style="
+    background-color: #2e3955;
+    background: #2e3955 url(../Images/Graphic.png);
+    background-position: bottom right;
+    background-repeat: no-repeat;
+">
+        <section class="body">
+            <!-- start: header -->
+            <header class="header">
+                <div class="logo-container">
+                    <a href="#" class="logo" style="margin-top: 10px;">
+                        <img src="~/Images/logo.png" height="35" alt="PROSOL" />
+                    </a>
+
+                    <div class="visible-xs toggle-sidebar-left" data-toggle-class="sidebar-left-opened" data-target="html" data-fire-event="sidebar-left-opened">
+                        <i class="fa fa-bars" aria-label="Toggle sidebar"></i>
+                    </div>
+                </div>
+
+
+
+                <!-- end: search & user box -->
+            </header>
+            <!-- end: header -->
+
+            <div class="inner-wrapper">
+                <!-- start: sidebar -->
+
+                @{ Html.RenderAction("GetMenu", "Dashboard"); }
+                <!-- end: sidebar -->
+
+                <div>
+                    @RenderBody()
+                </div>
+
+            </div>
+
+
+            <footer>
+                <div class="col-md-10"></div>
+                <div class="col-md-2 no-padding">
+                    <h5 class="col-md-6 no-padding" style="color:#fff;text-align: right;font-size: 10px; margin-top: 15px;">
+                        Powered by
+                    </h5>
+                    <div class="col-md-6 mobile-logo" style="padding-left: 5px; padding-bottom: 15px;">  <a href="https://prosolonline.com/" target="_blank"><img src="/Images/Prosol-logo-footer.png" style="width:80px;"></a></div>
+                </div>
+
+
+            </footer>
+
+        </section>
+
+
+        @Scripts.Render("~/bundles/jquery")
+        @Scripts.Render("~/bundles/bootstrap")
+
+        @RenderSection("scripts", required: false)
+    </div>
+
+</body>
+
+
+</html>

@@ -1,0 +1,151 @@
+﻿
+@{
+    ViewBag.Title = "Logics";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section role="main" class="content-body" ng-controller="LogicsController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                
+
+                <li><span>Tools</span></li>
+                <li><span>Add Logics</span></li>
+            </ol>
+        </div>
+    </header>*@
+    <div class="row">
+        <div class="col-md-12" style="background:#fff">
+            <div class="col-md-9" style="height:35px;padding-top:5px;padding-bottom:5px">
+                <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+
+
+            </div>
+            <div class="col-md-3">
+               
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Noun Modifier Logics</h2>
+                </header>
+                <div class="panel-body" >
+
+                    <form name="form" ng-submit="form.$valid && createLogics()" novalidate>
+                        <div class="row">
+                            @*<div class="col-sm-12">
+                                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                    <label ng-bind="Res" class="erroe-hold" />
+                                </div>
+                            </div>*@
+                            <div class="col-md-12">
+                                <div class="col-md-10">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label require-label">Noun</label>
+                                        <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+                                           <input type="hidden" ng-model="Logic._id"/> <input type="text" class="form-control immediate-help" name="nun" ng-pattern="/^(\D)+$/" ng-model="Logic.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" auto-complete required>
+                                            <div ng-show="form.nun.$invalid" class="input-help">
+                                                <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+
+                                            </div>
+                                        </div>
+                                        <label class="col-md-2 control-label require-label">Modifier</label>
+                                        <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.ddlModi.$invalid}">
+
+                                            <select ng-model="Logic.Modifier" name="ddlModi" class="form-control" ng-change="ChangeModifier()" ng-options="x.Modifier as x.Modifier for x in Modifiers" required>
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">General Terms</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" ng-model="Logic.Generalterm" rows="3" id="comment"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Part No List</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" ng-model="Logic.Partno" rows="5" id="comment"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Reference No List</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" ng-model="Logic.Refno" rows="3" id="comment"></textarea>
+                                        </div>
+                                    </div>
+
+                                     <div ng-repeat="CharaRw in rows">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Attribute {{CharaRw.slno}}</label>
+                                       
+                                            <div class="col-md-3" ng-class="{'has-error': form.$submitted && form.ddlAttri{{$index}}.$invalid}">
+                                                <select ng-model="CharaRw.AttributeName" name="ddlAttri{{$index}}" class="form-control" ng-options="x.Name as x.Name for x in AttributesList" required>
+                                                    <option value="" selected="selected">Select</option>
+                                                </select>
+
+                                            </div>
+                                            <div class="col-md-6" ng-class="{'has-error': form.$submitted && form.attrilist{{$index}}.$invalid}">
+                                               <textarea class="form-control immediate-help" name="attrilist{{$index}}" ng-model="CharaRw.Values" rows="4" id="comment" required></textarea>
+                                                <div ng-show="form.attrilist{{$index}}.$invalid" class="input-help">
+                                                    <h4 ng-show="form.attrilist{{$index}}.$error.required">Text area should not be blank</h4>                                               
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1"><button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow($index)">Remove</button></div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">&nbsp;</label>
+                                        <div class="col-md-3">&nbsp;</div>
+                                        <div class="col-md-4">&nbsp;</div>
+                                        <div class="col-md-2"><button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-disabled="form.$invalid" ng-click="addRow()">Add More</button></div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label">Manufacturer</label>
+                                        <div class="col-md-10">
+                                            <textarea class="form-control" ng-model="Logic.Manufacturer" rows="5" id="comment"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="col-md-5"></div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-primary">Submit</button>
+                                            
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div class="col-md-2"></div>
+                            </div>
+                        </div>
+                        </form>
+</div>
+                </section>
+        </div>
+    </div>
+  
+</section>
+
+<script src="/Scripts/ctrls/Logicsctrl.js"></script>
+
+

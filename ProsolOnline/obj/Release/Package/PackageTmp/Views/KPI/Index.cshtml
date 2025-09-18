@@ -1,0 +1,242 @@
+﻿
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .border-text {
+        border: 1px solid #ccc;
+        margin-top: 10px;
+    }
+
+    h4 {
+        color:#333;
+        margin-top: -10px;
+        margin-left: 5px;
+        background: white;
+    }
+</style>
+<section role="main" class="content-body">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Kpi</span></li>
+                <li><span>Index</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+        </div>
+    </header>*@
+    <div class="row">
+        <form name="form">
+            <div class="col-xs-12">
+                <section class="panel form-wizard" id="w4">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Project Plan</h2>
+                    </header>
+
+                    <div class="panel-body" style="padding: 10px 0 10px 0;">
+                        <div class="col-md-6">
+                            <div class="border-text">
+
+                                <h4 style="max-width: 150px;">Working Days Calc</h4>
+                                <div class="form-group">
+                                    <label class="col-md-4">Project Name</label>
+                                    <div class="col-md-8">
+                                        <input type="text" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Project Start date</label>
+                                    <div class="col-md-4">
+
+                                        <input type="text" id="txtFrom" name="Fromdate" class="form-control" placeholder="Start Date">
+
+                                    </div>
+                                    <div class="col-md-4" ng-class="{'has-error': form.$submitted &amp;&amp; form.Todate.$invalid}">
+
+                                        <input type="text" id="txtTo" name="Todate" class="form-control" placeholder="End Date">
+                                    </div>
+
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">No of Items</label>
+                                    <div class="col-md-8"><input type="text" class="form-control" /></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Target Per Cataloguer</label>
+                                    <div class="col-md-8"><input type="text" class="form-control" /></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Target Per Qc</label>
+                                    <div class="col-md-8"><input type="text" class="form-control" /></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">No.of Cataloguers</label>
+                                    <div class="col-md-8"><input type="text" class="form-control" /></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">No.of Qc</label>
+                                    <div class="col-md-8"><input type="text" class="form-control" /></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">No of Working Date</label>
+                                    <div class="col-md-8"><label>150</label></div>
+                                </div>
+
+
+                                <div class="form-group">
+                                    <div class="col-md-4"></div>
+                                    <div class="col-md-6 form-submit">
+                                        <button id="submit_button" type="submit" class="btn btn-primary">Save</button>
+                                        <button id="submit_button" type="submit" class="btn btn-primary">Calc</button>
+                                        <button id="submit_button" type="reset" class="btn btn-primary">Clear</button>
+                                    </div>
+                                    <div class="col-md-2 form-submit">
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                     <div class="col-md-6">
+                         <div class="border-text">
+
+                             <h4 style="max-width: 150px;">Holiday Settings</h4>
+                             <div class="form-group">
+                                 <label class="col-md-4 control-label">Date</label>
+                                 <div class="col-md-8">
+                                     <input type="text" id="txtFrom" name="Fromdate" class="form-control" placeholder="Date">
+                                 </div>
+                             </div>
+                             <div class="form-group">
+                                 <label class="col-md-4 control-label">Holiday</label>
+                                 <div class="col-md-8">
+                                     <input type="text" id="txtFrom" name="Fromdate" class="form-control">
+                                 </div>
+                             </div>
+                             <div class="form-group">
+                                 <div class="col-md-4"></div>
+                                 <div class="col-md-6 form-submit">
+                                     <button id="submit_button" type="submit" class="btn btn-primary">Save</button>
+                                     <button id="submit_button" type="reset" class="btn btn-primary">Clear</button>
+                                 </div>
+                                 <div class="col-md-2 form-submit">
+
+                                 </div>
+                             </div>
+                          
+                                 <table class="table table-bordered table-striped mb-none dataTable no-footer">
+                                     <thead class="top-border">
+                                         <tr>
+                                             <th width="47%">Date</th>
+                                             <th width="47%">Holidate</th>
+                                             <th width="6%">Action</th>
+                                         </tr>
+                                     </thead>
+                                     <tr>
+                                         <td>01/01/2018</td>
+                                         <td>New year</td>
+                                         <td><i class="fa fa-trash-alt"></i></td>
+                                     </tr>
+                                     <tr>
+                                         <td>14/01/2018</td>
+                                         <td>Pongal</td>
+                                         <td><i class="fa fa-trash-alt"></i></td>
+                                     </tr>
+                                     <tr>
+                                         <td>01/05/2018</td>
+                                         <td>May Day</td>
+                                         <td><i class="fa fa-trash-alt"></i></td>
+                                     </tr>
+                                 </table>
+                             
+
+                             </div>
+                         </div>
+
+
+
+                    </div>
+
+                </section>
+            </div>
+        </form>
+
+
+    </div>
+
+
+    <div class="row">
+        <form name="form">
+            <div class="col-xs-6">
+                <section class="panel form-wizard" id="w4">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Cataloguer</h2>
+                    </header>
+
+                    <div class="panel-body" style="padding: 10px 0 10px 0;">
+                        <div class="col-md-12">
+                            <div class="border-text">
+
+                                <h4 style="max-width: 150px;">Cataloguer Calc </h4>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">No.of Cataloguer</label>
+                                    <div class="col-md-8"><label>10</label></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Per Day Target</label>
+                                    <div class="col-md-8"><label>80</label></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">End Date</label>
+                                    <div class="col-md-8"><label>10/10/2017</label></div>
+                                </div>
+              
+                            </div>
+                        </div>
+      
+
+                    </div>
+
+                </section>
+            </div>
+            <div class="col-xs-6">
+                <section class="panel form-wizard" id="w4">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Qc</h2>
+                    </header>
+
+                    <div class="panel-body" style="padding: 10px 0 10px 0;">
+                        <div class="col-md-12">
+                            <div class="border-text">
+
+                                <h4 style="max-width: 70px;">Qc Calc </h4>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">No.of Qc</label>
+                                    <div class="col-md-8"><label>10</label></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">Per Day Target</label>
+                                    <div class="col-md-8"><label>80</label></div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label">End Date</label>
+                                    <div class="col-md-8"><label>10/10/2017</label></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </section>
+            </div>
+        </form>
+
+
+    </div>
+</section>
+

@@ -1,0 +1,415 @@
+﻿
+@{
+    ViewBag.Title = "servicemapping";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<style>
+    .box {
+        width: 20%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid orange;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: orange;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        z-index: 1042;
+        opacity: 0;
+        overflow: scroll;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 90%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -5px;
+            right: 3px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+
+            .popup .close:hover {
+                color: orange;
+            }
+
+
+
+    .popup-scroll {
+        border: 1px solid #c2d8eb;
+        height: 650px;
+        width: 33%;
+        margin-left: 2px;
+        float: left;
+        overflow-y: scroll;
+        overflow-x: none !important;
+    }
+
+    .pop-bg {
+        background: #f0f0f0;
+    }
+
+    .all-pop .form-group {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="ServiceMappingController">
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Service Mapping </h2>
+                </header>
+              <div class="panel-body">
+                    <form name="form" ng-submit="searching1()" ng-hide="Itemcode !=null" class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-3 ">
+
+                                        <label>Service search</label>
+                                    </div>
+
+                                    <div class="col-md-7 no-padding">
+
+                                        <input type="text" style="height:27px" class="form-control" ng-model="searchkey1" required />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div class="col-md-1">
+                                    @*<div cg-busy="promise" style="top:50px"></div>*@
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </form>
+                    <from>
+                        <div class="col-md-12 form-group" ng-hide="sResult1==null" >
+                            <div class="table-responsive" style="border-bottom:1px solid #ccc">
+                                <div style="display:block;max-height:180px;">
+                                    <table class="table table-bordered mb-none">
+                                        <thead class="top-border" align="center">
+                                            <tr>
+
+                                                <th style="width:10%">ServiceCode</th>
+                                                <th style="width:8%">Service</th>
+                                                <th style="width:8%">Activity</th>
+                                                <th style="width:24%">Legacy</th>
+                                                <th style="width:20%">ShortDesc</th>
+                                                <th style="width:30%">LongDesc</th>
+                                                <th style="width:5%">UOM</th>
+                                                <th style="width:5%">Parent</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="mat in sResult1" id="{{$index}}" ng-click="MatClick(mat,$index)">
+                                                <td style="width:10%"><label ng-bind="mat.ServiceCode"></label></td>
+                                                <td style="width:8%"><label ng-bind="mat.MainCode"></label></td>
+                                                <td style="width:8%"><label ng-bind="mat.SubCode"></label></td>
+                                                <td style="width:24%"><label ng-bind="mat.Legacy"></label></td>
+                                                <td style="width:20%"><label ng-bind="mat.ShortDesc"></label></td>
+                                                <td style="width:30%"><label ng-bind="mat.LongDesc"></label></td>
+                                                <td style="width:5%"><label ng-bind="mat.UomCode"></label></td>
+                                                <td style="width:5%"><label ng-bind="mat.parent"></label></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </from>
+                
+                    <div class="col-md-12" ng-hide="ServiceCode==null">
+                        <fieldset>
+                            <legend style="font-size: 20px;" ng-bind="tabname"></legend>
+
+                            <form name="form" id="form">
+                                <div class="col-md-6">
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" ng-hide="ServiceCode==null" style="font-weight:bold">Service Code :</label>
+                                        <div class="col-sm-6">
+                                            <label ng-bind="ServiceCode" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="MainCode==null">Service :</label>
+                                        <div class="col-sm-6">
+                                            <label ng-bind="MainCode" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="SubCode==null">Activity :</label>
+                                        <div class="col-sm-6">
+                                            <label ng-bind="SubCode" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="ShortDesc==null">Shortdesc :</label>
+                                        <div class="col-sm-6">
+                                            <label ng-bind="ShortDesc" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="LongDesc==null">LongDesc :</label>
+                                        <div class="col-sm-6">
+                                            <label ng-bind="LongDesc" />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="UomCode==null">UOM :</label>
+                                        <div class="col-sm-6">
+                                            <label ng-bind="UomCode" />
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-md-12">
+                                    <div class="col-md-5"></div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <button class="btn btn-primary" type="button" ng-hide=selected ng-click="ClearItem()">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </fieldset>
+                        <br />
+                             </div>
+                    
+
+                    <form name="form" ng-submit="SearchItem(ServiceCode)" ng-hide="serchhide" class="col-md-12">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                <div class="col-md-6 no-padding">
+                                    <div class="col-md-3 ">
+
+                                        <label>Service search</label>
+                                    </div>
+
+                                    <div class="col-md-7 no-padding">
+
+                                        <input type="text" style="height:27px" class="form-control" ng-model="searchkey" required />
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button class="btn btn-primary" type="submit">Search</button>
+                                    </div>
+                                </div>
+                                <div class="col-md-6"></div>
+                                <div class="col-md-1">
+                                    @*<div cg-busy="promise" style="top:50px"></div>*@
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </form>
+
+
+                    <div class="col-md-12 form-group" id="cotentid" ng-hide="sResult==null">
+                        <div ng-show="sResult != null" style="max-height:300px;overflow-y:auto">
+
+                            <table class="table table-bordered mb-none" id="data">
+
+                                <thead class="top-border" align="center">
+                                    <tr>
+                                        <th style="width:15%">Code</th>
+                                        <th style="width:25%">Legacy</th>
+                                        <th style="width:25%">Short Desc</th>
+                                        <th style="width:30%">Long Desc</th>
+                                        <th style="width:5%" ng-hide="serchhide">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="src in sResult" id="{{$index}}" @*ng-click="RowClick(src,$index)"*@>
+                                        <td style="width:15%"><label ng-bind="src.ServiceCode"></label></td>
+                                        <td style="width:25%"><label ng-bind="src.Legacy"></label></td>
+                                        <td style="width:25%"><label ng-bind="src.ShortDesc"></label></td>
+                                        <td style="width:30%"><label ng-bind="src.LongDesc"></label></td>
+                                        <td style="width:5%">
+                                            <div class="checkbox-custom checkbox-default">
+                                                <input class="chk" type="checkbox" id="checkboxExample1" ng-click="identifyAdd_rows($index)">
+                                                <label> &nbsp; </label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                        <div class="col-md-12" ng-show="sResult != null">
+                            <div class="col-md-9"></div>
+                            <div class="form-group col-md-3 no-padding" style="text-align:right">
+                                <input type="button" class="btn btn-success" id="Submit" ng-hide="add" ng-click="addRow()" value="Add" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <form ng-submit="Create()" name="form" id="form" ng-hide="flow == null">
+                        <div class="col-md-12">
+                            <br />
+                            <fieldset ng-hide="hide">
+                                <legend style="font-size: 20px;" ng-bind="tabname1"></legend>
+                                <div class="table-responsive">
+                                    <table id="maintable" class="table mb-none LeftPaddingRemoving" ng-hide=hide>
+
+                                        <thead class="top-border">
+                                            <tr>
+                                                <th style="width: 5%">Sn No</th>
+                                                <th style="width: 15%">ServiceCode</th>
+                                                <th style="width: 25%">ShortDesc</th>
+                                                <th style="width:35%">LongDesc</th>
+                                                <th style="width: 10%" ng-hide="serchhide">Action</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <table class="table table-bordered mb-none" ng-hide=hide>
+
+                                        <tbody>
+                                            <tr ng-repeat="fl in flow">
+                                                <td style="width: 5%">
+
+
+                                                    <label id="Squence" ng-bind=$index+1 />
+
+
+                                                </td>
+                                                <td style="width: 15%">
+                                                    <div class="col-md-12 no-padding">
+                                                        <div class="col-md-10 no-padding">
+                                                            <label ng-bind="fl.ServiceCode" ng-show="fl.ServiceCode!=null"></label>
+                                                        </div>
+                                                    </div>
+                                                </td>
+
+                                                <td style="width: 25%"><label ng-bind="fl.ShortDesc"></label></td>
+                                                <td style="width: 35%"><label ng-bind="fl.LongDesc"></label></td>
+                                                <td ng-hide="serchhide" style="width: 10%">
+
+                                                    <div class="checkbox-custom checkbox-default" style="margin-left:18%;">
+                                                        <input type="checkbox" class="chk1" id="checkboxExample1" ng-click="identifyremove_rows($index)" />
+                                                        <label>&nbsp;</label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+                                        </tbody>
+
+                                    </table>
+                                    <div class="">
+                                        <div class="col-md-9"></div>
+                                        <div class="form-group col-md-3 no-padding" style="text-align:right" ng-hide=removeshow>
+
+                                            <input type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()" value="Remove" />
+                                        </div>
+                                    </div>
+                                </div>
+</fieldset>
+</div>
+
+                        <div class="col-md-12" ng-hide=hide>
+                            <div class="form-group">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-4">
+
+                                    <button class="btn btn-primary" ng-hide=Create1>Create</button><button ng-hide=update class="btn btn-primary">Update</button>&nbsp;<button class="btn btn-primary" type="button" ng-click="ClearItem1()">Clear</button>
+                                </div>
+                                <div class="col-md-4"></div>
+                            </div>
+                        </div>
+
+                    </form>
+
+                </div>
+
+
+            </section>
+        </div>
+    </div>
+
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+
+<script src="~/Scripts/ctrls/ServiceMapping.js"></script>
+<script src="~/Scripts/jBox.js"></script>

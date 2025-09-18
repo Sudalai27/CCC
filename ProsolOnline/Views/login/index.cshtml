@@ -1,0 +1,97 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html class="fixed">
+<head>
+    <!-- Basic -->
+    <meta charset="UTF-8">
+    <!-- Mobile Metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
+    <link href="~/Content/theme.css" rel="stylesheet" />
+    <link href="~/Content/theme-custom.css" rel="stylesheet" />
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <link href="~/Content/css/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/css/input.css" rel="stylesheet" />
+
+  
+
+</head>
+<body ng-app="loginctrl" ng-controller="logincontroller" style="background-image: url(~/Images/dashboard-bg.jpg)">
+ 
+    <section class="body-sign">
+        <div class="center-sign">
+            <div>
+                <a href="" class="logo pull-left">
+                    <img src="~/Images/logo.png" height="75" />
+
+
+                </a>
+                <div class="panel panel-sign" style="border: 1px solid #b8c7da !important">
+                    <div class="panel-title-sign mt-xl text-right">
+                        <h2 class="title text-uppercase text-weight-bold m-none"><i class="fa fa-user mr-xs"></i> Sign In</h2>
+                    </div>
+                    <div class="panel-body">
+                        <form name="form" ng-submit="form.$valid && checklogin_details()" novalidate>
+                            <div class="form-group mb-lg">
+                                <label>Username</label>
+                                <div ng-class="{'has-error': form.$submitted && form.username.$invalid }" class="input-group input-group-icon controls">
+                                    <input name="username" type="text" ng-model="login.UserName" class="form-control input-lg immediate-help" ng-required="true" />
+                                    <div ng-show="form.username.$invalid" class="input-help">
+                                        <h4>UserName Required</h4>
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <span class="icon icon-lg">
+                                            <i class="fa fa-user"></i>
+                                        </span>
+                                    </span>
+
+                                </div>
+                            </div>
+                            <div class="form-group mb-lg">
+                                <div class="clearfix">
+                                    <label class="pull-left">Password</label>
+
+                                </div>
+                                <div ng-class="{'has-error': form.$submitted && form.pwd.$invalid }" class="input-group input-group-icon controls">
+                                    <input name="pwd" type="password" ng-model="login.Password" class="form-control input-lg immediate-help" ng-required="true" />
+                                    <div ng-show="form.pwd.$invalid" class="input-help">
+                                        <h4>Password Required</h4>
+                                    </div>
+                                    <span class="input-group-addon">
+                                        <span class="icon icon-lg">
+                                            <i class="fa fa-lock"></i>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-8">
+                                    <a href="@Url.Action("Index","passwordrecovery")" class="pull-right">Lost Password?</a>
+                                </div>
+                                <div class="col-sm-4 text-right">
+                                    <button type="submit" class="btn btn-primary hidden-xs">Sign In</button>
+                                </div>
+                            </div>
+                            <span style="color:red"> <label ng-bind="Error1"></label> </span>
+                        </form>
+                        <span>© 2023 CODASOL. All Rights Reserved</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+        <!-- end: page -->
+        <script src="~/Scripts/angular.js"></script>
+        <script src="~/Scripts/jquery.js"></script>
+        <script src="~/Scripts/theme.js"></script>
+        <script src="~/Scripts/bootstrap.js"></script>
+        <script src="~/Scripts/ctrls/loginpage.js"></script>
+  
+</body>
+</html>

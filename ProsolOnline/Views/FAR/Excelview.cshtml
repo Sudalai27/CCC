@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "CustomerPage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/handsontable.full.min.js"></script>
+<link href="/Content/handsontable.full.min.css" rel="stylesheet" type="text/css" />
+<style>
+    ::-webkit-scrollbar {
+        width: 8px !important;
+        height: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0);
+    }
+
+    .tbl-header {
+        width: 99.6%;
+    }
+
+    td:nth-child(8), th:nth-child(7) {
+        width: 10% !important;
+    }
+
+    td:nth-child(9), th:nth-child(8) {
+        width: 6% !important;
+    }
+
+    td:nth-child(10), th:nth-child(9) {
+        width: 3% !important;
+    }
+
+    table.table.table-bordered.table-scroll-td td {
+        padding: 3px;
+        /* border: 1px solid #b3b2b2;*/
+    }
+
+    .fixTableHead thead th {
+        position: sticky;
+        top: 0;
+    }
+
+    input.check-customer {
+        width: 14px;
+        height: 14px;
+        margin: 0 auto;
+    }
+
+    tr.top-tr th {
+        text-transform: capitalize !important;
+    }
+
+    tr.trclf {
+        background-color: #e98b8b;
+    }
+
+    tr.trwfa {
+        background-color: orange;
+    }
+
+    .table {
+        margin-bottom: 0px !important;
+    }
+    .table-responsive {
+        
+        overflow-x: hidden !important;
+    }
+    tbl-content {
+        overflow-x: hidden !important;
+    }
+</style>
+
+<section role="main" class="content-body" ng-controller="AssetCustomerrController">
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+   
+
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <form name="form" ng-submit="form.$valid && saveRemarks()" novalidate>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <div style="display: block; max-height: 280px; overflow-y: scroll;" class="tbl-content fixTableHead">
+                                <input type="hidden" ng-model="hBusiness" />
+                                <input type="hidden" ng-model="hMajor" />
+                                <input type="hidden" ng-model="hMinor" />
+                                <input type="hidden" ng-model="hindx" />
+                                
+
+                                <div id="myHandsonTable" class="hot handsontable dataTable" style="min-height: 250px; overflow: hidden; width: 100%;" data-originalstyle="min-height: 250px; overflow: hidden; width: 100%;"></div>                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <button type="button" ng-click="Approvedata()" class="btn btn-primary">Approve</button>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label" for="inputDefault">Remark</label>
+                                    <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.remk.$invalid}">
+                                        <textarea class="form-control" rows="2" id="textareaDefault" name="remk" ng-model="Remark"></textarea>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary">Save</button>
+
+
+                                    </div>
+                                    <div class="col-md-1">
+                                        <button id="showstatus" type="button" class="mb-xs mt-xs mr-xs btn btn-primary"><i class="fas fa-gear"></i> </button>
+                                        <div id="flowconId" style="display:none">
+
+                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="SaveFields()" style="float: right; margin-top: 5px;">Save </button>
+
+                                            <table>
+                                                <tr ng-repeat="x in rows ">
+                                                    <td><input type="checkbox" ng-checked="x.Visible" ng-click="selectfield(x.Display,$index,x.ColName)" ng-model="x.Visible" id="chk{{$index}}" class="check-customer" /></td>
+                                                    <td><label ng-bind="x.Display"></label></td>
+
+                                                </tr>
+
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+
+
+
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/ctrls/AssetCustomer.js"></script>
+<script src="/Scripts/ctrls/downloadexcel.js"></script>
+<script src="~/Scripts/jBox.js"></script>

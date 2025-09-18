@@ -1,0 +1,133 @@
+﻿
+@{
+    ViewBag.Title = "UOM";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section role="main" class="content-body" ng-controller="UOMController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+               
+                <li><span>Tools</span></li>
+                <li><span>UOM Settings</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">UOM Settings</h2>
+                </header>
+                <div class="panel-body">
+                    <form name="form" ng-submit="form.$valid && createUOMSettings()" novalidate>
+                        @*<div class="col-md-12">
+                            <div class="col-sm-12">
+                                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                    <label ng-bind="Res" class="erroe-hold" />
+                                </div>
+                            </div>
+                        </div>*@
+
+                        <div class="col-md-12">
+                            <div class="col-md-6">
+
+                                <div class="table-responsive">
+                                    <table class="table table-bordered mb-none">                                      
+                                        <thead class="top-border">
+                                            <tr>
+                                                <th style="width:55%">Description</th>
+                                                <th style="width:10%">Settings</th>
+                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Short</td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                     <input type="hidden" ng-model="x._id"/>  <select class="form-control" ng-disabled="myshow" ng-init="x.Short_space==null?x.Short_space='with space':x.Short_space" ng-model="x.Short_space" ng-options="lst for lst in ['with space','without space']"></select>
+                                                       
+                                                    </div>
+                                                </td>
+                                               
+                                            </tr>
+                                            <tr>
+                                                <td>Long</td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                        <select class="form-control" ng-disabled="myshow" ng-init="x.Long_space==null?x.Long_space='with space':x.Long_space" ng-model="x.Long_space" ng-options="lst for lst in ['with space','without space']"></select>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+
+                                            <tr>
+                                                <td>Is unit required for short ?</td>
+                                                <td>
+                                                    <div class="form-group gap-box">
+                                                        <select class="form-control" ng-disabled="myshow" ng-init="x.Short_required==null?x.Short_required='No':x.Short_required" ng-model="x.Short_required" ng-options="lst for lst in ['No','Yes']"></select>
+                                                    </div>
+                                                </td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+
+                            </div>
+                        </div>
+                 
+
+                        <div class="form-group">
+                            <div class="col-md-3"></div>
+                            <div class="col-md-3"><br/>
+                                <button class="btn btn-primary" ng-show="btnSubmit" ng-click="editUOMSettings()" type="button">Edit</button><button class="btn btn-primary" ng-show="btnUpdate" type="submit">Update</button>
+                            </div>
+                        </div>
+
+
+
+
+
+                    </form>
+
+
+
+                </div>
+
+            </section>
+        </div>
+    </div>
+</section>
+<script src="/Scripts/ctrls/UOMctrl.js"></script>
+

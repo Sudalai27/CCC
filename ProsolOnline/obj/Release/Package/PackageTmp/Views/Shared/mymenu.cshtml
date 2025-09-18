@@ -1,0 +1,413 @@
+﻿
+<style>
+    li.borders.col-md-12.no-padding {
+        border-bottom: 1px solid #616060;
+    }
+</style>
+<header class="header header-nav-menu">
+    <div class="logo-container">
+        <a href="/Dashboard/HomeIndex" class="logo" style="margin-top: 5px;padding: 2px 10px;">
+            <img src="~/Images/City-cement-logo.svg" height="45" alt="PROSOL"  />
+        </a>
+
+        <!-- end: header nav menu -->
+        <!-- start: search & user box -->
+        <button class="btn header-btn-collapse-nav hidden-md hidden-lg" data-toggle="collapse" data-target=".header-nav">
+            <i class="fa fa-bars"></i>
+        </button>
+
+        <!-- start: header nav menu -->
+        <div class="header-nav collapse">
+            <div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1">
+                <nav>
+                    <ul class="nav nav-pills" id="mainNav">
+
+                        <li class="dropdown  @ViewBag.p80" style="display:@ViewBag.P8">
+                            <a class="dropdown-toggle">
+                                <i class="fas fa-user-plus" aria-hidden="true"></i>
+                                <span> &nbsp;&nbsp;Users</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li style="display:@ViewBag.p8c1" class="@ViewBag.P8_C1">
+                                    <a href="@Url.Action("Update","User")"> User</a>
+                                </li>
+                                <li style="display:@ViewBag.p8c2" class="@ViewBag.P8_C2">
+                                    <a href="@Url.Action("Access","User")"> Access permissions</a>
+                                </li>
+                                <li style="display:@ViewBag.P01" class="@ViewBag.P01_C11">
+                                    <a href="@Url.Action("Guideline","Dashboard")">
+
+                                        <span>Guideline</span>
+                                    </a>
+                                </li>
+                                <li style="display:@ViewBag.P02" class="@ViewBag.P02_C11">
+                                    <a href="@Url.Action("Docs","Dashboard")">
+                                        <span>Sample Docs</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown dropdown-mega @ViewBag.t10" style="display:@ViewBag.t1">
+                            <a class="nav-link dropdown-toggle" href="#"><i class="fas fa-cogs" aria-hidden="true" title="Material Master"></i> Material Master<i class="fas fa-caret-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <div class="dropdown-mega-content">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <ul class="dropdown-mega-sub-nav">
+
+                                                    <div class="col-lg-2 reduce-width">
+                                                        <h5 style="font-weight: bold;margin-top: 15px;">Dashboard</h5>
+                                                        <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+                                                            @*<li style="display:@ViewBag.P0" class="@ViewBag.P0_C1">
+                                                        <a href="@Url.Action("Newdashboard","Dashboard")" style="font-size: 1.4rem;color: #000;">
+                                                            Dashboard
+                                                        </a>
+                                                    </li>*@
+                                                            <li style="display:@ViewBag.P0" class="@ViewBag.P0_C1">
+                                                                <a href="@Url.Action("Dashboard1","Dashboard")" style="font-size: 1.4rem;color: #000;">
+                                                                    Material Dashboard
+                                                                </a>
+                                                            </li>
+                                                            @*<li style="display:@ViewBag.P0" class="@ViewBag.P0_C1">
+                                                        <a href="@Url.Action("Index","Dashboard")" style="font-size: 1.4rem;color: #000;">
+                                                            Dashboard Offline
+                                                        </a>
+                                                    </li>*@
+                                                        </ul>
+                                                        <div>
+                                                            <h5 style="font-weight: bold;margin-top: 15px;">Search</h5>
+
+                                                            <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+                                                                <li style="display:@ViewBag.p2c2" class="@ViewBag.P2_C2">
+                                                                    <a href="@Url.Action("Searchbydesc","Search")">
+                                                                        Fuzzy Search
+                                                                    </a>
+                                                                </li>
+
+                                                            </ul>
+
+                                                        </div>
+                                                        @*<div style="">
+                                                    <h5 class="@ViewBag.p30" style="display:@ViewBag.P3;font-weight: bold;margin-top: 15px;" ng-class="P3">Request </h5>
+
+                                                    <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                        <li style="@ViewBag.P3_C1W" class="@ViewBag.P3_C1">
+                                                            <a href="@Url.Action("Index","MaterialRequest")" style="@ViewBag.p3c1"> Request Item</a>
+                                                        </li>
+                                                        <li style="@ViewBag.P3_C3W" class="@ViewBag.P3_C3">
+                                                            <a href="@Url.Action("index","Approver")" style="@ViewBag.p3c3"> Approve Item</a>
+                                                        </li>
+                                                        <li style="display:@ViewBag.p1c3" class="@ViewBag.P1_C3">
+                                                            <a href="@Url.Action("Bigdata","GeneralSettings")">Bulk User Assign</a>
+                                                        </li>
+                                                    </ul>
+
+                                                </div>*@
+                                                        <div style="display:@ViewBag.P1">
+                                                            @*<h5 class="@ViewBag.p10" style="display:@ViewBag.P1;font-weight:bold;">Files </h5>*@
+                                                            <h5 class="@ViewBag.p10" style="display:block;font-weight:bold;">Files </h5>
+                                                            <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+                                                                <li style="display:@ViewBag.p1c1" class="@ViewBag.P1_C1">
+                                                                    <a href="@Url.Action("Import","File")">Import</a>
+                                                                </li>
+                                                                <li style="display:@ViewBag.p1c3" class="@ViewBag.P1_C3">
+                                                                    <a href="@Url.Action("Assignwork","File")"> Assign Work</a>
+                                                                </li>
+                                                                <li class="@ViewBag.P4_C4" style="@ViewBag.P4_C4W">
+                                                                    <a href="@Url.Action("Bulk","Catalogue")" style="@ViewBag.p4c4">Bulk Upload</a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+
+
+                                                    </div>
+                                                    <div class="col-lg-2 reduce-width  color-gray" style="">
+                                                        @*<div style="">
+                                                    <h5 class="@ViewBag.z10" style="font-weight:bold;">Equipment Creation</h5>
+
+
+                                                    <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                        <li class="@ViewBag.Z1_C1" style="@ViewBag.Z1_C1W">
+                                                            <a href="@Url.Action("Equipments","Equipment")" style="display:@ViewBag.z1c1">New Equipment</a>
+                                                        </li>
+                                                        <li class="@ViewBag.Z1_C2" style="@ViewBag.Z1_C2W">
+                                                            <a href="@Url.Action("EquipmentDictionary","Equipment")" style="display:@ViewBag.z1c2">Equipment Dictionary</a>
+                                                        </li>
+
+                                                        <li class="@ViewBag.Z1_C2" style="@ViewBag.Z1_C2W">
+                                                            <a href="@Url.Action("SrchEquipment","Equipment")" style="display:@ViewBag.z1c2">Search</a>
+                                                        </li>
+                                                    </ul>
+
+
+
+                                                </div>*@
+                                                        <h5 class="@ViewBag.p40" style="font-weight:bold;">Catalogue </h5>
+
+
+                                                        <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                            <li class="@ViewBag.P4_C1" style="@ViewBag.P4_C1W">
+                                                                <a href="@Url.Action("Index","Catalogue")" style="@ViewBag.p4c1"> Catalogue</a>
+                                                            </li>
+
+                                                            <li class="@ViewBag.P4_C2" style="@ViewBag.P4_C2W">
+                                                                <a href="@Url.Action("Review","Catalogue")" style="@ViewBag.p4c2">Quality Control</a>
+                                                            </li>
+
+                                                            <li class="@ViewBag.P4_C3" style="@ViewBag.P4_C3W">
+                                                                <a href="@Url.Action("Release","Catalogue")" style="@ViewBag.p4c3">Quality Assurance</a>
+                                                            </li>
+
+                                                            <li class="@ViewBag.P4_C5" style="@ViewBag.P4_C5W">
+                                                                <a href="@Url.Action("Pvdata","Catalogue")" style="@ViewBag.p4c5">PV Data</a>
+                                                            </li>
+
+                                                        </ul>
+
+                                                        @*<div class="col-lg-2 reduce-width color-gray" style="">  *@
+                                                        <h5 class="@ViewBag.p50" style="display:@ViewBag.P5;font-weight: bold;">Taxonomy </h5>
+                                                        <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                            @*<li style="@ViewBag.P5_C2" class="@ViewBag.P5_C2">
+                                                        <a href="@Url.Action("Plant", "Master")" style="@ViewBag.p5c2">Plant</a>
+                                                    </li>
+                                                    <li style="@ViewBag.P5_C1W" class="@ViewBag.P5_C1">
+                                                        <a href="@Url.Action("General","Master")" style="@ViewBag.p5c1">General</a>
+                                                    </li>
+
+                                                    <li style="@ViewBag.P5_C3W" class="@ViewBag.P5_C3">
+                                                        <a href="@Url.Action("MRP","Master")" style="@ViewBag.p5c3">Mrp data</a>
+                                                    </li>
+                                                    <li style="@ViewBag.P5_C4W" class="@ViewBag.P5_C4">
+                                                        <a href="@Url.Action("Sales","Master")" style="@ViewBag.p5c4">Sales & Others</a>
+                                                    </li
+                                                    <li style="display:@ViewBag.p5c5" class="@ViewBag.P5_C5">
+                                                        <a href="@Url.Action("Vendor1","GeneralSettings")" style="@ViewBag.p5c5">Vendor Master</a>
+                                                    </li>>*@
+                                                            <li style="@ViewBag.P5_C6W" class="@ViewBag.P5_C6">
+                                                                <a href="@Url.Action("Index","GeneralSettings")" style="@ViewBag.p5c6">Coding Logic</a>
+                                                            </li>
+                                                            @*<li style="@ViewBag.P5_C12W" class="@ViewBag.P5_C12">
+                                                        <a href="@Url.Action("EmailSettings","Settings")" style="@ViewBag.p5c12"> Email Settings</a>
+                                                    </li>*@
+                                                        </ul>
+
+                                                        <h5 class="@ViewBag.p90" style="display:@ViewBag.P9;font-weight: bold;">Reports </h5>
+                                                        <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                            <li style="@ViewBag.P9_C1W" class="@ViewBag.P9_C1">
+                                                                <a href="@Url.Action("Tracking","Report")" style="@ViewBag.p9c1"> Tracking Reports</a>
+                                                            </li>
+
+                                                        </ul>
+
+                                                        @*</div>*@
+
+
+                                                    </div>
+                                                    <div class="col-lg-2 reduce-width">
+                                                        <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+                                                            <h5 class="@ViewBag.p60" style="display:@ViewBag.P6;font-weight: bold;">Data Dictionary </h5>
+                                                            <li style="@ViewBag.P6_C2W" class="@ViewBag.P6_C2">
+                                                                <a href="@Url.Action("Add","Dictionary")" style="@ViewBag.p6c2">Create Template</a>
+                                                            </li>
+                                                            <li style="@ViewBag.P6_C4W" class="@ViewBag.P6_C4">
+                                                                <a href="@Url.Action("Values","Dictionary")" style="@ViewBag.p6c4">Value Master</a>
+                                                            </li>
+                                                            <li style="@ViewBag.P6_C3W" class="@ViewBag.P6_C3">
+                                                                <a href="@Url.Action("Characteristics","Dictionary")" style="@ViewBag.p6c3">Attribute Master</a>
+                                                            </li>
+                                                            <li style="@ViewBag.P6_C6W" class="@ViewBag.P6_C6">
+                                                                <a href="@Url.Action("Logic","Dictionary")" style="@ViewBag.p6c6">Attribute Relation</a>
+                                                            </li>
+                                                            <li style="@ViewBag.P6_C1W" class="@ViewBag.P6_C1">
+                                                                <a href="@Url.Action("View","Dictionary")" style="@ViewBag.p6c1">View Dictionary</a>
+                                                            </li>
+                                                            <li style="@ViewBag.P5_C7W" class="@ViewBag.P5_C7">
+                                                                <a href="@Url.Action("Index","Sequence")" style="@ViewBag.p5c7">Sequence Master</a>
+                                                            </li>
+                                                            @*<li style="@ViewBag.P5_C8W" class="@ViewBag.P5_C8">
+                                                        <a href="@Url.Action("UOM","Sequence")" style="@ViewBag.p5c8">Unit Settings</a>
+                                                    </li>*@
+                                                            @*<li style="@ViewBag.P5_C10W" class="@ViewBag.P5_C10">
+                                                        <a href="@Url.Action("UNSPSC","GeneralSettings")" style="@ViewBag.p5c10">UNSPSC Master</a>
+                                                    </li>*@
+                                                            <li style="@ViewBag.P5_C11W" class="@ViewBag.P7_C11">
+                                                                <a href="@Url.Action("Index","ValueStandardisation")" style="@ViewBag.p5c11"> Value Standardization</a>
+                                                            </li>
+                                                            @*<li style="@ViewBag.P6_C5W" class="@ViewBag.P6_C5">
+                                                        <a href="@Url.Action("CodeLogic","Dictionary")" style="@ViewBag.p6c5">Code Logic</a>
+                                                    </li>*@
+                                                        </ul>
+                                                        <h5 class="@ViewBag.p90" style="display:@ViewBag.P9;font-weight: bold;"></h5>
+                                                        <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                            <li style="display:@ViewBag.p9c2" class="@ViewBag.P9_C2">
+                                                                <a href="/Common/WOKFLOW.png" style="font-size: 1.4rem;color: #000;font-weight: 700;" target="_blank">Workflow</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+
+                                                    @*<div class="col-lg-2 reduce-width" style="">
+                                                                                                <h5 class="@ViewBag.p90" style="display:@ViewBag.P9;font-weight: bold;"></h5>
+                                                                                                <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                                                                    <li>
+                                                                                                        <a href="@Url.Action("RequestTracking","Report")" style="font-size: 1.4rem;color: #000;font-weight: 700;">Request Tracking</a>
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                            <div class="col-lg-2 reduce-width" style="">
+                                                <h5 class="@ViewBag.p90" style="display:@ViewBag.P9;font-weight: bold;">Reports </h5>
+                                                <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                    <li style="@ViewBag.P9_C1W" class="@ViewBag.P9_C1">
+                                                        <a href="@Url.Action("Tracking","Report")" style="@ViewBag.p9c1"> Tracking Reports</a>
+                                                    </li>
+                                                    <li style="@ViewBag.P9_C2W" class="@ViewBag.P9_C2">
+                                                        <a href="@Url.Action("Export","Report")" style="@ViewBag.p9c2"> Export</a>
+                                                    </li>
+                                                    <li style="@ViewBag.P9_C2W" class="@ViewBag.P9_C2">
+                                                        <a href="@Url.Action("ERP_logs","Report")" style="@ViewBag.p9c2"> ERP Change Log</a>
+                                                    </li>
+                                                    <li style="@ViewBag.P9_C3W" class="@ViewBag.P9_C3">
+                                                        <a href="@Url.Action("SAPupdate","Report")" style="@ViewBag.p9c3"> SAP Update</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                                                                        <div class="col-lg-2 reduce-width" style="">
+                                                                                            <h5 class="@ViewBag.p90" style="display:@ViewBag.P9;font-weight: bold;"></h5>
+                                                                                            <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                                                                <li style="display:@ViewBag.p9c2" class="@ViewBag.P9_C2">
+                                                                                                    <a href="/Common/WOKFLOW.png" style="font-size: 1.4rem;color: #000;font-weight: 700;" target="_blank">Workflow</a>
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </div>*@
+                                                    @*<div class="col-lg-2 reduce-width" style="">
+                                                <h5 class="@ViewBag.p90" style="display:@ViewBag.P9;font-weight: bold;"></h5>
+                                                <ul class="dropdown-mega-sub-nav mega-sub-nav-sub-menu-1 in collapse" style="">
+
+                                                    <li style="display:@ViewBag.p9c2" class="@ViewBag.P9_C2">
+                                                        <a href="@Url.Action("Healthcheck","Healthcheck")" style="font-size: 1.4rem;color: #000;font-weight: 700;" >Health Check</a>
+                                                    </li>
+                                                </ul>
+                                            </div>*@
+                                                    <br />
+
+                                                </ul>
+                                            </div>
+
+
+
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+
+
+                        <li class="dropdown @ViewBag.A80" style="display:@ViewBag.A8">
+                            <a class="dropdown-toggle">
+                                <i class="fas fa-project-diagram" aria-hidden="true" title="Asset Master"></i>
+                                <span>&nbsp;&nbsp;Asset Master</span>
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                @*<li style="display:@ViewBag.A8c4" class="@ViewBag.A8_c4">
+                            <a href="@Url.Action("FARoverview","FAR")">Asest Dashboard</a>
+                        </li>*@
+                                <li style="display:@ViewBag.A8c4" class="@ViewBag.A8_c4">
+                                    <a href="@Url.Action("AssetDashboard","FAR")">Asset Dashboard</a>
+                                </li>
+                                <li style="display:@ViewBag.A8c4" class="@ViewBag.A8_c4">
+                                    <a href="@Url.Action("AssetSearch","FAR")">Asset Search</a>
+                                </li>
+                                <li style="display:@ViewBag.A8c4" class="@ViewBag.A8_c4">
+                                    <a href="@Url.Action("AssetDictionary","FAR")">Asset Dictionary</a>
+                                </li>
+                                <li @*style="display:@ViewBag.A8c13"*@ class="@ViewBag.A8_c13">
+                                    <a href="@Url.Action("Asset_BulkUpload", "FAR")"> Bulk Upload</a>
+                                </li>
+
+                                <li style="display:@ViewBag.A8c11" class="@ViewBag.A8_c11">
+                                    <a href="@Url.Action("AssetAssignwork", "FAR")">Assign Work</a>
+                                </li>
+
+                                @*<li style="display:@ViewBag.A8c11" class="@ViewBag.A8_c11">
+                            <a href="@Url.Action("CatAssetAssignwork", "FAR")">Cat-Assign Work</a>
+                        </li>*@
+
+                                <li style="display:@ViewBag.A8c10" class="@ViewBag.A8_c10">
+                                    <a href="@Url.Action("AssetRegistry", "FAR")"> Asset Catalogue</a>
+                                </li>
+
+                                <li style="display:@ViewBag.A8c12" class="@ViewBag.A8_c12">
+                                    <a href="@Url.Action("AssetReport", "FAR")"> Asset Report</a>
+                                </li>
+
+                                <li style="display:@ViewBag.A8c13" class="@ViewBag.A8_c13">
+                                    <a href="@Url.Action("AssetTools", "FAR")"> Asset Tools</a>
+                                </li>
+                                <li style="display:@ViewBag.A8c13" class="@ViewBag.A8_c13">
+                                    <a href="@Url.Action("AssetQR", "FAR")"> Asset QR</a>
+                                </li>
+
+                            </ul>
+                        </li>
+
+
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="header-right">
+         
+            <div id="userbox" class="userbox">
+                <a href="#" data-toggle="dropdown">
+                    <div class="profile-picture" style="color: #000011;font-size: 1.3rem;line-height: 1.2em;text-transform: uppercase;">
+                        @*<img ng-src="{{FileData}}"  class="img-circle" data-lock-picture="{{FileData}}" />*@
+                        Welcome,
+                    </div>
+                    <div class="profile-info">
+                        <span class="name">@Request.RequestContext.HttpContext.Session["fullname"]</span>
+
+                    </div>
+
+                    <i class="fa custom-caret"></i>
+                </a>
+                <div class="time-login">Last Log in: @Request.RequestContext.HttpContext.Session["lastlogin"]</div>
+
+                <div class="dropdown-menu">
+                    <ul class="list-unstyled">
+                        <li class="divider"></li>
+                        <li>
+                            <a role="menuitem" href="@Url.Action("MyProfile","User")" tabindex="-1" href="#"><i class="fa fa-user"></i> My Profile</a>
+                        </li>
+                        <li>
+                            <a role="menuitem" href="@Url.Action("Changepassword","User")" tabindex="-1" href="#"><i class="fa fa-key"></i> Change Password</a>
+                        </li>
+                        <li>
+                            <a role="menuitem" href="@Url.Action("Index","login")" tabindex="-1"><i class="fa fa-power-off"></i> Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <!-- end: search & user box -->
+</header>

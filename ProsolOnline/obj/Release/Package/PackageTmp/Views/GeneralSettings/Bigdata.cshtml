@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "Bigdata";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section role="main" class="content-body" ng-controller="unspscController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+
+
+                <li><span>Tools</span></li>
+                <li><span>Big Data</span></li>
+            </ol>
+        </div>
+    </header>*@
+    <div class="row">
+        <div class="col-md-12" style="background:#fff">
+            <div class="col-md-9" style="height:35px;padding-top:5px;padding-bottom:5px">
+                <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+
+
+            </div>
+            <div class="col-md-3">
+                @*<button class="download pull-right" title="Download Template"><a href="/Common/UNSPSCTemplate.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a></button>*@
+            </div>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Bulk Data</h2>
+                </header>
+                <div class="panel-body">
+
+                    <form name="form" ng-submit="form.$valid && Bulkdata()" novalidate>
+                        <div class="row">
+                            @*<div class="col-sm-12">
+                                    <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                        <label ng-bind="Res" class="erroe-hold" />
+                                    </div>
+                                </div>*@
+
+
+                            <div class="form-group single-item">
+                                <div class="col-md-12">
+                                    <div class="col-md-8">
+                                        <label class="col-md-2 control-label">File Upload</label>
+                                        <div class="col-md-7">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-1">
+                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                        </div>
+                                        <div class="col-md-1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-3">
+                                        <a class="download pull-right" href="~/Common/BulkCatAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </form>
+                    <!--<form name="form" ng-submit="form.$valid && AssetBulkdata()" novalidate>
+                        <div class="row">-->
+                            @*<div class="col-sm-12">
+                                    <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                        <label ng-bind="Res" class="erroe-hold" />
+                                    </div>
+                                </div>*@
+
+
+                            <!--<div class="form-group single-item">
+                                <div class="col-md-12">
+                                    <div class="col-md-8">
+                                        <label class="col-md-2 control-label">File Upload</label>
+                                        <div class="col-md-7">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-1">-->
+                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                            <!--<button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                        </div>
+                                        <div class="col-md-1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-3">
+                                        <a class="download pull-right" href="~/Common/BulkCatAssign.xlsx"><i class="fa fa-download"></i>&nbsp; Download Template</a>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </form>-->
+                </div>
+                <!--<div class="panel-body">
+
+                    <form name="form" ng-submit="form.$valid && BulkAttribute()" novalidate>
+                        <div class="row">-->
+                            @*<div class="col-sm-12">
+                        <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                            <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                            <label ng-bind="Res" class="erroe-hold" />
+                        </div>
+                    </div>*@
+
+
+                            <!--<div class="form-group single-item">
+                                <div class="col-md-12">
+                                    <div class="col-md-8">
+                                        <label class="col-md-2 control-label">File Upload</label>
+                                        <div class="col-md-7">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-1">-->
+                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                            <!--<button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                        </div>
+                                        <div class="col-md-1">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">-->
+                                        @*<div class="alert alert-info upload-alert">
+                                    <p><i class="fa fa-exclamation-circle fa-lg"></i>&nbsp;</p>
+                                </div>*@
+                                    <!--</div>
+
+
+                                </div>
+
+
+                            </div>
+
+                        </div><div class="row">
+                        
+                                  <div class="col-md-6">
+                                  
+                                      <button type="button" ng-click="runEs()" class="btn btn-primary" >Run Elastic Search</button>
+                                  </div>
+                                  <div class="col-md-6">
+                                  </div>
+                        </div>
+</form>
+                </div>-->
+            </section>
+        </div>
+    </div>
+
+</section>
+
+<script src="/Scripts/ctrls/bigdatactrl.js"></script>
+

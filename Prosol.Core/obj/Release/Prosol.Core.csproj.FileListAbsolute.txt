@@ -1,0 +1,308 @@
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\Excel.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\log4net.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Bson.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\System.Web.Mvc.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\Excel.pdb
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\log4net.xml
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.csprojResolveAssemblyReference.cache
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\prosol_dev\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\prosol_dev\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\prosol_dev\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\prosol_dev\Prosol.Core\bin\Release\Excel.dll
+D:\prosol_dev\Prosol.Core\bin\Release\log4net.dll
+D:\prosol_dev\Prosol.Core\bin\Release\MongoDB.Bson.dll
+D:\prosol_dev\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\prosol_dev\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\prosol_dev\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\prosol_dev\Prosol.Core\bin\Release\Excel.pdb
+D:\prosol_dev\Prosol.Core\bin\Release\log4net.xml
+D:\prosol_dev\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\prosol_dev\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\prosol_dev\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\prosol_dev\Prosol.Core\obj\Release\Prosol.Core.csprojResolveAssemblyReference.cache
+D:\prosol_dev\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\prosol_dev\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\PROSOL CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\Excel.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\log4net.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\Excel.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\log4net.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Excel.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\log4net.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Excel.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Excel.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\Excel.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_Demo\Prosol.Core\bin\Release\log4net.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\Excel.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\Excel.pdb
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\log4net.xml
+D:\PROSOL_DEV_Demo\Prosol-Vendordemo\PROSOL_DEV_vendor\Prosol.Core\bin\Release\log4net.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\Excel.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\log4net.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\Excel.pdb
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\PROSOL_DEV_Demo\PROSOL_DEV_DEMO\PROSOL_DEV_DEMO\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Excel.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\log4net.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\QRCoder.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Excel.pdb
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\PROSOL_DEV_DEMO\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Excel.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\log4net.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\QRCoder.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\ICSharpCode.SharpZipLib.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Excel.pdb
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Bson.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\System.Web.Mvc.xml
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\Projects\PROSOL_CORE\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Excel.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\log4net.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\QRCoder.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\Excel.pdb
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\LEEP_INDIA\PROSOL_DEV_LIVE\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Excel.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Excel.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.dll
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.xml
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.pdb
+D:\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Excel.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\log4net.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Excel.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\log4net.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\AD_Port_Main\ADPort_Dev_Final_220425\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\QRCoder.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Excel.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\log4net.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\QRCoder.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\Excel.pdb
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\log4net.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll.config
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\Prosol.Core.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\Excel.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\ExcelLibrary.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\log4net.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\QRCoder.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\MvcDemo.Common.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.Core.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\AWSSDK.S3.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\Excel.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\log4net.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Release\MongoDB.Driver.Legacy.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.AssemblyReference.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CoreCompileInputs.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.csproj.CopyComplete
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.dll
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Release\Prosol.Core.pdb

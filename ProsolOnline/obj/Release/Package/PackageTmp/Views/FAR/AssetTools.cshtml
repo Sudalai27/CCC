@@ -1,0 +1,1619 @@
+﻿
+@{
+    ViewBag.Title = "AssetTools";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Setup - add a text input to each footer cell
+        $('#example tfoot th').each(function () {
+            var title = $(this).text();
+            $(this).html('<input type="text" placeholder="Search ' + title + '" />');
+        });
+
+        // DataTable
+        var table = $('#example').DataTable({
+            initComplete: function () {
+                // Apply the search
+                this.api()
+                    .columns()
+                    .every(function () {
+                        var that = this;
+
+                        $('input', this.footer()).on('keyup change clear', function () {
+                            if (that.search() !== this.value) {
+                                that.search(this.value).draw();
+                            }
+                        });
+                    });
+            },
+        });
+    });
+</script>
+<section role="main" class="content-body">
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w3">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Asset Master</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="tabs tabs-vertical tabs-left cataloguer-all" style="margin-bottom:10px;">
+                            <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                @*<li class="cataloguer-tab active boxes active-box">
+                                    <a href="#Value" ng-click="onclickValue()" data-toggle="tab">Values</a>
+                                </li>*@
+                                <li class="cataloguer-tab boxes active-box">
+                                    <a href="#Mfr" ng-click="onclickMfr()" data-toggle="tab">Manufacturer</a>
+                                </li>
+                                <li class="cataloguer-tab boxes active-box">
+                                    <a href="#TaxFix" ng-click="onclickTax()" data-toggle="tab">Tax Fixation Method</a>
+                                </li>
+                                <li class="cataloguer-tab boxes active-box">
+                                    <a href="#FAR" ng-click="onclickFar()" data-toggle="tab">FAR ID</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Reg" ng-click="onclickRegion()" data-toggle="tab">Region</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Desc" ng-click="onclickAssetDesc()" data-toggle="tab">Asset Description</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Site" ng-click="onclickValuationcatagory()" data-toggle="tab">Site ID</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Clus" ng-click="onclickregion()" data-toggle="tab">Cluster</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#HLL" ng-click="onclickCity()" data-toggle="tab">High Level Location</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Loc" ng-click="onclickarea()" data-toggle="tab">Location</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#Loch" ng-click="onclicksubArea()" data-toggle="tab">Loc Hierarchy</a>
+                                </li>
+
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#AT" ng-click="onclickCity()" data-toggle="tab">Asset Type </a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">gaugePVChart
+                                    <a href="#CHD" ng-click="onclicksubArea()" data-toggle="tab">Classification Hierarchy Desc.</a>
+                                </li>
+                                <li class="cataloguer-tab active-box boxes">
+                                    <a href="#FC" ng-click="onclickarea()" data-toggle="tab">Failure Code</a>
+                                </li>
+                                @*<li class="cataloguer-tab active-box boxes">
+                                        <a href="#RG" ng-click="onclicksubArea()" data-toggle="tab">Report Group</a>
+                                    </li>*@
+                            </ul>
+                            <div class="tab-content cataloguer-box">
+
+                                <div id="Value" class="tab-pane active active-box">
+                                    <div class="panel-body" ng-controller="ValueController">
+                                        <form name="form" ng-submit="form.$valid && createNM()" novalidate>
+
+                                            <div class="panel-body">
+                                                <div class="col-md-12">
+                                                    <div class="col-md-6 no-padding">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label require-label">Noun </label>
+                                                            <div class="col-md-7 no-padding" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+                                                                <input type="hidden" ng-model="NM._id" />  <input class="form-control immediate-help" ng-change="KeyClear()" name="nun" ng-pattern="/^(\D)+$/" ng-model="NM.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" type="text" auto-complete required />
+                                                                <div ng-show="form.nun.$invalid" class="input-help">
+                                                                    <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                                    <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label class="col-md-4 control-label require-label">Modifier</label>
+                                                            <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.modi.$invalid}">
+                                                                <input type="text"
+                                                                       class="form-control immediate-help"
+                                                                       name="modi"
+                                                                       ng-model="NM.Modifier"
+                                                                       ng-change="KeyClear1()"
+                                                                       ng-blur="GetCharc(NM.Noun, NM.Modifier)"
+                                                                       ng-focus="Listmodifer()"
+                                                                       list="modifierList"
+                                                                       autocomplete="off"
+                                                                       required />
+
+                                                                <datalist id="modifierList">
+                                                                    <option ng-repeat="mod in Modifiers" value="{{mod.Modifier}}"></option>
+                                                                </datalist>
+
+                                                                <div ng-show="form.modi.$invalid" class="input-help">
+                                                                    <h4 ng-show="form.modi.$error.required">Modifier should not be blank</h4>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4"> &nbsp;</div>
+                                                    <div class="col-md-8">
+                                                        <div id="divValAdd" style="display:none" class="input-help1 grid-help">
+
+                                                            <i ng-click="saveData()" class="fa fa-check fa-2x pull-right"></i>
+                                                            <i ng-click="closeData()" class="fas fa-times fa-2x pull-right"></i>
+                                                            <input type="hidden" ng-model="showlb" /> {{showlb}}
+                                                            <div><input type="text" ng-model="valueSrch" ng-change="BindGroupinxsearch()" class="form-control" /></div>
+                                                            <div class="box-box" style="overflow-y:auto;max-height:200px;min-width: 500px;">
+                                                                <table class="table table-bordered mb-none">
+                                                                    <tbody>
+                                                                        <tr id="grp{{$index}}" ng-repeat="mdl in ValueList" @*| filter :{'Value':  valueSrch || undefined} ng-checked="{{mdl.Checked}}" *@>
+                                                                            <td><input type="checkbox" ng-true-value="'1'" ng-checked="mdl.Checked == '1'" ng-false-value="'0'" ng-model="mdl.Checked" ng-click="checkValue(mdl._id,$index)" id="chk{{mdl._id}}" @*id="chk{{$index}}"*@ /></td>
+                                                                            <td>{{mdl.Value}}{{mdl.vunit}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                            <pagination ng-model="currentPage"
+                                                                        total-items="totItem"
+                                                                        items-per-page="numPerPage"
+                                                                        max-size="10"
+                                                                        boundary-links="true"
+                                                                        ng-click="BindGroupinx(currentPage)">
+                                                            </pagination>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4"> &nbsp;</div>
+                                                    <div class="col-md-8">
+                                                        <div id="divUOMAdd" style="display:none" class="input-help1 grid-help">
+
+                                                            <i ng-click="saveData1()" class="fa fa-check fa-2x pull-right"></i>
+                                                            <i ng-click="closeData1()" class="fas fa-times fa-2x pull-right"></i>
+                                                            <input type="hidden" ng-model="showlb1" /> {{showlb1}}
+
+                                                            <div class="box-box" style="overflow-y:auto;max-height:200px;min-width: 500px;">
+                                                                <table class="table table-bordered mb-none">
+                                                                    <tbody>
+                                                                        <tr id="uom{{$index}}" ng-repeat="mdl in CustUOM">
+                                                                            <td><input type="checkbox" ng-true-value="'1'" ng-checked="mdl.UOMname == '1'" ng-false-value="'0'" ng-model="mdl.UOMname" id="chk{{mdl._id}}" @*id="chk{{$index}}"*@ /></td>
+                                                                            <td>{{mdl.Unitname}}</td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+
+                                                            </div>
+
+
+
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                                <div ng-show="NM.Modifier != '' && NM.Modifier != null && NM.Modifier != undefined && NM.Noun != '' && NM.Noun != null && NM.Noun != undefined ">
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive">
+
+
+                                                            <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                <thead class="top-border">
+                                                                    <tr>
+                                                                        <th style="width: 35%">Characteristic</th>
+                                                                        <th>Abbreviation</th>
+                                                                        @*<th style="width: 5%">Longseq</th>*@
+                                                                        <th style="width: 5%">Short Priority</th>
+                                                                        <th style="width: 5%">Sequence</th>
+                                                                        <th style="width: 5%">Mandatory</th>
+                                                                        @*<th style="width: 20%">definition</th>*@
+                                                                        <th style="width: 10%">Values</th>
+                                                                        @*<th style="width: 10%">UOM Mandatory</th>
+                                                                        <th style="width: 10%">UOM</th>*@
+                                                                        <th style="width: 5%">Action</th>
+
+
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr class="data-contact-person" ng-repeat="CharaRw in rows | orderBy:'Squence'| filter: { Definition: 'MM' } ">
+                                                                        <td>
+                                                                            <div ng-class="{'has-error': form.$submitted && form.ddlAttri{{$index}}.$invalid || charcheck}">
+
+                                                                                <input ng-model="CharaRw.Characteristic" name="ddlAttri{{$index}}" ng-change="changeCheck()" type="text" list="lstitms" class="form-control" autocomplete="off" required capitalize>
+
+                                                                            </div>
+
+                                                                        </td>
+                                                                        <td><input type="text" class="form-control"    ng-model="CharaRw.Abbrivation" ng-blur="CharaRw.Abbrivation=CharaRw.Abbrivation.toUpperCase();" id="CharAbv"></td>
+                                                                        @*<td ng-hide="true">
+                                            <div ng-class="{'has-error': form.$submitted && form.lsque.$invalid || form.lsque.$error.pattern || Seqcheck1}">
+                                                <input type="text" class="form-control" name="lsque" ng-pattern="/^\d+$/" ng-model="CharaRw.Squence" ng-disabled="false" id="Squence">
+
+                                            </div>
+                                        </td>*@
+                                                                        <td>
+                                                                            <div ng-class="{'has-error': form.$submitted && form.ssque.$invalid || form.ssque.$error.pattern || Seqcheck2}">
+                                                                                <input type="text" class="form-control" name="ssque" ng-pattern="/^\d+$/" ng-model="CharaRw.ShortSquence" ng-disabled="false" id="sSquence">
+
+                                                                            </div>
+                                                                        </td>
+                                                                        <td>
+
+                                                                            <select class="form-control" ng-init="CharaRw.Mandatory==null?CharaRw.Mandatory='No':CharaRw.Mandatory" ng-model="CharaRw.Mandatory" ng-options="lst for lst in ['No','Yes']"></select>
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type="text" class="form-control" ng-model="CharaRw.Definition" id="CharDef">
+                                                                        </td>
+                                                                        <td>
+
+                                                                            <a ng-click="ShowValue(CharaRw.Characteristic)" style="text-decoration:underline;cursor:pointer">Add Value</a>
+                                                                            <input type="hidden" ng-model="CharaRw.Values" />
+
+                                                                        </td>
+                                                                        @*<td>
+
+                                                                            <select class="form-control" ng-init="CharaRw.UomMandatory==null?CharaRw.UomMandatory='No':CharaRw.UomMandatory" ng-model="CharaRw.UomMandatory" ng-options="lst for lst in ['No','Yes']"></select>
+                                                                        </td>
+                                                                        <td>
+
+                                                                            <a ng-show="CharaRw.Uom!=null && CharaRw.Uom.length>0" ng-click="ShowUOM(CharaRw.Characteristic)" style="text-decoration:underline;cursor:pointer">Add UOM</a>
+
+
+                                                                        </td>*@
+                                                                        <td>
+                                                                            <div class="checkbox-custom checkbox-default" style="margin-left:18%;">
+                                                                                <input type="checkbox" id="checkboxExample1" ng-click="identifyremove_rows($index)" />
+                                                                                <label>&nbsp;</label>
+                                                                            </div>
+                                                                        </td>
+
+                                                                    </tr>
+                                                                </tbody>
+
+                                                                <tfoot>
+                                                                    <tr>
+
+                                                                        <td colspan="5">
+
+                                                                            @*<div class="form-group">
+                                                                                <label class="col-md-2 control-label">Image</label>
+                                                                                <div class="col-md-10">
+                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">SelectFile</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                    </div><br /><img ng-src="{{image_source}}" ng-show="image_source == null ? false:true" width="200" height="200">&nbsp;<img src="{{NM.FileData}}" ng-show="NM.FileData == null ? false:true" width="200" height="200" />
+                                                                                </div>
+                                                                            </div>*@
+                                                                        </td>
+                                                                        <td></td>
+
+                                                                        <td>
+                                                                            <div class="form-group" style="text-align:right">
+                                                                                <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-disabled="form.$invalid" ng-click="addRow()">Add More</button>
+                                                                            </div>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <div class="form-group" style="text-align:right">
+                                                                                <button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()">Remove</button>
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+
+
+                                                            </table>
+
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-4"></div>
+                                                            <div class="col-md-4 text-center">
+                                                                <button type="submit" class="btn btn-primary">Create Dictionary</button>&nbsp;
+                                                                @*<input id="submit_button" type="submit" name="button1" class="btn btn-primary" value="Create Dictionary" />*@
+                                                            </div>
+                                                            <div class="col-md-4"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="Mfr" class="tab-pane">
+                                    <div class="panel-body" ng-controller="MfrController">
+                                        <div class="col-md-12">
+                                            <div class="tabs tabs-vertical tabs-left cataloguer-all" style="margin-bottom:10px;">
+                                                <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                                    <li class="cataloguer-tab active boxes active-box">
+                                                        <a href="#singlrMfr" ng-click="onclickMfr()" data-toggle="tab">Single</a>
+                                                    </li>
+                                                    <li class="cataloguer-tab boxes active-box">
+                                                        <a href="#bulkMfr" ng-click="onclickTax()" data-toggle="tab">Bulk</a>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content cataloguer-box">
+
+                                                    <div id="singlrMfr" class="tab-pane active active-box">
+                                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                                            <div class="panel-body active-box">
+                                                                <div class="row">
+
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-6">
+                                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessCode.$invalid}">
+                                                                                <div class="controls">
+                                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="BusinessCode" placeholder="Enter Manufacturer" ng-model="obj.Code" type="text" required />
+                                                                                    <div ng-show="form.BusinessCode.$invalid" class="input-help">
+                                                                                        <h4 ng-show="form.BusinessCode.$error.required">Code should not be blank</h4>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6">
+                                                                            <a href="@Url.Action("Mfrdownload","FAR", new { id="Manufacturer" })" target="_blank" style="margin:10px;float:right;color:#000000;text-decoration:none;cursor:pointer"><i class="fas fa-download" aria-hidden="true"></i>&nbsp;Download Manufacturers</a>
+                                                                            @*<div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessName.$invalid}">
+                                                                                    <div class="controls">
+                                                                                        <input class="form-control immediate-help" name="BusinessName" placeholder="Enter Title" ng-model="obj.BusinessName" type="text" required />
+                                                                                        <div ng-show="form.BusinessName.$invalid" class="input-help">
+                                                                                            <h4 ng-show="form.BusinessName.$error.required">Business Name should not be blank</h4>
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>*@
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-12">
+                                                                        <div class="col-md-6">
+                                                                            <div class="mb-md">
+                                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-6"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="table-responsive col-md-12" ng-show="Business !=''">
+                                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                                        <thead class="top-border">
+                                                                            <tr>
+                                                                                <th>Sl No.</th>
+                                                                                <th>Manufacturer</th>
+                                                                                @*<th>BusinessName</th>*@
+                                                                                <th>Status</th>
+                                                                                <th>Action</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr id="busn{{$index}}" ng-repeat="x in MfrLst">
+                                                                                <td><label>{{$index+1}}</label></td>
+                                                                                <td><label>{{x.Code}}</label></td>
+                                                                                @*<td><label>{{x.BusinessName}}</label></td>*@
+
+                                                                                <td>
+                                                                                    <label class="switch">
+                                                                                        <button ng-hide="x.Islive" id="btnabv{{$index}}" type="button" name="btnAdd"
+                                                                                                style="background: transparent; border: none; color: #3e79cb; text-decoration: underline; "
+                                                                                                ng-click="AddMfr(x.Code)">
+                                                                                            Approve
+                                                                                        </button>
+                                                                                        <label ng-show="x.Islive">Approved</label>
+                                                                                        @*<input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableBuns($index,x.Islive,x._id, x.Code)">
+                                                                                            <div class="slider round"></div>*@
+                                                                                    </label>
+                                                                                </td>
+                                                                                <td title="Delete">
+                                                                                    <a style="color:#000000;text-decoration:none;cursor:pointer" ng-click="RemoveMfr(x.Code)">
+                                                                                        <i class="fas fa-trash" style="font-size: 10px;color: red;cursor: pointer" aria-hidden="true"></i>
+                                                                                    </a>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div id="bulkMfr" class="tab-pane active active-box">
+                                                        <form name="form" ng-submit="form.$valid && MfrBulkUpload()" novalidate>
+                                                            <div class="form-group single-item">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-8">
+                                                                        <label class="col-md-4 control-label">Asset Bulk</label>
+                                                                        <div class="col-md-6">
+                                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-1">
+                                                                            @*<input id="MNBulk_button" type="submit" name="button2" class="btn btn-primary" value="Submit" />*@
+                                                                            <button class="btn btn-primary" ng-disabled="false != ShowHide">Submit</button>&nbsp;
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-1">
+                                                                        <div cg-busy="promise" style="top:15px"></div>
+                                                                    </div>
+                                                                    <div class="col-md-3">
+                                                                        <a class="download pull-right" href="~/Common/MFR_Template.xlsx"><i class="fa fa-download"></i>&nbsp; Template</a>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="TaxFix" class="tab-pane">
+                                    <div class="panel-body" ng-controller="TaxController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="BusinessCode" placeholder="Enter Tag Fixation Method" ng-model="obj.Code" type="text" required />
+                                                                    <div ng-show="form.BusinessCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.BusinessCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @*<div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessName.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="BusinessName" placeholder="Enter Title" ng-model="obj.BusinessName" type="text" required />
+                                                                        <div ng-show="form.BusinessName.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.BusinessName.$error.required">Business Name should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Business !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Tag Fixation Method</th>
+                                                                @*<th>BusinessName</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="busn{{$index}}" ng-repeat="x in Notes">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.Code}}</label></td>
+                                                                @*<td><label>{{x.BusinessName}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableBuns($index,x.Islive,x._id, x.Code)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="FAR" class="tab-pane">
+                                    <div class="panel-body" ng-controller="FARController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="BusinessCode" placeholder="Enter FAR ID" ng-model="obj.FARId" type="text" required />
+                                                                    <div ng-show="form.BusinessCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.BusinessCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @*<div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessName.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="BusinessName" placeholder="Enter Title" ng-model="obj.BusinessName" type="text" required />
+                                                                        <div ng-show="form.BusinessName.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.BusinessName.$error.required">Business Name should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Business !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>FAR ID</th>
+                                                                @*<th>BusinessName</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="busn{{$index}}" ng-repeat="x in FARMaster">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.FARId}}</label></td>
+                                                                @*<td><label>{{x.BusinessName}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableBuns($index,x.Islive,x.id, x.Code)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="Reg" class="tab-pane">
+                                    <div class="panel-body" ng-controller="FARController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" style="display: none">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.Business.$invalid }">
+                                                                    <select ng-model="obj.FARId" name="Plantcode" class="form-control" ng-options="x.FARId as x.FARId for x in FARMaster" required>
+                                                                        <option value="" selected="selected">Select FAR ID</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                    {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                </button>
+                                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                    <li role="presentation">
+                                                                        <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                    </li>
+                                                                    <li role="presentation" ng-repeat="far in FARList | filter: searchFar">
+                                                                        <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="code" placeholder="Enter Region" ng-model="obj.Region" type="text" required />
+                                                                    <div ng-show="form.MajorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MajorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="title" placeholder="Enter Title" ng-model="obj.MajorClass" type="text" required />
+                                                                        <div ng-show="form.MajorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MajorClass.$error.required">Title should not be blank</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Major !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>FAR ID</th>
+                                                                <th>Region</th>
+                                                                @*<th>MajorClass title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="pro{{$index}}" ng-repeat="x in FARMaster | filter: regionFilter">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.FARId}}</label></td>
+                                                                <td><label>{{x.Region}}</label></td>
+                                                                @*<td><label>{{x.MajorClass}}</label></td>*@
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableData($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="Desc" class="tab-pane">
+                                    <div class="panel-body" ng-controller="FARController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                @*<div class="controls" ng-class="{'has-error': form.$submitted && form.Business.$invalid }">
+                                                                        <select ng-model="obj.FARId" name="Plantcode" class="form-control" ng-options="x.FARId as x.FARId for x in FARMaster" required>
+                                                                            <option value="" selected="selected">Select FAR ID</option>
+                                                                        </select>
+                                                                    </div>*@
+                                                                <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                        {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                    </button>
+                                                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                        <li role="presentation">
+                                                                            <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                        </li>
+                                                                        <li role="presentation" ng-repeat="far in FARList | filter: searchFar">
+                                                                            <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MinorCode.$invalid}">
+                                                                <div class="controls col-md-12">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="MinorCode" placeholder="Enter Asset Description" ng-model="obj.AssetDesc" type="text" required />
+                                                                    <div ng-show="form.MinorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MinorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                @*<div class="controls" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid }">
+                                                                        <select ng-model="obj.Region" name="MajorClass" class="form-control" ng-options="x.Region as x.Region for x in FARMaster | filter :{'Business_id':obj.Business_Id}:true">
+                                                                            <option value="" selected="selected">Select Region</option>
+                                                                        </select>
+                                                                    </div>*@
+                                                                <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                        {{BtnRegmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                    </button>
+                                                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                        <li role="presentation">
+                                                                            <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchReg" placeholder="Search">
+                                                                        </li>
+                                                                        <li role="presentation" ng-repeat="reg in RegionList | filter:  searchReg  ">
+                                                                            <a role="menuitem" ng-click="changeReg(reg)">{{reg}}</a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MinorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="MinorClass" placeholder="Enter Title" ng-model="obj.MinorClass" type="text" required />
+                                                                        <div ng-show="form.MinorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MinorClass.$error.required">Title should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Minor != ''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>FAR ID</th>
+                                                                <th>Region</th>
+                                                                <th>Asset Desc</th>
+                                                                @*<th>MinorClass Title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="strloc{{$index}}" ng-repeat="x in FARMaster | filter: assetDescFilter">
+
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.FARId}}</label></td>
+                                                                <td><label>{{x.Region}}</label></td>
+                                                                <td><label>{{x.AssetDesc}}</label></td>
+                                                                @*<td><label>{{x.MinorClass}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="Disablemnr($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="Site" class="tab-pane">
+                                    <div class="panel-body" ng-controller="SiteController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="BusinessCode" placeholder="Enter Site ID" ng-model="obj.SiteId" type="text" required />
+                                                                    <div ng-show="form.BusinessCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.BusinessCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @*<div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessName.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="BusinessName" placeholder="Enter Title" ng-model="obj.BusinessName" type="text" required />
+                                                                        <div ng-show="form.BusinessName.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.BusinessName.$error.required">Business Name should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Business !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Site ID</th>
+                                                                @*<th>BusinessName</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="busn{{$index}}" ng-repeat="x in SiteMaster">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.SiteId}}</label></td>
+                                                                @*<td><label>{{x.BusinessName}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableBuns($index,x.Islive,x.id, x.Code)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="Clus" class="tab-pane">
+                                    <div class="panel-body" ng-controller="SiteController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" style="display: none">
+                                                                <div class="controls" ng-class="{'has-error': form.$submitted && form.Business.$invalid }">
+                                                                    <select ng-model="obj.SiteId" name="Plantcode" class="form-control" ng-options="x.SiteId as x.SiteId for x in SiteMaster" required>
+                                                                        <option value="" selected="selected">Select FAR ID</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                    {{BtnSitemodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                </button>
+                                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                    <li role="presentation">
+                                                                        <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                    </li>
+                                                                    <li role="presentation" ng-repeat="far in SiteList | filter: searchFar">
+                                                                        <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="code" placeholder="Enter Cluster" ng-model="obj.Cluster" type="text" required />
+                                                                    <div ng-show="form.MajorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MajorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="title" placeholder="Enter Title" ng-model="obj.MajorClass" type="text" required />
+                                                                        <div ng-show="form.MajorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MajorClass.$error.required">Title should not be blank</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Major !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Site ID</th>
+                                                                <th>Cluster</th>
+                                                                @*<th>MajorClass title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="pro{{$index}}" ng-repeat="x in SiteMaster | filter : ClusFilter">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.SiteId}}</label></td>
+                                                                <td><label>{{x.Cluster}}</label></td>
+                                                                @*<td><label>{{x.MajorClass}}</label></td>*@
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableData($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="HLL" class="tab-pane">
+                                    <div class="panel-body" ng-controller="SiteController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                @*<div class="controls" ng-class="{'has-error': form.$submitted && form.Business.$invalid }">
+                                                                        <select ng-model="obj.FARId" name="Plantcode" class="form-control" ng-options="x.FARId as x.FARId for x in FARMaster" required>
+                                                                            <option value="" selected="selected">Select FAR ID</option>
+                                                                        </select>
+                                                                    </div>*@
+                                                                <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                        {{BtnSitemodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                    </button>
+                                                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                        <li role="presentation">
+                                                                            <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                        </li>
+                                                                        <li role="presentation" ng-repeat="far in SiteList | filter: searchFar">
+                                                                            <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MinorCode.$invalid}">
+                                                                <div class="controls col-md-12">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="MinorCode" placeholder="Enter High Level Location" ng-model="obj.HighLevelLocation" type="text" required />
+                                                                    <div ng-show="form.MinorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MinorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                @*<div class="controls" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid }">
+                                                                        <select ng-model="obj.Region" name="MajorClass" class="form-control" ng-options="x.Region as x.Region for x in FARMaster | filter :{'Business_id':obj.Business_Id}:true">
+                                                                            <option value="" selected="selected">Select Region</option>
+                                                                        </select>
+                                                                    </div>*@
+                                                                <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                        {{BtnClusmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                    </button>
+                                                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                        <li role="presentation">
+                                                                            <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchReg" placeholder="Search">
+                                                                        </li>
+                                                                        <li role="presentation" ng-repeat="reg in ClusList | filter: searchReg">
+                                                                            <a role="menuitem" ng-click="changeReg(reg)">{{reg}}</a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MinorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="MinorClass" placeholder="Enter Title" ng-model="obj.MinorClass" type="text" required />
+                                                                        <div ng-show="form.MinorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MinorClass.$error.required">Title should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Minor != ''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>FAR ID</th>
+                                                                <th>Region</th>
+                                                                <th>Asset Desc</th>
+                                                                @*<th>MinorClass Title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="strloc{{$index}}" ng-repeat="x in SiteMaster | filter: HLLFilter">
+
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.SiteId}}</label></td>
+                                                                <td><label>{{x.Cluster}}</label></td>
+                                                                <td><label>{{x.HighLevelLocation}}</label></td>
+                                                                @*<td><label>{{x.MinorClass}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="Disablemnr($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="Loc" class="tab-pane">
+                                    <div class="panel-body" ng-controller="LocController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="BusinessCode" placeholder="Enter Location" ng-model="obj.Location" type="text" required />
+                                                                    <div ng-show="form.BusinessCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.BusinessCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @*<div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessName.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="BusinessName" placeholder="Enter Title" ng-model="obj.BusinessName" type="text" required />
+                                                                        <div ng-show="form.BusinessName.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.BusinessName.$error.required">Business Name should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Business !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Location</th>
+                                                                @*<th>BusinessName</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="busn{{$index}}" ng-repeat="x in LocMaster">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.Location}}</label></td>
+                                                                @*<td><label>{{x.BusinessName}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableBuns($index,x.Islive,x.id, x.Code)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="Loch" class="tab-pane">
+                                    <div class="panel-body" ng-controller="LocController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                    {{BtnLocmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                </button>
+                                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                    <li role="presentation">
+                                                                        <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                    </li>
+                                                                    <li role="presentation" ng-repeat="far in LocList | filter: searchFar">
+                                                                        <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="code" placeholder="Enter LocationHierarchy" ng-model="obj.LocationHierarchy" type="text" required />
+                                                                    <div ng-show="form.MajorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MajorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="title" placeholder="Enter Title" ng-model="obj.MajorClass" type="text" required />
+                                                                        <div ng-show="form.MajorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MajorClass.$error.required">Title should not be blank</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Major !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Location</th>
+                                                                <th>LocationHierarchy</th>
+                                                                @*<th>MajorClass title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="pro{{$index}}" ng-repeat="x in LocMaster | filter : LochFilter">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.Location}}</label></td>
+                                                                <td><label>{{x.LocationHierarchy}}</label></td>
+                                                                @*<td><label>{{x.MajorClass}}</label></td>*@
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableData($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                <div id="AT" class="tab-pane">
+                                    <div class="panel-body" ng-controller="ATController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="BusinessCode" placeholder="Enter Site ID" ng-model="obj.AssetType" type="text" required />
+                                                                    <div ng-show="form.BusinessCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.BusinessCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            @*<div class="mb-md" ng-class="{'has-error': form.$submitted && form.BusinessName.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="BusinessName" placeholder="Enter Title" ng-model="obj.BusinessName" type="text" required />
+                                                                        <div ng-show="form.BusinessName.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.BusinessName.$error.required">Business Name should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>*@
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Business !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Asset Type</th>
+                                                                @*<th>BusinessName</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="busn{{$index}}" ng-repeat="x in ATMaster">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.AssetType}}</label></td>
+                                                                @*<td><label>{{x.BusinessName}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableBuns($index,x.Islive,x.id, x.Code)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="CHD" class="tab-pane">
+                                    <div class="panel-body" ng-controller="ATController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                    {{BtnSitemodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                </button>
+                                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                    <li role="presentation">
+                                                                        <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                    </li>
+                                                                    <li role="presentation" ng-repeat="far in ATList | filter: searchFar">
+                                                                        <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                    </li>
+                                                                </ul>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorCode.$invalid}">
+                                                                <div class="controls">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="code" placeholder="Enter Cluster" ng-model="obj.ClassificationHierarchyDesc" type="text" required />
+                                                                    <div ng-show="form.MajorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MajorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="title" placeholder="Enter Title" ng-model="obj.MajorClass" type="text" required />
+                                                                        <div ng-show="form.MajorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MajorClass.$error.required">Title should not be blank</h4>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Major !=''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Asset Type</th>
+                                                                <th>Classification Hierarchy Desc.</th>
+                                                                @*<th>MajorClass title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="pro{{$index}}" ng-repeat="x in ATMaster | filter: ClsFilter">
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.AssetType}}</label></td>
+                                                                <td><label>{{x.ClassificationHierarchyDesc}}</label></td>
+                                                                @*<td><label>{{x.MajorClass}}</label></td>*@
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="DisableData($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div id="FC" class="tab-pane">
+                                    <div class="panel-body" ng-controller="ATController">
+                                        <form name="form" ng-submit="form.$valid && createData()" novalidate>
+                                            <div class="panel-body active-box">
+                                                <div class="row">
+
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                @*<div class="controls" ng-class="{'has-error': form.$submitted && form.Business.$invalid }">
+                                                                        <select ng-model="obj.FARId" name="Plantcode" class="form-control" ng-options="x.FARId as x.FARId for x in FARMaster" required>
+                                                                            <option value="" selected="selected">Select FAR ID</option>
+                                                                        </select>
+                                                                    </div>*@
+                                                                <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                        {{BtnSitemodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                    </button>
+                                                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                        <li role="presentation">
+                                                                            <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchFar" placeholder="Search">
+                                                                        </li>
+                                                                        <li role="presentation" ng-repeat="far in ATList | filter: searchFar">
+                                                                            <a role="menuitem" ng-click="changeFar(far)">{{far}}</a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MinorCode.$invalid}">
+                                                                <div class="controls col-md-12">
+                                                                    <input type="hidden" ng-model="obj._id" /><input class="form-control immediate-help" name="MinorCode" placeholder="Enter High Level Location" ng-model="obj.FailureCode" type="text" required />
+                                                                    <div ng-show="form.MinorCode.$invalid" class="input-help">
+                                                                        <h4 ng-show="form.MinorCode.$error.required">Code should not be blank</h4>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                @*<div class="controls" ng-class="{'has-error': form.$submitted && form.MajorClass.$invalid }">
+                                                                        <select ng-model="obj.Region" name="MajorClass" class="form-control" ng-options="x.Region as x.Region for x in FARMaster | filter :{'Business_id':obj.Business_Id}:true">
+                                                                            <option value="" selected="selected">Select Region</option>
+                                                                        </select>
+                                                                    </div>*@
+                                                                <div class="mb-md dropdown" auto-close="outsideClick">
+                                                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 4px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                                                        {{BtnClusmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                                    </button>
+                                                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop" @*style=" margin-top: 25px;"*@>
+                                                                        <li role="presentation">
+                                                                            <input disable-auto-close type="search" style="display: flex;width: 100%;position: relative;" ng-model="searchReg" placeholder="Search">
+                                                                        </li>
+                                                                        <li role="presentation" ng-repeat="reg in ClsList | filter: searchReg">
+                                                                            <a role="menuitem" ng-click="changeReg(reg)">{{reg}}</a>
+                                                                        </li>
+                                                                    </ul>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                                                                <div class="mb-md" ng-class="{'has-error': form.$submitted && form.MinorClass.$invalid}">
+                                                                    <div class="controls">
+                                                                        <input class="form-control immediate-help" name="MinorClass" placeholder="Enter Title" ng-model="obj.MinorClass" type="text" required />
+                                                                        <div ng-show="form.MinorClass.$invalid" class="input-help">
+                                                                            <h4 ng-show="form.MinorClass.$error.required">Title should not be blank</h4>
+
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>*@
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6">
+                                                            <div class="mb-md">
+                                                                <button class="btn btn-primary" ng-show="btnSubmit" type="submit">Submit</button><button class="btn btn-primary" ng-click="form.$valid && updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                                <button class="btn btn-primary" ng-click="ClearFrm()" type="button">Reset</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive col-md-12" ng-show="Minor != ''">
+                                                    <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                                                        <thead class="top-border">
+                                                            <tr>
+                                                                <th>Sl No.</th>
+                                                                <th>Asset Type</th>
+                                                                <th>Classification Hierarchy Desc.</th>
+                                                                <th>Failure Code</th>
+                                                                @*<th>MinorClass Title</th>*@
+                                                                <th>Actions</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr id="strloc{{$index}}" ng-repeat="x in ATMaster | filter: FacFilter">
+
+                                                                <td><label>{{$index+1}}</label></td>
+                                                                <td><label>{{x.AssetType}}</label></td>
+                                                                <td><label>{{x.ClassificationHierarchyDesc}}</label></td>
+                                                                <td><label>{{x.FailureCode}}</label></td>
+                                                                @*<td><label>{{x.MinorClass}}</label></td>*@
+
+                                                                <td>
+                                                                    <label class="switch">
+                                                                        <input type="checkbox" ng-model="x.Islive" ng-checked="x.Islive" ng-click="Disablemnr($index,x.Islive,x.id)">
+                                                                        <div class="slider round"></div>
+                                                                    </label>
+                                                                </td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+        </div>
+
+    </div>
+
+
+</section>
+<script src="~/Scripts/ctrls/AssetToolCtrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>

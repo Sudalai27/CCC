@@ -1,0 +1,548 @@
+﻿
+@{
+    ViewBag.Title = "EquipBom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<style>
+    .box {
+        width: 20%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid orange;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: orange;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        z-index: 1042;
+        opacity: 0;
+        overflow: scroll;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 90%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -5px;
+            right: 3px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+
+            .popup .close:hover {
+                color: orange;
+            }
+
+
+
+    .popup-scroll {
+        border: 1px solid #c2d8eb;
+        height: 650px;
+        width: 33%;
+        margin-left: 2px;
+        float: left;
+        overflow-y: scroll;
+        overflow-x: none !important;
+    }
+
+    .pop-bg {
+        background: #f0f0f0;
+    }
+
+    .all-pop .form-group {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="EquipController">
+
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+
+                    <li><span>BOM</span></li>
+                    <li><span>Equipment</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div cg-busy="cgBusyPromises"> </div>
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+            </div>
+        <div class="col-md-4"></div>
+        </div>
+            <!-- start: page -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Equipment Bill of Materials </h2>
+                        </header>
+                        <div class="panel-body">
+                            <form name="form" ng-submit="Searchfunloc()" ng-show="FunctLocation==null" class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6 no-padding">
+                                            <div class="col-md-3 ">
+
+                                                <label>Search</label>
+                                            </div>
+
+                                            <div class="col-md-7 no-padding">
+
+                                                <input type="text" style="height:27px" class="form-control" ng-blur="searchfunloc=searchfunloc.toUpperCase();" ng-model="searchfunloc" required />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+
+
+                            @*<div id="cotentid1" style="display:none">
+                                    <div class="content">
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+
+                                                <div ng-hide="SearchResult==null">
+                                                    <div class="all-pop">
+                                                        <table class="table table-bordered mb-none">
+                                                            <thead class="top-border" align="center">
+                                                                <tr>
+
+                                                                    <th style="width:10%">Functional Location</th>
+                                                                    <th style="width:20%">Functional Desc</th>
+                                                                    <th style="width:15%">Super Functional Location</th>
+                                                                    <th style="width:5%">Object Type</th>
+                                                                    <th style="width:8%">Tech Id No</th>
+                                                                    <th style="width:10%">Equipment Desc</th>
+                                                                    <th style="width:10%">Manufacturer</th>
+                                                                    <th style="width:8%">ABCindic</th>
+                                                                    <th style="width:5%">Model No</th>
+                                                                    <th style="width:9%">ManufSerialNo</th>
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                    <div style="max-height:180px;">
+
+                                                        <table class="table table-bordered mb-none">
+
+                                                            <tbody>
+
+                                                                <tr ng-repeat="fun in SearchResult" id="{{$index}}" ng-click="FunClick(fun,$index)">
+
+                                                                    <td style="width:10%"><label ng-bind="fun.FunctLocation"></label></td>
+                                                                    <td style="width:20%"><label ng-bind="fun.FunctDesc"></label></td>
+                                                                    <td style="width:15%"><label ng-bind="fun.SupFunctLoc"></label></td>
+                                                                    <td style="width:5%"><label ng-bind="fun.Objecttype"></label></td>
+                                                                    <td style="width:8%"><label ng-bind="fun.TechIdentNo"></label></td>
+                                                                    <td style="width:10%"><label ng-bind="fun.EquipDesc"></label></td>
+                                                                    <td style="width:10%"><label ng-bind="fun.Manufacturer"></label></td>
+                                                                    <td style="width:8%"><label ng-bind="fun.ABCindic"></label></td>
+                                                                    <td style="width:5%"><label ng-bind="fun.Modelno"></label></td>
+                                                                    <td style="width:9%"><label ng-bind="fun.ManufSerialNo"></label></td>
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>*@
+                            <div class="col-md-12 form-group" ng-show="FunctLocation==null">
+                                <div class="table-responsive" ng-show="SearchResult != null">
+                                    <div class="col-md-4">
+                                        <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                    </div>
+                                    <div class="control-label col-md-4">
+                                        No.of.Records: <label ng-bind="totItem" />
+                                    </div>
+                                    <div class="control-label col-md-1" style="text-align:right;">
+                                        Search
+                                    </div><div class="col-md-3">
+                                        <input class="form-control" ng-model="searchfunloc" ng-blur="Searchfunloc()" type="text" />
+                                    </div>
+                                    
+                                    <div style="display:block;max-height:180px;">
+                                        <table class="table table-bordered mb-none">
+                                            <thead class="top-border" align="center">
+                                                <tr>
+
+                                                    <th style="width:10%">Functional Location</th>
+                                                    <th style="width:20%">Functional Desc</th>
+                                                    <th style="width:15%">Super Functional Location</th>
+                                                    <th style="width:5%">Object Type</th>
+                                                    <th style="width:8%">Tech Id No</th>
+                                                    <th style="width:10%">Equipment Desc</th>
+                                                    <th style="width:8%">Manufacturer</th>
+                                                    <th style="width:4%">ABCindic</th>
+                                                    <th style="width:5%">Model No</th>
+                                                    <th style="width:7%">ManufSerialNo</th>
+                                                    <th style="width:6%">Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="fun in SearchResult" id="{{$index}}" ng-click="FunClick(fun,$index)">
+
+                                                    <td style="width:10%"><label ng-bind="fun.FunctLocation"></label></td>
+                                                    <td style="width:20%"><label ng-bind="fun.FunctDesc"></label></td>
+                                                    <td style="width:15%"><label ng-bind="fun.SupFunctLoc"></label></td>
+                                                    <td style="width:5%"><label ng-bind="fun.Objecttype"></label></td>
+                                                    <td style="width:8%"><label ng-bind="fun.TechIdentNo"></label></td>
+                                                    <td style="width:10%"><label ng-bind="fun.EquipDesc"></label></td>
+                                                    <td style="width:8%"><label ng-bind="fun.Manufacturer"></label></td>
+                                                    <td style="width:4%"><label ng-bind="fun.ABCindic"></label></td>
+                                                    <td style="width:5%"><label ng-bind="fun.Modelno"></label></td>
+                                                    <td style="width:7%"><label ng-bind="fun.ManufSerialNo"></label></td>
+                                                    <td style="width:6%"><label ng-bind="fun.status"></label></td>
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                  
+                                </div>
+                                <pagination ng-model="currentPage"
+                                            total-items="totItem"
+                                            items-per-page="numPerPage"
+                                            max-size="10"
+                                            boundary-links="true"
+                                            ng-click="bindflInx(currentPage)">
+                                </pagination>
+                            </div>
+                            <div class="col-md-12" ng-hide="FunctLocation==null">
+                                <form name="form1">
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" ng-hide="FunctLocation==null" style="font-weight:bold">Functional Location :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="FunctLocation" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="FunctDesc==null">Functional Desc :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="FunctDesc" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="Objecttype==null">Object Type :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="Objecttype" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="TechIdentNo==null">Equipment ID :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="TechIdentNo" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="EquipDesc==null">Equipment Desc : </label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="EquipDesc" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="SupFunctLoc==null">Super Functional Location : </label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="SupFunctLoc" />
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="Manufacturer==null">Manufacturer :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="Manufacturer" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="ABCindic==null">ABC indicator :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="ABCindic" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="Modelno==null">Model No :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="Modelno" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold" ng-hide="ManufSerialNo==null && ManufSerialNo=='' ">ManufSerialNo :</label>
+                                            <div class="col-sm-6">
+                                                <label ng-bind="ManufSerialNo" />
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-5"></div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <button class="btn btn-primary" type="button" ng-hide=selected ng-click="ClearItem()">Clear</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-md-12" style="border:1px solid #ccc;" ng-hide="FunctLocation==null"></div>
+
+                            <form name="form" ng-submit="SearchItem()" ng-hide="FunctLocation==null" class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="col-md-6 no-padding">
+                                            <div class="col-md-3 ">
+
+                                                <label>Material search</label>
+                                            </div>
+
+                                            <div class="col-md-7 no-padding">
+
+                                                <input type="text" style="height:27px" class="form-control" ng-model="searchkey" required />
+                                            </div>
+                                            <div class="col-md-1">
+                                                <button class="btn btn-primary" type="submit">Search</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6"></div>
+
+                                    </div>
+
+
+                                </div>
+
+                            </form>
+                            <form name="form">
+                                <div class="col-md-12 form-group" id="cotentid">
+                                    <div ng-show="sResult != null" style="max-height:300px;overflow-y:auto">
+
+                                        <table class="table table-bordered mb-none" id="data">
+
+                                            <thead class="top-border" align="center">
+                                                <tr>
+                                                    <th style="width:15%">Code</th>
+                                                    <th style="width:40%">Short Desc</th>
+                                                    <th style="width:40%">Long Desc</th>
+                                                    <th style="width:5%">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="src in sResult" id="{{$index}}" @*ng-click="RowClick(src,$index)"*@>
+                                                    <td style="width:15%"><label ng-bind="src.Itemcode"></label></td>
+                                                    <td style="width:40%"><label ng-bind="src.Shortdesc"></label></td>
+                                                    <td style="width:40%"><label ng-bind="src.Longdesc"></label></td>
+                                                    <td style="width:5%">
+                                                        <div class="checkbox-custom checkbox-default">
+                                                            <input class="chk" type="checkbox" id="checkboxExample1" ng-click="identifyAdd_rows($index)">
+                                                            <label> &nbsp; </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+
+                                    </div>
+                                    <div class="col-md-12" ng-show="sResult != null">
+                                        <div class="col-md-9"></div>
+                                        <div class="form-group col-md-3 no-padding" style="text-align:right">
+                                            <input type="button" class="btn btn-success" id="Submit" ng-hide="add" ng-click="addRow()" value="Add" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <form ng-submit="Create1()" name="form">
+                                <div class="col-md-12">
+                                    <div class="table-responsive">
+                                        <table id="maintable" class="table mb-none LeftPaddingRemoving" ng-hide=hide>
+
+                                            <thead class="top-border">
+                                                <tr>
+                                                    <th style="width: 10%">Sn No</th>
+                                                    <th style="width: 20%">Itemcode</th>
+                                                    <th style="width: 30%">Description</th>
+                                                    <th style="width: 10%">Part Quantity</th>
+                                                    <th style="width: 10%">Item Category</th>
+                                                    <th style="width: 13%">Action</th>
+                                                </tr>
+                                            </thead>
+                                        </table>
+                                        <table class="table table-bordered mb-none" ng-hide=hide>
+
+                                            <tbody>
+                                                <tr ng-repeat="fl in flow">
+                                                    <td style="width: 10%">
+
+
+                                                        <label id="Squence" ng-bind=$index+1 />
+
+
+                                                    </td>
+                                                    <td style="width: 20%">
+                                                        <div class="col-md-12 no-padding">
+                                                            <div class="col-md-10 no-padding">
+                                                                <label ng-bind="fl.Itemcode"></label>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+
+                                                    <td style="width: 30%"><label ng-bind="fl.Shortdesc"></label></td>
+
+                                                    <td style="width: 10%">
+                                                        <div ng-class="{'has-error': form.$submitted && form.partqnt.$invalid || form.partqnt.$error.pattern}">
+                                                            <input type="number" name="partqnt" ng-model="fl.partqnt" ng-pattern="/^[0-9]/" class="form-control" required />
+                                                        </div>
+                                                    </td>
+                                                    <td ng-hide="true">
+                                                        <label ng-bind="fl.Longdesc"></label>
+                                                    </td>
+                                                    <td style="width: 10%"><select class="form-control" ng-init="fl.itemcat==null?fl.itemcat='L':fl.itemcat" ng-model="fl.itemcat" ng-options="lst for lst in ['I','L']"></select></td>
+                                                    <td style="width: 13%">
+
+                                                        <div class="checkbox-custom checkbox-default" style="margin-left:18%;">
+                                                            <input type="checkbox" class="chk1" id="checkboxExample1" ng-click="identifyremove_rows($index)" />
+                                                            <label>&nbsp;</label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+
+                                        </table>
+                                        <div class="" ng-hide=hide>
+                                            <div class="col-md-9"></div>
+                                            <div class="form-group col-md-3 no-padding" style="text-align:right" ng-hide=removeshow>
+                                                <input type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()" value="Remove" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12" ng-hide=hide>
+                                    <div class="form-group">
+                                        <div class="col-md-4"></div>
+                                        <div class="col-md-4">
+                                            <button type="submit" class="btn btn-primary" ng-hide=Create>Create</button><button type="submit" class="btn btn-primary" ng-hide=update>Update</button>&nbsp;<button class="btn btn-primary" type="button" ng-click="ClearItem1()">Clear</button>
+
+                                        </div>
+                                        <div class="col-md-4"></div>
+                                    </div>
+                                </div>
+
+                            </form>
+
+                        </div>
+
+
+                    </section>
+                </div>
+            </div>
+</section>
+
+
+
+
+
+
+
+
+<script src="/Scripts/angular-busy.min.js"></script>
+
+<script src="~/Scripts/ctrls/EquipBom.js"></script>
+<script src="~/Scripts/jBox.js"></script>

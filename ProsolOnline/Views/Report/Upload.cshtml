@@ -1,0 +1,165 @@
+﻿
+@{
+    ViewBag.Title = "Upload";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Upload</h2>
+
+
+
+<section role="main" class="content-body">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li>
+                    <a href="Dashboard.html">
+                        <i class="fa fa-home"></i>
+                    </a>
+                </li>
+                <li><span>Report</span></li>
+                <li><span>Upload</span></li>
+            </ol>
+        </div>
+    </header>*@
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+
+
+                    <h2 class="panel-title">Upload</h2>
+                </header>
+                <div class="panel-body" ng-controller="Uploadcontroller">
+                    <form name="form" novalidate>
+                        <div class="form-group">
+                            <div class="alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                <label ng-bind="Res" class="error-hover" />
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            @*<div class="form-group">
+                            <div class="col-md-4">
+                                <label class="control-label">Role</label>
+                            </div>
+                            <div class="col-md-8">
+                                    <select name="role" ng-model="role" data-plugin-selectTwo class="form-control populate" title="Please select at least one role" ng-change="finduser()">
+                                        <option value="">--Select Role--</option>
+                                        <option value="Cataloguer">Cataloguer </option>
+                                        <option value="Approver">Approver </option>
+                                        <option value="Reviewer">Reviewer </option>
+                                    </select>
+                            </div>
+
+                        </div>*@
+                            @*<div class="form-group">
+                            <div class="col-md-4">
+                                <label class="control-label">User Name</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select id="value" name="value" ng-model="value" class="form-control" title="Plase enter a name." placeholder="Select User" ng-options="x.UserName as x.UserName for x in getuser">
+                                <option value="" selected="selected">--Select User--</option></select>
+                            </div>
+
+                        </div>*@
+
+                            @*<div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label">Plant</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select ng-model="Plant" name="plant" id="plant" data-plugin-selectTwo class="form-control populate" ng-options="x.Plantname as x.Plantname for x in gtplant" required>
+                                <option value="" selected="selected">--Select Plant--</option>
+                            </select>
+                        </div>*@
+
+
+                        </div>
+                        @*<div class="form-group">
+                        <div class="col-md-4">
+                            <label class="control-label">Department</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select ng-model="Departmentname" id="dept" name="dept" data-plugin-selectTwo class="form-control populate" ng-options="x.Departmentname as x.Departmentname for x in gtdepartment" required>
+                                <option value="" selected="selected">--Select Department--</option>
+                            </select>
+
+                        </div>
+
+                    </div>*@
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Between date</label>
+                            <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.Fromdate.$invalid}">
+                                <input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />
+
+                            </div>
+                            <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.Todate.$invalid}">
+                                <input type="date" name="Todate" ng-model="Todate" ui-date-format="yyyy/mm/dd" class="form-control" />
+                            </div>
+                        </div>
+                        @*<div class="form-group">
+                        <label class="col-md-4 control-label">OPtions</label>
+                        <div class="col-md-8">
+                            <div class="col-md-12">
+                                <input type="radio" name="Created" value="Created" ng-model="Option" checked> New Create Items
+                            </div>
+                            <div class="col-md-12">
+                                <input type="radio" name="Duplicate" value="Duplicate" ng-model="Option"> Declined Request
+                            </div>
+                            <div class="col-md-12">
+                                <input type="radio" name="Request" value="Request" ng-model="Option"> Request Info
+                            </div>
+                        </div>
+
+                    </div>*@
+                        <div class="form-group">
+                            <div class="col-md-6"></div>
+                            <div class="col-md-2"></div>
+                            <div class="col-md-2 form-submit">
+                                <input id="submit_button" type="submit" class="btn btn-primary" value="Load" ng-click="trackingload()">
+                            </div>
+                            @*<div class="col-md-2 form-submit">
+                            <input id="submit_button" type="submit" class="btn btn-primary" value="Export" ng-click="export()">
+                        </div>*@
+                        </div>
+
+                        <div class="col-md-6">
+                        </div>
+
+                        <div class="col-md-12 table-responsive">
+                            <div class="pull-right" ng-show="len != null">
+                                No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len" />
+                            </div>
+                            <div id="tblid">
+                                <table class="table table-bordered mb-none" border="1" ng-repeat="table in reqtbls">
+                                    <tr>
+                                        <th ng-repeat="column in cols">{{column}}</th>
+                                    </tr>
+                                    <tr ng-repeat="row in table.rows">
+                                        <td ng-repeat="column in cols ">{{row[column]}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+
+                        </form>
+                </div>
+
+</section>
+           
+
+
+</div>
+        </div>
+
+            </section>
+    
+
+
+
+
+<script src="/Scripts/ctrls/Tracking.js"></script>
+<script src="/Scripts/ctrls/downloadexcel.js"></script>

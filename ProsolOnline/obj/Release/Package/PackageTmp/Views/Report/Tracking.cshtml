@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "Tracking Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+
+<section role="main" class="content-body" ng-controller="Trackingcontroller"> 
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Report</span></li>
+                <li><span>Tracking Reports</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises"> </div>
+            </div>
+        </div>
+    </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <form name="form" novalidate>
+            <div class="col-xs-12">
+                <section class="panel form-wizard" id="w4">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">TRACKING REPORTS</h2>
+                    </header>
+                    <div class="row">
+
+                       
+                    </div>
+                    <div class="panel-body">
+
+                        @*<div class="form-group">
+                            <div class="col-md-1"></div>
+                            <div class="alert col-md-10" ng-show="NotifiyRes" ng-class="Notify">
+                                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                <label ng-bind="Res" class="error-hover" />
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>*@
+                        <div class="col-md-6">
+
+                            @*<div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label">Role</label>
+                                </div>
+                                <div class="col-md-8">
+                                        <select name="role" ng-model="role" data-plugin-selectTwo class="form-control populate" title="Please select at least one role" ng-change="finduser()">
+                                            <option value="">--Select Role--</option>
+                                            <option value="Cataloguer">Cataloguer </option>
+                                            <option value="Approver">Approver </option>
+                                            <option value="Reviewer">Reviewer </option>
+                                        </select>
+                                </div>
+
+                            </div>*@
+                            @*<div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label">User Name</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select id="value" name="value" ng-model="value" class="form-control" title="Plase enter a name." placeholder="Select User" ng-options="x.UserName as x.UserName for x in getuser">
+                                    <option value="" selected="selected">--Select User--</option></select>
+                                </div>
+
+                            </div>*@
+
+                            <div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label">Plant</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select ng-model="Plant" name="plant" id="plant" data-plugin-selectTwo class="form-control populate" ng-options="x.Plantcode as x.Plantname for x in gtplant" required>
+                                        <option value="" selected="selected">Select Plant</option>
+                                    </select>
+                                </div>
+
+
+                            </div>
+                            @*<div class="form-group">
+                                <div class="col-md-4">
+                                    <label class="control-label">Department</label>
+                                </div>
+                                <div class="col-md-8">
+                                    <select ng-model="Departmentname" id="dept" name="dept" data-plugin-selectTwo class="form-control populate" ng-options="x.Departmentname as x.Departmentname for x in gtdepartment" required>
+                                        <option value="" selected="selected">--Select Department--</option>
+                                    </select>
+
+                                </div>
+
+                            </div>*@
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Between date</label>
+                                <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.Fromdate.$invalid}">
+                                    @*<input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                    <input type="text" id="txtFrom" name="Fromdate" ng-model="Fromdate" class="form-control" placeholder="Start Date" autocomplete="off">
+
+                                </div>
+                                <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.Todate.$invalid}">
+                                    @*<input type="date" name="Todate" ng-model="Todate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                    <input type="text" id="txtTo" name="Todate" ng-model="Todate" class="form-control" placeholder="End Date" autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label">Options</label>
+                                <div class="col-md-8">
+                                    @*<div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Overall" value="Overall" ng-model="Option">
+                                        <label for="radioExample1">Overall</label>
+                                    </div>*@
+                                    <div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Pvcompleted" value="PVcompleted" ng-model="Option">
+                                        <label for="radioExample1">PV Completed </label>
+                                    </div>
+                                    <div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Overall" value="Overall" ng-model="Option">
+                                        <label for="radioExample1">Tracking</label>
+                                    </div>
+                                    @*<div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Created" value="Created" ng-model="Option">
+                                        <label for="radioExample1">Newly Created Items </label>
+                                    </div>
+                                    <div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Duplicate" value="Duplicate" ng-model="Option">
+                                        <label for="radioExample1">Duplicate Items</label>
+                                    </div>*@
+                                    <div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Delivery" value="Delivery" ng-model="Option">
+                                        <label for="radioExample1">Delivery Format</label>
+                                    </div>
+                                    @*<div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="MaterialType" value="MaterialType" ng-model="Option">
+                                        <label for="radioExample1">Material Type</label>
+                                    </div>*@
+                                    
+                                    @*<div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Request" value="Request" ng-model="Option">
+                                        <label for="radioExample1">Request</label>
+                                    </div>*@
+                                    @*<div class="radio-custom">
+                                        <input type="radio" id="radioExample1" name="Reject" value="Reject" ng-model="Option">
+                                        <label for="radioExample1">Deactivated Items</label>
+                                    </div>*@
+                                </div>
+
+                            </div>
+                            <div class="form-group" ng-show="Option =='MaterialType'">
+                                <label class="col-md-4 control-label">Material Type</label>
+                                <div class="col-md-8">
+                                    <select class="form-control" id="ddlmaterial" ng-model="Materialtype" name="ddlsl2" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Material type' })">
+                                        <option value="" selected="selected">Select MaterialType </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="controls">
+                                    <div class="col-md-4">
+                                        <label class="control-label">Material Code</label>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <textarea class="form-control" placeholder="eg : 311715040001,311715040002,311616190001" rows="2" id="code" ng-model="materialcode" ng-list="&#10;" ng-trim="false" name="code" required></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-6 form-submit">
+                                    <button id="submit_button" type="submit" class="btn btn-primary" ng-disabled="Option=='Delivery'" ng-click="trackingload()">Load</button>
+                                    <button id="submit_button" type="submit" class="btn btn-primary" ng-click="exportTrack()">Download Excel</button>
+                                </div>
+                                <div class="col-md-2 form-submit">
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                                     </div>
+
+                </section>
+            </div>
+            <div class="col-xs-12">
+                @*<div cg-busy="promise" class="tblLoad"></div>*@
+
+                <section class="panel" ng-show="len != null">
+                    <div class="panel-body">
+                        <header style="border-radius: 5px 5px 0 0;"></header>
+                        <div class="col-md-12 table-responsive">
+                            <div class="pull-right">
+                                No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len" />
+                            </div><div id="exportable">
+    <table class="table table-bordered mb-none">
+        <tr>
+            <th ng-repeat="(key, val) in tables[0]">{{key}}</th>
+        </tr>
+        <tr ng-repeat="item in tables">
+            <td ng-repeat="(key, val) in item">{{val}}</td>
+        </tr>
+    </table>
+</div>
+</div>
+                    </div>
+                </section>
+                @*<section class="panel form-wizard" id="w4" ng-show="len != null">
+
+                    <div class="panel-body">
+                        <div class="col-md-12 table-responsive">
+                            <div class="pull-right" ng-show="len != null">
+                                No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len" />
+                            </div>
+                            <div id="tblid">
+                                <table class="table table-bordered mb-none" border="1" ng-repeat="table in reqtbls">
+                                    <thead class="top-border ng-scope">
+                                        <tr>
+                                            <th  ng-repeat="column in cols">{{column}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="row in table.rows">
+                                        <td ng-repeat="column in cols ">{{row[column]}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        </div>
+                    </section>*@
+                </div>
+
+        </form>
+                </div>
+
+
+
+            </section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/Tracking.js"></script>
+<script src="/Scripts/ctrls/downloadexcel.js"></script>

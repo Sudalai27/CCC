@@ -1,0 +1,662 @@
+﻿
+@{
+    ViewBag.Title = "AssetHie";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<style>
+    /* ————————————————————–
+      Tree core styles
+    */
+    .tree .own:before {
+        position: absolute;
+        top: -2px;
+        bottom: -13px;
+        left: -.5em;
+        display: block;
+        width: 0;
+        border-left: 1px solid #777;
+        content: "";
+    }
+
+    label.tree_label {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        color: #000000;
+    }
+
+    label.tree_label2 {
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 13px;
+        color: #000000;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    #fontSizeWrapper {
+        font-size: 16px;
+    }
+
+    #fontSize {
+        width: 100px;
+        font-size: 1em;
+    }
+
+    /* ————————————————————–
+      Tree core styles
+    */
+    .tree {
+        border: 1px solid #eaeaea;
+    padding-bottom: 18px;
+    }
+
+        .tree input {
+            position: absolute;
+            clip: rect(0, 0, 0, 0);
+        }
+
+            .tree input ~ ul {
+                display: none;
+            }
+
+            .tree input:checked ~ ul {
+                display: block;
+            }
+
+        /* ————————————————————–
+      Tree rows
+    */
+        .tree li {
+            line-height: 13px;
+            position: relative;
+            padding: 0 0 1em 1em;
+        }
+
+        .tree ul li {
+            padding: 1em 0 0 1em;
+        }
+
+        .tree > li:last-child {
+            padding-bottom: 0;
+        }
+
+    /* ————————————————————–
+      Tree labels
+    */
+    .tree_label {
+        position: relative;
+        display: inline-block;
+        background: #fff;
+    }
+
+    .tree_label2 {
+        position: relative;
+        display: inline-block;
+        background: #fff;
+    }
+
+    label.tree_label {
+        cursor: pointer;
+    }
+
+    label.tree_label2 {
+        cursor: pointer;
+    }
+
+    label.tree_label:hover {
+        color: #666;
+    }
+
+    label.tree_label2:hover {
+        color: #666;
+    }
+
+    /* ————————————————————–
+      Tree expanded icon
+    */
+    li .tree_label:before {
+        background: #3355a8;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        float: left;
+        margin: 0 1em 0 -26px;
+        width: 17px;
+        height: 17px;
+        border-radius: 1em;
+        content: '+';
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+    }
+
+    li .tree_label2:before {
+        background: #0099e6;
+        color: #fff;
+        position: relative;
+        z-index: 1;
+        float: left;
+        margin: 0 1em 0 -26px;
+        width: 17px;
+        height: 17px;
+        border-radius: 1em;
+        content: '+';
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+    }
+
+    :checked ~ li .tree_label:before {
+        content: '–';
+    }
+
+    :checked ~ li .tree_label2:before {
+        content: '–';
+    }
+
+    /* ————————————————————–
+      Tree branches
+    */
+    .tree li:before {
+        position: absolute;
+        top: -2px;
+        bottom: -16px;
+        left: -.5em;
+        display: block;
+        width: 0;
+        border-left: 1px solid #777;
+        content: "";
+    }
+
+    .tree_label:after {
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+        display: block;
+        height: 0.5em;
+        width: 1em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '-';
+    }
+
+    .tree_label2:after {
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+        display: block;
+        height: 0.5em;
+        width: 1em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '-';
+    }
+
+    label.tree_label2 {
+        color: darkslateblue;
+        padding-bottom: 8px;
+    }
+
+    label.tree_label1 {
+        color: #ad9f9f;
+        padding-bottom: 8px;
+    }
+
+    label.tree_labels:before {
+        position: relative;
+        z-index: 1;
+        float: left;
+        margin: 0 1em 0 -26px;
+        width: 17px;
+        height: 17px;
+        border-radius: 1em;
+        content: '';
+        text-align: center;
+        line-height: 14px;
+        font-size: 16px;
+    }
+
+    label.tree_labels:after {
+        position: absolute;
+        left: -0.5em;
+        display: block;
+        height: 0.5em;
+        width: 2em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '';
+    }
+
+    label.tree_label1:after {
+        position: absolute;
+        top: 0;
+        left: -1.5em;
+        display: block;
+        height: 0.5em;
+        width: 3em;
+        border-bottom: 1px solid #777;
+        border-left: 1px solid #777;
+        border-radius: 0 0 0 .3em;
+        content: '';
+    }
+
+    label.tree_label:after {
+        border-bottom: 0;
+    }
+
+    label.tree_label2:after {
+        border-bottom: 0;
+    }
+
+    :checked ~ label.tree_label2:before {
+        content: '–';
+    }
+
+    :checked ~ label.tree_label:before {
+        content: '–';
+    }
+
+    :checked ~ label.tree_label2:after {
+        border-top: 1px solid #777;
+        width: 26px;
+        border-bottom: 0;
+        border-left: 0;
+        bottom: 0;
+        top: 0.5em;
+        height: auto;
+    }
+
+    :checked ~ label.tree_label:after {
+        border-top: 1px solid #777;
+        width: 32px;
+        border-bottom: 0;
+        border-left: 0;
+        bottom: 0;
+        top: 0.5em;
+        height: auto;
+    }
+
+    .tree li:last-child:before {
+        height: 16px;
+        bottom: auto;
+    }
+
+    .tree > li:last-child:before {
+        display: none;
+    }
+
+    .tree_custom {
+        display: block;
+        background: #eee;
+        padding: 1em;
+        border-radius: 0.3em;
+    }
+    .tree label {
+    font-weight: 600;
+}
+  .blue{
+      color:#003366 !important;
+  }
+ .Lblue{
+      color:#0099cc !important;
+  }
+ .Lgreen{
+      color:#00cc99 !important;
+  }
+ .green{
+      color:#006600 !important;
+  }
+ .violte{
+      color:#993366 !important;
+  }
+
+ .Lviolte{
+      color:#cc0066 !important;
+  }
+ .Dred{
+      color:#cc0000 !important;
+  }
+ .red{
+      color:#ff3300 !important;
+  }
+ .Dbrown{
+      color:#663300 !important;
+  }
+ .brown{
+      color:#996633 !important;
+  }
+</style>
+
+<section role="main" class="content-body" ng-controller="BomTrackingcontroller">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Report</span></li>
+                    <li><span>Tracking Bill of Materials </span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div class="alert" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="promise" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Asset Hierarchical</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="tabs">
+
+                            <div class="tab-content">
+                                <div id="Single" class="tab-pane active">
+                                    <form name="form" ng-submit="TrackBom()">
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <label class="col-md-2">Search Equipment </label>
+                                                <div class="col-md-4">
+                                                    <input type="text" class="form-control" ng-blur="searchkey=searchkey.toUpperCase();" ng-model="searchkey" style="height:27px" required>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <button class="btn btn-primary" type="submit">Search</button>&nbsp;
+                                                    <button class="btn btn-primary" type="button" ng-hide="clear" ng-click="ClearItem()">Clear</button>
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </form>
+                                    <form>
+                                        <div class="col-md-12 form-group" ng-hide="reset">
+                                            <div class="table-responsive" ng-show="sResult != null">
+                                                <div class="col-md-4">
+                                                    <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                </div>
+                                                <div class="control-label col-md-4">
+                                                    No.of.Records: <label ng-bind="totItem" />
+                                                </div>
+                                                <div class="control-label col-md-1" style="text-align:right;">
+
+                                                </div><div class="col-md-3">
+
+                                                </div>
+                                                <div style="display:block;max-height:180px;">
+                                                 
+                                                    <table class="table table-bordered mb-none">
+                                                        <thead class="top-border" align="center">
+                                                            <tr>
+
+                                                                <th>Functional Location</th>
+                                                                <th>SupFunctLoc</th>
+                                                                <th>Functional Desc</th>
+                                                                <th>Object Type</th>
+                                                                <th>Manufacturer</th>
+                                                                <th>Manufacturer Con</th>
+                                                                <th>Modelno</th>
+                                                                <th>Status</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="TBM in sResult" id="{{$index}}" ng-click="TBMClick1(TBM,$index)">
+
+                                                                <td><label ng-bind="TBM.FunctLocation"></label></td>
+                                                                <td><label ng-bind="TBM.SupFunctLoc"></label></td>
+                                                                <td><label ng-bind="TBM.FunctDesc"></label></td>
+                                                                <td><label ng-bind="TBM.Objecttype"></label></td>
+                                                                <td><label ng-bind="TBM.Manufacturer"></label></td>
+                                                                <td><label ng-bind="TBM.ManufCon"></label></td>
+                                                                <td><label ng-bind="TBM.Modelno"></label></td>
+                                                                <td><label ng-bind="TBM.status"></label></td>
+
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                  
+                                                </div>
+                                               
+                                            </div>
+                                            <pagination ng-model="currentPage"
+                                                        total-items="totItem"
+                                                        items-per-page="numPerPage"
+                                                        max-size="10"
+                                                        boundary-links="true"
+                                                        ng-click="bindAssetsInx(currentPage)">
+                                            </pagination>
+                                        </div>
+                                        <div class="form-group" ng-hide="Noitem">
+                                            <div class="col-md-12"><h4 ng-hide="fun==null" style="border-bottom: 1px dashed #2f4d90;width: 14%;">Asset Hierarchical</h4></div>
+
+                                            <div class="col-md-12">
+                                          
+
+                                                <ul style="list-style: none;border: 1px solid #ccc;min-height: 26px;background: #c2d8eb;padding-left:67px;">
+                                                    <li class="col-md-4 col-sm-2" style="padding-left: 10px;">
+                                                        Function Location
+                                                    </li>
+                                                    <li class="col-md-4 col-sm-2" style="padding-left: 10px;">
+                                                        Function Description
+                                                    </li>
+                                                    <li class="col-md-1 col-sm-2 no-padding">
+                                                        Object Type
+                                                    </li>
+                                                    <li class="col-md-1 col-sm-2 no-padding">
+                                                        TechIdentNo
+                                                    </li>
+                                                    <li class="col-md-1 col-sm-2 no-padding">
+                                                        MCP CODE
+                                                    </li>
+                                                    <li class="col-md-1 col-sm-2 no-padding">
+                                                        BOMSearch
+                                                    </li>
+
+                                                </ul>
+                                                <div class="tree col-md-12 col-sm-12">
+                                                    <h4>{{FunctLocation}}</h4>
+                                                    <ul>
+                                                        <li ng-repeat="f in fun">
+                                                            <input type="checkbox" id={{f.FunctLocation}} />
+                                                            <label ng-hide="(f.status=='no')" class="tree_label blue" for={{f.FunctLocation}} style="width: 100%;">
+                                                                <label class="col-md-4 col-sm-2">{{f.FunctLocation}}</label>
+                                                                <label class="col-md-4 col-sm-2">{{f.FunctDesc}}</label>
+                                                                <label  class="col-md-1 col-sm-2">{{f.Objecttype}}</label>
+                                                                <label class="col-md-1 col-sm-2 no-padding">{{f.TechIdentNo}}</label>
+                                                                <a style="padding:0px 5px !important;" class="col-md-1 col-sm-2 no-padding" ng-click="downloadfilemcpcode(f.mcpcode)">{{f.mcpcode}}</a>
+                                                                <label ng-hide="(f.TechIdentNo == null)" class="col-md-1 col-sm-2 no-padding"><i class="fa fa-search" ng-click="Open1(f.TechIdentNo,$index)"></i></label>
+                                                            </label>
+                                                            <label ng-hide="(f.status=='yes')" class="tree_labels blue" for={{f.TechIdentNo}} style="width: 100%;">
+                                                                <span style="width:34%;float: left;">{{f.FunctLocation}}</span>
+                                                                <span style="width:33%;max-height: 50px;overflow-y: auto;float: left;">{{f.FunctDesc}}</span>
+                                                                <span style="width:8%;float: left;">{{f.Objecttype}}</span>
+                                                                <span style="width:8%;float: left;">{{f.TechIdentNo}}</span>
+                                                                <a style="padding:0px 5px !important;width:9.5%;float:left;" ng-click="downloadfilemcpcode(f.mcpcode)">{{f.mcpcode}}</a>
+                                                                <span ng-hide="(f.TechIdentNo == null)" style="width:8%;FLOAT: RIGHT;"><i class="fa fa-search" ng-click="Open1(f.TechIdentNo,$index)"></i></span>
+
+                                                            </label>
+                                                            <ul>
+                                                                <li ng-repeat="f2 in fun2 | filter: {'SupFunctLoc': f.FunctLocation }">
+
+                                                                    <input type="checkbox" id={{f2.FunctLocation}} />
+                                                                    <label ng-hide="(f2.status=='no')" class="tree_label Lblue" for={{f2.FunctLocation}} style="width: 100%;">
+                                                                        <label style="width:31.4%;margin-left: 10px;">{{f2.FunctLocation}}</label>
+                                                                        <label style="width:34%">{{f2.FunctDesc}}</label>
+                                                                        <label style="width:8%">{{f2.Objecttype}}</label>
+                                                                        <label style="width:8%">{{f2.TechIdentNo}}</label>
+                                                                        <a style="width:13%" ng-click="downloadfilemcpcode(f2.mcpcode)">{{f2.mcpcode}}</a>
+                                                                        <label ng-hide="(f2.TechIdentNo == null)" style="width:8%;text-align: center;"><i class="fa fa-search" ng-click="Open1(f2.TechIdentNo,$index)"></i></label>
+
+                                                                    </label>
+                                                                    <label ng-hide="(f2.status=='yes')" class="tree_labels Lblue" for={{f2.FunctLocation}} style="width: 100%;">
+                                                                        <span style="width:31.7%;float: left;margin-left:10px">{{f2.FunctLocation}}</span>
+                                                                        <span style="width:34.5%;max-height: 50px;overflow-y: auto;float: left;">{{f2.FunctDesc}}</span>
+                                                                        <span style="width:8%;float: left;">{{f2.Objecttype}}</span>
+                                                                        <span style="width:9.2%;float: left;">{{f2.TechIdentNo}}</span>
+                                                                        <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f2.mcpcode)">&nbsp;{{f2.mcpcode}}</a>
+                                                                        <span ng-hide="(f2.TechIdentNo == null)" style="width:9%;float: right;text-align:center;"><i class="fa fa-search" ng-click="Open1(f2.TechIdentNo,$index)"></i></span>
+
+                                                                    </label>
+                                                                    <ul>
+                                                                        <li ng-repeat="f3 in fun3 | filter: {'SupFunctLoc': f2.FunctLocation}">
+
+                                                                            <input type="checkbox" id={{f3.FunctLocation}} />
+                                                                            <label ng-hide="(f3.status=='no')" class="tree_label Dbrown" for={{f3.FunctLocation}} style="width: 100%;">
+                                                                                <label style="width:30%;">{{f3.FunctLocation}}</label>
+                                                                                <label style="width:35%">{{f3.FunctDesc}}</label>
+                                                                                <label style="width:7%">{{f3.Objecttype}}</label>
+                                                                                <label style="width:9%">{{f3.TechIdentNo}}</label>
+                                                                                <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f3.mcpcode)">{{f3.mcpcode}}</a>
+                                                                                <label ng-hide="(f3.TechIdentNo == null)" style="width:2%;text-align:center;"><i class="fa fa-search" ng-click="Open1(f3.TechIdentNo,$index)"></i></label>
+
+                                                                            </label>
+                                                                            <label ng-hide="(f3.status=='yes')" class="tree_labels Dbrown" for={{f3.FunctLocation}} style="width: 100%;">
+                                                                                <span style="width: 29.5%;float: left;margin-left:10px">{{f3.FunctLocation}}</span>
+                                                                                <span style="max-height: 50px;overflow-y: auto;width:35.5%;float: left;">{{f3.FunctDesc}}</span>
+                                                                                <span style="width:8.5%;float: left;">{{f3.Objecttype}}</span>
+                                                                                <span style="float: left;width:10%">{{f3.TechIdentNo}}</span>
+                                                                                <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f3.mcpcode)">{{f3.mcpcode}}</a>
+                                                                                <span ng-hide="(f3.TechIdentNo == null)" style="width:8%;float: right;text-align:center;"><i class="fa fa-search" ng-click="Open1(f3.TechIdentNo,$index)"></i></span>
+
+                                                                            </label>
+                                                                            <ul>
+                                                                                <li ng-repeat="f4 in fun4 | filter: {'SupFunctLoc': f3.FunctLocation }">
+
+                                                                                    <input type="checkbox" id={{f4.FunctLocation}} />
+                                                                                    <label ng-hide="(f4.status=='no')" class="tree_label Dred" for={{f4.FunctLocation}} style="width: 100%;">
+                                                                                        <label style="width:28%;">{{f4.FunctLocation}}</label>
+                                                                                        <label style="width:36.5%">{{f4.FunctDesc}}</label>
+                                                                                        <label style="width:9%">{{f4.Objecttype}}</label>
+                                                                                        <label style="width:9%">{{f4.TechIdentNo}}</label>
+                                                                                        <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f4.mcpcode)">{{f4.mcpcode}}</a>
+                                                                                        <label ng-hide="(f4.TechIdentNo == null)" style="width:8%;float: right;text-align: center;"><i class="fa fa-search" ng-click="Open1(f4.TechIdentNo,$index)"></i></label>
+
+                                                                                    </label>
+                                                                                    <label ng-hide="(f4.status=='yes')" class="tree_labels Dred" for={{f4.FunctLocation}} style="width: 100%;">
+                                                                                        <span style="width: 28%;float: left;">{{f4.FunctLocation}}</span>
+                                                                                        <span style="max-height: 50px;overflow-y: auto;width:36.5%;float:left;">{{f4.FunctDesc}}</span>
+                                                                                        <span style="width:9%;float:left;">{{f4.Objecttype}}</span>
+                                                                                        <span style="width:9%;float:left;">{{f4.TechIdentNo}}</span>
+                                                                                        <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f4.mcpcode)">{{f4.mcpcode}}</a>
+                                                                                        <span ng-hide="(f4.TechIdentNo == null)" style="width:8%;float: right;text-align:center;"><i class="fa fa-search" ng-click="Open1(f4.TechIdentNo,$index)"></i></span>
+
+                                                                                    </label>
+
+                                                                                    <ul>
+                                                                                        <li ng-repeat="f5 in fun5 | filter: {'SupFunctLoc': f4.FunctLocation }">
+
+                                                                                            <input type="checkbox" id={{f5.FunctLocation}} />
+                                                                                            <label ng-hide="(f5.status=='no')" class="tree_label red" for={{f5.FunctLocation}} style="width: 100%;">
+                                                                                                <label style="width:24.3%;margin-left: 10px;">{{f5.FunctLocation}}</label>
+                                                                                                <label style="width:38.2%">{{f5.FunctDesc}}</label>
+                                                                                                <label style="width:7%">{{f5.Objecttype}}</label>
+                                                                                                <label style="width:7%">{{f5.TechIdentNo}}</label>
+                                                                                                <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f5.mcpcode)">{{f5.mcpcode}}</a>
+                                                                                                <label ng-hide="(f5.TechIdentNo == null)" style="width:2%"><i class="fa fa-search" ng-click="Open1(f5.TechIdentNo,$index)"></i></label>
+
+                                                                                            </label>
+                                                                                            <label ng-hide="(f5.status=='yes')" class="tree_labels red" for={{f5.FunctLocation}} style="width: 100%;">
+                                                                                                <span style="width:24.3%;float: left;">{{f5.FunctLocation}}</span>
+                                                                                                <span style="max-height: 50px;overflow-y: auto;width:38.2%;float:left;">{{f5.FunctDesc}}</span>
+                                                                                                <span style="width:7%;float:left;">{{f5.Objecttype}}</span>
+                                                                                                <span style="width:7%;float:left;">{{f5.TechIdentNo}}</span>
+                                                                                                <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f5.mcpcode)">{{f5.mcpcode}}</a>
+                                                                                                <span ng-hide="(f5.TechIdentNo == null)" style="width:2%;float: right;"><i class="fa fa-search" ng-click="Open1(f5.TechIdentNo,$index)"></i></span>
+
+                                                                                            </label>
+                                                                                            <ul>
+                                                                                                <li ng-repeat="f6 in fun6 | filter: {'SupFunctLoc': f5.FunctLocation }">
+
+                                                                                                    <input type="checkbox" id={{f6.FunctLocation}} />
+                                                                                                    <label ng-hide="(f6.status=='no')" class="tree_label brown" for={{f6.FunctLocation}} style="width: 100%;">
+                                                                                                        <label style="width:22%;margin-left: 10px;">{{f6.FunctLocation}}</label>
+                                                                                                        <label style="width:43%">{{f6.FunctDesc}}</label>
+                                                                                                        <label style="width:14%">{{f6.Objecttype}}</label>
+                                                                                                        <label style="width:14%">{{f6.TechIdentNo}}</label>
+                                                                                                        <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f6.mcpcode)">{{f6.mcpcode}}</a>
+                                                                                                        <label ng-hide="(f6.TechIdentNo == null)" style="width:2%"><i class="fa fa-search" ng-click="Open1(f6.TechIdentNo,$index)"></i></label>
+                                                                                                    </label>
+
+                                                                                                    <label ng-hide="(f6.status=='yes')" class="tree_labels brown" for={{f6.FunctLocation}} style="width: 100%;">
+                                                                                                        <span style="width: 20%;float: left;">{{f6.FunctLocation}}</span>
+                                                                                                        <span class="col-md-5" style="max-height: 50px;overflow-y: auto;">{{f6.FunctDesc}}</span>
+                                                                                                        <span class="col-md-2" style="text-align: center;">{{f6.Objecttype}}</span>
+                                                                                                        <span class="col-md-1">{{f6.TechIdentNo}}</span>
+                                                                                                        <a style="width:9.5%;float:left;" ng-click="downloadfilemcpcode(f6.mcpcode)">{{f6.mcpcode}}</a>
+                                                                                                        <span ng-hide="(f6.TechIdentNo == null)" style="width:2%;float: left;"><a href="/Bom/Bomtracking?id=' + Itemcode"><i class="fa fa-search" ng-click="Open1(f6.TechIdentNo,$index)"></i></a></span>
+
+                                                                                                    </label>
+
+                                                                                                </li>
+                                                                                            </ul>
+                                                                                        </li>
+                                                                                    </ul>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </li>
+                                                                    </ul>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+
+
+
+                                            </div>
+
+
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+@*<script src="/Scripts/ctrls/Asset.js"></script>*@
+<script src="/Scripts/ctrls/BomTracking.js"></script>
+<script src="/Scripts/ctrls/downloadexcel.js"></script>

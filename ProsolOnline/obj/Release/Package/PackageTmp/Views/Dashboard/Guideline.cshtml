@@ -1,0 +1,698 @@
+﻿
+@{
+    ViewBag.Title = "GuideLine";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+}
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+
+                <li><span>Guidelines</span></li>
+            </ol>
+        </div>
+    </header>
+
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="row" >
+        <div class="col-xs-12">
+            <div class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Guideline Files</h2>
+                </header>
+                <form ng-controller="UploadController">
+                    <div class="panel-body">
+                        @*<div cg-busy="promise" style="top:50px"></div>*@
+                        <div class="row">
+                            <div class="col-md-12" ng-show="showupload">
+
+                                <button ng-click="showfields()" ng-show="viewadd" class="btn btn-primary pull-right"><img src="~/Images/upload.png" /> Upload</button>
+                                <button ng-click="hidefields()" ng-show="viewclose" class="btn btn-primary pull-right"><img src="~/Images/upload.png" /> Upload</button>
+                            </div>
+                            <div class="form-group single-item">
+                                <div class="col-md-12" ng-show="shinsertupdate">
+                                    <div class="col-md-8">
+                                        <label class="col-md-2 control-label">Upload File</label>
+                                        <div class="col-md-7">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <button class="btn btn-primary" ng-click="UploadFile()">Upload</button>&nbsp;
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-12 no-padding">
+                            <div class="flex-row flex-nowrap">
+
+                                <div ng-repeat="x in Folderfiles" id="{{$index}}" class="flex-scroll">
+
+
+                                    <div class="col-sm-2" style="text-align: center;margin-top:10px;border-right: 1px solid #ccc;">
+                                        <a ng-show="@Request.RequestContext.HttpContext.Session["show"] == true" ng-click="Remove(x)" style="float: right;padding-left: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                        <a target="_blank" href="~/Guideline/{{x}}" style="color: #000;font-weight: 600;">
+                                            <div ng-show="x.substr(x.lastIndexOf('.') + 1) == 'pdf'"><img src="~/Images/pdf-icon.png" /></div>
+                                            <div ng-show="x.substr(x.lastIndexOf('.') + 1) == 'docx'"><img src="~/Images/word-icon.png" /></div>
+
+                                            <h5>{{x}}</h5>
+                                        </a>
+                                    </div>
+
+
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+       
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">FAQ's</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-6">
+                        <div class="panel-group faq" id="accordion">
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#1">
+                                           	WHAT DASHBOARD SIGNIFIES?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="1" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>The dashboard signifies the overall big picture of the file status in the tool and the data is represented pictographically.</strong></p>
+                                      </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#2">
+                                            WHAT TYPE OF FILE DOES TOOL ACCEPT AND FORMAT?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="2" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Excel :- xls,xlsx</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#3">
+                                     HOW TO DOWNLOAD OVERALL DUMP DATA?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="3" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Overall dump data can be downloaded with respect to,<br />a.	Date modified: report > export > role > username > status (pending), by selecting the role of the user and name with respect to the file status and date, and even with the option of display fields in the downloaded excel format.
+<br />b.	Without date modified: when selected without date, overall uploaded existing files in prosol can be downloaded</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#4">
+                                            	WHAT IS IMPORT FUNCTION IN FILES?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="4" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>The import function is used to assign files in bulk to a certain user or cataloguer with the help of the downloadable template in tool in excel format</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#5">
+                                           	HOW TO DOWNLOAD OVERALL CLEANSED & ENRICHED DATA?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="5" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Overall Cleansed and enriched data can be downloaded from the same pathway as <br>Report > Export > Role > Username > Status (Completed)</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#6">
+                                           	HOW TO UPLOAD BULK NOUN & MODIFIER LIST?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="6" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Noun modifiers can be uploaded in bulk by giving input in downloadable excel format available in data dictionary > create template > noun modifier bulk upload</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#7">
+                                           	WHAT IS ASSIGN WORK FUNCTION IN FILES?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="7" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Assign work function is used to assign or delegate certain item or codes in tool to a certain user. It has two modules
+                                                <br />a.	Assign: here more than one item codes can be pasted to assign or delegate these codes to another cataloguer.
+                                                   <br />b.	Re-assign: here the pending codes from one cataloguer can be re-assigned to another cataloguer by choosing the number of items from his drop box.</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#8">
+                                           	IS THERE ANY OPTION TO UPLOAD IMAGES FOR NM REFRENCE?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="8" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Yes, images for noun modifier reference can be uploaded via
+<br/>Data dictionary > create template > add dictionary > by giving input noun and modifier.</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#9">
+                                            	WHAT IS THE VALUE GIVEN TO THE EQUIVALENT ENTRY BOX OF VALUE MASTER?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="9" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>The equivalent entry box acts as a thesaurus, where more than one word has the same meaning
+example: wrench and spanner, here wrench is an equivalent word for a spanner and vice versa. Hence by finalizing any one word, data governance can be deployed even when inconsistent data input is given.</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#10">
+                                            HOW TO FILL FOR MULTIPLE URL REFRENCE?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="10" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>By “Add” option in Vendor Data</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#11">
+                                            	WHAT IS THE USE OF EXCEPTIONAL BOX?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="11" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    Prosol doesn’t allow any Items that are deficient of any one mandatory values, but in some cases these mandatories cannot be filled because of
+                                                   <br /> a.	The data might be void in the Manufacturer itself
+                                                    <br />b.	The Item may be Obsolete
+                                                    <br /> c.	Client may not have the necessary data
+                                                    <br />Hence to over-ride the void of mandatory, Prosol uses Exceptional box that nullifies all the mandatory protocol (Still retaining the mandatory Tool remarks) except the cataloguer Remarks and a justifiable source URL.  
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#12">
+                                            	WHAT IS THE DIFFERENCE BETWEEN VALUE MASTER AND VALUE STANDARDIZATION?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="12" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>a. Value master: it holds all the input values and its abbreviations created from all the users in prosol, it can be normalized by quality control or quality assurance user.
+                                                   <br /> b.	Value standardization: <br />i) it is used to standardise the wrong or inconsistent data created in value master with respect to noun modifier and its characteristics, only for completed or saved items.
+                                                   <br /> ii) to edit values in value standardization, the correct value should be created and normalized in value master before changing it in value standardization.
+                                                   <br /> iii) changed values in value standardization will be impacted in the specific noun modifier with respect to its specific characteristic attribute, irrespective of the item status and changed values will be displayed in a generated short and long text.
+
+</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#13">
+                                           	HOW TO CREATE USER AUTHORIZATION IN TOOL?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="13" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>: Only admin or user who has admin access can create user authorization for all the users in prosol.
+<br />For user permissions, log into admin user > users > access permissions</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#14">
+                                            HOW TO REMOVE USER FROM TOOL?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="14" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Created User in Prosol cannot be deleted, but it can be Active or Inactive by an Admin User in Users > User > Selecting Edit by choosing the user name</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                          
+                          
+                            </div>
+
+                        </div>
+                    <div class="col-md-6">
+                        <div class="panel-group faq" id="accordion">
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#15">
+                                            HOW ARE UOM SETTED IN TOOL?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="15" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    1: In Prosol the UOM or Unit of Measure can be fixed with respect to Noun Modifier as Base UOM or against Characteristic Attribute.
+                                                    <br /> i)	Base UOM: Data Dictionary > Create Template > Giving input Noun and Modifier
+                                                    <br /> ii)	Attribute UOM: Can be added in Two Ways
+                                                    <br /> a.	Against Noun Modifier: Data Dictionary > Create Template > Giving input Noun and Modifier > Selecting Attributes > Add UOM
+                                                    <br /> b.	Bulk Upload: Data Dictionary > Create Template > UOM Bulk Upload
+                                                    <br />
+                                                    <br />
+                                                    2: New UOM can also added to Prosol in
+                                                    Material Master > Tools > Settings > Attribute UOM
+
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#16">
+                                            HOW TO UPLOAD BULK VENDOR LIST?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="16" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>Vendors Can Be Uploaded In Bulk From Material Master > Tools > Vendor Details > Bulk Upload > By Downloading The Excel Template</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#17">
+                                            HOW TO CREATE NEW UOM AGAINST ATTRIBUES AND WHO IS RESPONSIBLE TO CREATE?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="17" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong> a. New UOM can be created from Material Master > Tools > Settings > Attribute UOM
+<br />b.	Only Admin can create New UOM
+</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#18">
+                                            	HOW TO SEE LISTED DUPLICATE ITEM?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="18" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    List of mapped duplicate Items can be viewed and downloaded in Prosol by
+                                                    Material Master > Reports > Tracking Reports > Duplicate Items
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#19">
+                                            WHAT IS MISSING, REPEATED AND ENRICHED VALUE IN CATALOUGE PAGE?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="19" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>i) Missing Value: It Indicates the list of values that is not used for data population from Legacy
+<br />ii) Repeated Value: It Indicates the list of values that is redundant in the populated values.
+<br />iii)	Enriched Values: It Indicates the list of populated values that is enriched from Web or other Data resources.
+</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#20">
+                                            IS THERE ANY OPTION TO ADD CLEANSED OR ENRICHED DATA FROM ANY OTHER PLATFORM?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="20" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>YES, PROPEDIA</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#21">
+                                            IS THERE ANY OPTION AVAILABLE TO LINK WITH ERP TOOLS EG SAP, MAXIMA?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="21" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>For SAP PI/PO Middleware method</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#22">
+                                            IS THERE OPTION FOR SPECIFIC SEQUENCING FOR SHORT AND LONG DESCRIPTION GENERATION?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="22" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    Yes, Prioritizing Short Long generation sequence is available and can be done in
+                                                    Data Dictionary > Create Template
+
+                                                    </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#23">
+                                            WHAT IS THE METHODOLOGY FOR FINDING DUPLICATES?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="23" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    Prosol identifies duplicates based on the Populated data, Manufacturer Part number/Model Number and Equipment Name
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#24">
+                                            IS THERE ANY SPELLING MISTAKE DICTIONARY AVAILBLE?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="24" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    Currently not available, but it will provide very soon</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#25">
+                                            TOOL CAN AUTO FILL ANY CODING LOGIC EG. UNSPSC, HSN, MESC?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="25" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p><strong>UNSPSC</strong></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#26">
+                                            WHAT ARE THE DIFFERENT MASTERS AVAILABLE?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="26" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>Value Master, Vendor Master, Noun Modifier Dictionary</strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#27">
+                                            HOW TO DOWNLOAD THE MASTERS?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="27" class="accordion-body collapse">
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                              
+                                                    <h4>Value Master</h4>
+                                                <strong>
+                                                    Data Dictionary > View Dictionary > Download Value Master
+                                                </strong>
+                                                <br/>
+                                                    <h4>Vendor Master</h4>
+                                                <strong>
+                                                    Material Master > Tools > Vendor Details
+                                                </strong>
+                                                <br />
+                                                <h4>Noun Modifier Dictionary</h4>
+                                                <strong>Data Dictionary > View Dictionary > Download Noun and Modifier</strong>
+</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="panel panel-accordion detail-plan">
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#28">
+                                            WHO ARE ALL RESPONSIBLE FOR MAINTAINING MASTER DATA?
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="28" class="accordion-body collapse">
+
+                                    <div class="panel-body">
+                                        <div class="col-md-12">
+                                            <p>
+                                                <strong>
+                                                    Only Admin user has access to all the Masters
+                                                </strong>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+            </section>
+            <script src="/Scripts/ctrls/Dashboardctrl.js"></script>
+            <script src="/Scripts/angular-busy.min.js"></script>
+
+            <style>
+                .flex-row.flex-nowrap .flex-scroll .col-sm-2 {
+                    width: 150px;
+                    height: 150px;
+                }
+
+                .flex-row.flex-nowrap .flex-scroll {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .flex-row.flex-nowrap {
+                    display: flex;
+                    overflow: auto;
+                }
+            </style>

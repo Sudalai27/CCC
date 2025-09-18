@@ -1,0 +1,273 @@
+﻿
+@{
+    ViewBag.Title = "Logic";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<section role="main" class="content-body" >
+
+        @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Data Dictionary</span></li>
+                    <li><span>Attribute Relation</span></li>
+                </ol>
+            </div>
+        </header>
+
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises"> </div>
+            </div>
+        </div>
+    </header>*@
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Attribute Relation</h2>
+                    </header>
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="tabs">
+                                <ul class="nav nav-tabs">
+
+                                    <li class="active">
+                                        <a href="#NM-Attribute" data-toggle="tab"> NM Attribute Relationship   </a>
+                                    </li>
+                                    <li>
+                                        <a href="#NM-AttributeBulk" data-toggle="tab"> NM Attribute Bulk Upload</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content cataloguer-box">
+
+                                    <div id="NM-Attribute" class="tab-pane active" ng-controller="NMAttrRelationship">
+                                        <div class="form-group">
+                                            <form ng-submit="saveNMrelasionship()">
+                                                <div class="col-md-10">
+                                                    <div class="form-group">
+                                                        <label class="col-md-1 control-label ">Noun</label>
+                                                        <div class="col-md-4">
+                                                            <div class="controls" ng-class="{'has-error': form.$submitted && form.Noun.$invalid }">
+                                                                <select ng-model="obj.Noun" name="Noun" id="Noun" ng-change="getModifier(obj.Noun)" class="form-control" ng-options="x.Noun as x.Noun for x in getnoun">
+                                                                    <option value="" selected="selected">Select Noun</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <label class="col-md-1 control-label ">Modifier</label>
+                                                        <div class="col-md-4">
+                                                            <div class="controls" ng-class="{'has-error': form.$submitted && form.Modifier.$invalid }">
+                                                                <select ng-model="obj.Modifier" name="Modifier" id="Modifier" ng-change="GetAttributeList()" class="form-control" ng-options="x.Modifier as x.Modifier for x in getmodifier">
+                                                                    <option value="" selected="selected">Select Modifier</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-10" ng-show="Characteristics != null">
+                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                            <thead class="top-border">
+                                                                <tr>
+                                                                    <th style="width:10%">Key Att</th>
+                                                                    <th style="width:40%">characteristic</th>
+                                                                    <th style="width:40%">Value</th>
+                                                                    <th style="width:10%">UOM</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="uo in Characteristics | filter: { Definition: 'MM' } ">
+                                                                    <td>
+                                                                        <div class="checkbox-custom checkbox-default">
+                                                                            <input type="checkbox" id="checkboxExample1" ng-checked="uo.check" ng-click="getkeyattr($index)">
+                                                                            <label for="checkboxExample1">&nbsp;</label>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="hidden" ng-model="uo.Squence" /><input type="hidden" ng-model="uo.ShortSquence" /><label class="form-control" ng-bind="uo.Characteristic" ng-class="{'tdback':uo.Mandatory=='Yes'}" ng-model="uo.Characteristic" />  @*<input type="text" class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}" disabled ng-model="uo.Characteristic">*@
+                                                                    </td>
+                                                                    <td>
+                                                                        <div ng-class="{'has-error':form.$submitted && form.val{{$index}}.$error.pattern}">
+                                                                            @*<input id="val{{$index}}" type="text" ng-click="SelectCharater(cat.Noun,cat.Modifier,uo.Characteristic)" list="lstitms" ng-click="getList($index,Valuelist | filter:{'AttributeName': uo.Characteristic }:true)" ng-blur="checkValidate(cat.Noun,cat.Modifier,uo.Characteristic,$index)"  ng-blur="checkSimilar()" class="form-control" ng-model="uo.Value">*@
+                                                                            <input id="val{{$index}}" type="text" list="lstitms" @*ng-click="SelectCharater(uo.Characteristic,uo.Values,$index)"*@ class="form-control immediate-help" ng-pattern="uo.Validation" ng-model="uo.Value" autocomplete="off">
+                                                                            <div ng-show="form.val{{$index}}.$error.pattern" class="input-help">
+                                                                                <h4 ng-show="form.val{{$index}}.$error.pattern">Enter numeric only</h4>
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div ng-show="x.UOMList.length > 0 " ng-class="{'has-error': form.$submitted && form.ddlUOM{{$index}}.$invalid}" ng-repeat="x in UOMs | filter : {'Attribute': uo.Characteristic }:true">
+                                                                            <select ng-model="uo.UOM" name="ddlUOM{{$index}}" class="form-control" ng-options="y for y in x.UOMList">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>
+
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                    <div class="col-md-1"></div>
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <div class="col-md-5"></div>
+                                                            <div class="col-md-2 form-submit">
+                                                                <button id="submit" type="submit" ng-show="btnSubmit" class="btn btn-primary">Save</button>
+                                                                <button class="btn btn-primary" ng-click="updateData()" ng-show="btnUpdate" type="button">Update</button>&nbsp;&nbsp;
+                                                            </div>
+                                                            <div class="col-md-5"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="table-responsive col-md-12" ng-show="NMAttr!=null">
+                                                            <div class="col-md-4">
+                                                                <select ng-model="selecteditem" ng-change="ddlItems()" ng-options="lst for lst in [10,25,50,100]"></select>
+                                                            </div>
+                                                            <div class="control-label col-md-4">
+                                                                No.of.Records: <label ng-bind="len" />
+                                                            </div>
+                                                            <div class="control-label col-md-1" style="text-align:right;">
+                                                                Search
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <input class="form-control" ng-model="srchText" ng-blur="SearchNMATTRList()" type="text" />
+                                                            </div>
+                                                            @*<div class="table-responsive col-md-12">*@
+                                                            <table class="table table-bordered mb-none">
+                                                                <thead class="top-border">
+                                                                    <tr>
+                                                                        <th>Noun</th>
+                                                                        <th>Modifier</th>
+                                                                        <th>KeyAttribute</th>
+                                                                        <th>KeyValue</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody class="ng-scope">
+
+                                                                    <tr ng-repeat="x in NMAttr">
+                                                                        <td>
+                                                                            <label>{{x.Noun}}</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label>{{x.Modifier}}</label>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <label>{{x.KeyAttribute}}</label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label>{{x.KeyValue}}</label>
+                                                                        </td>
+
+                                                                        <td>
+                                                                            <a ng-click="NMATTRedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil-alt"></i></a>
+                                                                            <a ng-click="NMATTRDelete(x._id)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                                                            @*<a ng-click="ATTRRELedit(x,$index)" class="on-default edit-row"><i class="fa fa-pencil  edit-button"></i></a>*@
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                            <pagination ng-model="currentPage"
+                                                                        total-items="totItem"
+                                                                        items-per-page="numPerPage"
+                                                                        max-size="10"
+                                                                        boundary-links="true"
+                                                                        ng-click="BindNMinx(currentPage)">
+                                                            </pagination>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2"></div>
+                                            </form>
+                                            <datalist id="lstitms">
+                                                <option data-ng-repeat="ls in Values" value="{{ls}}">
+                                            </datalist>
+                                        </div>
+                                    </div>
+                                    <div id="NM-AttributeBulk" class="tab-pane">
+
+                                        <form ng-controller="BulkNMATTRController" ng-submit="BulkNMATTR()">
+
+                                            @*<div class="col-md-12">
+                                <div class="alert" ng-show="NotifiyRes2" ng-class="Notify2">
+                                    <button type="button" class="close" ng-click="NotifiyRes2 = !NotifiyRes2"><i class="fas fa-times"></i></button>
+                                    <label ng-bind="C_Res" class="error-hover" />
+                                </div>
+                            </div>
+                            <br />*@<a ng-show="resdwn!=false" class="download pull-right" href="/Common/NMAttributeRelationBulk.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                            <div class="form-group single-item">
+
+                                                <div class="col-md-12">
+                                                    <div class="col-md-8">
+                                                        <label class="col-md-2 control-label">File Upload</label>
+                                                        <div class="col-md-7 control-text">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData1(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            @*<input id="CharacBulk_button" type="submit" name="button3" class="btn btn-primary" value="Submit" />*@
+                                                            <button class="btn btn-primary" ng-disabled="false != ShowHide3">Submit</button>&nbsp;
+                                                        </div>
+                                                        @*<div class="col-md-1"><div cg-busy="promise1" style="top:50px"></div></div>*@
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        @*<div class="alert alert-info upload-alert">
+                                            <p><i class="fa fa-exclamation-circle fa-lg"></i>&nbsp; For CHARACTERISTICS bulkupload, download template excel file. Excel file has seven cloumns, NOUN, MODIFIER, CHARACTERISTICS, SEQUENCE AND MANDATORY are mandatory. NOUN,MODIFIER and CHARACTERISTICS should be in uppercase and only characters.</p>
+                                        </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        </div>
+</section>
+</div>
+            </div>
+ 
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/Logic.js"></script>
+

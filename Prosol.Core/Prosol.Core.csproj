@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BBEE3961-D3D8-438A-8C15-AECDF2309028}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Prosol.Core</RootNamespace>
+    <AssemblyName>Prosol.Core</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AWSSDK.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.Core.3.7.402.4\lib\net45\AWSSDK.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="AWSSDK.S3, Version=3.3.0.0, Culture=neutral, PublicKeyToken=885c28607f98e604, processorArchitecture=MSIL">
+      <HintPath>..\packages\AWSSDK.S3.3.7.415.3\lib\net45\AWSSDK.S3.dll</HintPath>
+    </Reference>
+    <Reference Include="Excel">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net45\Excel.dll</HintPath>
+    </Reference>
+    <Reference Include="ExcelLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\ExcelLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ProsolOnline\Bin\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Bson">
+      <HintPath>..\..\..\GOOSPARES\Goospares_dev\packages\MongoDB.Bson.2.2.4\lib\net45\MongoDB.Bson.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver">
+      <HintPath>..\..\..\GOOSPARES\Goospares_dev\packages\MongoDB.Driver.2.2.4\lib\net45\MongoDB.Driver.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Core">
+      <HintPath>..\packages\MongoDB.Driver.Core.2.2.4\lib\net45\MongoDB.Driver.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="MongoDB.Driver.Legacy, Version=2.2.4.26, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\mongocsharpdriver.2.2.4\lib\net45\MongoDB.Driver.Legacy.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="QRCoder, Version=1.6.0.0, Culture=neutral, PublicKeyToken=c4ed5b9ae8358a28, processorArchitecture=MSIL">
+      <HintPath>..\packages\QRCoder.1.6.0\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc">
+      <HintPath>..\..\..\Prosol_v3\Prosol.Core\bin\Debug\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssetService.cs" />
+    <Compile Include="AssignWorkService.cs" />
+    <Compile Include="BomService.cs" />
+    <Compile Include="CatalogueService.cs" />
+    <Compile Include="CharateristicsService.cs" />
+    <Compile Include="DashboardService.cs" />
+    <Compile Include="emailservice.cs" />
+    <Compile Include="EmailSettingService.cs" />
+    <Compile Include="BusinessPartnerService.cs" />
+    <Compile Include="EquipmentService.cs" />
+    <Compile Include="GeneralSettingService.cs" />
+    <Compile Include="ImportService.cs" />
+    <Compile Include="Interface\ICatalogue.cs" />
+    <Compile Include="Interface\ICharateristics.cs" />
+    <Compile Include="Interface\IDashboard.cs" />
+    <Compile Include="Interface\IEmailservice.cs" />
+    <Compile Include="Interface\IEmailSettings.cs" />
+    <Compile Include="Interface\IBusinessPartner.cs" />
+    <Compile Include="Interface\IEquipment.cs" />
+    <Compile Include="Interface\IGeneralSettings.cs" />
+    <Compile Include="Interface\IItemApprove.cs" />
+    <Compile Include="Interface\IItemRequestLog.cs" />
+    <Compile Include="Interface\ILogic.cs" />
+    <Compile Include="Interface\IMaster.cs" />
+    <Compile Include="Interface\IRepository.cs" />
+    <Compile Include="Interface\ISearch.cs" />
+    <Compile Include="Interface\ISearchByReference.cs" />
+    <Compile Include="Interface\ISequence.cs" />
+    <Compile Include="Interface\IServiceCreation.cs" />
+    <Compile Include="Interface\IServiceMaster.cs" />
+    <Compile Include="Interface\IServiceReport.cs" />
+    <Compile Include="Interface\IServiceSearch.cs" />
+    <Compile Include="Interface\IUserAccess.cs" />
+    <Compile Include="Interface\IUserCreate.cs" />
+    <Compile Include="Interface\IValuestandardization.cs" />
+    <Compile Include="Interface\I_Asset.cs" />
+    <Compile Include="Interface\I_Assignwork.cs" />
+    <Compile Include="Interface\I_Bom.cs" />
+    <Compile Include="Interface\I_Import.cs" />
+    <Compile Include="Interface\I_ItemRequest.cs" />
+    <Compile Include="Interface\I_login.cs" />
+    <Compile Include="Interface\I_pwRecovery.cs" />
+    <Compile Include="Interface\I_Report.cs" />
+    <Compile Include="ItemApproveService.cs" />
+    <Compile Include="ItemRequestLogService.cs" />
+    <Compile Include="ItemRequestService.cs" />
+    <Compile Include="LogicService.cs" />
+    <Compile Include="loginservice.cs" />
+    <Compile Include="MasterService.cs" />
+    <Compile Include="Model\BulkRequestService_Load.cs" />
+    <Compile Include="Model\Bulkrequest_load.cs" />
+    <Compile Include="Model\Prosol_AssetAbbrevate.cs" />
+    <Compile Include="Model\QRObj.cs" />
+    <Compile Include="Model\QRRequestModel.cs" />
+    <Compile Include="Model\Prosol_AssetVendor.cs" />
+    <Compile Include="Model\CommonMaster.cs" />
+    <Compile Include="Model\Equipments.cs" />
+    <Compile Include="Model\ItemStatusMap.cs" />
+    <Compile Include="Model\ProsolEXBom.cs" />
+    <Compile Include="Model\Prosol_Area.cs" />
+    <Compile Include="Model\Prosol_AssetAttributes.cs" />
+    <Compile Include="Model\Prosol_AssetBOM.cs" />
+    <Compile Include="Model\Prosol_AssetMaster.cs" />
+    <Compile Include="Model\Prosol_AssetTypeMaster.cs" />
+    <Compile Include="Model\Prosol_Business.cs" />
+    <Compile Include="Model\Prosol_City.cs" />
+    <Compile Include="Model\Prosol_EquipDictionary.cs" />
+    <Compile Include="Model\Prosol_EquipmentClass.cs" />
+    <Compile Include="Model\Prosol_EquipmentType.cs" />
+    <Compile Include="Model\Prosol_ERPLog.cs" />
+    <Compile Include="Model\Prosol_ActionHistory.cs" />
+    <Compile Include="Model\Prosol_Attachment.cs" />
+    <Compile Include="Model\Prosol_Abbrevate.cs" />
+    <Compile Include="Model\Prosol_Attribute.cs" />
+    <Compile Include="Model\Prosol_AttributeList.cs" />
+    <Compile Include="Model\email.cs" />
+    <Compile Include="Model\Prosol_Access.cs" />
+    <Compile Include="Model\Prosol_BPCustomerMaster.cs" />
+    <Compile Include="Model\Prosol_BPVendorMaster.cs" />
+    <Compile Include="Model\Prosol_BPGenralMaster.cs" />
+    <Compile Include="Model\Prosol_CodeLogic.cs" />
+    <Compile Include="Model\Prosol_Dashboard.cs" />
+    <Compile Include="Model\Prosol_Datamaster.cs" />
+    <Compile Include="Model\Prosol_Departments.cs" />
+    <Compile Include="Model\Prosol_Duplicate.cs" />
+    <Compile Include="Model\Prosol_EmailSettings.cs" />
+    <Compile Include="Model\Prosol_equipbom.cs" />
+    <Compile Include="Model\Prosol_ERPInfo.cs" />
+    <Compile Include="Model\prosol_FARdashboard.cs" />
+    <Compile Include="Model\Prosol_FARMaster.cs" />
+    <Compile Include="Model\Prosol_FARRepository.cs" />
+    <Compile Include="Model\Prosol_FinanceData.cs" />
+    <Compile Include="Model\Prosol_Funloc.cs" />
+    <Compile Include="Model\Prosol_GridSettings.cs" />
+    <Compile Include="Model\Prosol_GroupCodes.cs" />
+    <Compile Include="Model\Prosol_HSNModel.cs" />
+    <Compile Include="Model\Prosol_Idealtime.cs" />
+    <Compile Include="Model\Prosol_Identifier.cs" />
+    <Compile Include="Model\Prosol_Import.cs" />
+    <Compile Include="Model\Prosol_IOModel.cs" />
+    <Compile Include="Model\Prosol_ItemIdRunning.cs" />
+    <Compile Include="Model\Prosol_ItemIdRunningReqser.cs" />
+    <Compile Include="Model\Prosol_KeyAttribute.cs" />
+    <Compile Include="Model\Prosol_Location.cs" />
+    <Compile Include="Model\Prosol_Logic.cs" />
+    <Compile Include="Model\Prosol_Logics.cs" />
+    <Compile Include="Model\Prosol_MaintenancePlan.cs" />
+    <Compile Include="Model\Prosol_BPMaster.cs" />
+    <Compile Include="Model\Prosol_MajorClass.cs" />
+    <Compile Include="Model\Prosol_MaterialBom.cs" />
+    <Compile Include="Model\prosol_Mcp.cs" />
+    <Compile Include="Model\Prosol_MinorClass.cs" />
+    <Compile Include="Model\Prosol_MSAttribute.cs" />
+    <Compile Include="Model\Prosol_NMAttributeRelationship.cs" />
+    <Compile Include="Model\Prosol_Nounscrub.cs" />
+    <Compile Include="Model\Prosol_Pages.cs" />
+    <Compile Include="Model\Prosol_Plants.cs" />
+    <Compile Include="Model\Prosol_Charateristics.cs" />
+    <Compile Include="Model\Prosol_NounModifiers.cs" />
+    <Compile Include="Model\Prosol_LocationMaster.cs" />
+    <Compile Include="Model\Prosol_RandomPC.cs" />
+    <Compile Include="Model\Prosol_Reftype.cs" />
+    <Compile Include="Model\Prosol_Region.cs" />
+    <Compile Include="Model\Prosol_Reject_Service.cs" />
+    <Compile Include="Model\Prosol_Request.cs" />
+    <Compile Include="Model\Prosol_RequestRunning.cs" />
+    <Compile Include="Model\Prosol_RequestService.cs" />
+    <Compile Include="Model\Prosol_RequestServiceRunning.cs" />
+    <Compile Include="Model\Prosol_Rolepage.cs" />
+    <Compile Include="Model\Prosol_Master.cs" />
+    <Compile Include="Model\Prosol_Sequence.cs" />
+    <Compile Include="Model\Prosol_ServiceAttributeList.cs" />
+    <Compile Include="Model\Prosol_ServiceCategory.cs" />
+    <Compile Include="Model\Prosol_ServiceCharacteristicValue.cs" />
+    <Compile Include="Model\Prosol_Servicecodelogic.cs" />
+    <Compile Include="Model\Prosol_ServiceCodeRunningNo.cs" />
+    <Compile Include="Model\Prosol_ServiceCreation.cs" />
+    <Compile Include="Model\Prosol_serviceDashboard.cs" />
+    <Compile Include="Model\Prosol_ServiceDefaultAttr.cs" />
+    <Compile Include="Model\Prosol_ServiceGroup.cs" />
+    <Compile Include="Model\Prosol_ServiceUom.cs" />
+    <Compile Include="Model\Prosol_ServiceValuation.cs" />
+    <Compile Include="Model\Prosol_SiteMaster.cs" />
+    <Compile Include="Model\Prosol_SMainCode.cs" />
+    <Compile Include="Model\Prosol_SSubCode.cs" />
+    <Compile Include="Model\Prosol_SSubSubCode.cs" />
+    <Compile Include="Model\Prosol_SubArea.cs" />
+    <Compile Include="Model\Prosol_SubGroupCodes.cs" />
+    <Compile Include="Model\Prosol_SubSubGroupCode.cs" />
+    <Compile Include="Model\Prosol_Tasklist.cs" />
+    <Compile Include="Model\Prosol_UNSPSC.cs" />
+    <Compile Include="Model\Prosol_UOM.cs" />
+    <Compile Include="Model\Prosol_UOMMODEL.cs" />
+    <Compile Include="Model\Prosol_UOMSettings.cs" />
+    <Compile Include="Model\Prosol_Users.cs" />
+    <Compile Include="Model\Prosol_Vendor.cs" />
+    <Compile Include="Model\Prosol_UpdatedBy.cs" />
+    <Compile Include="Model\Prosol_Vendortype.cs" />
+    <Compile Include="Model\Tasklist_operationSequence.cs" />
+    <Compile Include="Model\ValueList.cs" />
+    <Compile Include="Model\Vendorsuppliers.cs" />
+    <Compile Include="NounModifierService.cs" />
+    <Compile Include="Interface\INounModifier.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs" />
+    <Compile Include="obj\Debug\TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs" />
+    <Compile Include="passwordrecovery_service.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReportService.cs" />
+    <Compile Include="SearchByReferenceService.cs" />
+    <Compile Include="SearchService.cs" />
+    <Compile Include="SequenceService.cs" />
+    <Compile Include="Service References\ServiceReference1\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ServiceReference2\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\ServiceReference3\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="ServiceCreationService.cs" />
+    <Compile Include="ServiceMasterService.cs" />
+    <Compile Include="ServiceReportService.cs" />
+    <Compile Include="ServiceSearchService.cs" />
+    <Compile Include="UserAccessService.cs" />
+    <Compile Include="UserCreateService.cs" />
+    <Compile Include="ValuestandardisationService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Prosol.Common\Prosol.Common.csproj">
+      <Project>{0be91c02-7426-4116-8ae2-5197525ea1df}</Project>
+      <Name>Prosol.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Service References\ServiceReference3\Prosol.Core.ServiceReference3.ZMATERIAL_CREATE_RFCResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference3\Prosol.Core.ServiceReference3.ZMATERIAL_CREATE_RFCResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference3\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference3\configuration.svcinfo" />
+    <None Include="Service References\ServiceReference3\configuration91.svcinfo" />
+    <None Include="Service References\ServiceReference2\Prosol.Core.ServiceReference2.Z_SERVICEMASTER_CREATEResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference2\Prosol.Core.ServiceReference2.Z_SERVICEMASTER_CREATEResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference2\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference2\configuration.svcinfo" />
+    <None Include="Service References\ServiceReference2\configuration91.svcinfo" />
+    <None Include="Service References\ServiceReference1\Prosol.Core.ServiceReference1.ZMATERIAL_CREATE_RFCResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference1\Prosol.Core.ServiceReference1.ZMATERIAL_CREATE_RFCResponse1.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </None>
+    <None Include="Service References\ServiceReference1\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\ServiceReference1\configuration.svcinfo" />
+    <None Include="Service References\ServiceReference1\configuration91.svcinfo" />
+    <None Include="Service References\ServiceReference2\zser_com.wsdl" />
+    <None Include="Service References\ServiceReference3\zzmat_com.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.415.3\analyzers\dotnet\cs\AWSSDK.S3.CodeAnalysis.dll" />
+    <Analyzer Include="..\packages\AWSSDK.S3.3.7.415.3\analyzers\dotnet\cs\SharedAnalysisCode.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Service References\ServiceReference1\zmat_com.wsdl" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\ServiceReference1\" />
+    <WCFMetadataStorage Include="Service References\ServiceReference2\" />
+    <WCFMetadataStorage Include="Service References\ServiceReference3\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

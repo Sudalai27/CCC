@@ -1,0 +1,381 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}<link href="~/Content/jBox.css" rel="stylesheet" />
+<style>
+    .box {
+        width: 20%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid orange;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: orange;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        z-index: 1042;
+        opacity: 0;
+        overflow: scroll;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 90%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -5px;
+            right: 3px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+
+            .popup .close:hover {
+                color: orange;
+            }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    .popup-scroll {
+        border: 1px solid #c2d8eb;
+        height: 650px;
+        width: 33%;
+        margin-left: 2px;
+        float: left;
+        overflow-y: scroll;
+        overflow-x: none !important;
+    }
+
+    .pop-bg {
+        background: #f0f0f0;
+    }
+
+    .all-pop .form-group {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="ServiceSearchController">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Service Search</span></li>
+                <li><span>Search</span></li>
+            </ol>
+        </div>
+    </header>
+
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify" >
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Service Search</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="col-md-12">
+
+                        <form class="form-bordered service-gap" name="search_form" ng-submit="ServiceMasterSearch()">
+                            <div class="form-group">
+                                <div class="col-md-12 margin_for_ddl">
+                                    <div class="col-md-3">
+                                        <div class="controls" ng-class="{'has-error': form.$submitted && form.ServiceCategorycode1SS.$invalid }">
+                                            <select ng-model="ServiceCategoryCode"  ng-change="getgrpppp(ServiceCategoryCode)" id="ServiceCategorycodeSS" name="ServiceCategorycode1SS" class="form-control" ng-options="x.SeviceCategorycode as x.SeviceCategoryname for x in cate | filter :{'Islive':true}">
+                                                <option value="" selected="">Select Service Category</option>
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="controls" @*ng-class="{'has-error': form.$submitted && form.ServiceGroupcode1SS.$invalid }"*@>
+                                            <select ng-model="ServiceGroupCode" id="ServiceGroupcodeSS" name="ServiceGroupcode1SS" class="form-control" ng-options="x.ServiceGroupcode as x.ServiceGroupname for x in grpppSS | filter :{'Islive':true}">
+                                                <option value="" selected="selected">Select Service Group</option>
+
+                                            </select>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="controls" @*ng-class="{'has-error': form.$submitted && form.ServiceUomcode1SS.$invalid }"*@>
+                                            <select ng-model="UomCode" id="ServiceUomcodeSS" name="ServiceUomcode1SS" class="form-control" ng-options="x.ServiceUomcode as x.ServiceUomname for x in UomSS | filter :{'Islive':true}">
+                                                <option value="" selected="selected">Select Service UOM</option>
+
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    @*<div class="col-md-3">
+                                        <button  ng-click="SearchCode(obj.ServiceCategorycode,obj.ServiceGroupcode,obj.ServiceUomcode)" class="btn btn-xs btn-primary">Search</button>
+                                    </div>*@
+
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 margin_for_ddl">
+                                    <div class="col-md-6">
+                                        <input type="text" ng-model="ServiceCode" class="form-control" placeholder="Service Code">
+                                    </div>
+                                    @*<div class="col-md-3">
+                                        <button ng-click="getdetailsforcode(code)" class="btn btn-xs btn-primary">Search</button>
+                                    </div>*@
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-12 margin_for_ddl">
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" ng-model="ShortDesc" rows="3" placeholder="Short Discription"></textarea>
+                                    </div>
+                                    @*<div class="col-md-3">
+                                        <button  class="btn btn-xs btn-primary" ng-click="getdetailsforsd(sd)">Search</button>
+                                    </div>*@
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-12 margin_for_ddl">
+                                    <div class="col-md-6">
+                                        <textarea class="form-control" rows="3" placeholder="Long Discription" ng-model="LongDesc"></textarea>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-4"></div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-primary" type="submit">Search</button>
+                                    <button class="btn btn-primary" type="button" ng-click="clearfields()">Clear</button>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="col-md-12 service-table" ng-show="tableVisible">
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-none">
+                                <thead class="top-border">
+                                    <tr>
+                                        <th>Request Id</th>
+                                        <th>Service Code</th>
+                                        <th>Source Description</th>
+                                        <th>Long Desc</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="{{$index}}" ng-repeat="thi in TableData">
+                                        <td><label ng-bind="thi.RequestId"></label></td>
+                                        <td><label ng-bind="thi.ServiceCode"></label></td>
+                                        <td><label ng-bind="thi.Legacy"></label></td>
+                                            <td><label ng-bind="thi.LongDesc"></label></td>
+                                        <td><label ng-bind="thi.ServiceStatus"></label></td>
+
+                                        
+                                            
+                                        @*<td>121221</td>
+                                        <td>jfsjfhsjfhjsfh</td>*@
+                                        <td class="actions act-search">
+                                            <a class="modal-with-form" style="cursor:pointer" href="#popup1" ng-click="clickToOpen($index)"><i class="fa fa-search"></i></a>
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div id="popup1" class="overlay">
+                    <div class="popup service-pop">
+                        <a class="close" href="#">×</a>
+                        <div class="content">
+                            <div class="panel-body">
+                             
+                                    <div class="col-md-12">
+                                        <div class="all-pop">
+                                            <form>
+                                                <div class="form-group pop-bg">
+                                                    <label class="col-md-3 control-label">Category</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.ServiceCategoryName">{{singlerow.ServiceCategoryName}}</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" >Group</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.ServiceGroupName"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group pop-bg">
+                                                    <label class="col-md-3 control-label">Valuation</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.ValuationName"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">UOM</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.UomName"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group pop-bg">
+                                                    <label class="col-md-3 control-label">Legacy</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.Legacy"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Main Code</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.MainCodeName"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group pop-bg">
+                                                    <label class="col-md-3 control-label">Sub Code</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.SubCodeName"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Sub-Sub Code</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.SubSubCodeName"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group pop-bg">
+                                                    <label class="col-md-3 control-label">Short Description</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.ShortDesc"></label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label">Long Description</label>
+                                                    <div class="col-md-9">
+                                                        <label class="control-label" ng-bind="singlerow.LongDesc"></label>
+                                                    </div>
+                                                </div>
+
+
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+
+                                            <table class="table table-bordered mb-none tag-table" style="margin: 0 auto;">
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <td class="col-md-6"><label class="control-label" style="padding-left:5px;font-weight:bold">Attribute</label></td>
+                                                        <td class="col-md-6"><label class="control-label" style="padding-left:5px;font-weight:bold"> Value</label></td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="row in show_att">
+                                                        <td><label style="padding-left:5px;" ng-bind="row.Attributes"></label></td>
+                                                        <td><label style="padding-left:5px;" ng-bind="row.Value"></label></td>
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+
+
+                                        </div>
+                                    </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+</section>
+<script src="/Scripts/ctrls/ServiceSearch.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+

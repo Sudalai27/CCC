@@ -1,0 +1,2069 @@
+﻿
+@{
+    ViewBag.Title = "Release";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="CatalogueController">
+    <style>
+         .enlarge{
+list-style-type:none; /*remove the bullet point*/
+margin-left:0;
+}
+.enlarge a{
+display:inline-block; /*places the images in a line*/
+position: relative;
+z-index: 0; /*resets the stack order of the list items - later we'll increase this*/
+}
+.enlarge span{
+position:absolute;
+left: -9999px;
+box-shadow: 0 0 20px rgba(0,0,0, .75);
+-webkit-border-radius: 8px; 
+-moz-border-radius: 8px; 
+border-radius:8px;
+}
+.enlarge a:hover{
+z-index: 1111;
+cursor:pointer;
+}
+.enlarge span img{
+padding:2px;
+background:#ccc;
+}
+.enlarge a:hover span{ 
+top: -300px; /*the distance from the bottom of the thumbnail to the top of the popup image*/
+left: -20px; /*distance from the left of the thumbnail to the left of the popup image*/
+}
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .tbl-content {
+            overflow-x: auto;
+            margin-top: 0px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        td {
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+
+        .tbl-header {
+            width: 99.6%;
+        }
+
+        td:nth-child(8), th:nth-child(7) {
+            width: 10% !important;
+        }
+
+        td:nth-child(9), th:nth-child(8) {
+            width: 6% !important;
+        }
+
+        td:nth-child(10), th:nth-child(9) {
+            width: 3% !important;
+        }
+    .box {
+        width: 20%;
+        margin: 0 auto;
+        background: rgba(255,255,255,0.2);
+        padding: 35px;
+        border: 2px solid #fff;
+        border-radius: 20px/50px;
+        background-clip: padding-box;
+        text-align: center;
+    }
+
+    .button {
+        font-size: 1em;
+        padding: 10px;
+        color: #fff;
+        border: 2px solid orange;
+        border-radius: 20px/50px;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.3s ease-out;
+    }
+
+        .button:hover {
+            background: orange;
+        }
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.7);
+        transition: opacity 500ms;
+        visibility: hidden;
+        z-index: 1042;
+        opacity: 0;
+        overflow: scroll;
+    }
+
+        .overlay:target {
+            visibility: visible;
+            opacity: 1;
+        }
+
+    .popup {
+        margin: 70px auto;
+        padding: 20px;
+        background: #fff;
+        border-radius: 5px;
+        width: 90%;
+        position: relative;
+        transition: all 5s ease-in-out;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+            color: #333;
+            font-family: Tahoma, Arial, sans-serif;
+        }
+
+        .popup .close {
+            position: absolute;
+            top: -5px;
+            right: 3px;
+            transition: all 200ms;
+            font-size: 30px;
+            font-weight: bold;
+            text-decoration: none;
+            color: #000000;
+        }
+
+            .popup .close:hover {
+                color: orange;
+            }
+
+        .popup .content {
+            max-height: 30%;
+            overflow: auto;
+        }
+
+    .popup-scroll {
+        border: 1px solid #c2d8eb;
+        height: 650px;
+        width: 33%;
+        margin-left: 2px;
+        float: left;
+        overflow-y: scroll;
+        overflow-x: none !important;
+    }
+
+    .pop-bg {
+        background: #f0f0f0;
+    }
+
+    .all-pop .form-group {
+        margin-top: 3px;
+        margin-bottom: 3px;
+    }
+    .highlighted {
+    background: yellow;
+}
+     .sample-arrow {
+            position: relative;
+        }
+            .sample-arrow:hover::before {
+                position: absolute;
+                content: "\f107";
+                top: 0px;
+                right: -8px;
+                height: 20px;
+                width: 20px;
+                font-family: 'Font Awesome 5 Free';
+            }
+    </style>
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+
+                    <li><span>Catalogue</span></li>
+                    <li><span>Quality Assurance</span></li>
+                </ol>
+            </div>
+        </header>
+
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div class="alert"  ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div cg-busy="promise"></div>
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top"  ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+            </div>
+        <div class="col-md-4"></div>
+        </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <section class="panel">
+                        <form name="form" id="ganForm" ng-submit="checkDuplicate(form.$valid)" novalidate>
+
+                            <header class="panel-heading">
+                                <h2 class="panel-title">
+                                    CATALOGUE
+                                    <span style="padding-left:20px;">Saved : {{saveditems}} , Balance : {{balanceitems}}</span>
+                                    <div class="card-actions" style="text-transform:capitalize">
+                                        <ul style="list-style:none;padding-left:5px;">
+                                            <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: lightblue;float: left;width: 12px;height: 12px"></span>&nbsp;Selected Item</li>
+                                            <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: #ac9898;float: left;width: 12px;height: 12px"></span>&nbsp;Saved</li>
+                                            <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: #FF7F50;float: left;width: 12px;height: 12px"></span>&nbsp;Rework</li>
+                                            <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: #e6b7c6;float: left;width: 12px;height: 12px"></span>&nbsp;Pv Data</li>
+                                            <li style="float: left;margin-left:10px;line-height: 14px;"><span style="border: 1px solid #000;background: #d8b655;float: left;width: 12px;height: 12px"></span>&nbsp;Unmapped</li>
+
+                                        </ul>
+                                    </div>
+                                    <span style="text-transform:capitalize"><a href="@Url.Action("Catview","Catalogue")" target="_blank" style="float:right;color:#000000;text-decoration:none">&nbsp;&nbsp;&nbsp;&nbsp;| Go to Excel View</a></span>
+                                </h2>
+                            </header>
+
+                            <div class="panel-body">
+
+                                <div class="table-responsive">
+                                    <div @*style="width:99%"*@ class="tbl-header">
+                                        <table class="table table-bordered mb-none">
+                                            <thead class="top-border" align="center">
+                                                <tr>
+
+                                                    <th colspan="2"><input type="text" placeholder="Code" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>
+                                                    <th><input type="text" placeholder="Source Description" class="form-control" ng-model="sSource" ng-blur="searchMaster()" /></th>
+                                                    <th><input type="text" placeholder="Short Desc" class="form-control" ng-model="sShort" ng-blur="searchMaster()" /></th>
+                                                    <th><input type="text" placeholder="Long Desc" class="form-control" ng-model="sLong" ng-blur="searchMaster()" /></th>
+                                                    <th>
+                                                        <select ng-model="sNoun" class="form-control" ng-change="searchMaster()" ng-options="x.Noun as x.Noun for x in NounList | unique:'Noun'">
+                                                            <option value="" selected="selected">All</option>
+                                                        </select>
+                                                    </th>
+                                                    <th>
+                                                        <select ng-model="sModifier" class="form-control" ng-change="searchMaster()" ng-options="x.Modifier as x.Modifier for x in NounList | filter:{'Noun':sNoun}:true | unique:'Modifier'">
+                                                            <option value="" selected="selected">All</option>
+                                                        </select>
+                                                    </th>
+                                                    <th>
+                                                        <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
+                                                            <option value="" selected="selected">All</option>
+                                                        </select>
+                                                    </th>
+                                                    @*<th style="width:2%;">
+                                                            <select ng-model="sType" ng-change="searchMaster()" class="form-control">
+                                                                <option value="" selected="selected">All</option>
+                                                                <option>STOCK</option>
+                                                                <option>NONSTOCK</option>
+                                                            </select>
+                                                        </th>*@
+                                                    <th>
+                                                        <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
+                                                            <option value="" selected="selected">All</option>
+                                                            <option>Catalogue</option>
+                                                            <option>Catalogue Rework</option>
+                                                            <option>Clarification</option>
+                                                            <option>QC</option>
+                                                            <option>QC Rework</option>
+                                                            <option>QA</option>
+                                                            <option>Released</option>
+
+                                                        </select>
+                                                    </th>
+                                                    <th>
+                                                        Select
+                                                    </th>
+
+
+
+                                                </tr>
+                                                <tr class="top-tr">
+                                                    <th ng-click="sortData('Itemcode')">
+                                                        Item code<div ng-class="getSortClass('Itemcode')"></div>
+                                                    </th>
+                                                    <th>
+                                                        Material Code
+                                                    </th>
+                                                    <th ng-click="sortData('Legacy')">
+                                                        Legacy<div ng-class="getSortClass('Legacy')"></div>
+                                                    </th>
+                                                    <th ng-click="sortData('Shortdesc')">
+                                                        Short Desc <div ng-class="getSortClass('Shortdesc')"></div>
+                                                    <th>
+                                                        Long Desc
+                                                    </th>
+                                                    <th>
+                                                        Noun
+                                                    </th>
+                                                    <th>
+                                                        Modifier
+                                                    </th>
+                                                    <th>Catalog/ QC/ QA</th>
+                                                    @*<th style="width:2%">Type</th>*@
+                                                    <th>Status</th>
+                                                    <th>
+                                                        <div class="checkbox-custom checkbox-default" style="margin-left:10px;display:none">
+                                                            <input type="checkbox" ng-model="bumu" ng-true-value="1" ng-checked="bumu == 1" ng-false-value="0" ng-click="chkmuall()" id="muall" /> <label for="checkboxExample11"></label>
+                                                        </div>
+                                                    </th>
+
+
+                                                </tr>
+                                            </thead>
+                                        </table>
+
+                                    </div>
+                                    <div style="display:block;max-height:172px;overflow-y:scroll;">
+                                        <table class="table table-bordered mb-none">
+
+                                            <tbody>
+                                                <tr id="{{$index}}" ng-click="RowClick(cat1,$index)" ng-class="{'trsaved': {{cat1.ItemStatus}}==5}" ng-repeat="cat1 in DataList | orderBy:sortColumn : reverseSort ">
+                                                    @* <tr id="{{$index}}" ng-click="RowClick(cat1,$index)" ng-class="{'trsaved': {{cat1.ItemStatus}}==5}" ng-repeat="cat1 in DataList | filter:{'Legacy':  sSource || undefined} | filter: {'Catalogue':{'Name': User || undefined} } | filter:{'Noun':  sNoun || undefined} | filter:{'Modifier':  sModifier || undefined} | orderBy:'Itemcode'">*@
+                                                    @*<td style="width:5%"><label ng-bind="$index+1"></label></td>*@
+                                                    <td><label ng-bind="cat1.Itemcode"></label> </td>
+                                                    <td><label ng-bind="cat1.Materialcode"></label></td>
+                                                    <td title={{cat1.Legacy}}><label ng-bind="cat1.Legacy.length > 20 ? (cat1.Legacy | limitTo: 20) +'...' : cat1.Legacy"></label></td>
+                                                    <td title={{cat1.Shortdesc}}><label ng-bind="cat1.Shortdesc.length >19 ? (cat1.Shortdesc | limitTo: 19) +'...' : cat1.Shortdesc"></label></td>
+                                                    <td title={{cat1.Longdesc}}><label ng-bind="cat1.Longdesc.length >20 ? (cat1.Longdesc | limitTo: 20) +'...' : cat1.Longdesc"></label></td>
+                                                    <td><label ng-bind="cat1.Noun"></label></td>
+                                                    <td><label ng-bind="cat1.Modifier"></label>@*<a class="pull-right" ng-show="cat1.Attachment!=null && cat1.Attachment!=''" href="/Attachment/{{cat1.Attachment}}" target="_blank"><i class="fa fa-paperclip fa-2x"></i></a>*@</td>
+                                                    <td><label ng-bind="cat1.Catalogue.Name"></label>|<label ng-bind="cat1.Review.Name"></label>|<label ng-bind="cat1.Release.Name"></label></td>
+                                                    @*<td style="width:2% !important"><label ng-bind="cat1.Junk"></label></td>*@
+                                                    <td><label ng-bind="(cat1.ItemStatus==5 || cat1.ItemStatus==4) ? cat1.Duplicates='QA':(cat1.ItemStatus== -1) ? cat1.Duplicates='Clarification' :(cat1.ItemStatus==2 || cat1.ItemStatus==3) ? cat1.Duplicates='QC':(cat1.ItemStatus==6)? cat1.Duplicates='Released':'Catalogue'"></label></td>
+                                                    <td>
+                                                        <div class="checkbox-custom checkbox-default" style="margin-left:10px;">
+                                                            <input type="checkbox" ng-model="cat1.bu" ng-true-value="1" ng-checked="cat1.bu == 1" ng-false-value="0" ng-click="chkmuone(cat1.Itemcode)" id="chksss{{$index}}" /> <label for="checkboxExample1"></label>
+
+                                                        </div>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+
+
+
+                                @*<div class="col-md-12">
+                                        <div class="alert"  ng-show="NotifiyRes" ng-class="Notify">
+                                            <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                                            <label ng-bind="Res" class="erroe-hold" />
+                                        </div>
+                                    </div>*@
+
+
+                                <div class="tabs form-group" ng-show="showlist">
+                                    <ul class="nav nav-tabs">
+                                        <li class="{{desctab}}">
+                                            <a href="#Source" data-toggle="tab" aria-expanded="false"><i class="fa fa-file-alt"></i> Description</a>
+                                        </li>
+                                        @*<li class="{{planttab}}">
+                                            <a href="#Plant" data-toggle="tab" aria-expanded="true"><i class="fa fa-industry"></i> Plant</a>
+                                        </li>*@
+
+                                        <li class="{{unspscact}}">
+                                            <a href="#Unspsc" data-toggle="tab" aria-expanded="false"><i class="fa fa-book"></i> Code Logic</a>
+                                        </li>
+                                        @* <li class="">
+                                                <a href="#Equipment" data-toggle="tab" aria-expanded="false"><i class="fa fa-cog"></i> Equipment</a>
+                                            </li>
+                                            <li class="">
+                                                <a href="#Vendor" data-toggle="tab" aria-expanded="false"><i class="fa fa-truck"></i> Vendor/Manufacturer</a>
+                                            </li>
+                                            <li class="{{unspscact}}">
+                                                <a href="#Unspsc" data-toggle="tab" aria-expanded="false"><i class="fa fa-book"></i> UNSPSC</a>
+                                            </li>*@
+                                        <li class="">
+                                            <a href="#Attach" data-toggle="tab" aria-expanded="false"><i class="fa fa-paperclip"></i> Attachment<div ng-show="attcount1"><span style="background: #D2312D;color: #FFF;font-size: 11px;font-weight: normal;height: 16px;padding: 1px 5px 3px 5px;position: absolute;right: -1px;top: -9px;border-radius: 100%;" ng-bind="attcount"></span></div> </a>
+                                        </li>
+                                        <li class="">
+                                            <a href="#Physical" data-toggle="tab" aria-expanded="false"><i class="fas fa-user-secret"></i> Physical Observation</a>
+                                        </li>
+                                    </ul>
+                                    <div class="tab-content">
+                                        <div id="Source" class="tab-pane {{desctab}}">
+
+                                            <div class="col-md-12 no-padding form-group">
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group" ng-show="cat.Legacy!=null" data-spy="affix" data-offset-top="197">
+
+                                                        <label class="col-md-2 control-label" for="textareaDefault">Legacy Data</label>
+                                                        <div class="col-md-10">
+                                                            <input type="hidden" ng-model="cat._id" /> <input type="hidden" ng-model="cat.Itemcode" />
+                                                            <label class="label-disc ng-binding" style="word-break:break-all;" ng-bind="cat.Legacy"> </label>
+
+                                                            @*<textarea class="form-control" readonly name="legacy" rows="3" ng-model="cat.Legacy"></textarea>*@
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-6 no-padding" style="margin-top: 10px;">
+                                                    @*<div class="from-group" ng-show="cat.Legacy!=null">
+            <label class="col-md-2 control-label" for="textareaDefault">Additional Legacy</label>
+            <div class="col-md-10">
+                <label class="label-disc ng-binding" ng-bind="cat.Legacy2"> </label>
+            </div>
+        </div>*@
+                                                    <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">UOM<span style="color:red;font-weight:bold">*</span></label>
+                                                    <div class="col-md-3 controls" ng-class="{'has-error': form.$submitted && form.uomname1.$invalid }">
+                                                        <select ng-model="cat.UOM" name="uomname1" class="form-control" ng-options="x.UOMDESC as x.UOMNAME for x in uomList1" required>
+                                                            <option value="" selected="selected">Select </option>
+                                                        </select>
+
+                                                    </div>
+                                                    <div ng-hide="Type == '' || Type == null" class="col-md-4">
+                                                        <label class="col-md-7 control-label" for="textareaDefault">Item Type</label>
+                                                        <label class="col-md-4 control-label no-padding" style="color:saddlebrown;font-size:18px">{{Type}}</label>
+
+
+                                                    </div>
+                                                    <label class="col-md-3 control-label no-padding" for="textareaDefault">Exceptional</label>
+                                                    <div class="col-md-1 no-padding">
+                                                        <div class="checkbox-custom checkbox-default">
+                                                            <input type="checkbox" ng-model="cat.Exchk" ng-click="Exceptional()" /><label for="checkboxExample1"></label>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="form-group" ng-show="Legacy1">
+            <div class="col-md-3 no-padding">
+                <select ng-model="Key" ng-change="searchby(Key)" class="form-control">
+                    <option value="" selected="selected">Legacy Search</option>
+                    <option>Noun-Modifier</option>
+                </select>
+            </div>
+            <div class="col-md-8 no-padding">
+                <textarea class="form-control" ng-model="cat.Legacy1" rows="1"></textarea>
+            </div>
+            <div class="col-md-1">
+                <button type="button" ng-hide="search" class="btn btn-primary btn-xs" ng-click="clickToOpen(cat.Legacy1,cat.Legacy,cat.Itemcode)"><i class="fa fa-search"></i></button>
+            </div>
+        </div>*@
+                                                    @*<div class="form-group" ng-show="Legacy1">
+            <label class="col-md-2 control-label no-padding" for="textareaDefault">Legacy Search</label>
+            <div class="col-md-8">
+
+                <textarea class="form-control ng-pristine ng-untouched ng-valid ng-empty" ng-model="cat.Legacy1" rows="1"></textarea>
+            </div>
+            <div class="col-md-2 no-padding">
+                <button type="button" class="btn btn-primary btn-xs" ng-click="clickToOpen(cat.Legacy1,cat.Legacy,cat.Itemcode)"><i class="fa fa-search"></i></button>
+            </div>
+        </div>*@
+
+                                                </div>
+                                            </div>
+
+
+                                            @*<div class="form-group">
+            <div class="col-md-1"><label class="control-label">Additional Legacy</label></div>
+            <div class="col-md-9" ng-show="cat.Legacy2!=null">
+                <label class="label-disc ng-binding" ng-bind="cat.Legacy2"> </label>
+            </div>
+            <div class="col-md-2">
+                <div ng-hide="Type == '' || Type == null">
+
+                    <label class="col-md-5 control-label no-padding" for="textareaDefault">Exceptional</label>
+                    <div class="col-md-7">
+                        <div class="checkbox-custom checkbox-default">
+                            <input type="checkbox" ng-model="cat.Exchk" ng-click="Exceptional()" /><label for="checkboxExample1"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+                                            @*<div class="form-group" ng-show="codeLogic">
+            <label class="col-md-2 control-label" for="textareaDefault">Main Code</label>
+            <div class="col-md-2" ng-class="{'has-error': form.$submitted && form.drpMain.$invalid }">
+                <select ng-model="cat.Maincode"  style="{{Maincode3}}" class="form-control" name="drpMain" ng-change="getSubcode()" ng-options="x.code as x.title for x in Groupcodes"  ng-required="req_maincode">
+                    <option value="">Select</option>
+                </select>
+
+            </div>
+            <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">Sub Code</label>
+            <div class="col-md-3" ng-class="{'has-error': form.$submitted && form.drpSub.$invalid}">
+                <select ng-model="cat.Subcode" style="{{Subcode3}}" class="form-control" name="drpSub" ng-change="getSubsubcode()" ng-options="x.code as x.title for x in getsubgroup"  ng-required="req_maincode">
+                    <option value="">Select</option>
+                </select>
+
+            </div>
+            <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">Sub Sub Code</label>
+            <div class="col-md-3" ng-class="{'has-error': form.$submitted && form.drpSubsub.$invalid}">
+                <select ng-model="cat.Subsubcode" 	ng-change="subsubcodechange()" class="form-control"  style="{{Subsubcode3}}" name="drpSubsub" ng-options="x.SubSubGroupCode as x.SubSubGroupTitle for x in getSubsubgroup"  ng-required="req_maincode">
+                    <option value="">Select</option>
+                </select>
+
+            </div>
+
+
+
+        </div>*@
+
+                                            @*<div class="form-group">
+
+                                                <label class="col-md-1 control-label" for="textareaDefault">Noun<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-2" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+
+                                                    <input type="text" class="form-control immediate-help" name="nun" ng-pattern="/^(\D)+$/" ng-model="cat.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" ng-change="loadmodifier(cat.Noun.toUpperCase())" autofocus auto-complete required style="width:90%;float:left;">
+                                                    <a href="#" ng-hide="NM1.NounDefinition==null||NM1.NounDefinition==''" data-tooltip={{NM1.NounDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+
+
+                                                    <div ng-show="form.nun.$invalid" class="input-help">
+                                                        <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                        <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+
+                                                    </div>
+                                                </div>
+                                                <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">Modifier<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-2" ng-class="{'has-error': form.$submitted && (form.modll.$invalid || form.modll.$error.required)}">
+                                                    <select ng-model="cat.Modifier" class="form-control" name="modll" ng-required="true" ng-change="ChangeModifier()" ng-options="x.Modifier as x.Modifier for x in Modifiers" style="width:90%;float:left;">
+
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                    <a href="#" ng-hide="NM1.ModifierDefinition==null||NM1.ModifierDefinition==''" data-tooltip={{NM1.ModifierDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+                                                </div>
+
+                                                <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">UOM<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-1 controls" ng-class="{'has-error': form.$submitted && form.uomname1.$invalid }">
+                                                    <select ng-model="cat.UOM" name="uomname1" class="form-control" ng-options="x.UOMDESC as x.UOMNAME for x in uomList1" required>
+                                                        <option value="" selected="selected">Select </option>
+                                                    </select>
+
+                                                </div>
+                                                <div ng-hide="Type == '' || Type == null" class="col-md-2">
+                                                    <label class="col-md-7 control-label" for="textareaDefault">Item Type</label>
+                                                    <label class="col-md-4 control-label no-padding" style="color:saddlebrown;font-size:18px">{{Type}}</label>
+
+
+                                                </div>
+                                                <label class="col-md-1 control-label no-padding" for="textareaDefault">Exceptional</label>
+                                                <div class="col-md-1 no-padding">
+                                                    <div class="checkbox-custom checkbox-default">
+                                                        <input type="checkbox" ng-model="cat.Exchk" ng-click="Exceptional()" /><label for="checkboxExample1"></label>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>*@
+                                            <table id="flowconId" style="display:none">
+                                                <tr>
+                                                    <td colspan="10">
+                                                        <ul style="list-style:none">
+                                                            <li style="float: left;width: 20%;"><span style="border: 1px solid #008000;background: #008000;float: left;width: 12px;height: 12px;margin: 3px;"></span>Completed</li>
+                                                            <li style="float: left;width: 20%;"><span style="border: 1px solid orange;background: orange;float: left;width: 12px;height: 12px;margin: 3px;"></span>In Progress</li>
+                                                            <li style="float: left;width: 20%;"><span style="border: 1px solid lightgray;background: lightgray;float: left;width: 12px;height: 12px;margin: 3px;"></span>To be done</li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                <tr><td colspan="5" ng-hide="itemstatusLst[0].RequestId==null"><h5>Request Id : <label ng-bind="itemstatusLst[0].RequestId" /></h5></td><td colspan="5"><h5>Item Code : <label ng-bind="itemstatusLst[0].Itemcode" /></h5></td></tr>
+
+                                                <tr>
+
+                                                    <td width="10%" ng-show="!itemstatusLst[0].itemshow">
+                                                    <td width="10%" ng-show="itemstatusLst[0].itemshow">
+                                                        <i class="fa fa-user fa-5x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+
+                                                    </td>
+                                                    <td width="10%" ng-show="itemstatusLst[0].itemshow">
+                                                        <i class="fa fa-arrow-{{itemstatusLst[0].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+                                                    </td>
+                                                    <td width="10%" ng-show="itemstatusLst[1].itemshow">
+                                                        <i class="fa fa-user fa-5x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==1|| itemstatusLst[1].Status==-1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+
+                                                    </td>
+                                                    <td width="10%" ng-show="itemstatusLst[1].itemshow">
+                                                        <i class="fa fa-arrow-{{itemstatusLst[1].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==-1 || itemstatusLst[1].Status==1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+                                                    </td>
+                                                    <td width="10%">
+                                                        <i class="fa fa-user fa-5x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+
+                                                    </td>
+
+                                                    <td width="10%">
+                                                        <i class="fa fa-arrow-{{itemstatusLst[2].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+                                                    </td>
+                                                    <td width="10%">
+                                                        <i class="fa fa-user fa-5x {{itemstatusLst[3].Status==0?'gray':''}}{{itemstatusLst[3].Status==1 || itemstatusLst[3].Status==-1 || itemstatusLst[3].Status==-2?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+
+                                                    </td>
+                                                    <td width="10%">
+                                                        <i class="fa fa-arrow-{{itemstatusLst[4].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[3].Status==0 ||(itemstatusLst[4].Status==0 && itemstatusLst[3].Status!=1)?'gray':''}}{{itemstatusLst[4].Status==-1 ?'orange':''}}{{itemstatusLst[3].Status==1?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+                                                    </td>
+                                                    <td width="10%">
+                                                        <i class="fa fa-user fa-5x {{itemstatusLst[4].Status==0?'gray':''}}{{itemstatusLst[4].Status==1 || itemstatusLst[4].Status==-1?'orange':''}}{{itemstatusLst[4].Status==2?'green':''}}"></i>
+
+                                                    </td>
+
+
+                                                </tr>
+
+                                                <tr>
+
+                                                    <td width="10%" ng-show="!itemstatusLst[0].itemshow">
+                                                    <td width="10%" ng-show="itemstatusLst[0].itemshow">
+
+                                                        <h6 class="user-h6">Requester</h6>
+                                                        <p class="user-para">{{itemstatusLst[0].UserName}}<br /> {{itemstatusLst[0].Date}}</p>
+                                                    </td>
+                                                    <td width="10%" ng-show="itemstatusLst[0].itemshow"></td>
+                                                    <td width="10%" ng-show="itemstatusLst[1].itemshow">
+
+                                                        <h6 class="user-h6">Approver</h6>
+                                                        <p class="user-para" ng-hide="itemstatusLst[1].UserName==null">{{itemstatusLst[1].UserName}}<br /> {{itemstatusLst[1].Date}}</p>
+                                                    </td>
+                                                    <td width="10%" ng-show="itemstatusLst[1].itemshow"></td>
+                                                    <td width="10%">
+
+                                                        <h6 class="user-h6">Cataloguer</h6>
+                                                        <p class="user-para">{{itemstatusLst[2].UserName}}<br /> {{itemstatusLst[2].Date}}</p>
+                                                    </td>
+                                                    <td width="10%"></td>
+
+                                                    <td width="10%">
+
+                                                        <h6 class="user-h6">Reviewer</h6>
+                                                        <p class="user-para">{{itemstatusLst[3].UserName}}<br />  {{itemstatusLst[3].Date}}</p>
+                                                    </td>
+                                                    <td width="10%"></td>
+                                                    <td width="10%">
+
+                                                        <h6 class="user-h6">Releaser</h6>
+                                                        <p class="user-para">{{itemstatusLst[4].UserName}}<br /> {{itemstatusLst[4].Date}}</p>
+                                                    </td>
+                                                </tr>
+
+                                            </table>
+                                            <div id="simItems" style="display:none">
+                                                <table id="maintable" class="table table-bordered mb-none LeftPaddingRemoving">
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th>
+                                                                <div style="width:30%;float:left;">Short Desc</div>
+                                                                <div style="width:70%;float:left;">
+                                                                    <input type="text" class="form-control" ng-model="simText" />
+                                                                </div>
+                                                            </th>
+                                                            <th>Item code</th>
+                                                            @*<th>Count</th>*@
+                                                            <th>Action</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="xn in LstsimItems | orderBy : '-ItemStatus' | filter:{'Shortdesc': simText || undefined}  ">
+                                                            <td>
+                                                                <div id="conId{{$index}}" style="display:none;">
+                                                                    <table class="table table-bordered mb-none" style="width: 100% !important;margin: 0 auto;">
+                                                                        <thead class="top-border">
+                                                                            <tr>
+                                                                                <td><label class="control-label" style="font-weight:bold">Attribute</label></td>
+                                                                                <td><label class="control-label" style="font-weight:bold">Value</label></td>
+                                                                                <td><label class="control-label" style="font-weight:bold">Unit</label></td>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+
+                                                                            <tr ng-repeat="ls in xn.Characteristics">
+                                                                                <td><label class="control-label" ng-bind="ls.Characteristic"></label></td>
+                                                                                <td>{{ls.Value}}</td>
+                                                                                <td>{{ls.UOM}}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+
+                                                                </div>
+                                                                @*<div id="chrId{{$index}}" class="target" style="cursor:pointer">{{xn.Shortdesc}}</div>*@
+                                                                <div id="chrId{{$index}}" class="target" ng-click="showlitpopup($index)" style="cursor:pointer">{{xn.Shortdesc}}</div>
+                                                            </td>
+                                                            <td><label ng-bind="xn.Itemcode" /></td>
+                                                            @*<td>{{xn.ItemStatus}}</td>*@
+                                                            <td><a style="cursor:pointer" ng-click="similarDataFill(xn.Characteristics)" title="Fill Data"><i class="fa fa-reply-all" style="color: #555;"></i></a></td>
+
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <label style="color:red" ng-hide="LstsimItems!=null">No record found</label>
+                                            </div>
+
+
+                                            <div class="col-md-12">
+                                                <div class="panel-group" id="accordion">
+                                                    <div class="panel panel-accordion detail-plan" ng-show="Characteristics!=null">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapse in" data-toggle="collapse" href="#char">
+                                                                    Characteristic
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+
+                                                        <div id="char" class="accordion-body collapse in">
+                                                            <div class="panel-body">
+                                                                <div id="divcharater" class="form-group" @*ng-show="Characteristics!=null"*@>
+
+                                                                    <div class="col-md-6">
+
+
+                                                                        <label class="col-md-2 control-label" for="textareaDefault">Noun@*<span style="color:red;font-weight:bold">*</span>*@</label>
+                                                                        <div class="col-md-4">
+
+                                                                            <input type="text" class="form-control immediate-help" name="nun1" disabled ng-model="cat.exNoun" style="width:90%;float:left;">
+
+                                                                        </div>
+                                                                        <label class="col-md-2 control-label" for="textareaDefault" style="text-align:right;">Modifier@*<span style="color:red;font-weight:bold">*</span>*@</label>
+                                                                        <div class="col-md-4">
+
+                                                                            <input type="text" class="form-control immediate-help" name="nun2" disabled ng-model="cat.exModifier" style="width:90%;float:left;">
+
+
+                                                                        </div>
+                                                                        <div class="col-md-12">
+
+                                                                        </div>
+                                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving" style="margin-top: 32px;">
+
+                                                                            <thead class="top-border" ng-show="cat.exCharacteristics.length != 0">
+                                                                                <tr>
+                                                                                    <th style="width:25%">Characteristic</th>
+                                                                                    <th style="width:20%">Value</th>
+                                                                                    @*<th style="width:15%">Abbreviate</th>
+                                    <th style="width: 10%">Unit</th>*@
+                                                                                    @*<th style="width: 15%">URL</th>
+                                    <th style="width: 15%">Source</th>*@
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr ng-repeat="uo1 in cat.exCharacteristics">
+
+                                                                                    <td>
+                                                                                        @*<input type="hidden" ng-model="uo.Squence" /><input type="hidden" ng-model="uo.ShortSquence" />*@
+                                                                                        <div>
+                                                                                            <a style="text-decoration:none" @*title="{{uo.Definition}}"*@><label class="form-control" @*ng-class="{'tdback':uo.Mandatory=='Yes'}"*@>{{uo1.Characteristic}}@*<span ng-show="uo.Mandatory=='Yes'" style="color:red;font-weight:bold">*</span><span title="Key Attribute" ng-show="uo.style=='Yes'"><i class="fas fa-key"></i></span>*@</label></a>
+                                                                                            @*<input type="text" class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}" disabled ng-model="uo.Characteristic">*@
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div id="div{{$index}}">
+
+                                                                                            <input name="val1{{$index}}" disabled id="values1{{$index}}" type="text" class="form-control immediate-help" ng-model="uo1.Value">
+
+                                                                                        </div>
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-4 no-padding control-label">Manufacturer</label>
+                                                                            <div class="col-md-8 control-text control-texts">
+                                                                                <input type="text" class="form-control  immediate-help" ng-model="cat.exManufacturer" disabled />
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-4 no-padding control-label">Part Number</label>
+                                                                            <div class="col-md-8 control-text control-texts">
+                                                                                <input type="text" class="form-control  immediate-help" ng-model="cat.exPartno" disabled />
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="form-group">
+                                                                            <label class="control-label" for="textareaDefault">Additional Data For Description</label>
+                                                                            <textarea class="form-control" rows="3" ng-model="cat.Additionalinfo" capitalize></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <label class="col-md-2 control-label" for="textareaDefault">Noun<span style="color:red;font-weight:bold">*</span></label>
+                                                                        <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+
+                                                                            <input type="text" class="form-control immediate-help" name="nun" ng-pattern="/^(\D)+$/" ng-model="cat.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" ng-change="loadmodifier(cat.Noun.toUpperCase())" autofocus auto-complete required style="width:90%;float:left;">
+                                                                            <a href="#" ng-hide="NM1.NounDefinition==null||NM1.NounDefinition==''" data-tooltip={{NM1.NounDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+
+
+                                                                            <div ng-show="form.nun.$invalid" class="input-help">
+                                                                                <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                                                <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+
+                                                                            </div>
+                                                                        </div>
+                                                                        <label class="col-md-2 control-label" for="textareaDefault" style="text-align:right;">Modifier<span style="color:red;font-weight:bold">*</span></label>
+                                                                        <div class="col-md-4" ng-class="{'has-error': form.$submitted && (form.modll.$invalid || form.modll.$error.required)}">
+                                                                            <select ng-model="cat.Modifier" class="form-control" name="modll" ng-required="true" ng-change="ChangeModifier()" ng-options="x.Modifier as x.Modifier for x in Modifiers" style="width:90%;float:left;">
+
+                                                                                <option value="">Select</option>
+                                                                            </select>
+                                                                            <a href="#" ng-hide="NM1.ModifierDefinition==null||NM1.ModifierDefinition==''" data-tooltip={{NM1.ModifierDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+                                                                        </div>
+                                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving" style="margin-top: 32px;">
+
+                                                                            <thead class="top-border" ng-show="Characteristics!=null">
+                                                                                <tr>
+                                                                                    <th style="width:30%">characteristic</th>
+                                                                                    <th style="width:25%">Value</th>
+                                                                                    @*<th style="width:15%">Abbreviate</th>*@
+                                                                                    <th style="width: 10%">Unit</th>
+                                                                                    @*<th style="width: 15%">URL</th>
+                                    <th style="width: 15%">Source</th>*@
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr ng-repeat="uo in Characteristics">
+
+                                                                                    <td>
+                                                                                        <input type="hidden" ng-model="uo.Squence" /><input type="hidden" ng-model="uo.ShortSquence" />
+                                                                                        <div>
+                                                                                            <a style="text-decoration:none" title="{{uo.Definition}}"><label class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}">{{uo.Characteristic}}<span ng-show="uo.Mandatory=='Yes'" style="color:red;font-weight:bold">*</span><span title="Key Attribute" ng-show="uo.style=='Yes'"><i class="fas fa-key"></i></span></label></a>
+                                                                                            @*<input type="text" class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}" disabled ng-model="uo.Characteristic">*@
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div id="div{{$index}}" ng-class="{'has-error':form.$submitted && (form.val{{$index}}.$error.pattern || form.val{{$index}}.$error.required|| form.val1{{$index}}.$error.required)}">
+
+                                                                                            <input name="val{{$index}}" id="values{{$index}}" type="text" ng-click="SelectCharater(cat.Noun,cat.Modifier,uo.Characteristic,$index)" ng-required="uo.Mandatory=='Yes'" ng-blur="checkValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,$index)" class="form-control immediate-help" ng-pattern="uo.Validation" ng-model="uo.Value" ng-maxlength="30" @*maxlength="30"*@ autocomplete="off" capitalize>
+
+                                                                                            <div ng-show="form.val{{$index}}.$error.pattern" class="input-help">
+                                                                                                <h4 ng-show="form.val{{$index}}.$error.pattern">Enter numeric only</h4>
+
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </td>
+                                                                                    <!--<td>
+                                                                                        <div id="checkval{{$index}}" style="display:none" class="col-md-12 no-padding">
+                                                                                            <div class="col-md-8 no-padding"><input ng-model="uo.Abbrivation" type="text" class="form-control" capitalize /></div><div class="col-md-2 no-padding">
+                                                                                                <button id="btnabv{{$index}}" type="button" name="btnAdd"--> @*style="background: #fff;border: none;color: #3e79cb;text-decoration: underline;"*@ <!--ng-click="AddValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,uo.Abbrivation,$index)">Add</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </td>-->
+
+                                                                                    <td>
+
+                                                                                        <div ng-click="Uomalert(uo.UOM,$index)" id="U{{$index}}">
+                                                                                            <div ng-show="uo.Uom !=null && uo.Uom.length > 0 " ng-class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }">
+                                                                                                <select ng-model="uo.UOM" name="Um11o{{$index}}" class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null && uo.Uom !=null && uo.Uom.length > 0" ng-options="y for y in uo.Uom">
+                                                                                                    <option value="">Select</option>
+                                                                                                </select>
+                                                                                            </div>
+
+                                                                                            @*<div ng-show="(uo.Uom ==null || uo.Uom.length ==  0) && x.UOMList.length > 0" class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }" ng-repeat="x in UOMs | filter : {'Attribute': uo.Characteristic }:true">
+                                                <select ng-model="uo.UOM" name="Um11o{{$index}}"   class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null &&  x.UOMList.length > 0 " ng-options="y for y in x.UOMList">
+                                                    <option value="" selected="selected">Select</option>
+                                                </select>
+                                            </div>*@
+                                                                                        </div>
+
+                                                                                    </td>
+                                                                                    @*<td>
+                                        <input type="text" class="form-control" ng-model="uo.SourceUrl" />
+                                    </td>
+
+                                    <td>
+                                        <select class="form-control" ng-init="uo.Source==null?uo.Source='LEGACY DATA':uo.Source" ng-model="uo.Source" ng-options="lst for lst in ['LEGACY DATA','LEGACY DATA/INTERNET','INTERNET']"></select>
+                                    </td>*@
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+
+                                                                        <div style="width: 100%;float: left;">
+                                                                            @*<a id="Modal-2" ng-show="cat.Noun!=null" ng-click="OpenPop()" style="width:5%;float:left;"><i class="fas fa-sync-alt" style="font-size:17px !important;" title="Click Here Similar Item"></i></a>*@
+                                                                            @*<span style="width:2%;float:left;">|</span>*@ &nbsp;&nbsp;<a id="showstatus" ng-show="cat.Itemcode!=null" ng-click="showuserMap(cat.Itemcode)" style="width:5%;float:left;"><i class="fas fa-clipboard-list" style="font-size:18px !important;" title="View Item Status"></i></a>
+                                                                            <span style="width:2%;float:left;" ng-show="NM1.FileData == null ? false:true">|</span> &nbsp;&nbsp;
+                                                                            <div class="enlarge" ng-show="NM1.FileData == null ? false:true" style="width:5%;float:left;">
+                                                                                <a>
+                                                                                    <img src={{NM1.FileData}} width="30px" height="25px" style="border:1px solid #a2a2a2" /><span>
+                                                                                        <img src={{NM1.FileData}} width="300px" height="300px" />
+                                                                                    </span>
+                                                                                </a>
+                                                                            </div><br />
+                                                                        </div>
+                                                                        <label class="control-label" for="textareaDefault">Additional Data For Description</label>
+                                                                        <textarea class="form-control" rows="3" ng-model="cat.Additionalinfo" capitalize></textarea>
+                                                                        @*<label ng-show="false" class="control-label" for="textareaDefault">Junk</label>
+                        <textarea ng-show="false" class="form-control" rows="3" ng-model="cat.Junk"></textarea><br />*@
+
+                                                                        <label style="font-weight:bold" class="blue">Short Description</label><br />
+                                                                        <label ng-bind="cat.Shortdesc" class="label-disc"></label>
+                                                                        <textarea style="display:none" class="form-control" rows="3" ng-model="cat.Shortdesc"></textarea><br />
+
+                                                                        <label style="font-weight:bold" class="blue">Long Description</label><br />
+                                                                        <label ng-bind="cat.Longdesc" class="label-disc"></label>
+                                                                        <textarea style="display:none" class="form-control" ng-model="cat.Longdesc" rows="3"></textarea><br />
+
+                                                                        <label style="font-weight:bold;color:saddlebrown;">Missing Value</label><br />
+                                                                        <label ng-bind="cat.MissingValue" class="label-disc" style="color:saddlebrown;font-size:12px"></label>
+                                                                        <textarea style="display:none" class="form-control" ng-model="cat.MissingValue" rows="3"></textarea><br />
+
+
+
+                                                                        <label style="font-weight:bold;color:saddlebrown;">Enriched Value</label>
+                                                                        <label ng-bind="cat.EnrichedValue" class="label-disc" style="color:saddlebrown;font-size:12px"></label>
+                                                                        <textarea style="display:none" class="form-control" ng-model="cat.EnrichedValue" rows="3"></textarea><br />
+
+
+
+                                                                        <label style="font-weight:bold;color: saddlebrown;">Repeated Value</label>
+                                                                        <label ng-bind="cat.RepeatedValue" class="label-disc" style="color:saddlebrown;font-size:12px"></label>
+                                                                        @*<textarea style="display:none" class="form-control" ng-model="cat.RepeatedValue" rows="3"></textarea><br />*@
+                                                                        @*<img class="col-md-12 img-show-categ" src="{{NM1.FileData}}" ng-show="NM1.FileData == null ? false:true" />*@
+                                                                    </div>
+                                                                    <div class="col-md-10"></div>
+                                                                    <div class="col-md-2">
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="panel panel-accordion detail-plan">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapse in" data-toggle="collapse" href="#VendorDetails">
+                                                                    Vendor Details
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="VendorDetails" class="accordion-body collapse in">
+
+                                                            <div class="panel-body">
+                                                                <div class="col-md-12 form-group">
+                                                                    <div class="table-responsive">
+
+
+                                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                            <thead class="top-border">
+                                                                                <tr>
+                                                                                    @*<th style="width: 10%;display:none;">Code</th>*@
+                                                                                    <th style="width: 15%">Vendor Type</th>
+                                                                                    <th style="width: 36%">Name<span style="color:red;font-weight:bold" ng-show="Type=='OEM'|| Type=='OPM'">*</span></th>
+                                                                                    <th style="width: 20%">Ref Flag</th>
+                                                                                    <th style="width: 13%">Ref No<span style="color:red;font-weight:bold" ng-show="Type=='OEM'|| Type=='OPM'">*</span></th>
+                                                                                    <th style="width:4%;">S</th>
+                                                                                    <th style="width:4%;">L</th>
+                                                                                    <th style="width: 8%;text-align:center;">Remove|Add</th>
+
+
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr class="data-contact-person" ng-repeat="rw in rows">
+                                                                                    <td style="display:none;"><input type="text" class="form-control" ng-model="rw.Code" /></td>
+                                                                                    <td>
+                                                                                        <select ng-model="rw.Type" style="border-color:{{rw.red}}" @*ng-change="vebdortypechange($index)"*@ name="ddlVendortype{{$index}}" class="form-control" ng-options="x.Type as x.Type for x in VendortypeList">
+                                                                                            <option value="" selected="selected">Select</option>
+                                                                                        </select>
+                                                                                    </td>
+                                                                                    <td ng-class="{'has-error': form.$submitted && form.vendor{{$index}}.$invalid}">
+                                                                                        <input type="text" name="vendor{{$index}}" id="vendor{{$index}}" style="border-color:{{rw.redname}}" class="form-control" ng-change="checkvendortype($index)" ng-blur="vendornameblur($index)" ng-model="rw.Name" autocomplete="off" auto-complete2 ng-required="ven && $index == 0">
+
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <select ng-model="rw.Refflag" name="Reftype{{$index}}" class="form-control" @*ng-change="refflagchange($index)"*@ style="border-color:{{rw.redrefflag}}" ng-options="x.Type as x.Type for x in ReftypeList">
+                                                                                            <option value="" selected="selected">Select</option>
+                                                                                        </select>
+
+                                                                                    </td>
+                                                                                    <td ng-class="{'has-error': form.$submitted && form.refno{{$index}}.$invalid}">
+                                                                                        <input type="text" id="refno{{$index}}" placeholder="{{rw.placeholder}}" class="form-control" name="refno{{$index}}" style="border-color:{{rw.redrefno}}" ng-blur="checkPartno($index)" @*ng-change="refnochange($index)"*@ ng-model="rw.RefNo">
+
+                                                                                        <div id="divPartnum" style="display:none" class="input-help1">
+                                                                                            <i ng-click="closeData()" class="fas fa-times fa-2x pull-right"></i>
+                                                                                            <h4 ng-bind="'Below item(s) already exist'"></h4>
+                                                                                            <div ng-repeat="ls in listptnodup | orderBy:'batch'" class="item-border">
+                                                                                                <label><label style="font-weight:bold" ng-bind="'Item Code: '"></label><label ng-bind="ls.Materialcode"></label></label>
+                                                                                                <label><label style="font-weight:bold" ng-bind="'Short Desc: '"></label><label ng-bind="ls.Shortdesc"></label></label>
+                                                                                                <button type="button" ng-click="fillData(ls)">Fill Data </button>
+                                                                                            </div>
+
+                                                                                        </div>
+
+
+                                                                                    </td>
+
+                                                                                    <td>
+                                                                                        <div class="checkbox-custom checkbox-default">
+                                                                                            @*<input type="checkbox" ng-model="rw.s" ng-true-value="1" ng-checked="rw.s == '1' || ( Type=='OPM'|| Type=='OEM')" ng-false-value="0" id="chks{{$index}}" ng-disabled= "Type!= 'Generic' && $index == 0" /> <label for="checkboxExample1"></label>*@
+                                                                                            <input type="checkbox" ng-model="rw.s" ng-true-value="1" ng-checked="rw.s==1" ng-false-value="0" ng-disabled="true" id="chks{{$index}}" /> <label for="checkboxExample1"></label>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        <div class="checkbox-custom checkbox-default">
+                                                                                            <input type="checkbox" ng-model="rw.l" ng-true-value="1" ng-checked="rw.l == 1" ng-false-value="0" @*ng-click="checklong($index)"*@ id="chkl{{$index}}" /> <label for="checkboxExample1"></label>
+                                                                                        </div>
+                                                                                    </td>
+                                                                                    <td style="text-align:center">
+                                                                                        <button type="button" id="btnDelete" class="deleteContact btn btn  btn-xs" ng-click="RemoveRow($index)" ng-disabled="$index==0"><i class="fas fa-times"></i></button>&nbsp;
+                                                                                        <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()" title="Add Row"><i class="fas fa-plus"></i></button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+
+                                                                            @*<tfoot>
+                                    <tr>
+
+                                        <td colspan="4"></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <div class="form-group" style="text-align:right">
+                                                <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()" title="Add Row"><i class="fas fa-plus"></i></button>&nbsp;@*<button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()">Remove</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tfoot>*@
+
+
+                                                                        </table>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="panel panel-accordion detail-plan">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapse in" data-toggle="collapse" href="#EquipmentDetails">
+                                                                    Equipment Details
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="EquipmentDetails" class="accordion-body collapse in">
+                                                            <div class="panel-body">
+                                                                <div class="col-md-12">
+                                                                    @*<h4 class="access-order ng-binding" style="background: #c2d8eb;color: #000;">Equipment Details</h4>*@
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-2 control-label no-padding">Equipment Name</label>
+
+                                                                        <div class="col-md-4 control-text control-texts">
+                                                                            <input type="text" class="form-control" list="lstEquip" ng-model="Equ.Name">
+                                                                        </div>
+                                                                        <div class="col-md-1 no-padding">
+                                                                            <label class="col-md-2 control-label no-padding">S</label>
+                                                                            <div class="col-md-4 no-padding checkbox-custom checkbox-default">
+                                                                                <input type="checkbox" ng-model="Equ.ENS" ng-true-value="1" ng-checked="(Equ.ENS == 1 || Type=='OEM')" ng-false-value="0" id="ENSHORT" ng-disabled="Type=='OEM'"> <label for="checkboxExample1"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <label class="col-md-2 control-label">Equipment Model No</label>
+
+                                                                        <div class="col-md-2 control-text control-texts">
+                                                                            <input type="text" class="form-control" ng-model="Equ.Modelno">
+                                                                        </div>
+                                                                        <div class="col-md-1 no-padding">
+                                                                            <label class="col-md-2 control-label no-padding">S</label>
+                                                                            <div class="col-md-4 no-padding checkbox-custom checkbox-default">
+                                                                                <input type="checkbox" ng-model="Equ.EMS" ng-true-value="1" ng-checked="(Equ.ENS == 1 || Type=='OEM')" ng-false-value="0" id="EMSLONG" ng-disabled="Type=='OEM'"> <label for="checkboxExample1"></label>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </div>
+
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-2 control-label no-padding">Equipment Mfr</label>
+
+                                                                        <div class="col-md-4 control-text control-texts">
+                                                                            <input type="text" class="form-control" ng-model="Equ.Manufacturer">
+                                                                        </div>
+                                                                        <div class="col-md-1 no-padding"></div>
+                                                                        <label class="col-md-2 control-label">Equipment Tag No</label>
+
+                                                                        <div class="col-md-2 control-text control-texts">
+                                                                            <input type="text" class="form-control" ng-model="Equ.Tagno">
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-2 control-label no-padding" for="inputDefault">Additional Information</label>
+
+                                                                        <div class="col-md-4 control-text control-texts">
+                                                                            <textarea class="form-control" rows="3" ng-model="Equ.Additionalinfo"></textarea>
+                                                                        </div>
+                                                                        <div class="col-md-1 no-padding"></div>
+                                                                        <label class="col-md-2 control-label">Equipment Serial No</label>
+
+                                                                        <div class="col-md-2 control-text control-texts">
+                                                                            <input type="text" class="form-control" ng-model="Equ.Serialno">
+                                                                        </div>
+                                                                    </div>
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+
+
+
+                                                    <div class="panel panel-accordion detail-plan">
+                                                        <div class="panel-heading">
+                                                            <h4 class="panel-title">
+                                                                <a class="accordion-toggle collapse in collapsed" data-toggle="collapse" href="#HSNDetails">
+                                                                    HSN Details
+                                                                </a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="HSNDetails" class="accordion-body collapse">
+                                                            <div class="panel-body">
+
+                                                                <div class="col-md-12">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-2 control-label" for="textareaDefault">Search</label>
+                                                                        <div class="col-md-3">
+                                                                            <input type="text" ng-disabled="HSNShow" class="form-control" ng-model="hsn" />
+                                                                        </div>
+                                                                        <div class="col-md-1">
+
+                                                                            <button type="button" ng-show="hsn != null" class="btn btn-xs btn-primary" name="search" ng-click="Searchhsn(hsn)"><i class="fa fa-search"></i></button>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-2 control-label" for="textareaDefault">HSN ID</label>
+                                                                        <div class="col-md-4">
+                                                                            <input type="text" class="form-control" ng-disabled="true" ng-model="HSNID" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-2 control-label" for="textareaDefault">HSN Desc</label>
+                                                                        <div class="col-md-4">
+                                                                            <textarea class="form-control" ng-disabled="true" ng-model="Desc" rows="4"></textarea>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            @*<div class="col-md-12">
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label no-padding">Equipment Name</label>
+
+                    <div class="col-md-6 control-text control-texts">
+                        <input type="text" class="form-control" ng-model="Equ.Name">
+                    </div>
+                    <label class="col-md-2 control-label">Equipment Model No</label>
+
+                    <div class="col-md-2 control-text control-texts no-padding">
+                        <input type="text" class="form-control" ng-model="Equ.Modelno">
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label no-padding">Equipment Mfr</label>
+
+                    <div class="col-md-6 control-text control-texts">
+                        <input type="text" class="form-control" ng-model="Equ.Manufacturer">
+                    </div>
+                    <label class="col-md-2 control-label">Equipment Tag No</label>
+
+                    <div class="col-md-2 control-text control-texts no-padding">
+                        <input type="text" class="form-control" ng-model="Equ.Tagno">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-2 control-label no-padding" for="inputDefault">Additional Information</label>
+
+                    <div class="col-md-6 control-text control-texts">
+                        <textarea class="form-control" rows="3" ng-model="Equ.Additionalinfo"></textarea>
+                    </div>
+                    <label class="col-md-2 control-label">Equipment Serial No</label>
+
+                    <div class="col-md-2 control-text control-texts no-padding">
+                        <input type="text" class="form-control" ng-model="Equ.Serialno">
+                    </div>
+                </div>
+
+
+
+
+        </div>*@
+                                            <div class="form-group" style="padding:15px 0px 15px 0px">
+                                                <div class="col-md-1">
+                                                    <label style="font-weight:bold">Remarks</label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="label-disc">
+                                                        <label ng-hide="cat.Remarks==null">Cataloguer:</label> <label ng-hide="cat.Remarks==null" ng-bind="cat.Remarks" style="border: none"></label>
+                                                        <label ng-hide="cat.RevRemarks==null">Reviewer:</label> <label ng-hide="cat.RevRemarks==null" ng-bind="cat.RevRemarks" style="border: none"></label>
+                                                        <textarea class="form-control" placeholder="Enter Remarks" ng-model="cat.RelRemarks" rows="2" id="textareaDefault"></textarea>
+                                                    </label>
+
+
+                                                </div>
+                                                <div class="col-md-1 no-padding"></div>
+                                                <div class="col-md-5"><textarea class="form-control" placeholder="URLs" ng-model="cat.Soureurl" rows="2" id="textareaDefault"></textarea>  </div>
+                                            </div>
+
+                                        </div>
+
+                                                <div id="Unspsc" class="tab-pane {{unspscact}}">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <h4 class="access-order ng-binding">Unspsc Logic</h4>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="textareaDefault">Class Title</label>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].ClassTitle" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="textareaDefault">Class</label>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].Class" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="textareaDefault">Commodity Title</label>
+                                                                <div class="col-md-8">
+                                                                    <select ng-model="cat.Unspsc" class="form-control" ng-options="x.Commodity as x.CommodityTitle for x in Commodities | filter :{'Class':  clss}">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label" for="textareaDefault">Commodity</label>
+                                                                <div class="col-md-8">
+                                                                    <input type="text" class="form-control" style="{{red_commodity}}" ng-model="cat.Unspsc" />
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @*<div class="col-md-6">
+                            <h4 class="access-order ng-binding">HSN Logic</h4>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="textareaDefault">Search</label>
+                                <div class="col-md-7">
+                                    <input type="text" ng-disabled="HSNShow" class="form-control" ng-model="hsn" />
+                                </div>
+                                <div class="col-md-1 no-padding">
+
+                                    <button type="button" ng-show="hsn != null" class="btn btn-xs btn-primary" name="search" ng-click="Searchhsn(hsn)"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="textareaDefault">HSN ID</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" ng-disabled="true" ng-model="HSNID" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="textareaDefault">HSN Desc</label>
+                                <div class="col-md-8">
+                                    <textarea class="form-control" ng-disabled="true" ng-model="Desc" rows="4"></textarea>
+                                </div>
+                            </div>
+                        </div>*@
+
+                                                        <div class="col-md-6" ng-show="codeLogic">
+                                                            <h4 class="access-order ng-binding">Coda Logic</h4>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Main Code</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.drpMain1.$invalid }">
+                                                                    <select ng-model="cat.Maincode" style="{{Maincode3}}" class="form-control" name="drpMain1" ng-change="getSubcode()" ng-options="x.code as x.title for x in Groupcodes">
+                                                                        <option value="">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Sub Code</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.drpSub1.$invalid }">
+                                                                    <select ng-model="cat.Subcode" style="{{Subcode3}}" class="form-control" name="drpSub1" ng-change="getSubsubcode()" ng-options="x.code as x.title for x in getsubgroup">
+                                                                        <option value="">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label">Sub-Sub Code</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.drpSubsub1.$invalid }">
+                                                                    <select ng-model="cat.Subsubcode" ng-change="subsubcodechange()" class="form-control" style="{{Subsubcode3}}" name="drpSubsub1" ng-options="x.SubSubGroupCode as x.SubSubGroupTitle for x in getSubsubgroup">
+                                                                        <option value="">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+
+                                                <div id="Attach" class="tab-pane">
+                                                    <div class="form-group">
+                                                        <div class="col-md-1 control-text">
+                                                            <label>Title</label>
+                                                        </div>
+                                                        <div class="col-md-2 control-text">
+                                                            <input type="text" ng-model="Title" class="form-control" />
+                                                        </div>
+                                                        <div class="col-md-4 control-text">
+                                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput" style="width: 35%;">
+                                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-1">
+                                                            <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addImg()">Add More</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group" ng-show="(AtttachmentList[0] !=null || imgList[0]!=null) ? true:false">
+                                                        <div class="col-md-8">
+                                                            <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                <thead class="top-border">
+                                                                    <tr>
+                                                                        <th>Title</th>
+                                                                        <th>File Name</th>
+                                                                        <th>Size</th>
+                                                                        <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr ng-repeat="x in AtttachmentList">
+                                                                        <td><label>{{x.Title}}</label></td>
+                                                                        <td><label>{{x.FileName}}</label></td>
+                                                                        <td><label>{{x.FileSize}}</label></td>
+                                                                        <td class="actions">
+                                                                            <a ng-click="Delfile($index,x._id,x.FileId)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                                                            <a ng-click="Downloadfile(x.FileName,x.ContentType,x.FileId)" class="on-default edit-row"><i class="fa fa-download"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr ng-repeat="x in imgList">
+                                                                        <td><label>{{x.Title}}</label></td>
+                                                                        <td><label>{{x.FileName}}</label></td>
+                                                                        <td><label>{{x.FileSize}}</label></td>
+                                                                        <td class="actions">
+                                                                            @*<a class="on-default edit-row"><i class="fa fa-download"></i></a>*@
+                                                                            <a ng-click="RemoveFile($index)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                                <div id="Physical" class="tab-pane">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-6 no-padding">
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">System Balance</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <input type="text" class="form-control" ng-model="cat.System_Balance" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Quantity as on Date</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.Fromdate.$invalid}">
+                                                                    @*<input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                                                    <input type="text" id="txtFrom" name="Quantity_as_on_Date" ng-model="cat.Quantity_as_on_Date" class="form-control" placeholder="Date">
+
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Stock Quantity</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <input type="text" class="form-control" ng-model="cat.Stock_Quantity" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">No of Item Aginst PV Obs</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <input type="text" class="form-control" ng-model="cat.No_of_Item_Aginst_PV_Obs" />
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Physical Observation</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <select class="form-control" ng-model="cat.Physical_Observation">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                        <option value="DAMAGED">DAMAGED</option>
+                                                                        <option value="CORRODED">CORRODED</option>
+                                                                        <option value="NAME PLATE CLARITY">NAME PLATE CLARITY</option>
+                                                                        <option value="TECHNICALLY OBSOLETE">TECHNICALLY OBSOLETE</option>
+                                                                        <option value="ALREADY USED">ALREADY USED</option>
+                                                                        <option value="BROKEN">BROKEN</option>
+                                                                        <option value="PASS THEIR SHELF LIFE"> PASS THEIR SHELF LIFE</option>
+                                                                        <option value="NOT AVAILABLE IN SAP BUT PHY AVAILABLE">NOT AVAILABLE IN SAP BUT PHY AVAILABLE</option>
+                                                                        <option value="NOT PHYSICALLY AVAILABLE">NOT PHYSICALLY AVAILABLE</option>
+                                                                        <option value="SURPLUS"> SURPLUS</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Expired Date</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.Fromdate1.$invalid}">
+                                                                    @*<input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                                                    <input type="text" id="txtFrom1" name="Expired_Date" ng-model="cat.Expired_Date" class="form-control" placeholder="Date">
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Specification</label>
+                                                                <div class="col-md-8">
+                                                                    <textarea class="form-control" @*placeholder="Enter Remarks"*@ ng-model="cat.Specification" rows="2" id="textareaDefault"></textarea>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6 no-padding">
+
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Storage Location</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    @*<select class="form-control" id="ddlstoreage" ng-model="cat.StorageLocation1" ng-options="x.Code as x.Title for x in (strloc | filter: {'Label': 'Storage location' } && {'Plantcode': erp.Plant } :true)">
+                    <option value="" selected="selected">Select</option>
+                </select>*@
+                                                                    <select class="form-control" id="ddlstoreage" ng-model="cat.StorageLocation1" ng-change="getbincode()" ng-options="x.Code as x.Title for x in (strloc | filter: {'Label': 'Storage location' } && {'Plantcode': erp.Plant } :true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding" for="inputDefault">Storage Bin</label>
+
+                                                                <div class="col-md-8">
+                                                                    @*<input type="text" class="form-control" ng-model="plant.StorageBin">*@
+                                                                    @*<select class="form-control" id="ddlbin" ng-model="cat.StorageBin1" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label':'Storage bin' }:true)">
+                    <option value="" selected="selected">Select</option>
+                </select>*@
+                                                                    <select class="form-control" id="ddlbin" name="ddlbin1"  ng-model="cat.StorageBin1" ng-options="x.Code as x.Title for x in MasterList1">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">GR Date</label>
+                                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.Fromdate.$invalid}">
+                                                                    @*<input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />*@
+                                                                    <input type="text" id="txtFrom2" name="GR_Date" ng-model="cat.GR_Date" class="form-control" placeholder="Date">
+
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">No of Items Expired</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <input type="text" class="form-control" ng-model="cat.No_of_Items_Expired" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Bin Updation/Miss Placed</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <input type="text" class="form-control" ng-model="cat.Bin_Updation_Miss_Placed" />
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-4 control-label no-padding">Shelf Life</label>
+                                                                <div class="col-md-8 col-xs-8">
+                                                                    <select class="form-control" ng-model="cat.Shelf_Life">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                        <option value="yes">Yes</option>
+                                                                        <option value="no">No</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+                                                <div>
+                                                  
+                                                    <div class="form-group">
+                                                        <div class="col-md-3 control-text"></div>
+                                                        <div class="col-md-6 control-text text-center">
+                                                            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-primary">Save</button>
+
+                                                            <div id="divduplicate" style="display:none;" class="input-help1">
+                                                                <div style="display: block;max-height: 400px;min-width:900px;overflow-y: auto;">
+                                                                    <i ng-click="closeData1()" class="far fa-times-circle fa-2x pull-right"></i>
+                                                                    <h4 ng-bind="'Below item(s) already exist'"></h4>
+                                                                    <div ng-repeat="ls in listptnodup1" class="item-border">
+                                                                        <label><label style="font-weight:bold" ng-bind="'Item Code: '"></label><label ng-bind="ls.Itemcode"></label></label>
+                                                                        <label><label style="font-weight:bold" ng-bind="'Short Desc: '"></label><label ng-bind="ls.Shortdesc"></label></label>
+                                                                        <label><label style="font-weight:bold" ng-bind="'Long Desc: '"></label><label ng-bind="ls.Longdesc"></label></label>
+                                                                        <label><label style="font-weight:bold;color:blue;" ng-bind="'Duplicate: '"></label><label style="color:blue;" ng-bind="ls.batch"></label><span style="color:blue;">%</span></label>
+                                                                    </div>
+                                                                    @*<label>Save as duplicate ?&nbsp;</label><button type="button" ng-click="writeData()">Map Duplicate</button>*@&nbsp;&nbsp;<button type="button" ng-click="NodupData()">Proceed</button>
+                                                                </div>
+                                                            </div>
+                                                            &nbsp;<button type="button" ng-click="SubmitData()" ng-show="sts1" class="mb-xs mt-xs mr-xs btn btn-primary">Submit</button>
+                                                            &nbsp;<button type="button" ng-click="Reworkbtn()" ng-show="cat.Itemcode!=null?true:false" class="mb-xs mt-xs mr-xs btn btn-primary">Rework</button>
+
+                                                            &nbsp;<button type="button" ng-click="RejectData()" class="mb-xs mt-xs mr-xs btn btn-primary">Clarification</button>
+                                                            &nbsp;<button type="button" ng-click="clickToOpen(cat.Itemcode)" class="mb-xs mt-xs mr-xs btn btn-primary">Preview</button>
+                                                        </div>
+                                                        <div class="col-md-2 control-text"></div>
+                                                        @*<div class="col-md-3 control-text" ng-class="{'has-error': revshow }">
+                            <select ng-model="usr" class="form-control" name="ddlusr" ng-change="ddlusrChange()" ng-show="sts1" ng-options="usr.Userid as usr.UserName for usr in UserList">
+                                <option value="" selected="selected">Select Releaser</option>
+                            </select>
+                        </div>*@
+                                                    </div>
+                                                    <div id="cotentid12" style="display:none">
+                                                        <div class="content">
+                                                            <div class="panel-body">
+                                                                <div class="col-md-12">
+                                                                    <div class="col-md-4 popup-scroll">
+                                                                        <div class="all-pop">
+                                                                            <form>
+                                                                                <div class="form-group">
+
+                                                                                    <div class="text-center text-color">ITEM DATA @*<span><i class="fa fa-print" title="Print" style="cursor:pointer;float:right;margin-right:10px;font-size:21px;" ng-click="Print()"></i></span>*@</div>
+
+                                                                                </div>
+                                                                                <div class="form-group pop-bg">
+                                                                                    <label class="col-md-5 control-label">Item Code</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="ccontrol-label" ng-bind="cat1.Itemcode">{{cat1.Itemcode}}</label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group pop-bg">
+                                                                                    <label class="col-md-5 control-label">Material Code</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="ccontrol-label" ng-bind="cat1.Materialcode"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label">Legacy</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Legacy"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group pop-bg">
+                                                                                    <label class="col-md-5 control-label">Short Desc</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Shortdesc"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label">Long Desc</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Longdesc"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group pop-bg">
+                                                                                    <label class="col-md-5 control-label">Noun</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Noun"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label">Modifier</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Modifier"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group pop-bg">
+                                                                                    <label class="col-md-5 control-label">Addition Info</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Additionalinfo"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group" ng-hide="cat1.Vendorsuppliers == ''">
+
+                                                                                    <div class="text-center text-color">VENDOR SUPPLIER</div>
+
+                                                                                </div>
+                                                                                <div class="table-responsive">
+
+
+                                                                                    <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                                                        <thead class="top-border">
+
+                                                                                        </thead>
+                                                                                        @*<tr class="data-contact-person" ng-repeat="rw in rows">*@
+
+                                                                                        <tr ng-repeat="ls in cat1.Vendorsuppliers">
+                                                                                            <td>
+                                                                                                <label class="control-label col-md-6" ng-bind="ls.Type"></label> : {{ls.Name}}<br />
+                                                                                                <label class="control-label col-md-6" ng-bind="ls.Refflag"></label> : {{ls.RefNo}}
+                                                                                            </td>
+
+                                                                                        </tr>
+                                                                                    </table>
+
+                                                                                </div>
+                                                                                <div class="form-group">
+
+                                                                                    <div class="text-center text-color">CODE LOGICS</div>
+
+                                                                                </div>
+
+                                                                                <div class="form-group ">
+                                                                                    <label class="col-md-5 control-label">UNSPSC</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.Unspsc"></label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                @*<div class="form-group ">
+                                                                                    <label class="col-md-5 control-label">HSNID</label>
+                                                                                    <div class="col-md-7">
+                                                                                        <label class="control-label" ng-bind="cat1.HSNID"></label>
+                                                                                    </div>
+                                                                                    <div class="form-group ">
+                                                                                        <label class="col-md-5 control-label">HSNDesc</label>
+                                                                                        <div class="col-md-7">
+                                                                                            <label class="control-label" ng-bind="cat1.HSNDesc"></label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>*@
+
+
+                                                                                <div class="form-group ">
+                                                                                    <div class="col-md-7">
+                                                                                        <img src="{{img.FileData}}" ng-show="img.FileData == null ? false:true" width="200" height="130" />
+                                                                                    </div>
+                                                                                </div>
+                                                                            </form>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 popup-scroll">
+                                                                        <div class="all-pop">
+
+                                                                            <div class="form-group">
+
+                                                                                <div class="text-center text-color">ATTRIBUTE DETAILS</div>
+
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <table class="table table-bordered mb-none" style="width: 100% !important;margin: 0 auto;">
+                                                                                    <thead class="top-border">
+                                                                                        <tr>
+                                                                                            <td><label class="control-label" style="font-weight:bold">Attribute</label></td>
+                                                                                            <td><label class="control-label" style="font-weight:bold">Value</label></td>
+                                                                                            <td><label class="control-label" style="font-weight:bold">Unit</label></td>
+                                                                                        </tr>
+                                                                                    </thead>
+                                                                                    <tbody>
+
+                                                                                        <tr ng-repeat="ls in cat1.Characteristics">
+                                                                                            <td><label class="control-label" ng-bind="ls.Characteristic"></label></td>
+                                                                                            <td>
+
+                                                                                                @*<label class="col-md-6 control-label" ng-bind="ls.Value"></label>*@
+                                                                                                {{ls.Value}}
+                                                                                            </td>
+                                                                                            <td>
+                                                                                                {{ls.UOM}}
+                                                                                                @*<label class="col-md-1 control-label" ng-bind="ls.UOM"></label>*@
+
+                                                                                            </td>
+                                                                                        </tr>
+                                                                                    </tbody>
+                                                                                </table>
+
+
+
+                                                                            </div>
+                                                                            <div ng-show="Type == 'OEM'">
+                                                                            <div class="form-group">
+
+                                                                                <div class="text-center text-color">EQUIPMENT DETAILS</div>
+
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Equipment Name</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat1.Equipment.Name"></label>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label">Equipment Manufacturer</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat1.Equipment.Manufacturer"></label>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Equipment Model No</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat1.Equipment.Modelno"></label>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label">Equipment Tag No</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat1.Equipment.Tagno"></label>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="form-group pop-bg">
+                                                                                <label class="col-md-5 control-label">Equipment Serial No</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat1.Equipment.Serialno"></label>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label">Additional Information</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="cat1.Equipment.Additionalinfo"></label>
+                                                                                </div>
+
+                                                                            </div>
+
+                                                                        </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-4 popup-scroll">
+                                                                        <div class="all-pop">
+                                                                            <div class="form-group">
+
+                                                                                <div class="text-center text-color">ERP DATA</div>
+
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.Plant_ == '' || erp1.Plant_ == null">
+                                                                                <label class="col-md-5 control-label">Plant</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label"  ng-bind="erp1.Plant_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.ProfitCenter_ == '' || erp1.ProfitCenter_ == null">
+                                                                                <label class="col-md-5 control-label">Profit Center</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.ProfitCenter_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.StorageLocat1ion_ == '' || erp1.StorageLocat1ion_ == null">
+                                                                                <label class="col-md-5 control-label">Storage Locat1ion</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.StorageLocat1ion_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.StorageBin_ == '' || erp1.StorageBin_ == null">
+                                                                                <label class="col-md-5 control-label">Storage Bin</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.StorageBin_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.ValuationClass_ == '' || erp1.ValuationClass_ == null">
+                                                                                <label class="col-md-5 control-label">Valuation Class</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.ValuationClass_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.ValuationType_ == '' || erp1.ValuationType_ == null">
+                                                                                <label class="col-md-5 control-label">Valuation Type</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.ValuationType_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.PriceControl_ == '' || erp1.PriceControl_ == null">
+                                                                                <label class="col-md-5 control-label">Price Control</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.PriceControl_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.StandardPrice_ == '' || erp1.StandardPrice_ == null">
+                                                                                <label class="col-md-5 control-label">Standard Price</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.StandardPrice_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.MovingAvgprice_ == '' || erp1.MovingAvgprice_ == null">
+                                                                                <label class="col-md-5 control-label">Moving Avg price</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.MovingAvgprice_"></label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group" ng-hide="erp1.Valuationcat1egory_ == '' || erp1.Valuationcat1egory_ == null">
+                                                                                <label class="col-md-5 control-label">Valuation cat1egory</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Valuationcat1egory_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.VarianceKey_ == '' || erp1.VarianceKey_ == null">
+                                                                                <label class="col-md-5 control-label">Variance Key</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.VarianceKey_"></label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            @*<div class="form-group" ng-hide="erp1.Plant_ == '' || erp1.Plant_ == null">
+
+                                                                                <div class="text-center text-color">GENRAL</div>
+
+                                                                            </div>*@
+
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.Industrysector_ == '' || erp1.Industrysector_ == null">
+                                                                                <label class="col-md-5 control-label">Industry sector</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Industrysector_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.Materialtype_ == '' || erp1.Materialtype_ == null">
+                                                                                <label class="col-md-5 control-label">Material Type</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Materialtype_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.BaseUOP_ == '' || erp1.BaseUOP_ == null">
+                                                                                <label class="col-md-5 control-label">Base UOP</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.BaseUOP_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.Unit_issue_ == '' || erp1.Unit_issue_ == null">
+                                                                                <label class="col-md-5 control-label">Unit of Issue</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Unit_issue_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.AlternateUOM_ == '' || erp1.AlternateUOM_ == null">
+                                                                                <label class="col-md-5 control-label">Alternate Unit</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.AlternateUOM_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.Inspectiontype_ == '' || erp1.Inspectiontype_ == null">
+                                                                                <label class="col-md-5 control-label">Inspection Type</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Inspectiontype_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.Inspectioncode_ == '' || erp1.Inspectioncode_ == null">
+                                                                                <label class="col-md-5 control-label">Inspection Code</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Inspectioncode_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.Oldmaterialno_ == '' || erp1.Oldmaterialno_ == null">
+                                                                                <label class="col-md-5 control-label">Old Material No</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Oldmaterialno_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.Division_ == '' || erp1.Division_ == null">
+                                                                                <label class="col-md-5 control-label">Division</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Division_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.Salesunit_ == '' || erp1.Salesunit_ == null">
+                                                                                <label class="col-md-5 control-label">Sales Unit</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Salesunit_"></label>
+                                                                                </div>
+                                                                            </div>
+
+                                                                            @*<div class="form-group ">
+
+                                                                                <div class="text-center text-color">MRP DATA</div>
+
+                                                                            </div>*@
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.MRPType_ == '' || erp1.MRPType_ == null">
+                                                                                <label class="col-md-5 control-label">MRP Type</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.MRPType_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.MRPController_ == '' || erp1.MRPController_ == null">
+                                                                                <label class="col-md-5 control-label">MRP Controller</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.MRPController_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.LOTSize_ == '' || erp1.LOTSize_ == null">
+                                                                                <label class="col-md-5 control-label">LOT Size</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.LOTSize_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.ReOrderp1oint_ == '' || erp1.ReOrderp1oint_ == null">
+                                                                                <label class="col-md-5 control-label">Re-Order Point</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.ReOrderp1oint_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.ProcurementType_ == '' || erp1.ProcurementType_ == null">
+                                                                                <label class="col-md-5 control-label">Procurement Type</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.ProcurementType_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.SafetyStock_ == '' || erp1.SafetyStock_ == null">
+                                                                                <label class="col-md-5 control-label">Safety Stock</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.SafetyStock_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.PlanningStrgyGrp_ == '' || erp1.PlanningStrgyGrp_ == null">
+                                                                                <label class="col-md-5 control-label">Planning Strgy Grp</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.PlanningStrgyGrp_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.AvailCheck_ == '' || erp1.AvailCheck_ == null">
+                                                                                <label class="col-md-5 control-label">Avail Check</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.AvailCheck_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.ScheduleMargin_ == '' || erp1.ScheduleMargin_ == null">
+                                                                                <label class="col-md-5 control-label">Schedule Margin</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.ScheduleMargin_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            @*<div class="form-group" ng-hide="erp1.Plant_ == '' || erp1.Plant_ == null">
+
+                                                                                <div class="text-center text-color">SALES&OTHERS</div>
+
+                                                                            </div>*@
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.AccAsignmtcat1egory_ == '' || erp1.AccAsignmtcat1egory_ == null">
+                                                                                <label class="col-md-5 control-label">Acc AccAsignmtcat1egory_ cat1egory</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.AccAsignmtcat1egory_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.TaxClassificat1ionGroup_ == '' || erp1.TaxClassificat1ionGroup_ == null">
+                                                                                <label class="col-md-5 control-label">Tax Classificat1ion Group</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.TaxClassificat1ionGroup_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.Itemcat1egoryGroup_ == '' || erp1.Itemcat1egoryGroup_ == null">
+                                                                                <label class="col-md-5 control-label">Item cat1egory Group</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.Itemcat1egoryGroup_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.SalesOrganization_ == '' || erp1.SalesOrganization_ == null">
+                                                                                <label class="col-md-5 control-label">Sales Organization</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.SalesOrganization_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.DistributionChannel_ == '' || erp1.DistributionChannel_ == null">
+                                                                                <label class="col-md-5 control-label">Distribution Channel</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.DistributionChannel_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.MaterialStrategicGroup_ == '' || erp1.MaterialStrategicGroup_ == null">
+                                                                                <label class="col-md-5 control-label">Material Strategic Group</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.MaterialStrategicGroup_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group pop-bg" ng-hide="erp1.PurchasingGroup_ == '' || erp1.PurchasingGroup_ == null">
+                                                                                <label class="col-md-5 control-label">Purchasing Group</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.PurchasingGroup_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group" ng-hide="erp1.PurchasingValueKey_ == '' || erp1.PurchasingValueKey_ == null">
+                                                                                <label class="col-md-5 control-label">Purchasing Value Key</label>
+                                                                                <div class="col-md-7">
+                                                                                    <label class="control-label" ng-bind="erp1.PurchasingValueKey_"></label>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                            </div>
+
+
+                        </form>
+                       
+                        <div>
+                            <datalist id="lstEquip">
+
+                                <option data-ng-repeat="e in Equips" value="{{e.Name}}">
+
+                            </datalist>
+                        </div>
+                    </section>
+                </div>
+
+
+            </div>
+</section>
+<script src="/Scripts/ctrls/Releasectrl.js"></script>
+<script src="~/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+
+
+

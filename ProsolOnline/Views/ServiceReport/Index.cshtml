@@ -1,0 +1,208 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section role="main" class="content-body" ng-controller="ServiceReportController" >
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Service Master</span></li>
+                <li><span>Report</span></li>
+            </ol>
+        </div>
+    </header>
+
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify" ng-show="NotifiyRes">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises"> </div>
+            </div>
+        </div>
+    </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify" ng-show="NotifiyRes">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Service Report</h2>
+                </header>
+                <div class="row">
+
+
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            <form name="search-form" @*ng-submit="ReportSearch()"*@>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="textareaDefault">Plant</label>
+                                    <div class="col-md-8">
+                                        <div class="controls"> @*ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.PlantCode.$invalid }">*@
+                                            <select ng-model="PlantCode" id="PlantCode" name="PlantCode" class="form-control" ng-options="x.Plantcode as x.Plantname for x in getplantt | filter :{'Islive':true}">
+                                                <option value="" selected="selected">Select Plant</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">Role</label>
+                                    <div class="col-md-8">
+                                        <select class="form-control" ng-model="role" ng-change="setrole()" id="roledll" name="roledll">
+                                            <option name="Selected">Select Role</option>
+                                            <option name="Cleanser">Cleanser</option>
+                                            <option name="Reviewer">Reviewer</option>
+                                            <option name="Releaser">Releaser</option> 
+                                            <option name="Requester">Requester</option>                                       
+                                           
+                                           </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label col-md-3" for="textareaDefault">User</label>
+                                    <div class="col-md-8">
+                                        <div class="controls"> @*ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.Userid.$invalid }">*@
+                                            <select ng-model="Userid" id="Userid" name="Userid" class="form-control" ng-options="x.Userid as x.UserName for x in getuser | filter :{'Islive':Active}">
+                                                <option value="" selected="selected">Select User</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="inputDefault">Options</label>
+                                    <div class="col-md-9 check-order"> @*ng-class="{'has-error': form.$submitted && form.lbl.$invalid}">*@
+                                        <label for="checkboxExample1" ng-repeat="option in options" name="lbl" id="lbl" required style="width: 33%;float: left;">
+                                            <div class="checkbox-custom checkbox-default" ng-required="true">
+                                                <input type="checkbox"
+                                                       name="selectedrole"
+                                                       value="{{option.Name}}"
+                                                       ng-model="option.Status"
+                                                       ng-checked="option.Status"
+                                                       ng-click="check1()"> {{option.Name}} 
+                                                <label for="checkboxExample1"></label>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    </div>
+
+
+
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label">Between date</label>
+                                        <div class="col-md-4">@*ng-class="{'has-error': form.$submitted && form.Fromdate.$invalid}">*@
+                                            <input type="date" name="Fromdate" ng-model="Fromdate" ui-date-format="yyyy/mm/dd" class="form-control" />
+
+                                        </div>
+                                        <div class="col-md-4"> @*ng-class="{'has-error': form.$submitted && form.Todate.$invalid}">*@
+                                            <input type="date" name="Todate" ng-model="Todate" ui-date-format="yyyy/mm/dd" class="form-control" />
+                                        </div>
+                                    </div>
+
+
+                                    <div class="form-group">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-9 form-submit">
+                                            <button id="submit_button1" type="submit" class="btn btn-primary" ng-click="ReportSearch()">Search</button>
+                                            <button id="submit_button" type="submit" class="btn btn-primary" ng-click="ServiceExport()">Export</button>
+                                            <button id="Cancel" type="button" class="btn btn-primary" ng-click="clearfields()">Cancel</button>
+                                        </div>
+                                    </div>
+</form>
+                        </div>
+                        <div class="col-md-6"></div>
+                    </div>
+               
+                
+                    <div class="col-xs-12">
+                        <div class="tblLoad"></div>
+                        <section class="form-wizard" id="w4" ng-show="Reportlist != null">
+
+                            <div class="panel-body">
+                                <div class="table-responsive">
+
+                                    <div id="tblid">
+                                        <table class="table table-bordered mb-none" >
+                                            <thead class="top-border ng-scope">
+                                                <tr>
+                                                    <th style="width:10%">ItemId</th>
+                                                    <th style="width:10%">Service Code</th>
+                                                    <th style="width:25%">Short Desc</th>
+                                                    <th style="width:40%">Long Desc</th>
+                                                    <th style="width:10%">Noun</th>
+                                                    <th style="width:10%">Modifier</th>
+                                          
+                                                    <th style="width:5%">UOM</th>
+                                                    @*<th style="width:50%">User Id</th>*@
+                                                    @*<th style="width:10%">service status</th>*@
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr ng-repeat="x in Reportlist">
+                                                    <td>
+                                                        <label>{{x.ItemId}}</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>{{x.ServiceCode}}</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>{{x.ShortDesc}}</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>{{x.LongDesc}}</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>{{x.Noun}}</label>
+                                                    </td>
+                                                    <td>
+                                                        <label>{{x.Modifier}}</label>
+                                                    </td>
+                                               
+                                                    <td>
+                                                        <label>{{x.UomName}}</label>
+                                                    </td>
+                                                    @*<td>
+                                                        <label>{{x.ServiceStatus}}</label>
+                                                    </td>*@
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                
+                 </div>
+            </section>
+            </div>
+        </div>
+        </section>
+<script src="~/Scripts/ctrls/ServiceReport.js"></script>
+

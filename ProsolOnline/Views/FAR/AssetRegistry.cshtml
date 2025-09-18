@@ -1,0 +1,2075 @@
+﻿
+@{ ViewBag.Title = "index";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+<style>
+    .enlarge {
+        list-style-type: none; /*remove the bullet point*/
+        margin-left: 0;
+    }
+
+        .enlarge a {
+            display: inline-block; /*places the images in a line*/
+            position: relative;
+            z-index: 0; /*resets the stack order of the list items - later we'll increase this*/
+        }
+
+        .enlarge span {
+            position: absolute;
+            left: -9999px;
+            box-shadow: 0 0 20px rgba(0,0,0, .75);
+            -webkit-border-radius: 8px;
+            -moz-border-radius: 8px;
+            border-radius: 8px;
+        }
+
+        .enlarge a:hover {
+            z-index: 1111;
+            cursor: pointer;
+        }
+
+        .enlarge span img {
+            padding: 2px;
+            background: #ccc;
+        }
+
+        .enlarge a:hover span {
+            top: -300px; /*the distance from the bottom of the thumbnail to the top of the popup image*/
+            left: -20px; /*distance from the left of the thumbnail to the left of the popup image*/
+        }
+
+    table th.resizing {
+        cursor: col-resize;
+    }
+
+    tr.char-table td label:after {
+        content: "*";
+        color: red;
+    }
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    .tbl-content {
+        overflow-x: auto;
+        margin-top: 0px;
+    }
+
+    th {
+        text-align: left;
+    }
+
+    td {
+        text-align: left;
+        vertical-align: middle;
+    }
+
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    ::-webkit-scrollbar-thumb {
+        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    }
+
+    .tbl-header {
+        width: 99.6%;
+    }
+
+    td:nth-child(8), th:nth-child(7) {
+        width: 10% !important;
+    }
+
+    td:nth-child(9), th:nth-child(8) {
+        width: 6% !important;
+    }
+
+    td:nth-child(10), th:nth-child(9) {
+        width: 3% !important;
+    }
+
+
+    #jBox5 .jBox-container .jBox-content, #jBox2 .jBox-container .jBox-content {
+        overflow-y: hidden !important;
+    }
+
+    .sample-arrow {
+        position: relative;
+    }
+
+        .sample-arrow:hover::before {
+            position: absolute;
+            content: "\f107";
+            top: 0px;
+            right: -8px;
+            height: 20px;
+            width: 20px;
+            font-family: 'Font Awesome 5 Free';
+        }
+
+    div#AssetCondtn .col-md-12 .asset-table .top-border th, div#AssetCondtn .col-md-12 .asset-table td {
+        text-align: center;
+    }
+
+    .form-group.asset-border .checkbox-custom {
+        margin: 5px 0px 5px 0px;
+    }
+
+    .form-group.asset-border {
+        border: 1px solid #ccc;
+        padding: 2px;
+        border-radius: 5px;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    .ImageHolder {
+        text-align: center;
+    }
+
+    .Image {
+        display: inline-block;
+    }
+
+    img.img-fluid.rounded {
+        width: 140px;
+        height: 140px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+    }
+
+    .ekko-lightbox-nav-overlay .left, .ekko-lightbox-nav-overlay .right {
+        position: absolute;
+        height: 100px;
+        color: inherit;
+        background: none;
+        border: none;
+        z-index: 100;
+    }
+
+    span.right {
+        right: 10px;
+        font-size: 16px;
+        top: 10px;
+    }
+
+    span.left {
+        left: 10px;
+        font-size: 16px;
+        top: 10px;
+    }
+
+    legend {
+        margin: 2px;
+        color: #005399;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .mandatory {
+        border: 1px solid #ffa59cf0;
+    }
+
+    .is-mandatory {
+        border: 1px solid #ffa59cf0;
+        /*box-shadow:*/
+    }
+
+    .is-empty {
+        box-shadow: 0px 0px 10px 0px #ffa59cf0;
+    }
+
+    tr.selected {
+        background-color: #83acd8;
+    }
+
+    .fixTableHead tr th {
+        top: -1px !important;
+    }
+
+    .table-responsive.fixTableHead {
+        max-height: 200px !important;
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+
+    .fixTableHead thead th {
+        position: sticky;
+        top: 0;
+    }
+
+    .trsaved {
+        background: gray;
+    }
+
+    .trrework {
+        background: #f82f2f2f;
+    }
+
+
+    .table-tree {
+        width: 100%;
+    }
+
+        .table-tree .expand-btn {
+            cursor: pointer;
+        }
+
+        .table-tree .child-row {
+            display: none;
+        }
+
+            .table-tree .child-row.open {
+                display: table-row;
+            }
+
+    .indent {
+        padding-left: 20px;
+    }
+
+    .tr-proxy {
+        background: #d6f5ff;
+    }
+
+    .tree-view {
+        list-style-type: none;
+        padding-left: 20px;
+    }
+
+        .tree-view li {
+            margin: 4px 0;
+            cursor: pointer;
+        }   
+</style>
+
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/css/jquery.magnify.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/Custom-select.css" rel="stylesheet" />
+<link href="~/Content/uploadfile.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="AssetmasterController">
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+
+                <form name="form" ng-submit="SaveData(form.$valid)" novalidate>
+
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <span style="padding-left:20px;">Saved : {{saveditems}} , Balance : {{balanceitems}}</span>
+                            <a href="@Url.Action("Catdownload","FAR", new { id="cat" })" target="_blank" style="float: right; padding-right: 20px; color: #000000; text-decoration: none"><i class="fas fa-download" aria-hidden="true"></i>&nbsp;Download</a>
+                        </div>
+
+
+                        <!--<div class="form-group">
+
+    <div class="form-group col-md-4">
+        <label class="col-md-3 control-label" for="inputDefault">FAR ID</label>
+
+        <!--<div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.site.$invalid || form.site.$error.pattern}" style="display: none">
+
+        <select class="form-control" id="business" name="site" ng-model="asset.FARId"-->
+                        <!--@*ng-change="loadMajorClass(asset.Business)"*@-->
+                        <!--<!--ng-options="far for far in FAR_Master | filter: { Label: 'SiteId' }">
+            <option value="" selected="selected">Select</option>
+        </select>
+    </div>-->
+                        <!--<div class="col-md-7">
+            <div class="dropdown" auto-close="outsideClick">
+                <button class="form-control" type="button" id="individualDrop" style="padding: 3px; font-size: 12px; font-weight: 700; text-align: left;" data-toggle="dropdown">
+                    {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
+                </button>
+                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                    <li role="presentation">
+                        <input disable-auto-close type="search" style="position:relative;display: flex;width: 100%;" ng-model="searchFar" placeholder="Search">
+                    </li>
+                    <li role="presentation" ng-repeat="far in FARMaster | filter: searchFar">
+                        <a role="menuitem" ng-click="BindBusinessList(far)">{{far}}</a>
+                    </li>
+                </ul>
+
+            </div>
+        </div>
+
+        <button type="button" class="col-md-1 btn btn-xs btn-primary" name="search" ng-click="clearFar()">
+            <i class="fas fa-sync-alt"></i>
+        </button>
+    </div>
+    <div class="form-group col-md-3">
+        <label class="col-md-3 control-label" for="inputDefault">Region</label>
+
+        <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+            <input type="text" class="form-control" ng-model="asset.Region" ng-disabled="true">-->
+                        <!--<select class="form-control" id="business" name="busines" ng-model="asset.Region"--><!--@*ng-change="loadequipment(asset.MinorClass)"*@-->
+                        <!--<!--ng-options="x for x in RegionMaster">
+        <option value="" selected="selected">Select</option>
+    </select>-->
+                        <!--</div>-->
+                        @*<div class="col-md-7">
+            <div class="dropdown" auto-close="outsideClick">
+                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 3px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                    {{BtnRegmodel}}<span class="caret mycustom-caret" style=""></span>
+                </button>
+                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                    <input disable-auto-close type="search" ng-model="serchReg" placeholder="Search" style="width:100%;"></input>
+                    <li role="presentation" ng-repeat="reg in RegionMaster | filter : serchReg"><a role="menuitem" ng-click="selectRegEntity(BtnFARmodel,reg)">{{reg}}</a></li>
+                </ul>
+            </div>
+        </div>*@
+                        <!--</div>
+    <div class="form-group col-md-5">
+        <label class="col-md-4 control-label" for="inputDefault">Asset Description</label>
+
+        <div class="col-md-5 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+
+            <input type="text" class="form-control" ng-model="asset.AssetDesc" ng-disabled="true">-->
+                        <!--<select class="form-control" id="business" name="busines" ng-model="asset.AssetDesc"--> <!--@*ng-change="loadequipment(asset.MinorClass)"*@-->
+                        <!--ng-options="x for x in AssetDescMaster">
+        <option value="" selected="selected">Select</option>
+    </select>-->
+                        <!--</div>
+        </div>
+    </div>-->
+                        <div class="col-md-12 table-responsive fixTableHead">
+                            <table class="table table-bordered mb-none" style="width: 100%">
+                                <thead class="top-border" align="center">
+
+
+                                    <!--<tr>-->
+                                    @*<th><input type="text" placeholder="FAR ID" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>
+                    <th><input type="text" placeholder="Region" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>*@
+
+                                    @*<th>
+                        <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
+                            <option value="" selected="selected">All</option>
+                        </select>
+                    </th>
+
+                    <th>
+                        <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
+                            <option value="" selected="selected">All</option>
+                            <option>Catalogue</option>
+                            <option>Catalogue Rework</option>
+                            <option>QC</option>
+                            <option>QA</option>
+                            <option>Released</option>
+
+                        </select>
+                    </th>
+                    <th>
+                        Select
+                    </th>*@
+
+
+
+                                    <!--</tr>-->
+                                    <tr class="top-tr">
+                                        @*<th ng-click="sortData('UniqueId')">
+                            FAR ID<div ng-class="getSortClass('UniqueId')"></div>
+                        </th>*@
+                                        @*<th>
+                            Region
+                        </th>*@
+                                        @*<th ng-click="sortData('Legacy')">
+                            Area<div ng-class="getSortClass('Legacy')"></div>
+                        </th>*@
+                                        <th style="width:10%" ng-click="sortData('UniqueId')" class="col-md-1">
+                                            @*Item ID*@  <input type="text" class="form-control" placeholder="Item ID" name="itemIdSearch" ng-model="sCode" ng-change="searchMaster()"> <div ng-class="getSortClass('Shortdesc')"></div>
+                                        </th>
+                                        <th style="width:13%" ng-click="sortData('FuncLocation')" class="col-md-1">
+                                            Functional Location
+                        </th>
+                        <th style="width:8%" ng-click="sortData('AssetNo')" class="col-md-1">
+                            @*Asset Number*@ <input type="text" class="form-control" placeholder="Asset Number" name="itemIdSearch" ng-model="sSource" ng-change="searchMaster()"> <div ng-class="getSortClass('Shortdesc')"></div>
+                        </th>
+                        <th style="width:10%" class="col-md-1">
+                            @*Asset Number*@ <input type="text" class="form-control" placeholder="Tech. Ident. Code" name="itemIdSearch" ng-model="qr" ng-change="searchMaster()">
+                        </th>
+                        <th style="width:10%" class="col-md-1">
+                            Description
+                        </th>
+                        @*<th>
+            Equipment Desc
+        </th>*@
+                        <th style="width:8%" class="col-md-1">PV/Cat/QC</th>
+                        <th style="width:8%" class="col-md-1">Status</th>
+                        <th style="width:10%" class="col-md-3">
+                            PV Date
+                        </th>
+
+                        <th style="width:3%" class="col-md-1" z-index: 101">
+                            <div class="checkbox-custom checkbox-default" style="margin-left:4px;display:none">
+                                <input type="checkbox" ng-model="bumu" ng-true-value="1" ng-checked="bumu == 1" ng-false-value="0" ng-click="chkmuall()" id="muall" /> <label for="checkboxExample11"></label>
+                            </div>
+                        </th>
+
+                        </tr>
+                        </thead>
+                        <tbody style="width: 100%">
+                            <tr id="{{$index}}"
+                                ng-click="RowClick(cat1, $index)"
+                                ng-repeat="cat1 in AssetdataList"
+                                ng-class="getRowClass(cat1, $index)">
+
+
+                                @*<td style="width: 13.5%"><label ng-bind="cat1.FixedAssetNo"></label> </td>*@
+                                @*<td style="width: 13.5%"><label ng-bind="cat1.Region"></label></td>*@
+                                @*<td><label ng-bind="cat1.Area"></label></td>*@
+                                <td class="col-md-1"><label ng-bind="cat1.UniqueId"></label></td>
+                                <td class="col-md-1"><label ng-bind="cat1.Func_Location"></label></td>
+                                <td class="col-md-2"><label ng-bind="cat1.AssetNo"></label></td>
+                                <td class="col-md-2"><label ng-bind="cat1.TechIdentNo"></label></td>    
+                                <td class="col-md-2"><label ng-bind="cat1.Description"></label></td>
+                                @*<td class="col-md-2" title="{{cat1.Description_}}"><label ng-bind="cat1.Description_.length >30 ? (cat1.Description_ | limitTo: 30) +'...' : cat1.Description_"></label></td>*@
+                                @*<td ng-hide="cat1.Equipment_Short" class="col-md-1" title="{{cat1.Description}}"> <label ng-bind="cat1.Description.length >30 ? (cat1.Description | limitTo: 30) +'...' : cat1.Description"></label></td>*@
+                                @*<td ng-show="cat1.Equipment_Short" class="col-md-1" title="{{cat1.Equipment_Short}}"> <label ng-bind="cat1.Equipment_Short.length >30 ? (cat1.Equipment_Short | limitTo: 30) +'...' : cat1.Equipment_Short"></label></td>*@
+                                @*<td><label ng-bind="cat1.EquipmentDesc"></label></td>*@
+                                <td class="col-md-1"><label>{{cat1.PVuser.Name}} | {{cat1.Catalogue.Name}} | {{cat1.Review.Name}} </label></td>
+                                <td class="col-md-1"><label ng-bind="(cat1.ItemStatus == 4 || cat1.ItemStatus == 5 ) ? 'QC':'Catalogue'"></label></td>
+                                <td width="5%">
+                                    <label>
+                                        {{ cat1.PVuser.UpdatedOn.replace('/Date(','').replace(')/','') | date:'dd/MM/yyyy':'UTC' }}
+                                    </label>
+                                </td>
+                                @*<td style="width: 8%"><label ng-bind="cat1.ItemStatus"></label></td>*@
+                                <td class="col-md-1">
+                                    <div class="checkbox-custom checkbox-default" style="margin-left:4px;">
+                                        <input type="checkbox" ng-model="cat1.bu" ng-true-value="1" ng-checked="cat1.bu == 1" ng-false-value="0" id="chksss{{$index}}" /> <label for="checkboxExample1"></label>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                        </table>
+                    </div>
+
+                        <div style="display:block;max-height:200px;overflow-y:scroll;" class="tbl-content">
+                            <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
+                            <table class="table table-bordered">
+                            </table>
+
+                        </div>
+
+
+                        <div class="tabs form-group" ng-show="showlist">
+                            <ul class="nav nav-tabs">
+                                <li class="{{desctab}}">
+                                    <a href="#Assetdata" data-toggle="tab" aria-expanded="false" ng-click="tabChange('data')"><i class="fa fa-file-alt"></i>Asset Data</a>
+                                </li>
+                                <li class="{{Assetimg}}">
+                                    <a href="#AssetImg" data-toggle="tab" aria-expanded="true" ng-click="tabChange('class')"><i class="fa fa-industry"></i> Asset Classification</a>
+                                </li>
+
+                                <li class="{{AssetCondtn}}">
+                                    <a href="#AssetCondtn" data-toggle="tab" aria-expanded="false" ng-click="tabChange('condn')"><i class="fa fa-book"></i>  Asset Condition</a>
+                                </li>
+                                <li class="{{gis}}">
+                                    <a href="#GIS" data-toggle="tab" aria-expanded="false" ng-click="tabChange('gis')"><i class="fa fa-map-marker-alt"></i>GIS </a>
+                                </li>
+                                @*<li class="{{bom}}">
+                                    <a href="#Bom" data-toggle="tab" aria-expanded="false" ng-click="tabChange('bom')"><i class="fa fa-sitemap"></i>BOM </a>
+                                </li>*@
+                                <li class="{{attach}}">
+                                    <a href="#Attach" data-toggle="tab" aria-expanded="false" ng-click="tabChange('attach')"><i class="fa fa-paperclip"></i>Documents </a>
+                                </li>
+
+
+                            </ul>
+                            <div class="tab-content">
+                                <div id="Assetdata" class="tab-pane {{desctab}}">
+                                    <div class="col-md-12">
+                                        <div class="panel-group" id="accordion">
+                                            @*<div class="panel panel-accordion detail-plan">
+                        <div class="panel-heading">
+                            <h4 class="panel-title">
+                                <a class="accordion-toggle collapse in {{FunLoc}}" data-toggle="collapse" href="#fun_loc" data-parent="#accordion">
+                                    Functional Location
+                                </a>
+                            </h4>
+                        </div>
+                            </div>*@
+                                            <div id="fun_loc" class="accordion-body collapse in" data-parent="#accordion">
+                                                <div class="panel-body {{FunLoc}}">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <fieldset>
+                                                                <legend>
+                                                                    Asset Data
+                                                                </legend>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">TECH. IDENT. NO.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.TechIdentNo" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">P&ID NUMBER@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.PID_Number" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">P&ID NAME@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.PID_Desc" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">SECTION NO.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Section_Number" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">SECTION NAME@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Section_Desc" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">SYSTEM@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.System" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">DISCIPLINE@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Discipline" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">FUNC. LOCATION@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Func_Location" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MANUFACTURER@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Manufacturer" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MODEL NO.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.ModelNo" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MFR PART NO.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.PartNo" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MFR SERIAL NO.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.SerialNo" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MFR COUNTRY@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.MfrCountry" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MFR YEAR@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.MfrYear" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-md-4">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">PLANT@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Plant" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">ORG. CODE@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Org_Code" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">COST CENTER@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.CostCenter" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">COST CTR. DESC.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.CostCenter_Desc" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">ABC INDICATOR@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.ABC_Indicator" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">EQP. CATEGORY@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Equ_Category" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">MAIN WORK CTR.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
+
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.MainWorkCenter" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </fieldset>
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+
+
+
+
+
+
+
+
+                                            <!--<div class="panel panel-accordion detail-plan">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title">
+                                                                    <a class="accordion-toggle collapse {{AssetBldng}}" data-toggle="collapse" href="#Ass-buil" data-parent="#accordion">
+                                                                        Asset Building
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="Ass-buil" class="accordion-body collapse">
+                                                                <div class="panel-body {{AssetBldng}}">
+                                                                    <div class="col-md-6">
+
+                                                                        <div class="col-md-6">
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label" for="inputDefault">Building Id</label>
+
+                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.bldngId.$invalid }">
+                                                                                    <input type="text" class="form-control" name="bldngId" ng-model="asset.building.BuildingId">
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label no-padding" for="inputDefault">Building Name</label>
+
+                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.buildngname.$invalid }">
+                                                                                    <input type="text" class="form-control" name="buildngname" ng-model="asset.building.BuildingName">
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label" for="inputDefault">Location</label>
+
+                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.locatn.$invalid }">
+                                                                                    <input type="text" class="form-control" name="locatn" ng-model="asset.building.Location">
+
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                        </div>
+                                                                        <div class="col-md-6">
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label" for="inputDefault">Width</label>
+
+                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.width.$invalid }">
+                                                                                    <input type="text" class="form-control" name="width" ng-model="asset.building.Width">
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label" for="inputDefault">Length</label>
+
+                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lngth.$invalid }">
+                                                                                    <input type="text" class="form-control" name="lngth" ng-model="asset.building.Length">
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                            <div class="form-group">
+                                                                                <label class="col-md-5 control-label" for="inputDefault">Height</label>
+
+                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.height.$invalid }">
+                                                                                    <input type="text" class="form-control" name="height" ng-model="asset.building.Height">
+
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <fieldset>
+                                                                            <legend>Building Image</legend>
+                                                                            <div class="col-md-12">
+                                                                                <div class="col-md-4" ng-repeat="img in asset.building.BuildingImage">
+
+                                                                                    <a href="{{img}}" data-toggle="lightbox" data-gallery="gallery{{$index}}">
+                                                                                        <img src="{{img}}" class="img-fluid rounded">
+                                                                                    </a>
+
+                                                                                </div>
+
+                                                                            </div>
+                                                                        </fieldset>
+                                                                    </div>
+
+
+
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="panel panel-accordion detail-plan">
+                                                            <div class="panel-heading">
+                                                                <h4 class="panel-title">
+                                                                    <a class="accordion-toggle collapse  {{BOM}}" data-toggle="collapse" href="#BOM" data-parent="#accordion">
+                                                                        BOM ({{rowBOM.length}})
+                                                                    </a>
+                                                                </h4>
+                                                            </div>
+                                                            <div id="BOM" class="accordion-body collapse">
+                                                                <div class="panel-body {{BOM}}">
+                                                                    <div class="col-md-12 no-padding" ng-repeat="BOM in rowBOM">
+
+                                                                        <div class="col-md-12 form-group no-padding">
+
+                                                                            <div class="col-md-6">
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label" for="inputDefault">BOM UniqueId</label>
+
+                                                                                    <div class="col-md-7 control-text">
+                                                                                        <input ng-model="BOM.UniqueId" name="Uniqueid{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+
+                                                                                    <input type="hidden" ng-model="BOM._id" />
+
+                                                                                    <label class="col-md-5 control-label" for="inputDefault">New Tag Number</label>
+
+                                                                                    <div class="col-md-7 control-text">
+                                                                                        <input ng-model="BOM.TagNo" name="Tagno{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label" for="inputDefault">Bar Code Unique No</label>
+
+                                                                                    <div class="col-md-7 control-text">
+                                                                                        <input ng-model="BOM.Barcode" name="Barcode{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label" for="inputDefault">Old Tag Number</label>
+
+                                                                                    <div class="col-md-7 control-text">
+                                                                                        <input ng-model="BOM.OldTag" name="Oldtag{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                    </div>
+                                                                                </div>
+
+
+                                                                                <div class="form-group">
+                                                                                    <label class="col-md-5 control-label" for="inputDefault">BOM Name</label>
+
+                                                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.bomnamedll{{$index}}.$invalid }">
+                                                                                            @*<select class="form-control" name="bomnamedll{{$index}}" ng-model="BOM.BOMName" ng-options="x.EquipmentType as x.EquipmentType for x in BOMEquipmentTypelist">
+                            <option value="">Select Bom Name</option>
+                        </select>*@
+                                                                                            <!--<input ng-model="BOM.BOMName" placeholder="BOM Name" name="Bomname{{$index}}" type="text" class="form-control" />
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label" for="inputDefault">Description</label>
+
+                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Desc{{$index}}.$invalid }">
+                                                    <textarea rows="2" ng-model="BOM.Description" name="Desc{{$index}}" type="text" class="form-control"></textarea>
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label" for="inputDefault">Quantity</label>
+
+                                                <div class="col-md-7 control-text">
+                                                    <input ng-model="BOM.Qty" name="Qty{{$index}}" type="text" value="1" class="form-control" />
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label" for="inputDefault">UOM</label>
+
+                                                <div class="col-md-7 control-text">
+                                                    <input ng-model="BOM.UOM" name="Uom{{$index}}" type="text" value="EA" class="form-control" />
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <fieldset>
+                                                        <legend>Old Tag Image</legend>
+                                                        <a href="{{BOM.OldTagImg}}" data-toggle="lightbox" data-gallery="gallerybomold{{$index}}">
+                                                            <img src="{{BOM.OldTagImg}}" class="img-fluid rounded" ng-show="BOM.OldTagImg!=null">
+                                                        </a>
+
+                                                    </fieldset>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-md-9 no-padding">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomOldTagImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomOldTagImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <fieldset>
+                                                        <legend>Name Plate Image</legend>
+                                                        <a href="{{BOM.NamePlateImg}}"  data-magnify="gallery" data-gallery="gallerybomnp{{$index}}">
+                                                            <img src="{{BOM.NamePlateImg}}" class="img-fluid rounded" ng-show="BOM.NamePlateImg!=null">
+                                                        </a>
+
+                                                    </fieldset>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-md-9 no-padding">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomNamePlateImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomNamePlateImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <fieldset>
+                                                        <legend>BOM Image</legend>
+                                                        <a href="{{BOM.BOMImg}}"  data-magnify="gallery" data-gallery="gallerybomimg{{$index}}">
+                                                            <img src="{{BOM.BOMImg}}" class="img-fluid rounded" ng-show="BOM.BOMImg!=null">
+                                                        </a>
+
+                                                    </fieldset>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-md-9 no-padding">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <fieldset>
+                                                        <legend>Bar Code Image</legend>
+                                                        <a href="{{BOM.BarCodeImg}}" data-magnify="gallery" data-gallery="gallerybombc{{$index}}">
+                                                            <img src="{{BOM.BarCodeImg}}" class="img-fluid rounded" ng-show="BOM.BarCodeImg!=null">
+                                                        </a>
+
+                                                    </fieldset>
+                                                </div>
+                                                <div class="form-group">
+
+                                                    <div class="col-md-9 no-padding">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomBarCodeImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomBarCodeImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="background:#fff;"></div>
+                                    </div>
+
+                                    <div class="form-group" style="text-align:right">
+                                        <button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow($index)">Remove</button>
+                                    </div>
+                                    <div style="border-bottom:5px solid #fff  ;height:10px"></div>
+                                </div>
+
+                                <div class="form-group" style="text-align:right">
+                                    <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()">Add More</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>-->
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="AssetImg" class="tab-pane {{Assetimg}}">
+                                    <div class="row">
+                                        <div class="col-md-6">
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="inputDefault">Equipment Desc</label>
+                                                <div class="col-md-10 control-text">
+
+                                                    <textarea class="form-control" ng-bind="asset.Description" readonly name="equipdesc" rows="2" @*ng-model="asset.EquipmentDesc"*@></textarea>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="inputDefault">Equipment Long Desc</label>
+                                                <div class="col-md-10 control-text">
+
+                                                    <textarea class="form-control" readonly name="pvRemarks" rows="2" ng-model="asset.Description_"></textarea>
+
+
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="textareaDefault">Noun<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-4" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+                                                    <input type="text" class="form-control immediate-help" name="nun" ng-pattern="/^(\D)+$/" ng-model="cat.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" ng-change="loadmodifier(cat.Noun.toUpperCase())" autofocus auto-complete required style="width:90%;float:left;">
+                                                    <a href="#" ng-hide="NM1.NounDefinition==null||NM1.NounDefinition==''" data-tooltip={{NM1.NounDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+
+                                                    <div ng-show="form.nun.$invalid" class="input-help">
+                                                        <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                        <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+                                                    </div>
+                                                </div>
+
+
+
+
+
+                                                <label class="col-md-2 control-label" for="textareaDefault">Modifier<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-4" ng-class="{'has-error': form.$submitted && (form.modll.$invalid || form.modll.$error.required)}">
+                                                    <select ng-model="cat.Modifier" class="form-control" name="modll" required ng-change="ChangeModifier()" ng-options="x.Modifier as x.Modifier for x in Modifiers" style="width:90%;float:left;">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                    <a href="#" ng-hide="NM1.ModifierDefinition==null||NM1.ModifierDefinition==''" data-tooltip={{NM1.ModifierDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+                                                </div>
+                                            </div>
+
+                                            <div id="divcharater" class="form-group" ng-show="Characteristics!=null">
+
+                                                <table id="maintable" class="table mb-none LeftPaddingRemoving">
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th style="width:40%">Characteristic</th>
+                                                            <th style="width:40%">Value</th>
+                                                            @*<th style="width:40%">Abbreviate</th>*@
+                                                            @*<th style="width: 20%">Unit</th>*@
+
+                                                            @*<th style="width: 15%">URL</th>
+                                        <th style="width: 15%">Source</th>*@
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="uo in Characteristics | filter: { Definition: 'Equ' }">
+
+                                                            <td>
+                                                                <input type="hidden" ng-model="uo.Squence" /><input type="hidden" ng-model="uo.ShortSquence" />
+                                                                <div>
+                                                                    <a style="text-decoration:none" title="{{uo.Definition}}"><label class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}">{{uo.Characteristic}}<span ng-show="uo.Mandatory=='Yes'" style="color:red;font-weight:bold">*</span><span title="Key Attribute" ng-show="uo.style=='Yes'"><i class="fas fa-key"></i></span></label></a>
+                                                                    @*<input type="text" class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}" disabled ng-model="uo.Characteristic">*@
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div id="div{{$index}}" ng-class="{'has-error':form.$submitted && (form.val{{$index}}.$error.pattern || form.val{{$index}}.$error.required|| form.val1{{$index}}.$error.required)}">
+
+                                                                    <input name="val{{$index}}"
+                                                                           id="values{{$index}}"
+                                                                           type="text" ng-click="SelectCharater(cat.Noun,cat.Modifier,uo.Characteristic,$index)"
+                                                                           ng-required="uo.Mandatory=='Yes'" ng-blur="checkValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,$index)"
+                                                                           class="form-control immediate-help" ng-pattern="uo.Validation" ng-model="uo.Value" @*maxlength="30"*@
+                                                                           autocomplete="off" capitalize
+                                                                           ng-disabled="uo.Characteristic === 'ADDITIONAL INFORMATION'"
+                                                                           ng-attr-maxlength="{{uo.Characteristic === 'ADDITIONAL INFORMATION' ? undefined : 100}}">
+
+                                                                    <div ng-show="form.val{{$index}}.$error.pattern" class="input-help">
+                                                                        <h4 ng-show="form.val{{$index}}.$error.pattern">Enter numeric only</h4>
+
+                                                                    </div>
+                                                                </div>
+
+                                                            </td>
+
+
+
+                                                            @*<td>
+                                            <input type="hidden" ng-model="uo.Squence" /><input type="hidden" ng-model="uo.ShortSquence" />
+                                            <div>
+                                                <a style="text-decoration:none" title="{{uo.Definition}}"><label class="form-control" ng-hide="uo.New=='New'" ng-class="{'tdback':uo.Mandatory=='Yes'}">{{uo.Characteristic}}<span ng-show="uo.Mandatory=='Yes'" style="color:red;font-weight:bold">*</span><span title="Key Attribute" ng-show="uo.style=='Yes'"><i class="fas fa-key"></i></span></label></a>
+                                                <input type="text" class="form-control" ng-show="uo.New=='New'" ng-model="uo.Characteristic">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div id="div{{$index}}" ng-class="{'has-error':form.$submitted && ( form.val{{$index}}.$error.required|| form.val1{{$index}}.$error.required)}">
+                                                <input name="val{{$index}}"
+                                                       id="values{{$index}}"
+                                                       type="text"
+                                                       ng-click="SelectCharater(cat.Noun,cat.Modifier,uo.Characteristic,$index)"
+                                                       ng-required="uo.Mandatory=='Yes'"
+                                                       ng-blur="checkValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,$index)"
+                                                       class="form-control immediate-help"
+                                                       ng-model="uo.Value"
+                                                       autocomplete="off"
+                                                       capitalize
+                                                       ng-attr-maxlength="{{uo.Characteristic === 'ADDITIONAL INFORMATION' ? undefined : 100}}">
+                                            </div>
+                                        </td>*@
+
+
+
+
+                                                            <!--<td>
+                                    <div id="checkval{{$index}}" style="display:none" class="col-md-12 no-padding">
+                                        <div class="col-md-8 no-padding"><input ng-model="uo.Abbrivation" type="text" class="form-control" capitalize /></div><div class="col-md-2 no-padding">
+                                            <button id="btnabv{{$index}}" type="button" name="btnAdd"-->
+                                                            @*style="background: #fff;border: none;color: #3e79cb;text-decoration: underline;"*@
+                                                            <!--ng-click="AddValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,uo.Abbrivation,$index)">Add</button>
+                                            </div>
+                                        </div>
+                                    </td>-->
+                                                            <td>
+                                    <div ng-click="Uomalert(uo.UOM,$index)" id="U{{$index}}">
+                                        <div ng-show="uo.Uom !=null && uo.Uom.length > 0 " ng-class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }">
+                                            <select ng-model="uo.UOM" name="Um11o{{$index}}" class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null && uo.Uom !=null && uo.Uom.length > 0" ng-options="y for y in uo.Uom">
+                                                <option value="">Select</option>
+                                            </select>
+                                        </div>
+                                                            @*<div ng-show="(uo.Uom ==null || uo.Uom.length ==  0) && x.UOMList.length > 0" class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }" ng-repeat="x in UOMs | filter : {'Attribute': uo.Characteristic }:true">
+                                            <select ng-model="uo.UOM" name="Um11o{{$index}}"   class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null &&  x.UOMList.length > 0 " ng-options="y for y in x.UOMList">
+                                                <option value="" selected="selected">Select</option>
+                                            </select>
+                                        </div>*@
+                                                            </div>
+                                    </td>
+                                                            @*<td>
+                                            <input type="text" class="form-control" ng-model="uo.SourceUrl" />
+                                        </td>
+
+                                        <td>
+                                            <select class="form-control" ng-init="uo.Source==null?uo.Source='LEGACY DATA':uo.Source" ng-model="uo.Source" ng-options="lst for lst in ['LEGACY DATA','LEGACY DATA/INTERNET','INTERNET']"></select>
+                                        </td>*@
+
+                                                        </tr>
+                                                        @*<tr>
+                                        <td>
+                                            <div class="form-group" style="text-align:right">
+                                                <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addattriRow()">Add More</button>
+                                            </div>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>*@
+                                                    </tbody>
+                                                </table>
+
+
+                                                @*<div class="col-md-10"></div>
+                            <div class="col-md-2">
+
+                            </div>*@
+                                            </div>
+
+
+
+                                            @*<div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">Additional Info</label>
+                            <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.additinfo.$invalid }">
+                                <textarea class="form-control" name="additinfo" rows="3" ng-model="asset.AdditionalInfo"></textarea>
+                            </div>
+                        </div>*@
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="inputDefault">Item Additional Information</label>
+                                                <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equipshort.$invalid }">
+                                                    <textarea class="form-control" name="equipshort" rows="3" ng-model="asset.AdditionalInfo"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="inputDefault">Short Desc</label>
+                                                <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equipshort.$invalid }">
+                                                    <textarea class="form-control" readonly name="equipshort" rows="3" ng-model="asset.Equipment_Short"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="inputDefault">Long Desc</label>
+                                                <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equiplong.$invalid }">
+                                                    <textarea class="form-control" readonly name="equiplong" rows="3" ng-model="asset.Equipment_Long"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="inputDefault">Enriched Value</label>
+                                                <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equiplong.$invalid }">
+                                                    <textarea class="form-control" readonly name="equiplong" rows="1" ng-model="asset.EnrichedValue"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="inputDefault">Unused Value</label>
+                                                <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equiplong.$invalid }">
+                                                    <textarea class="form-control" readonly name="equiplong" rows="1" ng-model="asset.MissingValue"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label" for="inputDefault">Repeated Value</label>
+                                                <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equiplong.$invalid }">
+                                                    <textarea class="form-control" readonly name="equiplong" rows="1" ng-model="asset.RepeatedValue"></textarea>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group">
+
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="inputDefault">Rework Remarks</label>
+                                                </div>
+                                                <div class="col-md-9 control-text left" ng-class="{'has-error': form.$submitted && form.rewrem.$invalid }">
+                                                    <textarea rows="2" class="form-control" name="rewrem" ng-model="asset.Rework_Remarks" capitalize></textarea>
+
+                                                </div>
+                                            </div>
+
+
+                                            @*<div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">Quantity</label>
+
+                            <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.qty.$invalid }">
+                                <input type="text" class="form-control" name="qty" value="1" ng-disabled="true" ng-model="asset.Quantity">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">UOM</label>
+
+                            <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.uom.$invalid }">
+                                <input type="text" id="uom1" name="uom" value="EA" ng-disabled="true" class="form-control" ng-model="asset.UOM">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label" for="inputDefault">Install Yr</label>
+                            <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.YOI.$invalid }">
+                                <input type="text" class="form-control" name="YOI" ng-model="asset.YearOfInstall">
+                            </div>
+                        </div>*@
+
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            @*<div class="col-md-12">
+                            <div class="col-md-8">
+
+                            </div>
+                            <div class="col-md-4">
+                                <button class="btn btn-primary" type="button" ng-click="downloadImages(asset.UniqueId,asset.AssetImages)">Download Images</button>&nbsp;
+
+                            </div>
+                        </div>*@
+                                            <fieldset>
+                                                <legend>S4 Asset Image</legend>
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-4" ng-repeat="img in asset.AssetImages.MatImgs track by $index">
+                                                        <a ng-show="editImage" ng-click="RemoveMaximoAssetImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="col-md-12" ng-show="editImage">
+                                                    <label class="col-md-3 control-label">Upload File</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadAssetImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadMaximoAssetImg(asset.UniqueId)">Upload</button>&nbsp;
+
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>Asset Image</legend>
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-4" ng-repeat="img in asset.AssetImages.AssetImage track by $index">
+                                                        <a ng-show="editImage" ng-click="RemoveAssetImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="col-md-12" ng-show="editImage">
+                                                    <label class="col-md-3 control-label">Upload File</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadAssetImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadAssetImg(asset.UniqueId)">Upload</button>&nbsp;
+
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="inputDefault">PV Remarks</label>
+                                                    <div class="col-md-9 control-text">
+
+                                                        <textarea class="form-control" readonly name="pvRemarks" rows="2" ng-model="asset.Remarks"></textarea>
+
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>Name Plate Image1</legend>
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-4" ng-repeat="img in asset.AssetImages.NamePlateImge track by $index">
+                                                        <a ng-show="editImage" ng-click="RemovenameplateImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery1">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
+
+
+
+                                                    </div>
+                                                </div>
+                                                <fieldset>
+                                                    <legend>Name Plate Text1</legend>
+                                                    <div class="form-group" ng-repeat="txt in asset.AssetImages.NamePlateText">
+                                                        <p class="col-md-12">{{txt}}</p>
+                                                    </div>
+                                                </fieldset>
+                                                <br />
+                                                <div class="col-md-12" ng-show="editImage">
+                                                    <label class="col-md-3 control-label">Upload File</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().Loadnameplate(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadnameplateImage(asset.UniqueId)">Upload</button>&nbsp;
+
+                                                    </div>
+                                                </div>
+
+
+                                            </fieldset>
+
+
+                                            <fieldset>
+                                                <legend>Name Plate Image2</legend>
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-4" ng-repeat="img in asset.AssetImages.NamePlateImgeTwo track by $index">
+                                                        <a ng-show="editImage" ng-click="RemovenameplateImg2(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery2">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
+
+
+
+                                                    </div>
+                                                </div>
+                                                @*<div class="col-md-12" ng-repeat="img in asset.AssetImages.NamePlateImgeTwo track by $index">
+                                <a ng-show="editImage" ng-click="RemovenameplateImg2(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                <a href="{{img}}" data-magnify="gallery" data-gallery="gallery2">
+                                    <img src="{{img}}" class="img-fluid rounded">
+                                </a>
+
+
+
+                            </div>*@
+                                                <fieldset>
+                                                    <legend>Name Plate Text2</legend>
+                                                    <div class="form-group" ng-repeat="txt in asset.AssetImages.NamePlateTextTwo">
+                                                        <p class="col-md-12">{{txt}}</p>
+                                                    </div>
+                                                </fieldset>
+                                                <div class="col-md-12" ng-show="editImage">
+                                                    <label class="col-md-3 control-label">Upload File</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().Loadnameplate(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadnameplateImage2(asset.UniqueId)">Upload</button>&nbsp;
+
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>Old Tag Image</legend>
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-4" ng-repeat="img in asset.AssetImages.OldTagImage track by $index">
+                                                        <a ng-show="editImage" ng-click="RemoveOldTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery3">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="form-group col-md-3">
+                                                        <div class="control-text" ng-class="{'has-error': form.$submitted && form.oldtag.$invalid }">
+                                                            <input type="text" class="form-control" name="oldtag" ng-model="asset.OldTagNo" ng-disabled="editQR">
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="col-md-12" ng-show="editImage">
+                                                    <label class="col-md-3 control-label">Upload File</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadOldTagImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadOldTagImg(asset.UniqueId)">Upload</button>&nbsp;
+
+                                                    </div>
+                                                </div>
+
+
+                                            </fieldset>
+                                            <fieldset>
+                                                <legend>New Tag Image</legend>
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="col-md-4" ng-repeat="img in asset.AssetImages.NewTagImage track by $index">
+                                                        <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery4">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
+                                                    </div>
+                                                    @*<div class="col-md-4" ng-repeat="img in asset.AssetImages.VirtualTagImage track by $index">
+                                    <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                    <a href="{{img}}" data-magnify="gallery" data-gallery="gallery4">
+                                        <img src="{{img}}" class="img-fluid rounded">
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                    <a ng-href="/QRImages/{{asset.AssetNo}}_VT{{asset.NewTagNo}}.png" data-magnify="gallery" data-gallery="gallery4">
+                                        <img ng-src="/QRImages/{{asset.AssetNo}}_VT{{asset.NewTagNo}}.png" class="img-fluid rounded">
+                                    </a>
+                                </div>*@
+                                                    <div class="form-group col-md-3">
+                                                        <div class="control-text" ng-class="{'has-error': form.$submitted && form.newtag.$invalid }" style="display: flex; flex-direction: row; width: 100%; align-items: center; gap: 5px;">
+                                                            <input type="text" style="width:120px" class="form-control" ng-disabled="editQR" name="newtag" ng-model="asset.NewTagNo" ng-change="newQRChange(asset.NewTagNo)" placeholder="New Tag Number">
+                                                            @*<button style=" padding: 0px 5px;" class="btn btn-primary" type="button" ng-click="GenerateQR(asset.UniqueId,asset.AssetNo,asset, $index)">
+                                            <i class="fas fa-qrcode" style="font-size:12px"></i>
+                                        </button>&nbsp;*@
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br />
+                                                <div class="col-md-12" style="padding:10px" ng-show="editImage">
+                                                    <label class="col-md-3 control-label">Upload File</label>
+                                                    <div class="col-md-7">
+                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadNewTagImg(this.files)"></span>
+                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <button class="btn btn-primary" type="button" ng-click="UploadNewTagImg(asset.UniqueId)">Upload</button>&nbsp;
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                            <!--<fieldset>
+                                                <legend>
+                                                    Virtual Tag Image
+                                                </legend>
+
+                                                <div class="col-md-12 no-padding">
+                                                    <div class="form-group col-md-3" ng-show="editImage">
+                                                        <div class="control-text" ng-class="{'has-error': form.$submitted && form.newtag.$invalid }" style="display: flex; flex-direction: row; width: 100%; align-items: center; gap: 5px;">-->
+                                                            @*<input type="text" style="width:120px" class="form-control" ng-disabled="editQR" name="newtag" ng-model="asset.NewTagNo" ng-change="newQRChange(asset.NewTagNo)" placeholder="New Tag Number">*@
+                                                            <!--<button style=" padding: 0px 5px;" class="btn btn-primary" type="button" ng-click="GenerateQR(asset.UniqueId,asset.AssetNo,asset, $index)">
+                                                                <i class="fas fa-qrcode" style="font-size:12px"></i> Generate
+                                                            </button>&nbsp;
+                                                        </div>
+                                                    </div>
+                                                    <div ng-show="asset.AssetImages.VirtualTagImage.length>0" class="col-md-4" ng-repeat="img in asset.AssetImages.VirtualTagImage track by $index">
+                                                        <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a ng-href="/QRImages/{{img}}" data-magnify="gallery" data-gallery="gallery4">
+                                                            <img ng-src="/QRImages/{{img}}" class="img-fluid rounded">
+                                                        </a>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <input type="text" style="width:120px" class="form-control" name="newtag" ng-model="asset.VirtualTagNo" placeholder="Virtual Tag Number">
+                                                    </div>
+
+                                                </div>
+                                            </fieldset>-->
+                                            <fieldset>
+                                                <legend>
+                                                    Additional Information
+                                                </legend>
+                                                <div class="col-md-12">
+
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" for="inputDefault">Additional Notes</label>
+                                                        <div class="col-md-7 control-text">
+
+                                                            <textarea class="form-control" name="Remarks1" rows="2" ng-model="asset.AdditionalNotes"></textarea>
+                                                            @*<select class="form-control" id="Remarks1" name="Remarks1" ng-model="asset.AdditionalNotes" ng-options="x.Code as x.Title for x in (Notes | filter: {'Label': 'AdditionalNotes','Islive':true } :true)">
+                                                                <option value="" selected="selected">Select</option>
+                                                            </select>*@
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label class="col-md-5 control-label" for="inputDefault">URL</label>
+                                                        <div class="col-md-7 control-text">
+
+                                                            @*<textarea class="form-control" name="url" rows="2" ng-model="asset.Soureurl"></textarea>*@
+                                                            <textarea class="form-control"
+                                                                      name="url"
+                                                                      rows="2"
+                                                                      ng-model="asset.Soureurl"
+                                                                      ng-pattern="/^http/">
+                                                                </textarea>
+
+                                                            <div style="color:red" ng-show="form.url.$error.pattern && form.url.$touched">
+                                                                URL must start with "http"
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="col-md-12">
+
+
+                                    </div>
+                                </div>
+                                <div id="AssetCondtn" class="tab-pane {{AssetCondtn}}">
+                                    <div class="col-md-6">
+                                        <div class="">
+                                            <div class="col-md-2"></div>
+                                            @*<div class="col-md-4">
+                            <div class="form-group asset-border">
+                                <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
+                                    <input type="radio" name="selectedrole" value="Functional" ng-checked="asset.Condition.Asset_Condition=='Functional'"> Functional
+
+                                </div>
+                                <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
+                                    <input type="radio" name="selectedrole" value="Non Functional" ng-checked="asset.Condition.Asset_Condition=='Non Functional'">Non-Functional
+
+                                </div>
+                                <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
+                                    <input type="radio" name="selectedrole" value="Standby" ng-checked="asset.Condition.Asset_Condition=='Standby'"> Standby
+
+                                </div>
+                            </div>
+                        </div>*@
+                                            <div class="col-md-8">
+                                                <div class="form-group asset-border">
+                                                    &ensp;&ensp;&ensp;&ensp;&ensp;
+                                                    <label>
+                                                        <input type="radio" name="selectedcondtn" value="Operational" ng-checked="asset.Idle_Operational == 'Operational'" required> Operational
+                                                    </label>
+                                                    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;
+                                                    <label>
+                                                        <input type="radio" name="selectedcondtn" value="Idle" ng-checked="asset.Idle_Operational == 'Idle'" required> Idle
+                                                    </label>
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-2"></div>
+                                        </div>
+                                        <div class="">
+                                            <table class="table table-responsive-md table-bordered asset-table">
+                                                <tr class="top-border ng-scope" align="center">
+                                                    <th>Cause</th>
+                                                    <th>High</th>
+                                                    <th>Medium</th>
+                                                    <th>No</th>
+                                                    <th>Camera</th>
+                                                    <th>Ranking</th>
+                                                </tr>
+                                                <tr>
+                                                    <td>Corrosion</td>
+                                                    <td><input type="radio" name="radio1" ng-checked="asset.AssetCondition.Corrosion=='High'"></td>
+                                                    <td><input type="radio" name="radio1" ng-checked="asset.AssetCondition.Corrosion=='Medium'"></td>
+                                                    <td><input type="radio" name="radio1" ng-checked="asset.AssetCondition.Corrosion=='No'"></td>
+                                                    <td><a ng-show="asset.AssetCondition.CorrosionImage.length>0" href=""><i class="fa fa-camera"></i></a></td>
+                                                    <td rowspan="7" style="text-align: center;vertical-align: middle;">{{asset.AssetCondition.Rank}}</td>
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Damage</td>
+                                                    <td><input type="radio" name="radio2" ng-checked="asset.AssetCondition.Damage=='High'"></td>
+                                                    <td><input type="radio" name="radio2" ng-checked="asset.AssetCondition.Damage=='Medium'"></td>
+                                                    <td><input type="radio" name="radio2" ng-checked="asset.AssetCondition.Damage=='No'"></td>
+                                                    <td><a ng-show="asset.AssetCondition.DamageImage.length>0" href=""><i class="fa fa-camera"></i></a></td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Leakage</td>
+                                                    <td><input type="radio" name="radio3" ng-checked="asset.AssetCondition.Leakage=='High'"></td>
+                                                    <td><input type="radio" name="radio3" ng-checked="asset.AssetCondition.Leakage=='Medium'"></td>
+                                                    <td><input type="radio" name="radio3" ng-checked="asset.AssetCondition.Leakage=='No'"></td>
+                                                    <td><a ng-show="asset.AssetCondition.LeakageImage.length>0" href=""><i class="fa fa-camera"></i></a></td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Vibration</td>
+                                                    <td><input type="radio" name="radio4" ng-checked="asset.AssetCondition.Vibration=='High'"></td>
+                                                    <td><input type="radio" name="radio4" ng-checked="asset.AssetCondition.Vibration=='Medium'"></td>
+                                                    <td><input type="radio" name="radio4" ng-checked="asset.AssetCondition.Vibration=='No'"></td>
+                                                    <td></td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Temparature</td>
+                                                    <td><input type="radio" name="radio5" ng-checked="asset.AssetCondition.Temparature=='High'"></td>
+                                                    <td><input type="radio" name="radio5" ng-checked="asset.AssetCondition.Temparature=='Medium'"></td>
+                                                    <td><input type="radio" name="radio5" ng-checked="asset.AssetCondition.Temparature=='No'"></td>
+                                                    <td></td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Smell</td>
+                                                    <td><input type="radio" name="radio6" ng-checked="asset.AssetCondition.Smell=='High'"></td>
+                                                    <td><input type="radio" name="radio6" ng-checked="asset.AssetCondition.Smell=='Medium'"></td>
+                                                    <td><input type="radio" name="radio6" ng-checked="asset.AssetCondition.Smell=='No'"></td>
+                                                    <td></td>
+
+
+                                                </tr>
+                                                <tr>
+                                                    <td>Noise</td>
+                                                    <td><input type="radio" name="radio7" ng-checked="asset.AssetCondition.Noise=='High'"></td>
+                                                    <td><input type="radio" name="radio7" ng-checked="asset.AssetCondition.Noise=='Medium'"></td>
+                                                    <td><input type="radio" name="radio7" ng-checked="asset.AssetCondition.Noise=='No'"></td>
+                                                    <td></td>
+
+
+                                                </tr>
+
+                                            </table>
+                                            <div class="form-group">
+                                                <label class="col-md-2 control-label" for="inputDefault">Assetcondition Remarks</label>
+                                                <div class="col-md-10 control-text">
+
+                                                    <textarea class="form-control" readonly name="assetconRemarks" rows="2" ng-model="asset.assetConditionRemarks"></textarea>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <label style="text-decoration:underline;font-weight:600">Ranking Definitions:</label>&ensp;
+                                                <label>1.Excellent</label>&ensp;
+                                                <label>2.Very Good</label>&ensp;
+                                                <label>3.Good</label>&ensp;
+                                                <label>4.Poor</label>&ensp;
+                                                <label>5.Very Poor</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <fieldset ng-show="asset.AssetCondition.CorrosionImage.length>0">
+                                            <legend>Corrosion Image</legend>
+                                            <div class="col-md-4" ng-repeat="img in asset.AssetCondition.CorrosionImage">
+                                                <a href="{{img}}" data-magnify="gallery" data-gallery="galleryAC1">
+                                                    <img src="{{img}}" class="img-fluid rounded">
+                                                </a>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset ng-show="asset.AssetCondition.DamageImage.length>0">
+                                            <legend>Damage Image</legend>
+                                            <div class="col-md-4" ng-repeat="img in asset.AssetCondition.DamageImage">
+                                                <a href="{{img}}" data-magnify="gallery" data-gallery="galleryAC1">
+                                                    <img src="{{img}}" class="img-fluid rounded">
+                                                </a>
+                                            </div>
+                                        </fieldset>
+                                        <fieldset ng-show="asset.AssetCondition.LeakageImage.length>0">
+                                            <legend>Leakage Image</legend>
+                                            <div class="col-md-4" ng-repeat="img in asset.AssetCondition.LeakageImage">
+                                                <a href="{{img}}" data-magnify="gallery" data-gallery="galleryAC1">
+                                                    <img src="{{img}}" class="img-fluid rounded">
+                                                </a>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+
+
+                                </div>
+                                <div id="GIS" class="tab-pane {{gis}}">
+                                    <div class="col-md-12">
+                                        <div class="col-md-4">
+
+                                            @*<div class="form-group">
+                            <label class="col-md-5 control-label" for="inputDefault">Lattitude Start Pt</label>
+
+                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lattitudestrt.$invalid }">
+                                <input type="text" class="form-control" name="lattitudestrt" ng-model="asset.gis.LattitudeStart">
+
+                            </div>
+                        </div>*@
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label" for="inputDefault">Start Point</label>
+
+                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.LongitudeSt.$invalid }">
+                                                    <input type="text" class="form-control" name="Lattitudend" ng-model="asset.GIS.LattitudeStart">
+
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <label class="col-md-5 control-label" for="inputDefault">End Point</label>
+
+                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Lattitudend.$invalid }">
+                                                    <input type="text" class="form-control" name="LongitudeSt" ng-model="asset.GIS.LongitudeStart">
+
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group">
+                            <label class="col-md-5 control-label" for="inputDefault">Longitude End Pt</label>
+
+                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Longitudend.$invalid }">
+                                <input type="text" class="form-control" name="Longitudend" ng-model="asset.gis.LongitudeEnd">
+
+                            </div>
+                        </div>*@
+                                        </div>
+                                        @*<div class="col-md-4">
+
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" for="inputDefault">Lattitude Start Pt</label>
+
+                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lattitudestrt.$invalid }">
+                                <input type="text" class="form-control" name="lattitudestrt" ng-model="asset.gis.LattitudeStart">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" for="inputDefault">Longitude Start Pt</label>
+
+                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.LongitudeSt.$invalid }">
+                                <input type="text" class="form-control" name="LongitudeSt" ng-model="asset.gis.LongitudeStart">
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" for="inputDefault">Lattitude End Pt</label>
+
+                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Lattitudend.$invalid }">
+                                <input type="text" class="form-control" name="Lattitudend" ng-model="asset.gis.LattitudeEnd">
+
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-5 control-label" for="inputDefault">Longitude End Pt</label>
+
+                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Longitudend.$invalid }">
+                                <input type="text" class="form-control" name="Longitudend" ng-model="asset.gis.LongitudeEnd">
+
+                            </div>
+                        </div>
+                    </div>*@
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <a href="#" ng-click="openMap(asset.GIS.LongitudeStart,asset.GIS.LattitudeStart)" style="padding:5px;height:20px" class="mb-xs mt-xs mr-xs btn btn-primary">
+                                                    <span style="position:relative; top:-5px;">View location</span>&ensp;
+                                                    <i class="fa fa-map-marker-alt" style="position:relative; top:-5px;" aria-hidden="true"></i>
+                                                </a>
+
+                                                @*<label class="col-md-5 control-label" for="inputDefault">Length</label>
+
+                            <div class="col-md-7s control-text" ng-class="{'has-error': form.$submitted && form.latlonglen.$invalid }">
+                                <input type="text" class="form-control" name="latlonglen" ng-model="asset.gis.Lat_LongLength">
+
+                            </div>*@
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div id="Bom" class="tab-pane {{bom}}">
+
+
+                                    <div class="col-md-6">
+
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" style="font-weight:bold">FAR ID :</label>
+                                            <div class="col-sm-10">
+                                                <label ng-bind="asset.FixedAssetNo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-sm-2 control-label" style="font-weight:bold">Asset No :</label>
+                                            <div class="col-sm-10">
+                                                <label ng-bind="asset.AssetNo" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <span ng-click="toggleNode()">
+                                        <i class="fa"
+                                           ng-class="{'fa-plus-square': !node.expanded, 'fa-minus-square': node.expanded}"
+                                           ng-if="node.children && node.children.length"></i>
+                                        {{node.name}} <small ng-if="node.category">({{node.category}})</small>
+                                    </span>
+
+
+                                    @*<ul class="tree-view">
+            <tree-node ng-repeat="node in treeBOMData" node="node"></tree-node>
+        </ul>*@
+                                    <div class="col-md-12">
+                                        <table class="table table-bordered" style="width:100%;">
+                                            <thead class="top-border" align="center">
+                                                <tr>
+                                                    <th style="width:5%;"></th>
+                                                    <th style="width:15%;">ID</th>
+                                                    <th style="width:15%;">Material Code</th>
+                                                    <th style="width:45%;">Description</th>
+                                                    <th style="width:10%;">UOM</th>
+                                                    <th style="width:10%;">Quantity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <!-- BOM Level (Category: H) -->
+                                                <tr ng-repeat-start="bom in treeBOMData" style="background: #bbd1e6;">
+                                                    <td style="text-align:center; cursor:pointer;">
+                                                        <span ng-if="bom.children.length" ng-click="toggleNode(bom)">
+                                                            <strong>{{ bom.expanded ? '-' : '+' }}</strong>
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ bom.BOMId }}</td>
+                                                    <td>{{ bom.Materialcode }}</td>
+                                                    <td title="{{bom.BOMDesc}}" >
+                                                        {{ bom.BOMDesc.length > 40 ? bom.BOMDesc.substring(0, 40)+ '...' : bom.BOMDesc }}
+                                                    </td>
+                                                    <td>{{ bom.UOM }}</td>
+                                                    <td>{{ bom.Quantity }}</td>
+                                                </tr>
+
+                                                <!-- Assembly or Direct Component under BOM -->
+                                                <tr ng-repeat-start="child in bom.children" ng-if="bom.expanded"
+                                                    ng-style="{'background': child.Category === 'A' ? '#e2f1ff' : '#d6ecff'}">
+                                                    <td style="text-align: center; padding-left: 20px;">
+                                                        <span ng-if="child.children.length" ng-click="toggleNode(child)" style="cursor:pointer;">
+                                                            <strong>{{ child.expanded ? '-' : '+' }}</strong>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        {{ child.Category === 'A' ? child.AssemblyId : (child.Category === 'E'||child.Category === 'N')?"":child.ComponentId }}
+                                                    </td>
+                                                    <td>{{ child.Materialcode }}</td>
+                                                    <td title="{{child.Category === 'A' ?child.AssemblyDesc : child.ComponentDesc}}" >
+                                                        {{ child.Category === 'A' ? child.AssemblyDesc.length > 40 ?child.AssemblyDesc .substring(0, 40)+ '...' : child.AssemblyDesc : child.ComponentDesc .length > 40 ?child.ComponentDesc .substring(0, 40)+ '...' : child.ComponentDesc}}
+                                                    </td>
+                                                    <td>{{ child.UOM }}</td>
+                                                    <td>{{ child.Quantity }}</td>
+                                                </tr>
+
+                                                <!-- SubAssembly or Component under Assembly -->
+                                                <tr ng-repeat-start="sub in child.children" ng-if="child.expanded"
+                                                    ng-style="{'background': sub.Category === 'SA' ? '#f1f9ff' : '#f7fbff'}">
+                                                    <td style="text-align: center; padding-left: 40px;">
+                                                        <span ng-if="sub.Category === 'SA' && sub.children.length" ng-click="toggleNode(sub)" style="cursor:pointer;">
+                                                            <strong>{{ sub.expanded ? '-' : '+' }}</strong>
+                                                        </span>
+                                                    </td>
+                                                    <td>{{ sub.Category === 'SA' ? sub.AssemblyId : (sub.Category === 'E'||sub.Category === 'N')?"":sub.ComponentId }}</td>
+                                                    <td>{{ sub.Materialcode }}</td>
+                                                    @*<td>{{ sub.Category === 'SA' ? sub.AssemblyDesc : sub.ComponentDesc }}</td>*@
+                                                <td title="{{sub.Category === 'A' ?comp.AssemblyDesc : comp.ComponentDesc}}" >
+                                                    {{ sub.Category === 'A' ? sub.AssemblyDesc.length > 40 ?sub.AssemblyDesc .substring(0, 40)+ '...' : sub.AssemblyDesc : sub.ComponentDesc .length > 40 ?sub.ComponentDesc .substring(0, 40)+ '...' : sub.ComponentDesc}}
+                                                </td>
+                                                    <td>{{ sub.UOM }}</td>
+                                                    <td>{{ sub.Quantity }}</td>
+                                                </tr>
+
+                                                <!-- Components under SubAssembly -->
+                                                <tr ng-repeat="comp in sub.children" ng-if="sub.expanded" style="background: #ffffff;">
+                                                    <td style="padding-left: 60px;"></td>
+                                                    <td>{{ comp.ComponentId }}</td>
+                                                    <td>{{ comp.Materialcode }}</td>
+                                                    <td title="{{comp.ComponentDesc}}" >
+                                                        {{ comp.ComponentDesc.length > 40 ? comp.ComponentDesc.substring(0, 40)+ '...' : comp.ComponentDesc }}
+                                                    </td>
+                                                    <td>{{ comp.UOM }}</td>
+                                                    <td>{{ comp.Quantity }}</td>
+                                                </tr>
+
+                                                <!-- ng-repeat-end -->
+                                                <tr ng-repeat-end></tr> <!-- End sub -->
+                                                <tr ng-repeat-end></tr> <!-- End child -->
+                                                <tr ng-repeat-end></tr> <!-- End bom -->
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+                                </div>
+                                <div id="Attach" class="tab-pane {{attach}}">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label class="col-md-4">Attachment</label>
+                                            <div class="col-md-8">
+                                                <div class="attachmentscroll">
+                                                    <div class="control-text">
+                                                        <div id="fileuploader">Upload</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+
+                                            <div class="form-group" ng-hide="Lstattachment != null && Lstattachment != ''">
+                                                <label class="col-md-4">No files uploaded.</label>
+                                            </div>
+
+                                            <div class="form-group" ng-show="Lstattachment != null && Lstattachment != ''">
+                                                <div class="col-md-4"></div>
+                                                <div class="col-md-8" style="display: flex;flex-direction: column;">
+                                                    <div ng-repeat="fname in Lstattachment">
+                                                        @*<div class="col-md-12">
+                                                                <div class="col-md-6">
+                                                                    <a ng-click="Downloadfile(asset.UniqueId,fname)" class="on-default edit-row download MRD" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px; "><i class="fa fa-download" style="line-height: 2; letter-spacing: 5px;"></i> {{fname}}</a>
+
+                                                                </div>
+                                                                <div class="col-md-6">
+                                                                    <select ng-model="source" class="form-control">
+                                                                        <option value="Existing" selected="selected">Existing Source</option>
+                                                                        <option value="Web">Web Source</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>*@
+                                                        <a ng-click="Downloadfile(asset.UniqueId,fname)" class="on-default edit-row download MRD" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px; "><i class="fa fa-download" style="line-height: 2; letter-spacing: 5px;"></i> {{fname}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 form-group" ng-show="editAction || saveAction">
+
+                                    <div class="col-md-12 no-padding">
+                                        <label class="col-md-2 control-label no-padding" for="textareaDefault">Exceptional</label>
+                                        @*<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="autoFill()">Auto Fill</button>&nbsp;*@
+                                        @*<label class="col-md-1 control-label no-padding" for="textareaDefault">Documents</label>
+        <div class="col-md-1 no-padding">
+            <div class="checkbox-custom checkbox-default">
+                <input type="checkbox" ng-model="asset.Doc_Availability" /><label for="checkboxExample1"></label>
+            </div>
+        </div>*@
+                                        <div class="col-md-8 no-padding">
+                                            &nbsp;<button type="button" ng-click="PVRework()" @*ng-show="sts2"*@ class="mb-xs mt-xs mr-xs btn btn-primary">Rework to PV</button>
+                                            &nbsp;<button type="button" ng-click="AssetRework()" ng-show="sts2" class="mb-xs mt-xs mr-xs btn btn-primary">Rework to Catalogue</button>
+                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="formShortLong()">Generate Short Long</button>&nbsp;
+                                            &nbsp;<button class="mb-xs mt-xs mr-xs btn btn-primary">Save</button>
+                                            &nbsp;<button type="button" ng-click="SubmitAssetData()" ng-show="sts1" class="mb-xs mt-xs mr-xs btn btn-primary">Submit</button>
+                                        </div>
+                                        <label class="col-md-1 control-label no-padding" for="textareaDefault">Exceptional</label>
+                                        <div class="col-md-1 no-padding">
+                                            <div class="checkbox-custom checkbox-default">
+                                                <input type="checkbox" ng-model="asset.Exchk" ng-click="Exceptional(cat.Noun,cat.Modifier)" /><label for="checkboxExample1"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </form>
+            </section>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</section>
+<script>
+    $(document).on("click", '[data-toggle="lightbox"]', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+
+</script>
+<script src="/Scripts/ctrls/AssetMasterCtrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+<script src="~/Scripts/jquery.uploadfile.min.js"></script>
+<script src="~/Scripts/customSelect.js"></script>
+<script src="~/Scripts/fileupload.js"></script>
+<script src="~/Scripts/jquery.multi-select.js"></script>
+<script src="~/Scripts/jquery.magnify.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+
+
+

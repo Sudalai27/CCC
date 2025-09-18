@@ -1,0 +1,338 @@
+﻿
+@{
+    ViewBag.Title = "Over View Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    <link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+    <link href="~/Content/jBox.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+}
+<style>
+    html::-webkit-scrollbar {
+        display: none;
+    }
+
+    td.td-heading {
+        color: #306897 !important;
+    }
+
+    .table-striped > tbody > .dash-row:nth-of-type(odd) {
+        background-color: #fffdf8 !important;
+    }
+
+    .table-bordered > tbody > .dash-row > td {
+        border: 1px solid #a29f9f;
+        padding: 3px;
+        font-size: 13px;
+    }
+
+    td.New-complete {
+        background: #e1ffe1;
+        text-align: center;
+    }
+
+    td.Clf-complete {
+        background: #efe1e1;
+        text-align: center;
+    }
+
+    td.update-complete {
+        background: #d2e5ff;
+        text-align: center;
+    }
+
+    td.issue-complete {
+        background: #f3b9b9;
+        text-align: center;
+    }
+
+    .all-data {
+        text-align: center;
+    }
+
+    tr.all-data th {
+        text-align: center;
+    }
+
+    .panel {
+        justify-content: center;
+    }
+
+    .panel-title {
+        color: #1e3a8a;
+        line-height: 3rem;
+        font-weight: 700;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        top:20px;
+    }
+
+    thead {
+        background-color: #87CEEB;
+    }
+
+    th {
+        padding: 10px;
+        text-align: left;
+    }
+
+    th, td {
+        border: 1px solid #ddd;
+    }
+
+    tr:nth-child(even) {
+        background: #f2f2f2;
+    }
+    .card {
+        overflow: scroll;
+        position: absolute;
+        width: 97.5%;
+        top: 0;
+        height: 550px;
+        background: white;
+        border-radius: 5px;
+        padding:10px;
+    }
+        .card::-webkit-scrollbar {
+            display: none;
+        }
+    .tbl-content::-webkit-scrollbar {
+        display: none;
+    }
+    .fixTableHead {
+        overflow-y: auto;
+        height: 525px;
+        margin-top: 39px;
+    }
+
+        .fixTableHead thead th, .fixTableHead thead .top-tr, .fixTableHead tfoot {
+            position: sticky;
+            top: 1px;
+        }
+    .prcentage {
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 175px;
+        right: -2px;
+        /* top: 0; */
+        display: flex;
+        width: 100%;
+        align-items: center;
+        text-align: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="AssetBIcontroller">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w3">
+                <header class="panel-heading">
+                    <div style="display:flex; flex-direction:row; align-items:center; justify-content: space-between; width:100%;">
+                        <h2 class="panel-title">ASSET DASHBOARD</h2>
+                        <span title="View Table" ng-click="clickToOpen()">
+                            <i class="fas fa-list"></i>
+                        </span>
+                    </div>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="col-md-12 no-padding">
+                            <div class="col-md-2 sq-container">
+                                <div class="sq" style="display:flex;flex-direction:column">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Pending</h2>
+                                    <div class="square">
+                                        <span ng-bind="pen">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">In PV</h2>
+                                    <div class="square">
+                                        <span ng-bind="pv">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">In Catalogue</h2>
+                                    <div class="square">
+                                        <span ng-bind="cat">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">In QC</h2>
+                                    <div class="square">
+                                        <span ng-bind="qc">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Released</h2>
+                                    <div class="square">
+                                        <span ng-bind="rlsd">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Total</h2>
+                                    <div class="square">
+                                        <span ng-bind="total">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12" style="margin-left:50px;margin-top:20px">
+                            <div class="col-md-3">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">Overall Status</h2>
+                                <canvas id="doughNut" width="400" height="400"></canvas>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">Overall Completion as per Maximo</h2>
+                                <canvas id="progressChart" width="400" height="400"></canvas>
+                                <h1 class="prcentage">
+                                    {{compPer}}
+                                </h1>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-3">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">Overall Completion with New Assets</h2>
+                                <canvas id="progressNew" width="400" height="400"></canvas>
+                                <h1 class="prcentage">
+                                    {{compNewPer}}
+                                </h1>
+                            </div>
+                        </div>
+                    </div>
+                    @*<table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Cluster</th>
+                                <th>Location</th>
+                                <th>Report Group</th>
+                                <th>Asset Count</th>
+                                <th>Asset Completed</th>
+                                <th>New Asset</th>
+                                <th>Furniture</th>
+                                <th>Asset Pending</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="item in dashData">
+                                <td>{{ item.Cluster }}</td>
+                                <td>{{ item.Location }}</td>
+                                <td>{{ item.ReportGroup }}</td>
+                                <td>{{ item.AssetCount }}</td>
+                                <td>{{ item.AssetCompleted }}</td>
+                                <td>{{ item.NewAsset }}</td>
+                                <td>{{ item.Furniture }}</td>
+                                <td>{{ item.AssetPending }}</td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3"><strong>Grand Total</strong></td>
+                                <td><strong>{{ getTotal('AssetCount') }}</strong></td>
+                                <td><strong>{{ getTotal('AssetCompleted') }}</strong></td>
+                                <td><strong>{{ getTotal('NewAsset') }}</strong></td>
+                                <td><strong>{{ getTotal('Furniture') }}</strong></td>
+                                <td><strong>{{ getTotal('AssetPending') }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>*@
+                <div class="col-md-12 card" id="cotentidnew">
+                    <div style="position:fixed;width:95.25%;z-index:1000" >
+                        <header class="panel-heading">
+                            <div style="display:flex; flex-direction:row; align-items:center; justify-content: space-between; width:100%;">
+                                <h2 class="panel-title">Overview</h2>
+                                <span title="View Table" ng-click="clickToClose()">
+                                    <i class="fas fa-times"></i>
+                                </span>
+                            </div>
+                        </header>
+                    </div>
+
+                    <div class="fixTableHead">
+                        <div class="table-responsive">
+                            <div style="display:block;max-height:525px" class="tbl-content">
+
+                                <table class="table table-bordered">
+                                    <thead class="top-border" align="center">
+
+                                        <tr>
+                                            <th>Cluster</th>
+                                            <th>Location</th>
+                                            <th>Report Group</th>
+                                            <th>Asset Count</th>
+                                            <th>Asset Completed</th>
+                                            <th>New Asset</th>
+                                            <th>Furniture</th>
+                                            <th>Asset Pending</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in dashData">
+                                            <td>{{ item.Cluster }}</td>
+                                            <td>{{ item.Location }}</td>
+                                            <td>{{ item.ReportGroup }}</td>
+                                            <td>{{ item.AssetCount }}</td>
+                                            <td>{{ item.AssetCompleted }}</td>
+                                            <td>{{ item.NewAsset }}</td>
+                                            <td>{{ item.Furniture }}</td>
+                                            <td>{{ item.AssetPending }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3"><strong>Grand Total</strong></td>
+                                            <td><strong>{{ getTotal('AssetCount') }}</strong></td>
+                                            <td><strong>{{ getTotal('AssetCompleted') }}</strong></td>
+                                            <td><strong>{{ getTotal('NewAsset') }}</strong></td>
+                                            <td><strong>{{ getTotal('Furniture') }}</strong></td>
+                                            <td><strong>{{ getTotal('AssetPending') }}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+
+
+        </div>
+    </div>
+
+</section>
+<script src="~/Scripts/ctrls/Assetreport.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/chart.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+
+
+<!--@{
+    ViewBag.Title = "PowerBI";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}-->
+@*<iframe width="1300" height="600" style="padding:50px"  src="https://app.powerbi.com/view?r=eyJrIjoiYjJlMmJmMDMtNTNkYS00ZjUwLThlYzgtNmFkNzgzNGFhNzc4IiwidCI6ImE0YzFjNmEzLTIwNmUtNDFiMS04MmQwLTFhNWRhN2JkOTkxYyJ9"></iframe>*@
+
+<!--<iframe title="Phase 3 Progress Dashboard_v2 - Project Status" width="1300" height="560" src="https://app.powerbi.com/view?r=eyJrIjoiYWU1YWE4ZGMtOTg0OC00ODY1LWE0NjktMjQxMzNiOTI0NTc2IiwidCI6ImE0YzFjNmEzLTIwNmUtNDFiMS04MmQwLTFhNWRhN2JkOTkxYyJ9" frameborder="0" allowFullScreen="true"></iframe>-->

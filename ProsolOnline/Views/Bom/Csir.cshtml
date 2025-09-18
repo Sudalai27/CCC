@@ -1,0 +1,199 @@
+﻿
+@{
+    ViewBag.Title = "Csir";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<style>
+    .no-padding
+    {
+        padding-right:0px;
+        padding-left:0px;
+    }
+    .cbg {
+           background: #c2d8eb;
+          
+}
+     .cbg1 {
+           background: #c2d8eb;
+           height:29px;
+}
+    .ownboss {
+        height:20px;
+        overflow-x:scroll;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="CsirBomController">
+
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+
+                    <li><span>BOM</span></li>
+                    <li><span>CIR</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div class="alert" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+            </div>
+        <div class="col-md-4"></div>
+        </div>
+            <!-- start: page -->
+            <div class="row">
+                <div class="col-xs-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Coda Spare Interchangeable Record </h2>
+                        </header>
+                        <div class="panel-body">
+                            <form name="form" ng-submit="searching()" class="col-md-12">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-2">Search Equipment </label>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" ng-model="searchkey" style="height:27px" required>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <button class="btn btn-primary" type="submit">Search</button>&nbsp;
+                                            <button class="btn btn-primary" type="button" ng-hide="clear" ng-click="ClearItem()">Clear</button>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </form>
+                            <from>
+                                <div class="col-md-12 form-group" ng-hide="reset">
+                                    <div class="table-responsive" ng-show="sResult != null">
+                                        <div style="display:block;max-height:180px;">
+                                            <table class="table table-bordered mb-none">
+                                                <thead class="top-border" align="center">
+                                                    <tr>
+                                                        <th>Equipment Id</th>
+                                                        <th>Equipment Desc</th>
+                                                        <th>Functional Location</th>
+                                                        <th>Functional Desc</th>
+                                                        <th>Object Type</th>
+                                                        <th>Manufacturer</th>
+                                                        <th>Manufacturer Con</th>
+                                                        <th>Modelno</th>
+                                                        @*<th>Status</th>*@
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="TBM in sResult" id="{{$index}}" ng-click="TBMClick(TBM,$index)">
+                                                        <td><label ng-bind="TBM.TechIdentNo"></label></td>
+                                                        <td><label ng-bind="TBM.EquipDesc"></label></td>
+                                                        <td><label ng-bind="TBM.FunctLocation"></label></td>
+                                                        <td><label ng-bind="TBM.FunctDesc"></label></td>
+                                                        <td><label ng-bind="TBM.Objecttype"></label></td>
+                                                        <td><label ng-bind="TBM.Manufacturer"></label></td>
+                                                        <td><label ng-bind="TBM.ManufCon"></label></td>
+                                                        <td><label ng-bind="TBM.Modelno"></label></td>
+                                                        @*<td><label ng-bind="TBM.status"></label></td>*@
+
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </from>
+                            <form>
+
+
+
+                                <div class="col-md-12">
+                                    <h4 class="access-order ng-binding">Report</h4>
+
+                                    <div class="col-md-6 no-padding">
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-none ownboss">
+                                                <tr ng-repeat="(key,value) in tag[0]">
+                                                    <td>{{$index +1}}</td>
+                                                    <td class="cbg1">{{key}}</td>
+                                                    <td style="min-width: 100px;" ng-repeat="person in tag">
+                                                        {{person[key]}}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 no-padding">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-none">
+                                                <tbody>
+                                                    <tr style="height:87px;" ng-repeat="v in vendor">
+                                                        <td colspan="5">
+                                                            {{v.Name}}</br>
+                                                            {{v.Address}}
+                                                            </br>{{vendor1}}
+
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="cbg">Total</td>
+                                                        <td class="cbg">S.No</td>
+                                                        <td class="cbg">Material Code</td>
+                                                        <td class="cbg">Description</td>
+                                                        <td class="cbg">Part no</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td></td>
+                                                        <td>1</td>
+                                                        <td>12345667</td>
+                                                        <td>xcsDfsgdfcvd</td>
+                                                        <td>6</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </form>
+                            <div class="form-group"></div>
+                        </div>
+
+
+                    </section>
+
+                </div>
+            </div>
+
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+
+<script src="~/Scripts/ctrls/CsirBom.js"></script>
+<script src="~/Scripts/jBox.js"></script>

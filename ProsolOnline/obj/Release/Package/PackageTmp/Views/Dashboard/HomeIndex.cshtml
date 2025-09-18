@@ -1,0 +1,357 @@
+﻿
+@{
+    ViewBag.Title = "HomeIndex";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+
+
+    .section-title {
+        text-align: center;
+        max-width: 670px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 20px;
+    }
+        .section-title .sub-title {
+            color: #2e3955;
+            text-transform: capitalize;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 15px;
+           
+        }
+    .services-wrap-card {
+        background-color: #2e3955;
+        -webkit-box-shadow: 0px 6px 15px rgba(7, 78, 206, 0.1);
+        box-shadow: 0px 6px 15px rgba(7, 78, 206, 0.1);
+        border-radius: 5px;
+        margin-bottom: 30px;
+        padding: 35px;
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+    }
+    .align-items-center {
+        align-items: center !important;
+    }
+    .justify-content-between {
+        justify-content: space-between !important;
+    }
+    .d-flex {
+        display: flex !important;
+    }
+    .services-wrap-card .image-icon {
+        display: inline-block;
+        height: 120px;
+        width: 200px;
+        line-height: 115px;
+        background-color: #ffffff;
+        text-align: center;
+        border: 4px solid #E5E8FC;
+        -webkit-box-shadow: 0px 7px 15px rgba(7, 78, 206, 0.1);
+        box-shadow: 0px 7px 15px rgba(7, 78, 206, 0.1);
+        border-radius: 5px;
+        -webkit-transition: 0.5s;
+        transition: 0.5s;
+        position: relative;
+    }
+    .services-wrap-card .content h3 a {
+        color:#fff;
+    }
+    .services-wrap-card .content {
+        margin-left: 25px;
+        color: #fff;
+    }
+</style>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="HomeController">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+
+                    <li><span>Home</span></li>
+                </ol>
+            </div>
+        </header>*@
+
+    <!-- start: page -->
+    <section class="panel">
+
+        <header class="panel-heading">
+            <h2 class="panel-title">
+                HOME DASHBOARD
+            </h2>
+        </header>
+
+        <!--<div class="form-group">
+
+
+            <div class="col-md-4"></div>
+            <div class="col-md-2 dashboard-design mb-3">
+
+                <div class="panel-body" style="padding: 10px;">
+
+                    <a href="/Dashboard/Dashboard1">
+                        <div class="widget-summary">
+                            <div class="" style="margin:0 auto;text-align:center;">
+                                <img src="~/Images/material-management.svg" style="width: 80px;height: 80px;">
+                            </div>
+
+                            <div style="margin: 0 auto;text-align: center;">
+                                Material Master
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-2 dashboard-design mb-3">
+
+                <div class="panel-body" style="padding: 10px;">
+                    <a href="/FAR/FARoverview">
+                        <div class="widget-summary">
+                            <div class="" style="margin:0 auto;text-align:center;">
+                                <img src="~/Images/asset-master.svg" style="width: 80px;height: 80px;">
+                            </div>
+
+                            <div style="margin: 0 auto;text-align: center;">
+                                Asset Master
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-4"></div>-->
+            @*<div class="col-md-2 dashboard-design mb-3">
+
+                <div class="panel-body" style="padding: 10px;">
+                    <a href="#">
+                        <div class="widget-summary">
+                            <div class="" style="margin:0 auto;text-align:center;">
+                                <img src="~/Images/bom.png">
+                            </div>
+
+                            <div style="margin: 0 auto;text-align: center;">
+                                Asset Master / BOM
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-2 dashboard-design mb-3">
+
+                <div class="panel-body" style="padding: 10px;">
+                    <a href="/Asset/FunctLoc">
+
+                        <div class="widget-summary">
+                            <div style="margin:0 auto;text-align:center;">
+                                <img src="~/Images/asset-master-icon.png" />
+
+                            </div>
+
+                            <div style="margin: 0 auto;text-align: center;">
+                                Asset Master / FLOC
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            </div>*@
+            @*<div class="col-md-2 dashboard-design mb-3">
+
+                <div class="panel-body" style="padding: 10px;">
+                    <a href="/GeneralSettings/Vendor">
+
+                        <div class="widget-summary">
+                            <div style="margin:0 auto;text-align:center;">
+
+                                <img src="~/Images/vendor-master.png" />
+                            </div>
+
+                            <div style="margin: 0 auto;text-align: center;">
+                                Business Partner
+                            </div>
+
+                        </div>
+                    </a>
+                </div>
+            </div>*@
+
+
+        <!--</div>-->
+
+
+        <div class="services-wrap-area pb-70 pt-70" id="Solutions">
+            <div class="container">
+                <div class="section-title">
+                    <span class="sub-title">Our Solutions</span>
+                    <h2>We offer a wide range of services and provide real-time data solutions such as</h2>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon" style="width: 35%;">
+                                    <img src="https://prosolonline.com/img/solutions/Data-Cleaning.svg" alt="Data-Cleaning">
+
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Data Cleansing
+                                    </h3>
+                                    <p>PROSOL has the ability to cleanse the master data to ensure that it is accurate and consistent.</p>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon" style="width:28%;">
+                                    <img src="https://prosolonline.com/img/solutions/Data-Enrichment.svg" alt="Data-Enrichment">
+
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                      Data Enrichment
+                                    </h3>
+                                    <p>PROSOL can enrich the master data by adding additional information or attributes.<br></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon">
+                                    <img src="https://prosolonline.com/img/solutions/Data-Governance.svg" alt="Data-Governance">
+
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Data Governance
+                                    </h3>
+                                    <p>PROSOL provides tools for data governance, such as data quality monitoring, data lineage, and data stewardship.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon">
+                                    <img src="https://prosolonline.com/img/solutions/Data-Integration.svg" alt="Data-Integration">
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Data Integration
+                                    </h3>
+                                    <p>PROSOL can integrate with multiple systems and applications to ensure that the master data is consistent across all systems.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon">
+                                    <img src="https://prosolonline.com/img/solutions/Data-Synchronization.svg" alt="Data Synchronization">
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Data Synchronisation
+                                    </h3>
+                                    <p>PROSOL can synchronise the master data across multiple systems and applications in real-time or on a schedule basis.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon">
+                                    <img src="https://prosolonline.com/img/solutions/Data-Security.svg" alt="Data Security">
+
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Data Security
+                                    </h3>
+                                    <p>PROSOL provides security features to ensure that the master data is protected and only accessible by authorized users.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon">
+                                    <img src="https://prosolonline.com/img/solutions/Workflow-Automation.svg" alt="Workflow Automation">
+
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Workflow Automation
+                                    </h3>
+                                    <p>PROSOL can automate workflows related to master data management, such as data approval processes or data change requests.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="services-wrap-card">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="image-icon">
+                                    <img src="https://prosolonline.com/img/solutions/Reporting-Analytics.svg" alt="Reporting and analytics">
+
+                                </div>
+                                <div class="content">
+                                    <h3>
+                                        Reporting and Analytics
+                                    </h3>
+                                    <p>PROSOL provides reporting and analytics capabilities to monitor the quality and consistency of the master data and to identify trends and patterns.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</section>
+
+<script src="~/Scripts/ctrls/HomeController.js"></script>
+
+
+
+<script src="~/Scripts/jBox.js"></script>
+
+<script src="/Scripts/jsapi.js"></script>
+
+
+
+
+
+
+

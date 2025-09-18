@@ -1,0 +1,155 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Excelview</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/angular")
+    <script src="/Scripts/handsontable.full.min.js"></script>
+    <link href="/Content/handsontable.full.min.css" rel="stylesheet" type="text/css" />
+
+    <style>
+        .wtHolder {
+            height: auto !important;
+            overflow-y: scroll;
+        }
+
+        .htUIMultipleSelectHot.handsontable {
+            overflow-y: scroll !important;
+            width: auto !important;
+        }
+
+        .wtHider {
+            padding: 0 5px 5px 0;
+        }
+
+        .ht_clone_top {
+            width: auto !important;
+        }
+
+        .ht_clone_left {
+            height: auto !important;
+        }
+
+        .ht_clone_top, .ht_clone_left, .ht_clone_top_left_corner {
+            z-index: 1 !important;
+        }
+    </style>
+</head>
+<body ng-app="ProsolApp" ng-controller="CatalogueController">
+    <form name="form">
+      
+        <div class="row">
+            @*<div class="col-md-12">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>*@
+            <div class="col-md-12">
+                <div id="myHandsonTable" class="hot handsontable dataTable" style="height:auto"></div>
+                </div>
+                <div class="col-md-12">
+
+                    <div class="col-md-3">&nbsp;</div>
+                     <div class="col-md-2" ng-hide="true">                       
+                        <button class="intext-btn btn btn-primary center-block" type="button" ng-click="SaveItemsList()" id="Save" name="Save">Save Data</button>
+                    </div>
+                    <div class="col-md-1"><a class="intext-btn btn btn-primary center-block" style="text-decoration:none" href="@Url.Action("Review","Catalogue")">Close</a></div>
+                    <div class="col-md-4"><label ng-bind="Res" style="color:red; text-align:center"></label></div>
+                    <div class="col-md-2"></div>
+                </div>
+        </div>
+</form>
+    @*<script type="text/javascript">
+
+        var app = angular.module('ProsolApp', []);
+
+        app.controller('CatalogueController', ['$scope', '$http', '$timeout', function ($scope, $http, $timeout) {
+
+            $scope.GetItemsList = function () {
+
+                $.ajax({
+                    type: "POST",
+                    url: 'GetItemList',
+                    data: {},
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (response) {
+                        var data = response;
+
+                        var $container = $('#myHandsonTable');
+                        $container.handsontable({
+                            data: data,
+                            startRows: 5,
+                            startCols: 5,
+                            colHeaders: true,
+                            rowHeaders: true,
+                            contextMenu: true,
+                            manualColumnResize: true,
+                            manualRowResize: true,
+                            dropdownMenu: true,
+                            filters: true,
+                            fixedColumnsLeft: 3,
+                            // colWidths:150
+
+                        });
+                    },
+                    failure: function (response) {
+                        alert(response.d);
+                    }
+                });
+                $scope.btnexcelLoad = false;
+                $scope.btnexcelsave = true;
+
+            };
+            $scope.GetItemsList();
+
+            $scope.SaveItemsList = function () {
+
+                var $container = $('#myHandsonTable');
+                var ht = $container.handsontable('getInstance');
+                var htContents = ht.getData();
+                //alert(htContents);
+                $.ajax({
+                    type: "POST",
+                    url: 'SaveItemsList',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: "{ 'data': '" + JSON.stringify(htContents) + "' }",
+                    success: function (data, status, headers, config) {
+
+                        if (data == true) {
+
+                            $rootScope.Res = "Data saved successfully"
+                            $scope.$apply();
+
+                        } else {
+
+                            $rootScope.Res = "Save failed"
+                        }
+                    },
+                    failure: function (response) {
+                        $rootScope.Res = "Save failed"
+
+                    }
+                });
+
+            };
+
+        }]);
+    </script>*@
+        <script src="/Scripts/ctrls/Excelviewctrl.js"></script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+
+
+</body>
+</html>

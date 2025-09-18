@@ -1,0 +1,645 @@
+﻿
+@{ ViewBag.Title = "Asset Dictionary";
+    Layout = "~/Views/Shared/_Layout.cshtml"; }
+<style>
+    .box-box label {
+        width: 33.3%;
+        float: left;
+    }
+
+    .fixTableHead tr th {
+        top: -1px !important;
+    }
+
+    .table-responsive.fixTableHead {
+        max-height: 450px !important;
+        overflow-y: auto;
+        padding-bottom: 20px;
+    }
+
+    .fixTableHead thead th {
+        position: sticky;
+        top: 0;
+    }
+    .autocomplete-wrapper {
+        position: relative;
+        width: 100%;
+        max-width: 400px;
+    }
+
+    .autocomplete-dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 9999;
+        border: 1px solid #ccc;
+        border-top: none;
+        background: white;
+        max-height: 200px;
+        overflow-y: auto;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        margin-left: 15px;
+        width: 315px;
+        color: black;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .autocomplete-dropdown li {
+            padding: 4px;
+            cursor: pointer;
+        }
+
+            .autocomplete-dropdown li:hover {
+                background-color: #f0f0f0;
+            }
+</style>
+
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/Custom-select.css" rel="stylesheet" />
+<section role="main" class="content-body">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+
+                    <li><span>Data Dictionary</span></li>
+                    <li><span>Create</span></li>
+                </ol>
+            </div>
+        </header>
+
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <a ng-show="resdwn!=false" class="download pull-right" href="/Common/NounModiferTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                    <a ng-show="resdwn1!=false" class="download pull-right" href="/Common/CharacteristicsTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                    <a ng-show="resdwn2!=false" class="download pull-right" href="/Common/NMValuesTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                    <a ng-show="resdwn3!=false" class="download pull-right" href="/Common/NMCharUomTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">CREATE DICTIONARY</h2>
+                </header>
+                <div class="form-group">
+
+                    <div class="tabs create-panel">
+                        <ul class="nav nav-tabs">
+                            <li class="active">
+                                <a href="#Single" data-toggle="tab" ng-click="resdwn=false;resdwn1=false;resdwn2=false;resdwn3=false" aria-expanded="true">Add Dictionary</a>
+                            </li>
+                            @*<li>
+                                    <a href="#NounModifier" data-toggle="tab" ng-click="resdwn=true;resdwn1=false;resdwn2=false;resdwn3=false" aria-expanded="false">Noun Modifier Bulk Upload</a>
+                                </li>
+                                <li>
+                                    <a href="#Charateristic" data-toggle="tab" ng-click="resdwn=false;resdwn1=true;resdwn2=false;resdwn3=false" aria-expanded="false">Charateristic Bulk Upload</a>
+                                </li>
+                                <li>
+                                    <a href="#Value" data-toggle="tab" ng-click="resdwn=false;resdwn1=false;resdwn2=true;resdwn3=false" aria-expanded="false">Value Bulk Upload</a>
+                                </li>*@
+                            <li>
+                                <a href="#View" data-toggle="tab" ng-click="resdwn=false;resdwn1=false;resdwn2=false;resdwn3=true" aria-expanded="false">View Dictionary</a>
+                            </li>
+                            @*<a ng-show="resdwn!=false" class="download pull-right" href="/Common/NounModiferTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                <a ng-show="resdwn1!=false" class="download pull-right" href="/Common/CharacteristicsTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                <a ng-show="resdwn2!=false" class="download pull-right" href="/Common/NMValuesTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                <a ng-show="resdwn3!=false" class="download pull-right" href="/Common/NMCharUomTemplate.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>*@
+                        </ul>
+                        <div class="tab-content">
+                            <div id="Single" class="tab-pane active">
+                                <div class="row" ng-controller="AssetNMController">
+                                    <form name="form" ng-submit="form.$valid && createNM()" novalidate>
+
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+                                                <div class="col-md-6 no-padding">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label require-label">Noun </label>
+                                                        <div class="col-md-7 no-padding" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+                                                            <input type="hidden" ng-model="NM._id" />  <input class="form-control immediate-help" ng-change="KeyClear()" name="nun" ng-pattern="/^(\D)+$/" ng-model="NM.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" type="text" autocomplete="off" auto-complete required />
+                                                            <div ng-show="form.nun.$invalid" class="input-help">
+                                                                <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                                <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label require-label">Modifier</label>
+                                                        <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.modi.$invalid}">
+                                                            <input type="text"
+                                                                   class="form-control immediate-help"
+                                                                   name="modi"
+                                                                   ng-model="NM.Modifier"
+                                                                   ng-change="KeyClear1()"
+                                                                   ng-blur="GetCharc(NM.Noun, NM.Modifier)"
+                                                                   ng-focus="Listmodifer()"
+                                                                   list="modifierList"
+                                                                   autocomplete="off"
+                                                                   required />
+
+                                                            <datalist id="modifierList">
+                                                                <option ng-repeat="mod in Modifiers" value="{{mod.Modifier}}"></option>
+                                                            </datalist>
+
+                                                            <div ng-show="form.modi.$invalid" class="input-help">
+                                                                <h4 ng-show="form.modi.$error.required">Modifier should not be blank</h4>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-4"> &nbsp;</div>
+                                                <div class="col-md-8">
+                                                    <div id="divValAdd" style="display:none" class="input-help1 grid-help">
+
+                                                        <i ng-click="saveData()" class="fa fa-check fa-2x pull-right"></i>
+                                                        <i ng-click="closeData()" class="fas fa-times fa-2x pull-right"></i>
+                                                        <input type="hidden" ng-model="showlb" /> {{showlb}}
+                                                        <div><input type="text" ng-model="valueSrch" ng-change="BindGroupinxsearch()" class="form-control" /></div>
+                                                        <div class="box-box" style="overflow-y:auto;max-height:200px;min-width: 500px;">
+                                                            <table class="table table-bordered mb-none">
+                                                                <tbody>
+                                                                    <tr id="grp{{$index}}" ng-repeat="mdl in ValueList" @*| filter :{'Value':  valueSrch || undefined} ng-checked="{{mdl.Checked}}" *@>
+                                                                        <td><input type="checkbox" ng-true-value="'1'" ng-checked="mdl.Checked == '1'" ng-false-value="'0'" ng-model="mdl.Checked" ng-click="checkValue(mdl._id,$index)" id="chk{{mdl._id}}" @*id="chk{{$index}}"*@ /></td>
+                                                                        <td>{{mdl.Value}}{{mdl.vunit}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <pagination ng-model="currentPage"
+                                                                    total-items="totItem"
+                                                                    items-per-page="numPerPage"
+                                                                    max-size="10"
+                                                                    boundary-links="true"
+                                                                    ng-click="BindGroupinx(currentPage)">
+                                                        </pagination>
+
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="col-md-4"> &nbsp;</div>
+                                                <div class="col-md-8">
+                                                    <div id="divUOMAdd" style="display:none" class="input-help1 grid-help">
+
+                                                        <i ng-click="saveData1()" class="fa fa-check fa-2x pull-right"></i>
+                                                        <i ng-click="closeData1()" class="fas fa-times fa-2x pull-right"></i>
+                                                        <input type="hidden" ng-model="showlb1" /> {{showlb1}}
+
+                                                        <div class="box-box" style="overflow-y:auto;max-height:200px;min-width: 500px;">
+                                                            <table class="table table-bordered mb-none">
+                                                                <tbody>
+                                                                    <tr id="uom{{$index}}" ng-repeat="mdl in CustUOM">
+                                                                        <td><input type="checkbox" ng-true-value="'1'" ng-checked="mdl.UOMname == '1'" ng-false-value="'0'" ng-model="mdl.UOMname" id="chk{{mdl._id}}" @*id="chk{{$index}}"*@ /></td>
+                                                                        <td>{{mdl.Unitname}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </div>
+                                            <div ng-show="NM.Modifier != '' && NM.Modifier != null && NM.Modifier != undefined && NM.Noun != '' && NM.Noun != null && NM.Noun != undefined ">
+                                                <div class="col-md-12">
+                                                    <div class="table-responsive">
+
+
+                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                            <thead class="top-border">
+                                                                <tr>
+                                                                    <th style="width: 15%">Characteristic</th>
+                                                                    <th  style="width: 15%">Abbreviation</th>
+                                                                    @*<th style="width: 5%">Longseq</th>*@
+                                                                    <th style="width: 5%">Short Priority</th>
+                                                                    <th style="width: 5%">Sequence</th>
+                                                                    <th style="width: 5%">Mandatory</th>
+                                                                    @*<th style="width: 20%">definition</th>*@
+                                                                    <th style="width: 10%">Values</th>
+                                                                    <th style="width: 10%">Classification ID</th>
+                                                                    <th style="width: 10%">Hierarchypath</th>
+                                                                    <th style="width: 10%">PDesc</th>
+                                                                    <th style="width: 10%">Class Level</th>
+                                                                    @*<th style="width: 10%">UOM Mandatory</th>
+                                                                        <th style="width: 10%">UOM</th>*@
+                                                                    <th style="width: 5%">Action</th>
+
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr class="data-contact-person" ng-repeat="CharaRw in rows | orderBy:'Squence' ">
+                                                                    <td>
+                                                                        <div ng-class="{'has-error': form.$submitted && form.ddlAttri{{$index}}.$invalid || charcheck}">
+
+                                                                            <input ng-model="CharaRw.Characteristic" name="ddlAttri{{$index}}" ng-change="changeCheck()" type="text" list="lstitms" class="form-control" autocomplete="off" required capitalize>
+
+                                                                        </div>
+
+                                                                    </td>
+                                                                    <td><input type="text" class="form-control" ng-model="CharaRw.Abbrivation" ng-blur="CharaRw.Abbrivation=CharaRw.Abbrivation.toUpperCase();" id="CharAbv"></td>
+                                                                    @*<td ng-hide="true">
+            <div ng-class="{'has-error': form.$submitted && form.lsque.$invalid || form.lsque.$error.pattern || Seqcheck1}">
+                <input type="text" class="form-control" name="lsque" ng-pattern="/^\d+$/" ng-model="CharaRw.Squence" ng-disabled="false" id="Squence">
+
+            </div>
+        </td>*@
+                                                                    <td>
+                                                                        <div ng-class="{'has-error': form.$submitted && form.ssque.$invalid || form.ssque.$error.pattern || Seqcheck2}">
+                                                                            <input type="text" class="form-control" name="ssque" ng-pattern="/^\d+$/" ng-model="CharaRw.ShortSquence" ng-disabled="false" id="sSquence">
+
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div ng-class="{'has-error': form.$submitted && form.ssque.$invalid || form.ssque.$error.pattern || Seqcheck2}">
+                                                                            <input type="text" class="form-control" name="ssque" ng-pattern="/^\d+$/" ng-model="CharaRw.Squence" ng-disabled="false" id="sSquence">
+
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <select class="form-control" ng-init="CharaRw.Mandatory==null?CharaRw.Mandatory='No':CharaRw.Mandatory" ng-model="CharaRw.Mandatory" ng-options="lst for lst in ['No','Yes']"></select>
+                                                                    </td>
+                                                                    <td ng-show="false">
+                                                                        <input type="text" class="form-control" ng-model="CharaRw.Definition" id="CharDef">
+                                                                    </td>
+                                                                    <td>
+
+                                                                        <a ng-click="ShowValue($index)" style="text-decoration:underline;cursor:pointer">Add Value</a>
+                                                                        <input type="hidden" ng-model="CharaRw.Values" />
+
+                                                                        <div class="col-md-12 table-responsive fixTableHead" id="values-content" style="display:none;z-index:1000;">
+                                                                            <table class="table table-bordered mb-none" style="width: 100%">
+                                                                                <thead class="top-border" align="center">
+                                                                                    <tr class="top-tr">
+                                                                                        <th style="width:100%;">Values</th>
+                                                                                    </tr>
+                                                                                    <tr class="top-tr">
+                                                                                        <th style="width:100%;">
+                                                                                            <div class="form-group col-md-12 no-padding" style="margin: 0;display:flex;align-items:center">
+                                                                                                <div class="col-md-12 control-text">
+                                                                                                    @*<input type="text"
+                                        name="manufr"
+                                        class="form-control immediate-help"
+                                        ng-model="valSearch"
+                                        autocomplete="off"
+                                        auto-complete2
+                                        capitalize />*@
+                                                                                                    <input type="text"
+                                                                                                           ng-model="valSearch"
+                                                                                                           ng-change="onSearch(valSearch)"
+                                                                                                           class="form-control"
+                                                                                                           placeholder="Search..."
+                                                                                                           capitalize
+                                                                                                           autocomplete="off" />
+
+                                                                                                    <ul class="autocomplete-dropdown"
+                                                                                                        ng-show="suggestions.length > 0"
+                                                                                                        style="position: absolute; z-index: 1000; background: #fff; width: 100%; border: 1px solid #ccc;">
+
+                                                                                                        <li ng-repeat="item in suggestions"
+                                                                                                            ng-click="selectItem(item)"
+                                                                                                            style="padding: 8px; cursor: pointer;">
+                                                                                                            {{ item }}
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                    <button ng-show="isAdd" id="btnabv{{$index}}" style="position:absolute;top:1px;right:15px;background: #fff;border: none;color: #3e79cb;text-decoration: underline;" name="btnAdd" ng-click="AddValue(NM.Noun,NM.Modifier,CharaRw.Characteristic,CharaRw.Value,CharaRw.Abbrivation,$index)">Add Value</button>
+                                                                                                </div>
+                                                                                                @* <button ng-disabled="isAdd" class="col-md-2 btn btn-primary" style="padding: 1px;color:white;border:1px solid white;" ng-click="addItem(selectedValue,$index,CharaRw.Values)">Add</button>*@
+                                                                                            </div>
+                                                                                            <div class="form-group col-md-12 " style="margin: 0;display:flex;align-items:center;margin-top:2px">
+                                                                                                <div class="col-md-10 control-text no-padding">
+                                                                                                    <p style="margin:2px">Selected : {{ selectedValue }}</p>
+                                                                                                </div>
+                                                                                                <button ng-show="selectedValue" ng-disabled="isAdd" class="col-md-1 btn btn-primary" style="padding: 1px;color:white;border:1px solid white;" ng-click="addItem(selectedValue,$index,CharaRw.Values)"><i class="fas fa-plus" style="color:white"></i></button>
+                                                                                                <button ng-show="selectedValue" ng-disabled="isAdd" class="col-md-1 btn btn-primary" style="padding: 1px;color:white;border:1px solid white;" ng-click="clearItem()"><i class="fas fa-trash" style="color:white"></i></button>
+                                                                                            </div>
+                                                                                        </th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody style="width: 100%">
+                                                                                    <tr ng-repeat="value in currentValues">
+                                                                                        <td>{{ value }}</td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('ClassificationId',CharaRw.ClassificationId)" ng-model="CharaRw.ClassificationId" ng-blur="CharaRw.ClassificationId=CharaRw.ClassificationId.toUpperCase();" id="CharClsId"></td>
+                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('HierarchyPath',CharaRw.HierarchyPath)" ng-model="CharaRw.HierarchyPath" ng-blur="CharaRw.HierarchyPath=CharaRw.HierarchyPath.toUpperCase();" id="CharHrp"></td>
+                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('PDesc',CharaRw.PDesc)" ng-model="CharaRw.PDesc" ng-blur="CharaRw.PDesc=CharaRw.PDesc.toUpperCase();" id="CharPd"></td>
+                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('ClassLevel',CharaRw.ClassLevel)" ng-model="CharaRw.ClassLevel" ng-blur="CharaRw.ClassLevel=CharaRw.ClassLevel.toUpperCase();" id="CharCl"></td>
+
+                                                                    @*<td>
+
+            <select class="form-control" ng-init="CharaRw.UomMandatory==null?CharaRw.UomMandatory='No':CharaRw.UomMandatory" ng-model="CharaRw.UomMandatory" ng-options="lst for lst in ['No','Yes']"></select>
+        </td>
+        <td>
+
+            <a ng-show="CharaRw.Uom!=null && CharaRw.Uom.length>0" ng-click="ShowUOM(CharaRw.Characteristic)" style="text-decoration:underline;cursor:pointer">Add UOM</a>
+
+
+        </td>*@
+                                                                    <td>
+                                                                        <div class="checkbox-custom checkbox-default" style="margin-left:18%;">
+                                                                            <input type="checkbox" id="checkboxExample1" ng-click="identifyremove_rows($index)" />
+                                                                            <label>&nbsp;</label>
+                                                                        </div>
+                                                                    </td>
+
+                                                                </tr>
+                                                            </tbody>
+
+                                                            <tfoot>
+                                                                <tr>
+
+                                                                    <td colspan="7">
+
+                                                                        @*<div class="form-group">
+                                                                                <label class="col-md-2 control-label">Image</label>
+                                                                                <div class="col-md-10">
+                                                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">SelectFile</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                    </div><br /><img ng-src="{{image_source}}" ng-show="image_source == null ? false:true" width="200" height="200">&nbsp;<img src="{{NM.FileData}}" ng-show="NM.FileData == null ? false:true" width="200" height="200" />
+                                                                                </div>
+                                                                            </div>*@
+                                                                    </td>
+                                                                    <td></td>
+
+                                                                    <td>
+                                                                        <div class="form-group" style="text-align:right">
+                                                                            <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-disabled="form.$invalid" ng-click="addRow()">Add More</button>
+                                                                        </div>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div class="form-group" style="text-align:right">
+                                                                            <button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()">Remove</button>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </tfoot>
+
+
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <div class="col-md-4"></div>
+                                                        <div class="col-md-4 text-center">
+                                                            <button type="submit" class="btn btn-primary">Create Dictionary</button>&nbsp;
+                                                            @*<input id="submit_button" type="submit" name="button1" class="btn btn-primary" value="Create Dictionary" />*@
+                                                        </div>
+                                                        <div class="col-md-4"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                    <datalist id="lstitms">
+                                        <option data-ng-repeat="x in AttributesList" value="{{x.Attribute}}">
+                                    </datalist>
+                                    <datalist id="Modifiers">
+                                        <option data-ng-repeat="x in Modifiers" value="{{x.Modifier}}">
+                                    </datalist>
+
+                                </div>
+                            </div>
+
+
+                            <div id="View" class="tab-pane">
+
+                                <div class="row" ng-controller="DictionaryViewController">
+                                    <div class="col-xs-12">
+                                        <section class="panel">
+                                            @*<header class="panel-heading">
+                                                    <h2 class="panel-title">Dictionary</h2>
+                                                </header>*@
+                                            <div class="panel-body">
+                                                <div class="col-md-6"></div>
+                                                <div class="col-md-6">
+                                                    <a style="color: #000;"><button ng-click="DonloadNM()" class="download btn-primary pull-right" title="Download Noun and Modifier" style="margin-top: 3px;"><i class="fa fa-download"></i>&nbsp; Download Noun and Modifier</button></a>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Noun</label>
+                                                            <div class="col-md-12">
+                                                                <input type="text" class="form-control" ng-model="noun1" style="margin-bottom: 0.5%;">
+                                                            </div>
+                                                            <div class="col-md-12">
+
+
+                                                                <select class="form-control" ng-multiple="true" multiple ng-model="lst.Noun" ng-click="SelectNoun()" ng-options="lst.Noun as lst.Noun  for lst  in Nouns | unique:'Noun' | filter: noun1" style="min-height:130px;"></select>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Modifier</label>
+                                                            @*<div class="col-md-12">
+                                                                    <input type="text" class="form-control" ng-model="modifier" style="margin-bottom: 0.5%;">
+                                                                </div>*@
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" multiple ng-model="lst.Modifier" ng-click="SelectModifier()" ng-options="lst.Modifier  as lst.Modifier for lst in Modifiers" style="min-height:154px;"></select>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Characteristics</label>
+                                                            @*<div class="col-md-12">
+                                                                    <input type="text" class="form-control" ng-model="charater" style="margin-bottom: 0.5%;">
+                                                                </div>*@
+                                                            <div class="col-md-12">
+
+                                                                <select class="form-control" multiple ng-model="lst.Characteristic" ng-click="SelectCharater()" ng-options="lst.Characteristic  as lst.Characteristic for lst in rows | filter: charater | filter: { Definition: 'Equ' } " style="min-height:154px;"></select>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+
+
+                                                <div class="col-md-12">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Noun Synonyms</label>
+                                                            <div class="col-md-12">
+                                                                <textarea class="form-control" ng-model="NounSynonyms" rows="4" data-plugin-maxlength="" maxlength="140"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="col-md-4">
+                                                            <div class="form-group">
+                                                                <label class="col-md-12 control-label">Noun & Modifier Abbreviation</label>
+                                                                <div class="col-md-12">
+                                                                    <textarea class="form-control" ng-model="nounDef" rows="9" data-plugin-maxlength="" maxlength="140"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>*@
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">NM Definition</label>
+                                                            <div class="col-md-12">
+                                                                <textarea class="form-control" ng-disabled="true" ng-model="modifierDef" rows="4" data-plugin-maxlength="" maxlength="140"></textarea>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Characteristics Definition</label>
+                                                            <div class="col-md-12">
+                                                                <textarea ng-disabled="true" class="form-control" rows="4" ng-model="charaterDef" data-plugin-maxlength="" maxlength="140"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Values</label>
+                                                            <div class="col-md-12">
+                                                                <select class="form-control" multiple ng-model="val" ng-options="o as o for o in Values" ng-click="SelectVal()" style="min-height:154px;"></select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">Image</label>
+                                                            <div class="col-md-6">
+                                                                <img src="{{NM.FileData}}" ng-show="NM.FileData == null ? false:true" width="200" height="200" />
+                                                            </div><div class="col-md-1"></div>
+                                                            <div class="col-md-5"><a href="http://www.google.com/search?q= {{Gsearch}}" style="color:forestgreen" target="_blank">More about : {{Gsearch}}</a></div>
+                                                        </div>
+
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label class="col-md-12 control-label">UNSPSC Code</label>
+                                                            <div class="col-md-12">
+
+
+                                                                @*<div class="form-group">
+                                                                        <label class="col-md-4 control-label" for="textareaDefault">Class Title</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].ClassTitle" />
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-4 control-label" for="textareaDefault">Class</label>
+                                                                        <div class="col-md-8">
+                                                                            <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].Class" />
+                                                                        </div>
+                                                                    </div>*@
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="textareaDefault">Commodity Title</label>
+                                                                    <div class="col-md-7">
+                                                                        @*<select ng-model="Unspsc" class="form-control" ng-options="x.Commodity as x.CommodityTitle for x in Commodities | filter :{'Class':  Commodities[0].Class}">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>*@
+                                                                        <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].CommodityTitle" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="textareaDefault">Commodity</label>
+                                                                    <div class="col-md-7">
+                                                                        <div class="col-md-10 no-padding">
+                                                                            <input type="text" class="form-control" ng-disabled="true" ng-model="Unspsc" />
+                                                                        </div>
+                                                                        <div class="col-md-1"></div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="col-md-12">
+
+                                                </div>
+
+
+                                            </div>
+                                        </section>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+            </section>
+        </div>
+    </div>
+
+
+</section>
+<script src="~/Scripts/ctrls/AssetDictionaryCtrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+<script src="~/Scripts/jquery.uploadfile.min.js"></script>
+<script src="~/Scripts/customSelect.js"></script>
+<script src="~/Scripts/fileupload.js"></script>
+<script src="~/Scripts/jquery.multi-select.js"></script>
+<script src="~/Scripts/jquery.magnify.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>

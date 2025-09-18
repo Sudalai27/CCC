@@ -1,0 +1,89 @@
+﻿
+@{
+    ViewBag.Title = "ERP Change log";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+
+<section role="main" class="content-body" ng-controller="Erplogcontroller"> 
+ 
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">ERP Change Log</h2>
+                </header>
+                
+                <div class="panel-body">
+
+                    <form name="form" ng-submit="getlog()">
+
+                        <div class="form-group">
+                            <div class="col-md-2">
+                                <label class="control-label">Material Code</label>
+                            </div>
+                            <div class="col-md-6">
+                                <input name="srch" ng-enter="" class="form-control" placeholder="Type material detail" ng-model="materialcode" required />
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-primary" type="submit">Search</button>&nbsp;<button class="btn btn-primary" type="button" ng-click="ClearItem()">Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </div>
+        <div class="col-xs-12">
+            <div class="table-responsive col-md-12" ng-show="ErpLogs != null">
+                <table datatable="ng" dt-options="dtOptions" class="table table-bordered mb-none">
+                    <thead class="top-border">
+                        <tr>
+                            <th>MaterialCode</th>
+                            <th>ERP Field</th>
+                            <th>Old Value</th>
+                            <th>New Value</th>
+                            <th>Created On</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="x in ErpLogs">
+                            <td><label>{{x.Itemcode}}</label></td>
+                            <td><label>{{x.fieldname}}</label></td>
+                            <td><label>{{x.oldValue}}</label></td>
+                            <td><label>{{x.newvalue}}</label></td>
+                            <td><label>{{x.page}}</label></td>
+                            <td><label>{{x.module}}</label></td>
+                            <td>{{x.CreatedOn =='/Date(-62135596800000)/'?'': x.CreatedOn.replace('/Date(','').replace(')/','') | date:"d MMM yyyy HH:mm:ss"}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+     
+
+
+            </section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/Tracking.js"></script>

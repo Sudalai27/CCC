@@ -1,0 +1,369 @@
+﻿
+@{
+    ViewBag.Title = "Export";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+
+<section role="main" class="content-body" ng-controller="Exportcontroller">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+                <li><span>Files</span></li>
+                <li><span>Export</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                    <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold " />
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises"> </div>
+            </div>
+        </div>
+    </header>*@
+   
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row" >
+      
+        <div class="col-xs-12">
+            <section class="panel" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">EXPORT</h2>
+                </header>
+                <div class="panel-body">
+                
+                    <div class="tabs form-group">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a href="#export-data" data-toggle="tab">Export Data</a></li>
+                            <li><a href="#export-datas" data-toggle="tab">Export by Status</a></li>
+                            @*<li><a href="#export-image" data-toggle="tab">Export Image</a></li>*@
+                            <li><a href="#Vendor" data-toggle="tab">Vendor Reference</a></li>
+                            <li><a href="#Characterstic-Value-Report" data-toggle="tab">Characteristics & Value</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="export-data" class="tab-pane active">
+                                <div class="col-md-6 no-padding">
+                                    <form name="form3" ng-submit="form3.$valid && load()" novalidate>
+                                        <div class="form-group">
+                                            <div>
+                                                <label class="col-md-4 control-label">Role</label>
+                                                <div class="col-md-8" ng-class="{'has-error': form3.$submitted && form3.role.$invalid}">
+                                                    <select name="role" ng-model="role" data-plugin-selectTwo class="form-control populate" title="Please select at least one role" ng-change="roleChange()" required>
+                                                        <option value="">Select Role</option>
+                                                        <option value="Cataloguer">Cataloguer </option>
+                                                        <option value="Reviewer">Reviewer </option>
+                                                        <option value="Releaser">Releaser </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div>
+                                                <label class="col-md-4 control-label">User Name</label>
+                                            
+                                            </div>
+                                            <div>
+                                                <div class="col-md-8">
+                                                    <select ng-model="value" name="value" class="form-control immediate-help" ng-options="x for x in listItms">
+                                                        <option value="" selected="selected">All</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Status</label>
+                                            <div class="col-md-8">
+                                                <select name="ddlstatus" ng-model="status" data-plugin-selectTwo class="form-control populate" title="Please select at least one Status">
+                                                    <option selected="selected" value="">All</option>
+                                                    <option value="Completed">Completed </option>
+                                                    <option value="Pending">Pending </option>
+                                                    <option value="Clarification">Clarification </option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Between date</label>
+                                            <div class="col-md-4">
+                                                <input type="text" id="txtFrom" name="Fromdate" ng-model="Fromdate" class="form-control" placeholder="Start Date" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" id="txtTo" name="Todate" ng-model="Todate" class="form-control" placeholder="End Date" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6 form-submit">
+                                                <button id="submit_button1" type="submit" class="btn btn-primary">Load</button>
+                                                <button id="submit_button" type="button" class="btn btn-primary" ng-click="export()">Export</button>
+                                            </div>
+                                            <div class="col-md-3 form-submit">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="col-md-6 no-padding">
+                                    <div class="form-group">
+                                        <label class="col-md-3 control-label" style="text-align:right;">Display Fields</label>
+                                        <div class="col-md-9 check-order ">
+                                            <label for="checkboxExample1" ng-repeat="optn in options" name="lbl1" id="lbl1" style="width: 33.333%;float: left;">
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox"
+                                                           name="selectoptions"
+                                                           value="{{optn.Name}}"
+                                                           ng-model="optn.Status"
+                                                           ng-checked="optn.Status" ng-click="check1()">{{optn.Name}}
+                                                    <label for="checkboxExample1"></label>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div cg-busy="promise" class="tblLoad"></div>
+                                    <section class="panel" ng-show="len != null">
+                                        <div class="panel-body">
+                                            <header style="border-radius: 5px 5px 0 0;"></header>
+                                            <div class="col-md-12 table-responsive">
+                                                <div class="pull-right">
+                                                    No.of.Records:<input style="border:none;width:50px" type="text" name="len" ng-model="len" />
+                                                </div>
+                                                <table class="table table-bordered mb-none">
+                                                    <tr>
+                                                        <th ng-repeat="(key, val) in tables[0]">{{key}}</th>
+                                                    </tr>
+                                                    <tr ng-repeat="item in tables">
+                                                        <td ng-repeat="(key, val) in item">{{val}}</td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div id="tbl" style="visibility:hidden">
+
+                                </div>
+
+
+
+                            </div>
+                            <div id="export-datas" class="tab-pane">
+                                <div class="col-md-6 no-padding">
+                                    <form name="forms" ng-submit="forms.$valid && loadstatus()" novalidate>
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Between date</label>
+                                            <div class="col-md-4">
+                                                <input type="text" id="txtFrom1" name="Fromdate1" ng-model="Fromdate1" class="form-control" placeholder="Start Date" autocomplete="off">
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" id="txtTo1" name="Todate1" ng-model="Todate1" class="form-control" placeholder="End Date" autocomplete="off">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-4 control-label">Status</label>
+                                            <div class="col-md-8">
+                                                <label for="checkboxExample1" ng-repeat="optn in statusoptions" name="lbl1" id="lbl1" style="width: 33.333%;float: left;">
+                                                    <div class="checkbox-custom checkbox-default">
+                                                        <input type="checkbox"
+                                                               name="selectoptions"
+                                                               value="{{optn.Vale}}"
+                                                               ng-model="optn.Status"
+                                                               ng-checked="optn.Status" ng-click="checks()">{{optn.Vale}}
+                                                        <label for="checkboxExample1"></label>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+
+                                       
+
+                                        <div class="form-group">
+                                            <div class="col-md-6"></div>
+                                            <div class="col-md-6 form-submit">
+                                                <button id="submit_button1" type="submit" class="btn btn-primary">Load</button>
+                                                <button id="submit_button" type="button" class="btn btn-primary" ng-click="exportstatus()">Export</button>
+                                            </div>
+                                            <div class="col-md-3 form-submit">
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div cg-busy="promise" class="tblLoad"></div>
+                                    <section class="panel" ng-show="len1 != null">
+                                        <div class="panel-body">
+                                            <header style="border-radius: 5px 5px 0 0;"></header>
+                                            <div class="col-md-12 table-responsive">
+                                                <div class="pull-right">
+                                                    No.of.Records:<input style="border:none;width:50px" type="text" name="len1" ng-model="len1" />
+                                                </div>
+                                                <table class="table table-bordered mb-none">
+                                                    <tr>
+                                                        <th ng-repeat="(key, val) in tables1[0]">{{key}}</th>
+                                                    </tr>
+                                                    <tr ng-repeat="item in tables1">
+                                                        <td ng-repeat="(key, val) in item">{{val}}</td>
+                                                    </tr>
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                    </section>
+                                </div>
+                                <div id="tbl" style="visibility:hidden">
+
+                                </div>
+
+
+
+                            </div>
+                            <div id="export-image" class="tab-pane">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label">Material Code</label>
+                                    <div class="col-md-10">
+                                            <textarea id="matcode" rows="5" name="Fromdate" ng-model="mat_code" class="form-control" placeholder="materialcode1,materialcode2,materialcode3,...." ></textarea>
+                                    </div>
+                                   
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-6"></div>
+                                    <div class="col-md-6">
+                                       
+                                        <button id="submit_button123" type="button" class="btn btn-primary" @*ng-click="export_images()"*@>Export images</button>
+                                        <button id="submit_button1234" type="button" class="btn btn-primary" @*ng-click="export_pdf()"*@>Export pdf</button>
+                                    </div>
+                                    <div class="col-md-3 ">
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Vendor" class="tab-pane">
+                                <div class="col-md-6 no-padding">
+                                    <form novalidate>
+                                        <div class="form-group">
+                                           
+                                            <div class="col-md-2">
+                                                <label class="control-label">Search</label>
+                                            </div>
+                                            <div class="col-md-10">
+                                                <textarea rows="5" ng-model="code" ng-disabled="cde"  ng-minlength="1" ng-maxlength="9999999" min="1"  max="9999999" class="form-control" placeholder="Itemcode1*Itemcode2*Itemcode3*...."></textarea>
+                                            </div>
+
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4">
+
+                                                <div ng-hide="chkbox">
+                                                    <div class="col-md-5 no-padding">
+
+                                                        <label>All</label>
+
+                                                    </div>
+                                                    <div class="col-md-1">
+
+                                                        <div class="checkbox-custom checkbox-default" style="margin-left:10px;">
+                                                            <input type="checkbox" ng-click="change(chk)" ng-model="chk" /> <label for="checkboxExample1"></label>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                                <div class="col-md-2">
+                                                    <div cg-busy="promise" class="tblLoad"></div>
+                                                    <button id="submit_button" type="button" class="btn btn-primary" ng-click="exportvendor()">Export</button>
+
+                                                </div>
+                                            </div>
+                                    </form>
+                                </div>
+                            </div>
+                        
+                            <div id="Characterstic-Value-Report" class="tab-pane">
+                                <form name="char" ng-submit="exportchar()">
+                                    <div class="col-md-6 no-padding">
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Noun </label>
+                                            <div class="col-md-6" ng-class="{'has-error': char.$submitted && char.nun.$invalid || char.nun.$error.pattern}">
+                                                <input type="text" class="form-control immediate-help" name="nun" @*ng-pattern="/^(\D)+$/"*@ ng-disabled="cde1" ng-model="cat.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" ng-change="loadmodifier(cat.Noun.toUpperCase())" autofocus auto-complete>
+
+
+                                            </div>
+
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">Modifier</label>
+                                            <div class="col-md-6" ng-class="{'has-error': char.$submitted && char.modll.$invalid}">
+                                                <select ng-model="cat.Modifier" class="form-control" ng-disabled="cde1" name="modll" ng-options="x.Modifier as x.Modifier for x in Modifiers" required>
+
+                                                    <option value="">Select</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label">All</label>
+                                            <div class="col-md-6">
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" ng-click="change1(chk1)" ng-model="chk1" class="ng-pristine ng-untouched ng-valid ng-empty"> <label for="checkboxExample1"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-2"></div>
+                                            <div class="col-md-6 form-submit">
+                                                <div cg-busy="promise" class="tblLoad"></div>
+                                                @*<button id="submit_button1" type="submit" class="btn btn-primary">Load</button>*@
+                                                <button id="submit_button" type="submit" class="btn btn-primary">Export</button>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </form>
+                                </div>
+
+                            </div>
+                    </div>
+
+                </div>
+
+
+            </section>
+        </div>
+                </div>       
+  
+                
+ </section>
+
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/Export.js"></script>

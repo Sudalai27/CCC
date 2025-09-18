@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "MasterBom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section role="main" class="content-body" ng-controller="BomMasterController">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>BOM</span></li>
+                    <li><span>BulkData</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold " />
+                    </div>
+
+
+
+                </div>
+                <div class="col-md-2">
+                    <div cg-busy="cgBusyPromises"> </div>
+                </div>
+             </div>
+
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+               <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold " />
+            </div>
+            </div>
+        <div class="col-md-4"></div>
+        </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <section class="panel form-wizard" id="w4">
+                        <header class="panel-heading">
+                            <h2 class="panel-title">Bulk Data</h2>
+                        </header>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <div class="tabs create-panel">
+                                    <ul class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#Single" data-toggle="tab">Functional Location</a>
+                                        </li>
+                                        <li>
+                                            <a href="#Bulk" data-toggle="tab">Equipment</a>
+                                        </li>
+                                        <button ng-click="Download()" class="pull-right btn btn-primary " title="Downlaod Equipment Master" style="margin-right:15px"><i class="fa fa-download"></i>&nbsp; Downlaod Equipment Master</button>
+                                    </ul>
+                                    <div class="tab-content" style="padding: 0px !important;">
+
+                                        <div id="Single" class="tab-pane active">
+
+                                            <form>
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-8">
+                                                            Functional Location Master
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="download pull-right" title="Downlaod Template"><a href="~/Common/FunclocationTemplate.xls"><i class="fa fa-download"></i>&nbsp; Download FunclocationTemplate</a></button>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="col-md-2 control-label">File Upload</label>
+                                                            <div class="col-md-7">
+                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                </div>
+
+                                                            </div>
+
+                                                            <div class="col-md-1">
+
+                                                                <button class="btn btn-primary" type="submit" ng-click="BulkFunloc()">Submit</button>&nbsp;
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                </div>
+                                            </form>
+                                        </div>
+
+
+                                        <div id="Bulk" class="tab-pane">
+                                            <form>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-12">
+                                                        <div class="col-md-8">
+                                                            Equipment Master
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <button class="download pull-right" title="Downlaod Template"><a href="~/Common/EquipmentTemplate.xls"><i class="fa fa-download"></i>&nbsp; Download EquipmentTemplate</a></button>
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <label class="col-md-2 control-label">File Upload</label>
+                                                            <div class="col-md-7">
+                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-1">
+
+                                                                <button class="btn btn-primary" type="submit" ng-click="BulkEquip()">Submit</button>&nbsp;
+                                                            </div>
+                                                            <div class="col-md-1">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            @*<div class="alert alert-info upload-alert">
+                                                                    <p><i class="fa fa-exclamation-circle fa-lg"></i>&nbsp;</p>
+                                                                </div>*@
+                                                        </div>
+
+
+                                                    </div>
+
+
+                                                </div>
+
+                                            </form>
+
+
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+            </div>
+
+</section>
+
+<script src="/Scripts/ctrls/BomMaster.js"></script>
+
+
+

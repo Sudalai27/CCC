@@ -1,0 +1,168 @@
+﻿
+@{
+    ViewBag.Title = "valuestandardisation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="valuestandardizationcontroller">
+    @*<header class="page-header">
+        <div class="right-wrapper pull-right">
+            <ol class="breadcrumbs">
+               
+                <li><span>Prosol Peak</span></li>
+                <li><span>Value Standardization</span></li>
+            </ol>
+        </div>
+    </header>
+    <header class="page-header alert-messages">
+        <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+            <div class="col-md-4"></div>
+            <div class="col-md-6" style="margin:1px 0 1px 0;">
+                <div class="alert" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                    <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                    <label ng-bind="Res" class="erroe-hold" />
+                </div>
+            </div>
+            <div class="col-md-2">
+            </div>
+        </div>
+    </header>*@
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-md-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">VALUE STANDARDIZATION</h2>
+                </header>
+                <div class="panel-body">
+
+                    <div class="form-group">
+                        <div class="col-md-6">
+
+
+                            <form class="form-horizontal" action="#">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-5" for="inputSuccess">Noun</label>
+                                        <div class="col-md-7">
+                                            <div class="dropdown" auto-close="outsideClick">
+                                                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" data-toggle="dropdown">
+                                                    {{BtnNounmodel}}<span class="caret mycustom-caret" style=""></span>
+                                                </button>
+                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                    <input disable-auto-close type="search" ng-model="serchFilter" placeholder="Search" style="width:100%;"></input>
+                                                    <li role="presentation" ng-repeat="Noun in NounOptions | filter: serchFilter"><a role="menuitem" ng-click="selectEntity(Noun.Noun)">{{Noun.Noun}}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-5" for="inputSuccess">Modifier of Selected Noun</label>
+                                        <div class="col-md-7">
+                                            <div class="dropdown" auto-close="outsideClick">
+                                                <button class="btn btn-default dropdown-toggle  Drop-btn" type="button" id="individualDrop" data-toggle="dropdown">
+                                                    {{BtnModifiermodel}}<span class="caret mycustom-caret"></span>
+                                                </button>
+                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                    <input disable-auto-close type="search" ng-model="serchFilter1" placeholder="Search" style="width:100%"></input>
+                                                    <li role="presentation" ng-repeat="Modifier in ModifierOptions | filter: serchFilter1"><a role="menuitem" ng-click="selectEntity1(BtnNounmodel,Modifier.Modifier)">{{Modifier.Modifier}}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <label class="col-md-5" for="inputSuccess">Attributes of Selected Modifier</label>
+                                        <div class="col-md-7">
+                                            <div class="dropdown" auto-close="outsideClick">
+                                                <button class="btn btn-default dropdown-toggle  Drop-btn" type="button" id="individualDrop" data-toggle="dropdown">
+                                                    {{BtnAttributesmodel}}<span class="caret mycustom-caret"></span>
+                                                </button>
+                                                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                                    <input disable-auto-close type="search" ng-model="serchFilter2" placeholder="Search" style="width:100%"></input>
+                                                    <li role="presentation" ng-repeat="Characteristic in AttributesOptions | filter: serchFilter2"><a role="menuitem" ng-click="selectEntity2(Characteristic.Characteristic)">{{Characteristic.Characteristic}}</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="col-md-5"></div>
+                                        <div class="col-md-2">
+                                            <button id="submit_button" ng-click="load_values()" type="button" class="btn btn-primary" value="Load">Load</button>
+                                            @*<div cg-busy="promise" style="top:50px"></div>*@
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button id="submit_button1" type="Reset" class="btn btn-primary"  ng-click="clear_page()" value="Clear">Clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+
+                        </div>
+
+
+
+                        <div class="col-md-6">
+
+
+                            <div class="table-responsive">
+                                <table class="table table-striped mb-none table-bordered" ng-show="dis_table">
+                                    <tr style="background-color:#3e79cb;color:#fff;text-align:center;">
+                                        <th style="width:60%">Value</th>
+                                        <th style="width:20%">Unit</th>
+                                        <th style="width:30%">Abbreviation</th>
+                                        <th style="width:10%">Update</th>
+                                        <th ng-hide="showdelete" style="width:10%">Delete</th>
+                                    </tr>
+                                    <tbody>
+                                        <tr ng-repeat="val in values">
+                                            <td><div class=""><input type="text" ng-blur="checkValue(serchFilter,serchFilter1,serchFilter2,val.Value,$index)" class="form-control req-label" ng-model="val.Value" /></div></td>
+                                            <td><div class=""><input type="text" class="form-control req-label" ng-model="val.UOM" /></div></td>
+                                            <td><div class=""><label>{{val.Source}}</label></div></td>
+                                            <td class="actions" align="center">
+                                                <a class="on-default remove-row" ng-click="update_values($index)"><i class="fa fa-upload"></i></a>
+                                            </td>
+                                            <td ng-hide="showdelete" class="actions" align="center">
+                                                <a class="on-default remove-row" ng-click="Delete_values($index)"><i class="fas fa-trash-alt"></i></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+</section>
+        </div>
+    </div>
+    <!-- end: page -->
+</section>
+
+
+<script src="/Scripts/ctrls/valuestandardisation.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>

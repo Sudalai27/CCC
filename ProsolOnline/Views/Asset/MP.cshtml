@@ -1,0 +1,301 @@
+﻿
+@{
+    ViewBag.Title = "MP";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="/Scripts/ui-bootstrap-tpls-0.12.1.min.js"></script>
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+
+<section role="main" class="content-body" ng-controller="MPController">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+                    <li><span>Asset Master</span></li>
+                    <li><span>Equip</span></li>
+                </ol>
+            </div>
+        </header>
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" ng-show="NotifiyRes" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+
+        <div class="col-md-12">
+            <form name="form" ng-submit="form.$valid && Updatemp()" novalidate>
+                <section class="panel form-wizard" id="w4">
+                    <header class="panel-heading">
+                        <h2 class="panel-title">Maintenance operation</h2>
+                    </header>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @*<div class="col-md-4">*@
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">FunctLocation</label>
+                                    <div class="col-md-3">
+                                        <input type="text" name="funloc" class="form-control" ng-model="obj.FunctionLocation" readonly style="background-color:white;">
+                                    </div>
+
+                                    <div class="col-md-1 no-padding">
+                                        <button type="button" class="btn btn-xs btn-primary" name="search" ng-click="SearchFL()"><i class="fa fa-search"></i></button>
+                                    </div>
+                                </div>
+                                @*</div>*@
+                                <div class="col-md-7">
+
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="col-md-1">
+
+                                </div>
+                                <div class="col-md-11" ng-show="fun_list != null && fun_list != ''">
+                                    <table class="table table-responsive table-bordered ">
+                                        <thead class="top-border">
+                                            <tr>
+                                                <td style="width:10%">Functional Location</td>
+                                                <td style="width:20%">Functional Desc</td>
+                                                <td style="width:15%">Super Functional Location</td>
+                                                <td style="width:5%">Object Type</td>
+                                                <td style="width:8%">Tech Id No</td>
+                                                <td style="width:10%">Equipment Desc</td>
+                                                <td style="width:10%">Manufacturer</td>
+                                                <td style="width:8%">ABCindic</td>
+                                                <td style="width:5%">Model No</td>
+                                                <td style="width:9%">ManufSerialNo</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            <tr ng-repeat="Ff in fun_list">
+                                                <th style="width:10%"><label ng-bind="Ff.FunctLocation"></label></th>
+                                                <th style="width:20%"><label ng-bind="Ff.FunctDesc"></label></th>
+                                                <th style="width:15%"><label ng-bind="Ff.SupFunctLoc"></label></th>
+                                                <th style="width:5%"><label ng-bind="Ff.Objecttype"></label></th>
+                                                <th style="width:8%"><label ng-bind="Ff.TechIdentNo"></label></th>
+                                                <th style="width:10%"><label ng-bind="Ff.EquipDesc"></label></th>
+                                                <th style="width:10%"><label ng-bind="Ff.Manufacturer"></label></th>
+                                                <th style="width:8%"><label ng-bind="Ff.ABCindic"></label></th>
+                                                <th style="width:5%"><label ng-bind="Ff.Modelno"></label></th>
+                                                <th style="width:9%"><label ng-bind="Ff.ManufSerialNo"></label></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                @*<div class="col-md-4">*@
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Group Count</label>
+                                    <div class="col-md-3">
+                                        <input type="text" class="form-control" ng-model="obj.GroupCount">
+                                    </div>
+                                    <div class="col-md-8">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Type</label>
+                                    <div class="col-md-3">
+                                        <select class="form-control" ng-model="obj.Type">
+                                            <option value=""> -- Select -- </option>
+                                            <option value="sd">ShutDown</option>
+                                            <option value="pv">Preventive</option>
+                                            <option value="mf">Malfunction</option>
+
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Equipment</label>
+                                    <div class="col-md-3" ng-class="{'has-error': tasklist_form.$submitted && tasklist_form.Equipment.$invalid }">
+                                        <input type="text" class="form-control" ng-model="obj.Equipment" name="Equipment" required="">
+                                    </div>
+                                    <div class="col-md-8">
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Model</label>
+                                    <div class="col-md-3" ng-class="{'has-error': tasklist_form.$submitted && tasklist_form.Model.$invalid }">
+                                        <input type="text" class="form-control" ng-model="obj.Model" name="Model" required="">
+                                    </div>
+                                    <div class="col-md-8">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12 ">
+                                @*<div class="col-md-4">*@
+                                <div class="form-group">
+                                    <label class="col-md-1 control-label">Make</label>
+                                    <div class="col-md-3" ng-class="{'has-error': tasklist_form.$submitted && tasklist_form.Make.$invalid }">
+                                        <input type="text" class="form-control" ng-model="obj.Make" name="Make" required="">
+                                    </div>
+                                    <div class="col-md-1">
+                                        <a id="submit_button" ng-click="select_mcp()" style="text-decoration:underline">Search</a>
+                                    </div>
+                                    <div class="col-md-7">
+
+                                    </div>
+                                </div>
+
+                                @*</div>*@
+
+
+                            </div>
+
+                            <div class="col-md-12 form-group" ng-show="mcp_list != null && mcp_list != ''">
+                                <div class="col-md-1">
+
+                                </div>
+                                <div class="col-md-8">
+                                    <table class="table table-responsive table-bordered">
+                                        <thead class="top-border">
+                                            <tr>
+                                                <th style="width:5%">Op_Seq</th>
+                                                <th style="width:45%">Description</th>
+                                                <th style="width:15%">MCP</th>
+                                                <th style="width:15%">MWC</th>
+                                                <th style="width:10%">No.of MP</th>
+                                                <th style="width:10%">Download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="Ff in mcp_list">
+                                                <td style="width:5%"><label ng-bind="Ff.op_seq"></label></td>
+                                                <td style="width:45%"><label ng-bind="Ff.desc1"></label></td>
+                                                <td style="width:15%"><label ng-bind="Ff.mcp1"></label></td>
+                                                <td style="width:15%"><label ng-bind="Ff.mwc"></label></td>
+                                                <td style="width:10%"><label ng-bind="Ff.nmp"></label></td>
+                                                <td style="width:10%"><a href="~/BOMIMG/{{Ff.link}}"><i class="fa fa-download"></i>{{Ff.link}}</a></td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-md-3"></div>
+
+                            </div>
+                            <div class="col-md-12" ng-show="mcp_list != null && mcp_list != '' && mcp_list != null && mcp_list != ''  && obj.Make != null && obj.Make != '' && obj.Model != null && obj.Model != '' && obj.Equipment != null && obj.Equipment != '' && obj.Type != null && obj.Type != '' && fun_list != null && fun_list != '' && obj.FunctionLocation != null && obj.FunctionLocation != '' ">
+                                <div class="form-group">
+                                    <div class="col-md-4">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="submit" class="btn btn-primary">Submit</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </form>
+        </div>
+    </div>
+
+
+    @*function location model*@
+
+    <div id="cotentid5" style="display:none">
+        <div class="content">
+            <div class="panel-body">
+                <div class="col-md-12">
+
+                    <div ng-hide="FUNLOC==null">
+                        <div class="all-pop">
+                            <table class="table table-bordered mb-none">
+                                <thead class="top-border" align="center">
+                                    <tr>
+                                        <th style="width:20%">TechIdentNo</th>
+                                        <th style="width:5%">Select</th>
+                                        <th style="width:40%">FunctLocation</th>
+                                        <th style="width:35%">EquipDesc</th>
+
+
+
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div style="max-height:350px;overflow-y:auto">
+
+                            <table class="table table-bordered mb-none">
+
+                                <tbody>
+
+                                    <tr ng-repeat="F in FUNLOC | filter: sh_fl" id="{{$index}} " @*ng-click="FUNLOCCLICK(F,$index)*@ ">
+
+                                        <td style="width:20%"><label ng-bind="F.TechIdentNo"></label></td>
+                                        <td style="width:5%">
+                                            <div class="checkbox-custom checkbox-default">
+                                                <input ng-model="F.check" ng-true-value="1" ng-checked="F.check == 1" ng-false-value="0" class="chk" type="checkbox" id="checkboxExample1" ng-click="identifyAdd_rows(F.FunctLocation) ">
+                                                <label> &nbsp; </label>
+                                            </div>
+                                        </td>
+                                        <td style="width:40%"><label ng-bind="F.FunctLocation"></label></td>
+                                        <td style="width:35%"><label ng-bind="F.EquipDesc"></label></td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <div class="col-md-12" ng-show="FUNLOC != null">
+                            <div class="col-md-9"><input type="text" class="form-control" ng-model="sh_fl" /></div>
+                            <div class="form-group col-md-3 no-padding" style="text-align:right">
+                                <input type="button" class="btn btn-success" id="Submit" @*ng-hide="add"*@ ng-click="Close_mymodal_functionlocation()" value="Ok" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+
+
+</section>
+
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>
+<script src="/Scripts/ctrls/Asset.js"></script>
+

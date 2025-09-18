@@ -1,0 +1,234 @@
+﻿
+@{
+    ViewBag.Title = "Over View Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    <link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+    <link href="~/Content/jBox.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+}
+<style>
+    td.td-heading {
+        color: #306897 !important;
+    }
+
+    .table-striped > tbody > .dash-row:nth-of-type(odd) {
+        background-color: #fffdf8 !important;
+    }
+
+    .table-bordered > tbody > .dash-row > td {
+        border: 1px solid #a29f9f;
+        padding: 3px;
+        font-size: 13px;
+    }
+
+    td.New-complete {
+        background: #e1ffe1;
+        text-align: center;
+    }
+
+    td.Clf-complete {
+        background: #efe1e1;
+        text-align: center;
+    }
+
+    td.update-complete {
+        background: #d2e5ff;
+        text-align: center;
+    }
+
+    td.issue-complete {
+        background: #f3b9b9;
+        text-align: center;
+    }
+
+    .all-data {
+        text-align: center;
+    }
+
+    tr.all-data th {
+        text-align: center;
+    }
+
+    .panel {
+        justify-content: center;
+    }
+
+    .panel-title {
+        color: #1e3a8a;
+        line-height: 3rem;
+        font-weight: 700;
+    }
+</style>
+<section role="main" class="content-body" ng-controller="FarDashboardcontroller">
+    <div class="row">
+
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w3">
+                <header class="panel-heading">
+                    <h2 class="panel-title">FAR OVERVIEW DASHBOARD</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group" style="margin-left: 50px">
+                        <div class="col-md-4 no-padding">
+                            <div class="col-md-4 tat no-padding">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">FAR ID</h2>
+                                <img src="~/Images/tat-bl.png" class="imgtat" />
+                                <div class="ab1">
+                                    <span ng-bind="Far"></span>
+                                    </br>
+                                </div>
+                            </div>
+                            <div class="col-md-4 tat no-padding">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700;width: 100%">Region</h2>
+                                <img src="~/Images/tat-gn.png" class="imgtat" />
+                                <div class="ab2">
+                                    <span ng-bind="Region"></span>
+                                    </br>
+                                </div>
+                            </div>
+                            <div class="col-md-4 tat no-padding">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">Asset Description</h2>
+                                <img src="~/Images/tat-org.png" class="imgtat" />
+                                <div class="ab3">
+                                    <span ng-bind="AssetDesc"></span>
+                                    </br>
+                                    @*<label class="days">Days</label>*@
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-8 no-padding">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq" style="display:flex;flex-direction:column">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Pending</h2>
+                                    <div class="square">
+                                        <span ng-bind="pen">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">PV</h2>
+                                    <div class="square">
+                                        <span ng-bind="pv">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Cataloguing</h2>
+                                    <div class="square">
+                                        <span ng-bind="cat">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">QC Review</h2>
+                                    <div class="square">
+                                        <span ng-bind="qc">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Released</h2>
+                                    <div class="square">
+                                        <span ng-bind="rlsd">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            @*<div class="col-md-2 sq-container">
+                                <div class="sq">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">Released</h2>
+                                    <div class="square">
+                                        <span ng-bind="rlsd">
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>*@
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+                    <div class="form-group" style="display: flex;flex-direction: row;width: 100%;gap:100px;justify-content:center;margin-left: 40px">
+
+                        @*<table class="table table-bordered mb-none" style="width: 70%; margin: 20px">
+            <thead>
+
+            <th style="width: 5%; background-color: #306897">FAR ID</th>
+            <th style="width: 5%; background-color: #306897">Region</th>
+            <th style="width: 5%; background-color: #306897">Asset Desc.</th>
+
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{FARCount}}</td>
+                    <td>{{RegionCount}}</td>
+                    <td>{{AssetDescCount}}</td>
+                </tr>
+            </tbody>
+        </table>*@
+
+                        @*<div class="round">
+                            <div style="text-align: center">
+                                <h2 class="panel-title" style="text-align: center; font-weight: 700">FAR ID</h2>
+
+                            </div>
+                            <canvas class="my-3 h-25" id="pie"></canvas>
+                        </div>*@
+                        <div class="round">
+                            <div id="chartContainer">
+                                <div style="text-align: center">
+                                    <h2 class="panel-title" style="text-align: center; font-weight: 700">
+                                        Open Request
+                                    </h2>
+                                </div>
+                            </div>
+                            <canvas id="donut"></canvas>
+                        </div>
+                        <div class="s-a-square">
+                            <div class="card-header" style="text-align: center">
+                                <h2 class="panel-title">
+                                    Month- wise New Request
+                                </h2>
+                            </div>
+                            <div style="padding: 2px">
+                                <select ng-model="totalYear" ng-change="bindTotalItems()" @*ng-options="plant1.Plantcode as plant1.Plantcode+'-'+plant1.Plantname for plant1 in (Plantoptions1| filter:{'Companycode': Company_Code })" ng-required="true"*@>
+                                    <option ng-repeat="y in yearList" ng-bind="y.year" value={{y.year}}></option>
+                                </select>
+                            </div>
+                            <div class="card-body">
+                                <canvas height="125" id="baravg" style="display: block;height: 200px;width: 400px;"></canvas>
+                            </div>
+                        </div>
+                        <div class="s-a-square">
+                            <div class="card-header" style="text-align: center">
+                                <h2 class="panel-title">
+                                    Open Request
+                                </h2>
+                            </div>
+                            <div style="padding: 2px">
+                                <select ng-model="pendYear" ng-change="bindPendItems()" @*ng-options="plant1.Plantcode as plant1.Plantcode+'-'+plant1.Plantname for plant1 in (Plantoptions1| filter:{'Companycode': Company_Code })" ng-required="true"*@>
+                                    <option ng-repeat="y in yearList" ng-bind="y.year" value={{y.year}}></option>
+                                </select>
+                            </div>
+                            <div class="card-body">
+                                <canvas height="125" id="prog" style="display: block;height: 200px;width: 400px;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+</section>
+<script src="~/Scripts/ctrls/Assetreport.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/chart.min.js"></script>

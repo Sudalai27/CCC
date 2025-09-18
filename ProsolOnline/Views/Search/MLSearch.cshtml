@@ -1,0 +1,62 @@
+﻿
+
+@{
+    ViewBag.Title = "Search By Desc";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+
+<section role="main" class="content-body">
+
+    
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" id="divNotifiy" ng-show="NotifiyRes" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <!-- start: page -->
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    <h2 class="panel-title">SEARCH</h2>
+                </header>
+                <div class="panel-body">
+                    <div class="form-group">
+
+                        <iframe style="height:700px;width:100%;" src="http://13.235.11.197:8000/simplesearch/"></iframe>
+                    </div>
+
+
+
+                </div>
+
+
+
+            </section>
+
+        </div>
+    </div>
+
+
+   
+</section>
+
+<script src="/Scripts/angular-busy.min.js"></script>
+
+<script src="/Scripts/ctrls/SearchbydescCtrl.js"></script>
+<script src="~/Scripts/jBox.js"></script>

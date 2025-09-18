@@ -1,0 +1,1620 @@
+﻿
+@{
+    ViewBag.Title = "Equipments";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<link href="~/Content/angular-busy.min.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="EquipmentController">
+    @*<header class="page-header">
+            <div class="right-wrapper pull-right">
+                <ol class="breadcrumbs">
+
+                    <li><span>Catalogue</span></li>
+                    <li><span>Equipment Creation</span></li>
+                </ol>
+            </div>
+        </header>
+
+        <header class="page-header alert-messages">
+            <div class="col-md-12" style="background:#fff;min-height:36px;text-align:center">
+                <div class="col-md-4"></div>
+                <div class="col-md-6" style="margin:1px 0 1px 0;">
+                    <div id="divNotifiy" class="alert" style="display:none;" ng-class="Notify">
+                        <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fa fa-close"></i></button>
+                        <label ng-bind="Res" class="erroe-hold" />
+                    </div>
+                </div>
+                <div class="col-md-2">
+                </div>
+            </div>
+        </header>*@
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div id="divNotifiy" class="alert alert-top" style="display:none;" ng-class="Notify">
+                <button type="button" class="close" ng-click="NotifiyResclose()"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel">
+                <form name="form" ng-submit="form.$valid && checkDuplicate1()" novalidate>
+                    @*<section class="panel form-wizard" id="w4">*@
+                    @*<div class="panel-body">*@
+                        @*<div class="col-md-12">*@
+                            @*<div class="table-responsive">*@
+                                 @*style="border: 1px solid #000;margin-top:5px;"*@
+
+                                @*<div cg-busy="promise" style="margin-top: 5px;"></div>*@
+                                @*<h4 class="col-md-12">Equipments</h4>*@
+
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">
+                                        Equipment
+                                      
+                                    </h2>
+                                </header>
+                                <div class="col-md-12" style="padding-top:5px;padding-bottom:5px">
+                                    <div class="col-md-6">
+                                        <button ng-click="addEquip()" type="button" class="btn btn-xs btn1-primary10">Add</button>&nbsp;&nbsp;
+                                        <button ng-click="RemoveEquip()" type="button" class="btn btn-xs btn1-primary10">Remove</button>&nbsp;&nbsp;
+                                        <button ng-click="CopyEquip()" type="button" class="btn btn-xs btn1-primary10">Copy</button>&nbsp;&nbsp;
+                                        <button ng-click="PotentialEquip()" type="button" class="btn btn-xs btn1-primary10">Check Potentials</button>&nbsp;&nbsp;
+                                        @*<div class="equipment-button"><a href=""  title="Add new equipment" class="btn btn-xs btn-primary classAdd">Add</a> </div>*@
+                                    </div>
+                                    <div class="col-md-1">
+                                        @*<div class="equipment-button"><a href="" ng-click="RemoveEquip()" title="Remove equipment" class="btn btn-xs btn-primary classAdd">Remove</a> </div>*@
+                                    </div>
+                                    <div class="col-md-1">
+                                        @*<div class="equipment-button"><a href="" ng-click="CopyEquip()" title="Copy existing equipment" class="btn btn-xs btn-primary classAdd">Copy</a> </div>*@
+                                    </div>
+                                    @*<div class="col-md-2">
+                                            <div class="equipment-button"><a href="" ng-click="DuplicateEquip()" class="equipment-button-a">Check Duplicate</a> </div>
+                                        </div>*@
+                                    <div class="col-md-4">
+                                        @*<div class="equipment-button"><a href="" ng-click="PotentialEquip()" title="Check potential duplicates" class="btn btn-xs btn-primary classAdd">Check Potentials</a> </div>*@
+                                       
+                                    </div>
+
+                                </div>
+                    <div class="panel">
+                        <table class="table table-bordered mb-none">
+                            <thead class="top-border" align="center">                               
+                                <tr>
+                                    <th style="width:10%">Code</th>
+                                    <th style="width:10%">Material Code</th>
+                                    <th style="width:25%">Short Desc</th>
+                                    <th style="width:5%">UOM</th>
+                                    <th style="width:10%">Noun</th>
+                                    <th style="width:10%;">Modifier</th>                                 
+                                    <th style="width:5%">Status</th>
+                                    <th style="width:15%">&nbsp;</th>
+
+                                </tr>
+                            </thead>
+                        </table>
+
+                        <div style="display:block;max-height:180px;overflow-y:scroll;">
+                            <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
+                            <table class="table table-bordered mb-none">
+                                <tbody>
+                                    <tr id="{{$index}}" ng-click="RowClick1(cat1,$index)" ng-class="(cat1.ItemStatus==1 || cat1.ItemStatus==3)?'trsaved':((cat1.ItemStatus==0 || cat1.ItemStatus==1) && cat1.Reworkcat !=null ) ?'trrework':''" ng-repeat="cat1 in DataList1  | orderBy:'ItemStatus'">
+
+                                        <td style="width:10%"><label ng-bind="cat1.Itemcode"></label></td>
+                                        <td style="width:10%"><label ng-bind="cat1.Materialcode"></label></td>
+                                        <td style="width:25%"><label ng-bind="cat1.Shortdesc.length >35 ? (cat1.Shortdesc | limitTo: 35) +'...' : cat1.Shortdesc"></label></td>
+                                        <td style="width:5%"><label ng-bind="cat1.UOM"></label></td>
+                                        <td style="width:10%"><label ng-bind="cat1.Noun"></label></td>
+                                        <td style="width:10%"><label ng-bind="cat1.Modifier"></label><a class="pull-right" ng-show="cat1.Attachment!=null && cat1.Attachment!=''" href="/Attachment/{{cat1.Attachment}}" target="_blank"><i class="fa fa-paperclip fa-2x"></i></a></td>
+                                        <td style="width:5%"><label ng-bind="(cat1.ItemStatus==5 || cat1.ItemStatus==4) ? cat1.Duplicates='QA': (cat1.ItemStatus==2 || cat1.ItemStatus==3) ? cat1.Duplicates='QC':(cat1.ItemStatus==6)? cat1.Duplicates='Released':'Catalogue'"></label></td>
+                                        <td style="width:15%">
+                                            <label for="checkboxExample1" class="ng-scope">
+                                                <div class="checkbox-custom checkbox-default ng-binding">
+                                                    <input type="checkbox" ng-model="cat1.bu" ng-true-value="1" ng-checked="cat1.bu == 1" ng-false-value="0" name="selectedrole">
+                                                    <label for="checkboxExample1"></label>
+                                                </div>
+                                            </label>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                            @*</div>*@
+                            <div style="margin-top: 5px;" ></div>
+
+                            <div @*class="table-responsive"*@ ng-show="Equipments!=null" class="panel" @*style="border:1px solid #000;"*@>
+                                <header class="panel-heading">
+                                    <h2 class="panel-title">
+                                        Spares for {{Equipments}}
+
+                                    </h2>
+                                </header>
+                              
+                                <div style="margin-top: 5px;"></div>
+                                <div class="col-md-12" style="padding:5px">
+                                    <div class="col-md-6">
+                                        <button ng-click="addSpare()" type="button" class="btn btn-xs btn1-primary10">Add</button>&nbsp;&nbsp;
+                                        <button ng-click="RemoveSpare()" type="button" class="btn btn-xs btn1-primary10">Remove</button>&nbsp;&nbsp;
+                                        <button ng-click="CopySpare()" type="button" class="btn btn-xs btn1-primary10">Copy</button>&nbsp;&nbsp;
+                                        <button ng-click="PotentialSpare()" type="button" class="btn btn-xs btn1-primary10">Check Potentials</button>&nbsp;&nbsp;
+                                        <button ng-click="ShowExist()" type="button" class="btn btn-xs btn1-primary10">Add Exsiting</button>&nbsp;&nbsp;
+
+                                    </div>                     
+                      
+                                </div>
+                                <div>
+                                    <table class="table table-bordered mb-none">
+                                        <thead class="top-border" align="center">
+                                            <tr>
+                                                <th style="width:10%">Code</th>
+
+                                                <th style="width:10%">Material Code</th>
+                                                <th style="width:25%">Short Desc</th>
+                                                <th style="width:5%">UOM</th>
+                                                <th style="width:10%">Noun</th>
+                                                <th style="width:10%;">Modifier</th>
+                                          
+                                                <th style="width:5%">Status</th>
+                                                <th style="width:15%">&nbsp;</th>
+
+
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div style="display:block;max-height:180px;overflow-y:scroll;">
+                                    <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
+                                    <table class="table table-bordered mb-none">
+                                        <tbody>
+                                            <tr id="{{'sp'+ $index}}" ng-click="RowClick(cat1,$index)" ng-class="(cat1.ItemStatus==1 || cat1.ItemStatus==3)?'trsaved':((cat1.ItemStatus==0 || cat1.ItemStatus==1) && cat1.Reworkcat !=null ) ?'trrework':''" ng-repeat="cat1 in DataList | orderBy:'ItemStatus'">
+
+                                                <td style="width:10%"><label ng-bind="cat1.Itemcode"></label></td>
+                                                <td style="width:10%"><label ng-bind="cat1.Materialcode"></label></td>
+                                                <td style="width:25%"><label ng-bind="cat1.Shortdesc.length >35 ? (cat1.Shortdesc | limitTo: 35) +'...' : cat1.Shortdesc"></label></td>
+                                                <td style="width:5%"><label ng-bind="cat1.UOM"></label></td>
+                                                <td style="width:10%"><label ng-bind="cat1.Noun"></label></td>
+                                                <td style="width:10%"><label ng-bind="cat1.Modifier"></label><a class="pull-right" ng-show="cat1.Attachment!=null && cat1.Attachment!=''" href="/Attachment/{{cat1.Attachment}}" target="_blank"><i class="fa fa-paperclip fa-2x"></i></a></td>
+
+                                                <td style="width:5%"><label ng-bind="(cat1.ItemStatus==5 || cat1.ItemStatus==4) ? cat1.Duplicates='QA': (cat1.ItemStatus==2 || cat1.ItemStatus==3) ? cat1.Duplicates='QC':(cat1.ItemStatus==6)? cat1.Duplicates='Released':'Catalogue'"></label></td>
+                                                <td style="width:15%">
+                                                    <label for="checkboxExample1" class="ng-scope">
+                                                        <div class="checkbox-custom checkbox-default ng-binding">
+                                                            <input type="checkbox" ng-model="cat1.bu" ng-true-value="1" ng-checked="cat1.bu == 1" ng-false-value="0" name="selectedrole">
+                                                            <label for="checkboxExample1"></label>
+                                                        </div>
+                                                    </label>
+                                                </td>
+
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+
+                            </div>
+                            <div style="margin-top: 5px;"></div>
+                   
+                        <div class="tabs">
+                            <ul class="nav nav-tabs">
+                                <li class="{{desctab}}">
+                                    <a href="#Source" data-toggle="tab" aria-expanded="false"><i class="fa fa-file-text"></i> Description</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Plant" data-toggle="tab" aria-expanded="true"><i class="fa fa-industry"></i> Plant</a>
+                                </li>
+
+                                <li class="{{unspscact}}">
+                                    <a href="#Unspsc" data-toggle="tab" aria-expanded="false"><i class="fa fa-book"></i> Code Logic</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Attach" data-toggle="tab" aria-expanded="false"><i class="fa fa-paperclip"></i> Attachment</a>
+                                </li>
+
+                                <li ng-show="Equipments!=null">
+                                    <a href="#Existing" data-toggle="tab" aria-expanded="false"><i class="fa fa-plus"></i> Add Existing</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="Source" class="tab-pane {{desctab1}}">
+
+                                    <div class="form-group" ng-show="cat.Legacy!=null" data-spy="affix" data-offset-top="197">
+                                        <div style="height:10px;" class="col-md-12">
+
+                                        </div>
+                                        <label class="col-md-2 control-label" for="textareaDefault">Legacy Data</label>
+                                        <div class="col-md-10">
+                                            <input type="hidden" ng-model="cat._id" /><input type="hidden" ng-init="cat.ItemStatus==null?uo.Source='1':cat.ItemStatus" ng-model="cat.ItemStatus" /> <input type="hidden" ng-model="cat.Type" /><input type="hidden" ng-model="cat.Itemcode" />
+                                            <label class="label-disc ng-binding" ng-bind="cat.Legacy"> </label>
+
+                                            <div ng-show="form.legacy.$invalid" class="input-help">
+                                                <h4 ng-show="form.legacy.$error.required">Legacy data should not be blank</h4>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group" ng-show="codeLogic">
+                                        <label class="col-md-2 control-label" for="textareaDefault">Main Code</label>
+                                        <div class="col-md-2" ng-class="{'has-error': form.$submitted && form.drpMain.$invalid }">
+                                            <select ng-model="cat.Maincode" style="{{Maincode3}}" class="form-control" name="drpMain" ng-change="getSubcode()" ng-options="x.code as x.title for x in Groupcodes" ng-required="req_maincode">
+                                                <option value="">Select</option>
+                                            </select>
+
+                                        </div>
+                                        <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">Sub Code</label>
+                                        <div class="col-md-3" ng-class="{'has-error': form.$submitted && form.drpSub.$invalid}">
+                                            <select ng-model="cat.Subcode" style="{{Subcode3}}" class="form-control" name="drpSub" ng-change="getSubsubcode()" ng-options="x.code as x.title for x in getsubgroup" ng-required="req_maincode">
+                                                <option value="">Select</option>
+                                            </select>
+
+                                        </div>
+                                        <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">Sub Sub Code</label>
+                                        <div class="col-md-3" ng-class="{'has-error': form.$submitted && form.drpSubsub.$invalid}">
+                                            <select ng-model="cat.Subsubcode" ng-change="subsubcodechange()" class="form-control" style="{{Subsubcode3}}" name="drpSubsub" ng-options="x.SubSubGroupCode as x.SubSubGroupTitle for x in getSubsubgroup" ng-required="req_maincode">
+                                                <option value="">Select</option>
+                                            </select>
+
+                                        </div>
+
+
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label class="col-md-1 control-label" for="textareaDefault">Noun<span style="color:red;font-weight:bold">*</span></label>
+                                    
+                                            <div class="col-md-2" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
+
+                                                <input type="text" class="form-control immediate-help" name="nun" ng-pattern="/^(\D)+$/" ng-model="cat.Noun" ng-blur="NM.Noun=NM.Noun.toUpperCase();" ng-change="loadmodifier(cat.Noun.toUpperCase())" autofocus auto-complete required style="width:90%;float:left;">
+                                                <a href="#" ng-hide="NM1.NounDefinition==null||NM1.NounDefinition==''" data-tooltip={{NM1.NounDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+
+
+                                                <div ng-show="form.nun.$invalid" class="input-help">
+                                                    <h4 ng-show="form.nun.$error.required">Noun should not be blank</h4>
+                                                    <h4 ng-show="form.nun.$error.pattern">Enter characters only</h4>
+
+                                                </div>
+                                            </div>
+                                            <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">Modifier<span style="color:red;font-weight:bold">*</span></label>
+                                            <div class="col-md-2" ng-class="{'has-error': form.$submitted && (form.modll.$invalid || form.modll.$error.required)}">
+                                                <select ng-model="cat.Modifier" class="form-control" name="modll" required ng-change="ChangeModifier()" ng-options="x.Modifier as x.Modifier for x in Modifiers" style="width:90%;float:left;">
+
+                                                    <option value="">Select</option>
+                                                </select>
+                                                <a href="#" ng-hide="NM1.ModifierDefinition==null||NM1.ModifierDefinition==''" data-tooltip={{NM1.ModifierDefinition}} class="tool-tip-hover" style="width:10%;float:left;"><img src="~/Content/images/im.gif" /></a>
+                                            </div>
+                                            <label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">UOM<span style="color:red;font-weight:bold">*</span></label>
+                                            <div class="col-md-2 controls" ng-class="{'has-error': form.$submitted && form.uomname.$invalid }">
+                                                <select ng-model="cat.UOM" name="uomname" class="form-control" ng-options="x.UOMNAME as x.UOMNAME for x in uomList1" required>
+                                                    <option value="" selected="selected">Select UOM</option>
+                                                </select>
+
+                                            </div>
+                                            <label class="col-md-1 control-label" ng-show="cat.category !='Equipment'" for="textareaDefault" style="text-align:right;">Part Qty<span ng-show="cat.category!='Equipment'" style="color:red;font-weight:bold">*</span></label>
+                                            <div class="col-md-2 controls" ng-show="cat.category!='Equipment'" ng-class="{'has-error': form.$submitted && (form.pQty.$invalid || form.pQty.$error.required)}">
+                                                <input type="text" class="form-control" name="pQty" ng-model="cat.PartQty" ng-required="cat.category!='Equipment'" />
+
+                                            </div>
+                                            @*<label class="col-md-1 control-label" for="textareaDefault" style="text-align:right;">HSN</label>
+                                                <div class="col-md-2 controls">
+                                                    <select ng-model="cat.HSN" name="HSNname" class="form-control" ng-options="x.HSNID as x.HSNID for x in HSNList">
+                                                        <option value="" selected="selected">Select HSN</option>
+                                                    </select>
+                                                 </div>*@
+                                        @*</div>*@
+                                    </div>
+                                    <table id="flowconId" style="display:none">
+                                        <tr><td colspan="5" ng-hide="itemstatusLst[0].RequestId==null"><h5>Request Id : <label ng-bind="itemstatusLst[0].RequestId" /></h5></td><td colspan="5"><h5>Item Code : <label ng-bind="itemstatusLst[0].Itemcode" /></h5></td></tr>
+                                        <tr>
+
+                                            <td width="10%" ng-show="!itemstatusLst[0].itemshow">
+                                            <td width="10%" ng-show="itemstatusLst[0].itemshow">
+                                                <i class="fa fa-user fa-5x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+
+                                            </td>
+                                            <td width="10%" ng-show="itemstatusLst[0].itemshow">
+                                                <i class="fa fa-arrow-{{itemstatusLst[0].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+                                            </td>
+                                            <td width="10%" ng-show="itemstatusLst[1].itemshow">
+                                                <i class="fa fa-user fa-5x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==1|| itemstatusLst[1].Status==-1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+
+                                            </td>
+                                            <td width="10%" ng-show="itemstatusLst[1].itemshow">
+                                                <i class="fa fa-arrow-{{itemstatusLst[1].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==-1 || itemstatusLst[1].Status==1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+                                            </td>
+                                            <td width="10%">
+                                                <i class="fa fa-user fa-5x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+
+                                            </td>
+
+                                            <td width="10%">
+                                                <i class="fa fa-arrow-{{itemstatusLst[2].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+                                            </td>
+                                            <td width="10%">
+                                                <i class="fa fa-user fa-5x {{itemstatusLst[3].Status==0?'gray':''}}{{itemstatusLst[3].Status==1 || itemstatusLst[3].Status==-1 || itemstatusLst[3].Status==-2?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+
+                                            </td>
+                                            <td width="10%">
+                                                <i class="fa fa-arrow-{{itemstatusLst[4].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[3].Status==0 ||(itemstatusLst[4].Status==0 && itemstatusLst[3].Status!=1)?'gray':''}}{{itemstatusLst[4].Status==-1 ?'orange':''}}{{itemstatusLst[3].Status==1?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+                                            </td>
+                                            <td width="10%">
+                                                <i class="fa fa-user fa-5x {{itemstatusLst[4].Status==0?'gray':''}}{{itemstatusLst[4].Status==1 || itemstatusLst[4].Status==-1?'orange':''}}{{itemstatusLst[4].Status==2?'green':''}}"></i>
+
+                                            </td>
+
+
+                                        </tr>
+
+                                        <tr>
+
+                                            <td width="10%" ng-show="!itemstatusLst[0].itemshow">
+                                            <td width="10%" ng-show="itemstatusLst[0].itemshow">
+
+                                                @*<h6 class="user-h6">Requester</h6>*@
+                                                <p class="user-para">{{itemstatusLst[0].UserName}}<br /> {{itemstatusLst[0].Date}}</p>
+                                            </td>
+                                            <td width="10%" ng-show="itemstatusLst[0].itemshow"></td>
+                                            <td width="10%" ng-show="itemstatusLst[1].itemshow">
+
+                                                @*<h6 class="user-h6">Approver</h6>*@
+                                                <p class="user-para" ng-hide="itemstatusLst[1].UserName==null">{{itemstatusLst[1].UserName}}<br /> {{itemstatusLst[1].Date}}</p>
+                                            </td>
+                                            <td width="10%" ng-show="itemstatusLst[1].itemshow"></td>
+                                            <td width="10%">
+
+                                                @*<h6 class="user-h6">Cataloguer</h6>*@
+                                                <p class="user-para">{{itemstatusLst[2].UserName}}<br /> {{itemstatusLst[2].Date}}</p>
+                                            </td>
+                                            <td width="10%"></td>
+
+                                            <td width="10%">
+
+                                                @*<h6 class="user-h6">Reviewer</h6>*@
+                                                <p class="user-para">{{itemstatusLst[3].UserName}}<br />  {{itemstatusLst[3].Date}}</p>
+                                            </td>
+                                            <td width="10%"></td>
+                                            <td width="10%">
+
+                                                @*<h6 class="user-h6">Releaser</h6>*@
+                                                <p class="user-para">{{itemstatusLst[4].UserName}}<br /> {{itemstatusLst[4].Date}}</p>
+                                            </td>
+                                        </tr>
+
+                                    </table>
+                                    <div id="simItems" style="display:none">
+                                        <table id="maintable" class="table table-bordered mb-none LeftPaddingRemoving">
+                                            <thead class="top-border">
+                                                <tr>
+                                                    <th>
+                                                        <div style="width:30%;float:left;">Short Desc</div>
+                                                        <div style="width:70%;float:left;">
+                                                            <input type="text" class="form-control" ng-model="simText" />
+                                                        </div>
+                                                    </th>
+                                                    <th>Item code</th>
+                                                    @*<th>Count</th>*@
+                                                    <th>Action</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="xn in LstsimItems | orderBy : '-ItemStatus' | filter:{'Shortdesc': simText || undefined}  ">
+                                                    <td>
+                                                        <div id="conId{{$index}}" style="display:none;">
+                                                            <table class="table table-bordered mb-none" style="width: 100% !important;margin: 0 auto;">
+                                                                <thead class="top-border">
+                                                                    <tr>
+                                                                        <td><label class="control-label" style="font-weight:bold">Attribute</label></td>
+                                                                        <td><label class="control-label" style="font-weight:bold">Value</label></td>
+                                                                        <td><label class="control-label" style="font-weight:bold">Unit</label></td>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+
+                                                                    <tr ng-repeat="ls in xn.Characteristics">
+                                                                        <td><label class="control-label" ng-bind="ls.Characteristic"></label></td>
+                                                                        <td>{{ls.Value}}</td>
+                                                                        <td>{{ls.UOM}}</td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
+                                                        @*<div id="chrId{{$index}}" class="target" style="cursor:pointer">{{xn.Shortdesc}}</div>*@
+                                                        <div id="chrId{{$index}}" class="target" ng-click="showlitpopup($index)" style="cursor:pointer">{{xn.Shortdesc}}</div>
+
+                                                    </td>
+                                                    <td><label ng-bind="xn.Itemcode" /></td>
+                                                    @*<td>{{xn.ItemStatus}}</td>*@
+                                                    <td><a style="cursor:pointer" ng-click="similarDataFill(xn.Characteristics)" title="Fill Data"><i class="fa fa-reply-all" style="color: #555;"></i></a></td>
+
+
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                    </div>
+
+                                  
+
+                                    <div class="panel panel-accordion detail-plan" ng-show="Characteristics!=null">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a class="accordion-toggle collapse in" data-toggle="collapse" href="#char">
+                                                    Characteristic
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="char" class="accordion-body collapse in">
+                                            <div class="panel-body">
+                                                <div id="divcharater" class="form-group" ng-show="Characteristics!=null">
+
+                                                    <div class="col-md-8">
+
+                                                        <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                            <thead class="top-border">
+                                                                <tr>
+                                                                    <th style="width:25%">characteristic</th>
+                                                                    <th style="width:20%">Value</th>
+                                                                    <th style="width:15%">Abbreviate</th>
+                                                                    <th style="width: 10%">Unit</th>
+                                                                    @*<th style="width: 15%">URL</th>
+                                        <th style="width: 15%">Source</th>*@
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr ng-repeat="uo in Characteristics">
+
+                                                                    <td>
+                                                                        <input type="hidden" ng-model="uo.Squence" /><input type="hidden" ng-model="uo.ShortSquence" />
+                                                                        <div>
+                                                                            <a style="text-decoration:none" title="{{uo.Definition}}"><label class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}">{{uo.Characteristic}}<span ng-show="uo.Mandatory=='Yes'" style="color:red;font-weight:bold">*</span><span title="Key Attribute" ng-show="uo.style=='Yes'"><i class="fas fa-key"></i></span></label></a>
+                                                                            @*<input type="text" class="form-control" ng-class="{'tdback':uo.Mandatory=='Yes'}" disabled ng-model="uo.Characteristic">*@
+                                                                        </div>
+                                                                    </td>
+                                                                    <td>
+                                                                        <div ng-class="{'has-error':form.$submitted && (form.val{{$index}}.$error.pattern || form.val{{$index}}.$error.required|| form.val1{{$index}}.$error.required)}">
+                                                                            @*<input id="val{{$index}}" type="text" ng-click="SelectCharater(cat.Noun,cat.Modifier,uo.Characteristic)" list="lstitms" ng-click="getList($index,Valuelist | filter:{'AttributeName': uo.Characteristic }:true)" ng-blur="checkLogic(cat.Noun,cat.Modifier,uo.Characteristic,$index)"  ng-blur="checkSimilar()" class="form-control" ng-model="uo.Value">*@
+                                                                            <input name="val{{$index}}" type="text" @*ng-hide="uo.Characteristic=='DESIGNATION'"*@ list="lstitms" ng-focus="SelectCharater(cat.Noun,cat.Modifier,uo.Characteristic)" ng-required="uo.Mandatory=='Yes'" ng-blur="checkValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,$index)" class="form-control immediate-help" ng-pattern="uo.Validation" ng-model="uo.Value" ng-maxlength="30" @*maxlength="30"*@ autocomplete="off" capitalize>
+                                                                            @*<select ng-model="uo.Value" ng-show="uo.Characteristic=='DESIGNATION'" name="val1{{$index}}" ng-focus="SelectDesg(cat.Noun,cat.Modifier,uo.Characteristic)" ng-change="Desgdrop(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,$index)" class="form-control immediate-help" ng-options="y for y in Desg">
+                                                    <option value="" selected="selected">Select</option>
+                                                </select>*@
+                                                                            <div ng-show="form.val{{$index}}.$error.pattern" class="input-help">
+                                                                                <h4 ng-show="form.val{{$index}}.$error.pattern">Enter numeric only</h4>
+                                                                                @*<h4 ng-show="form.val{{$index}}.$error.pattern">Value not more than 30 characters</h4>*@
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+                                                                    <td>
+                                                                        <div id="checkval{{$index}}" style="display:none" class="col-md-12 no-padding">
+                                                                            <div class="col-md-8 no-padding"><input ng-model="uo.Abbrivation" type="text" class="form-control" capitalize /></div><div class="col-md-2 no-padding">
+                                                                                <button id="btnabv{{$index}}" type="button" name="btnAdd" @*style="background: #fff;border: none;color: #3e79cb;text-decoration: underline;"*@ ng-click="AddValue(cat.Noun,cat.Modifier,uo.Characteristic,uo.Value,uo.Abbrivation,$index)">Add</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+
+                                                                    <td>
+
+                                                                        <div ng-click="Uomalert(uo.UOM,$index)" id="U{{$index}}">
+                                                                            <div ng-show="uo.Uom !=null && uo.Uom.length > 0 " ng-class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }">
+                                                                                <select ng-model="uo.UOM" name="Um11o{{$index}}" class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null && uo.Uom !=null && uo.Uom.length > 0" ng-options="y for y in uo.Uom">
+                                                                                    <option value="">Select</option>
+                                                                                </select>
+                                                                            </div>
+
+                                                                            @*<div ng-show="(uo.Uom ==null || uo.Uom.length ==  0) && x.UOMList.length > 0" class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }" ng-repeat="x in UOMs | filter : {'Attribute': uo.Characteristic }:true">
+                                                    <select ng-model="uo.UOM" name="Um11o{{$index}}"   class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null &&  x.UOMList.length > 0 " ng-options="y for y in x.UOMList">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </div>*@
+                                                                        </div>
+
+                                                                    </td>
+                                                                    @*<td>
+                                            <input type="text" class="form-control" ng-model="uo.SourceUrl" />
+                                        </td>
+
+                                        <td>
+                                            <select class="form-control" ng-init="uo.Source==null?uo.Source='LEGACY DATA':uo.Source" ng-model="uo.Source" ng-options="lst for lst in ['LEGACY DATA','LEGACY DATA/INTERNET','INTERNET']"></select>
+                                        </td>*@
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                    <div class="col-md-4">
+
+                                                        <div style="width: 100%;float: left;">
+                                                            <a id="Modal-2" ng-show="cat.Noun!=null" ng-click="OpenPop()" style="width:5%;float:left;"><i class="fas fa-sync-alt" style="font-size:17px !important;" title="Click Here Similar Item"></i></a>
+                                                            <span style="width:2%;float:left;">|</span> &nbsp;&nbsp;<a id="showstatus" ng-show="cat.Itemcode!=null" ng-click="showuserMap(cat.Itemcode)" style="width:5%;float:left;"><i class="fas fa-clipboard-list" style="font-size:18px !important;" title="View Item Status"></i></a>
+                                                            <span style="width:2%;float:left;" ng-show="NM1.FileData == null ? false:true">|</span> &nbsp;&nbsp;<div class="enlarge" ng-show="NM1.FileData == null ? false:true" style="width:5%;float:left;">
+                                                                <a><img src={{NM1.FileData}} width="30px" height="25px" style="border:1px solid #a2a2a2" /><span><img src={{NM1.FileData}} width="300px" height="300px" /></span></a>
+                                                            </div><br />
+                                                        </div>
+                                                        <label class="control-label" for="textareaDefault">Additional Data For Description</label>
+                                                        <textarea class="form-control" rows="3" ng-model="cat.Additionalinfo" capitalize></textarea>
+                                                        @*<label ng-show="false" class="control-label" for="textareaDefault">Junk</label>
+                            <textarea ng-show="false" class="form-control" rows="3" ng-model="cat.Junk"></textarea><br />*@
+
+                                                        <label style="font-weight:bold" class="blue">Short Description</label><br />
+                                                        <label ng-bind="cat.Shortdesc" class="label-disc"></label>
+                                                        <textarea style="display:none" class="form-control" rows="3" ng-model="cat.Shortdesc"></textarea><br />
+
+                                                        <label style="font-weight:bold" class="blue">Long Description</label><br />
+                                                        <label ng-bind="cat.Longdesc" class="label-disc"></label>
+                                                        <textarea style="display:none" class="form-control" ng-model="cat.Longdesc" rows="3"></textarea><br />
+
+                                                        <label style="font-weight:bold;color:saddlebrown;">Missing Value</label><br />
+                                                        <label ng-bind="cat.MissingValue" class="label-disc" style="color:saddlebrown;font-size:12px"></label>
+                                                        <textarea style="display:none" class="form-control" ng-model="cat.MissingValue" rows="3"></textarea><br />
+
+
+
+                                                        <label style="font-weight:bold;color:saddlebrown;">Enriched Value</label>
+                                                        <label ng-bind="cat.EnrichedValue" class="label-disc" style="color:saddlebrown;font-size:12px"></label>
+                                                        <textarea style="display:none" class="form-control" ng-model="cat.EnrichedValue" rows="3"></textarea><br />
+
+
+
+                                                        <label style="font-weight:bold;color: saddlebrown;">Repeated Value</label>
+                                                        <label ng-bind="cat.RepeatedValue" class="label-disc" style="color:saddlebrown;font-size:12px"></label>
+                                                        @*<textarea style="display:none" class="form-control" ng-model="cat.RepeatedValue" rows="3"></textarea><br />*@
+                                                        @*<img class="col-md-12 img-show-categ" src="{{NM1.FileData}}" ng-show="NM1.FileData == null ? false:true" />*@
+                                                    </div>
+                                                    <div class="col-md-10"></div>
+                                                    <div class="col-md-2">
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="col-md-6">
+                                            <div class="table-responsive">
+
+
+                                                <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th style="width: 10%;display:none;">Code</th>
+                                                            <th style="width: 28%">Vendor Type</th>
+                                                            <th style="width: 60%">Name</th>
+                                                            @*<th style="width: 20%">Ref Flag</th>
+                                                                <th style="width: 13%">Ref No</th>*@
+                                                            @*<th style="width:2%;text-align:center;">S</th>
+                                                            <th style="width:2%;text-align:center;">L</th>*@
+                                                            <th style="width: 8%;text-align:center;">Remove</th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="data-contact-person" ng-repeat="rw in rows">
+                                                            <td style="display:none;"><input type="text" class="form-control" ng-model="rw.Code" /></td>
+                                                            <td>
+                                                                <select ng-model="rw.Type" style="border-color:{{rw.red}}" ng-change="vebdortypechange($index)" name="ddlVendortype{{$index}}" class="form-control" ng-options="x.Type as x.Type for x in VendortypeList">
+                                                                    <option value="" selected="selected">Select</option>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" name="vendor{{$index}}" id="vendor{{$index}}" style="border-color:{{rw.redname}}" class="form-control" ng-change="checkvendortype($index)" ng-blur="vendornameblur($index)" ng-model="rw.Name" autocomplete="off" auto-complete2>
+
+
+                                                            </td>
+                                                            @*<td>
+                                                                    <select ng-model="rw.Refflag" name="Reftype{{$index}}" class="form-control"  style="border-color:{{rw.redrefflag}}" ng-options="x.Type as x.Type for x in ReftypeList">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" id="refno{{$index}}" placeholder="{{rw.placeholder}}" class="form-control" name="refno{{$index}}" style="border-color:{{rw.redrefno}}" ng-blur="checkPartno($index)" ng-change="refnochange($index)" ng-model="rw.RefNo">
+                                                                    <div id="divPartnum" style="display:none" class="input-help1">
+                                                                        <i ng-click="closeData()" class="fa fa-close fa-2x pull-right"></i>
+                                                                        <h4 ng-bind="'Below item(s) already exist'"></h4>
+                                                                        <div ng-repeat="ls in listptnodup" class="item-border">
+                                                                            <label><label style="font-weight:bold" ng-bind="'Item Code: '"></label><label ng-bind="ls.Materialcode"></label></label>
+                                                                            <label><label style="font-weight:bold" ng-bind="'Short Desc: '"></label><label ng-bind="ls.Shortdesc"></label></label>
+                                                                            <button type="button" ng-click="fillData(ls)">Fill Data </button>
+                                                                        </div>
+
+                                                                    </div>
+
+                                                                </td>*@
+
+                                                            @*<td>
+                                                                <div class="checkbox-custom checkbox-default" style="margin-left:10px;">
+                                                                    <input type="checkbox" ng-model="rw.s" ng-true-value="1" ng-checked="rw.s == 1" ng-false-value="0" id="chks{{$index}}" /> <label for="checkboxExample1"></label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="checkbox-custom checkbox-default" style="margin-left:10px;">
+                                                                    <input type="checkbox" ng-model="rw.l" ng-true-value="1" ng-checked="rw.l == 1" ng-false-value="0" id="chkl{{$index}}" /> <label for="checkboxExample1"></label>
+                                                                </div>
+                                                            </td>*@
+                                                            <td style="text-align:center"><button type="button" id="btnDelete" class="deleteContact btn btn  btn-xs" ng-click="RemoveRow($index)"><i class="fas fa-times" /></button></td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                    <tfoot>
+                                                        <tr>
+
+                                                            <td colspan="2"></td>
+                                                            <td>
+                                                                <div class="form-group" style="text-align:right">
+                                                                    <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()">Add</button>&nbsp;@*<button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()">Remove</button>*@
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+
+
+                                                </table>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="col-md-12" ng-show="cat.category=='Equipment'">
+                                                <div class="col-md-6 no-padding">Functional Location/Model NO./Serial NO.</div>
+                                                <div class="col-md-4 no-padding"><input type="text" ng-model="funloc" class="form-control" /></div>
+                                                <div class="col-md-1"><input type="button" class="btn btn-xs btn-primary classAdd" ng-click="SearchFL()" value="Search" /></div>
+                                            </div>
+                                            <div class="col-md-12 table-responsive">
+
+
+                                                <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th style="width: 10%;display:none;">Code</th>
+                                                            @*<th style="width: 15%">Vendor Type</th>
+                                                                <th style="width: 40%">Name</th>*@
+                                                            <th style="width: 38%">Ref Flag</th>
+                                                            <th style="width: 40%">Ref No</th>
+                                                            @*<th style="width:2%;text-align:center;">S</th>
+                                                            <th style="width:2%;text-align:center;">L</th>*@
+                                                            <th style="width: 8%;text-align:center;">Remove</th>
+
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="data-contact-person" ng-repeat="rw in rows1">
+                                                            <td style="display:none;"><input type="text" class="form-control" ng-model="rw.Code" /></td>
+                                                            @*<td>
+                                                                    <select ng-model="rw.Type" style="border-color:{{rw.red}}" ng-change="vebdortypechange($index)" name="ddlVendortype{{$index}}" class="form-control" ng-options="x.Type as x.Type for x in VendortypeList">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" name="vendor{{$index}}" id="vendor{{$index}}" style="border-color:{{rw.redname}}" class="form-control" ng-change="checkvendortype($index)" ng-blur="vendornameblur($index)" ng-model="rw.Name" autocomplete="off" auto-complete2>
+
+
+                                                                </td>*@
+                                                            <td>
+                                                                <select ng-model="rw.Refflag" name="Reftype{{$index}}" class="form-control" @*ng-change="refflagchange($index)"*@ style="border-color:{{rw.redrefflag}}" ng-options="x.Type as x.Type for x in ReftypeList">
+                                                                    <option value="" selected="selected">Select</option>
+                                                                </select>
+
+                                                            </td>
+                                                            <td>
+                                                                <input type="text" id="refno{{$index}}" placeholder="{{rw.placeholder}}" class="form-control" name="refno{{$index}}" style="border-color:{{rw.redrefno}}" ng-blur="checkPartno($index)" ng-change="refnochange($index)" ng-model="rw.RefNo">
+                                                                <div id="divPartnum" style="display:none" class="input-help1">
+                                                                    <i ng-click="closeData()" class="fa fa-close fa-2x pull-right"></i>
+                                                                    <h4 ng-bind="'Below item(s) already exist'"></h4>
+                                                                    <div ng-repeat="ls in listptnodup" class="item-border">
+                                                                        <label><label style="font-weight:bold" ng-bind="'Item Code: '"></label><label ng-bind="ls.Materialcode"></label></label>
+                                                                        <label><label style="font-weight:bold" ng-bind="'Short Desc: '"></label><label ng-bind="ls.Shortdesc"></label></label>
+                                                                        <button type="button" ng-click="fillData(ls)">Fill Data </button>
+                                                                    </div>
+
+                                                                </div>
+
+                                                            </td>
+
+                                                            @*<td>
+                                                                <div class="checkbox-custom checkbox-default" style="margin-left:10px;">
+                                                                    <input type="checkbox" ng-model="rw.s" ng-true-value="1" ng-checked="rw.s == 1" ng-false-value="0" id="chks{{$index}}" /> <label for="checkboxExample1"></label>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="checkbox-custom checkbox-default" style="margin-left:10px;">
+                                                                    <input type="checkbox" ng-model="rw.l" ng-true-value="1" ng-checked="rw.l == 1" ng-false-value="0" id="chkl{{$index}}" /> <label for="checkboxExample1"></label>
+                                                                </div>
+                                                            </td>*@
+                                                            <td style="text-align:center"><button type="button" id="btnDelete" class="deleteContact btn btn  btn-xs" ng-click="RemoveRow1($index)"><i class="fas fa-times" /></button></td>
+                                                        </tr>
+                                                    </tbody>
+
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="2"></td>
+                                                            <td>
+                                                                <div class="form-group" style="text-align:right">
+                                                                    <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow1()">Add</button>&nbsp;@*<button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow()">Remove</button>*@
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+
+
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label class="col-md-1 control-label no-padding">Remarks</label>
+                                            <div class="col-md-6">
+                                                <label class="label-disc">
+                                                    <label ng-hide="cat.RevRemarks==null">Reviewer:</label> <label ng-hide="cat.RevRemarks==null" ng-bind="cat.RevRemarks" style="border: none"></label>
+                                                    <label ng-hide="cat.RelRemarks==null">Releaser:</label> <label ng-hide="cat.RelRemarks==null" ng-bind="cat.RelRemarks" style="border: none"></label>
+                                                    <textarea class="form-control" placeholder="Enter Remarks" ng-model="cat.Remarks" rows="2" id="textareaDefault"></textarea>
+                                                </label>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+                                <div id="Plant" class="tab-pane">
+                                    <div class="col-md-12">
+                                        <div class="tabs tabs-vertical tabs-left cataloguer-all">
+                                            <ul class="nav nav-tabs col-sm-2 col-xs-5 cte-all">
+                                                <li class="cataloguer-tab active boxes active-box">
+                                                    <a href="#Plant-id" data-toggle="tab">Plant</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#general" data-toggle="tab">General</a>
+                                                </li>
+
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Mrp-Data" data-toggle="tab">MRP Data</a>
+                                                </li>
+                                                <li class="cataloguer-tab active-box boxes">
+                                                    <a href="#Sales_Others" data-toggle="tab">Sales & Others</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content cataloguer-box">
+                                                <div id="Plant-id" class="tab-pane  active active-box">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Plant</label>
+
+                                                                    <div class="col-md-7 control-texts">
+                                                                        @*<input type="text" class="form-control" name="plant" ng-model="plant.Plant">*@
+                                                                        <select class="form-control" id="ddlPlant" ng-model="erp.Plant" ng-options="x.Plantcode as x.Plantname for x in PlantList"></select>
+
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Profit Center</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.ProfitCenter">*@
+
+                                                                        <select class="form-control" id="ddlprofit" ng-model="erp.ProfitCenter" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Profit center' } && {'Plantcode': erp.Plant } :true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Storage Location</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.StorageLocation">*@
+                                                                        <select class="form-control" id="ddlstoreage" ng-model="erp.StorageLocation" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Storage location' } && {'Plantcode': erp.Plant } :true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Storage Bin</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.StorageBin">*@
+                                                                        <select class="form-control" id="ddlbin" ng-model="erp.StorageBin" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Storage bin' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Valuation Class</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.ValuationClass">*@
+                                                                        <select class="form-control" id="ddlvclass" ng-model="erp.ValuationClass" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Valuation class' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Valuation Type</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.ValuationType_">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Price Control</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.PriceControl">*@
+                                                                        <select class="form-control" id="ddlprice" ng-model="erp.PriceControl" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Price control' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Standard Price</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.StandardPrice_">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Moving Avg price</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.MovingAvgprice_">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Valuation Category</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.ValuationCategory">*@
+                                                                        <select class="form-control" id="ddlvcat" ng-model="erp.ValuationCategory" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Valuation catagory' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Variance Key</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="plant.VarianceKey">*@
+                                                                        <select class="form-control" id="ddlvkey" ng-model="erp.VarianceKey" ng-options="x.Code as x.Title for x in (MasterList | filter: {'Label': 'Varience key' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="general" class="tab-pane">
+                                                    <div class="panel-body active-box">
+
+                                                        <div class="col-md-6">
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Industry sector</label>
+
+                                                                <div class="col-md-7 control-text control-texts">
+                                                                    @*<input type="text" ng-model="gen.Industrysector" class="form-control">*@
+                                                                    <select class="form-control" id="ddlindustry" ng-model="erp.Industrysector" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Industry sector' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Material Type</label>
+
+                                                                <div class="col-md-7 control-text">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.Materialtype">*@
+                                                                    <select class="form-control" id="ddlmaterial" ng-model="erp.Materialtype" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Material type' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Base UOP</label>
+
+                                                                <div class="col-md-7">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.BaseUOP">*@
+                                                                    <select class="form-control" id="ddlbaseuop" ng-model="erp.BaseUOP" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Base uop' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Unit of Issue</label>
+
+                                                                <div class="col-md-7 control-text">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.Unit_issue">*@
+                                                                    <select class="form-control" id="ddluis" ng-model="erp.Unit_issue" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Unit of issue' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Alternate UOM</label>
+
+                                                                <div class="col-md-7 control-text">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.AlternateUOM">*@
+                                                                    <select class="form-control" id="ddlalteruom" ng-model="erp.AlternateUOM" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Alternate uom' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Numerator</label>
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class="form-control" ng-model="erp.Numerator_">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Denominator</label>
+
+                                                                <div class="col-md-7">
+                                                                    <input type="text" class="form-control" ng-model="erp.Denominator_">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Inspection Type</label>
+
+                                                                <div class="col-md-7 control-text">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.Inspectiontype">*@
+                                                                    <select class="form-control" id="ddlinstype" ng-model="erp.Inspectiontype" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Inspection type' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Inspection Code</label>
+
+                                                                <div class="col-md-7 control-text">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.Inspectioncode">*@
+                                                                    <select class="form-control" id="ddlinscode" ng-model="erp.Inspectioncode" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Inspection code' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Old Material No</label>
+
+                                                                <div class="col-md-7 control-text">
+                                                                    <input type="text" class="form-control" ng-model="erp.Oldmaterialno_">
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Division</label>
+
+                                                                <div class="col-md-7">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.Division">*@
+                                                                    <select class="form-control" id="ddldivision" ng-model="erp.Division" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Division' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="form-group ">
+                                                                <label class="col-md-5 control-label" for="inputDefault">Sales Unit</label>
+
+                                                                <div class="col-md-7">
+                                                                    @*<input type="text" class="form-control" ng-model="gen.Salesunit">*@
+                                                                    <select class="form-control" id="ddlsaleunit" ng-model="erp.Salesunit" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Sales unit' }:true)">
+                                                                        <option value="" selected="selected">Select</option>
+                                                                    </select>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                                <div id="Mrp-Data" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">MRP Type</label>
+
+                                                                    <div class="col-md-7 control-texts">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.MRPType">*@
+                                                                        <select class="form-control" id="ddlmrptype" ng-model="erp.MRPType" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Mrp type' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">MRP Controller</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.MRPController">*@
+                                                                        <select class="form-control" id="ddlmrpcontrol" ng-model="erp.MRPController" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Mrp controller' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">LOT Size</label>
+
+                                                                    <div class="col-md-7 control-texts">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.LOTSize">*@
+                                                                        <select class="form-control" id="ddllotsize" ng-model="erp.LOTSize" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Lot size' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Re-Order Point</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.ReOrderPoint_">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Procurement Type</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.ProcurementType">*@
+                                                                        <select class="form-control" id="ddlprocurement" ng-model="erp.ProcurementType" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Procurement type' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Safety Stock</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.SafetyStock_">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Max Stock Level</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.MaxStockLevel_">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Min Stock Level</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.MinStockLevel_">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Planning Strgy Grp</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.PlanningStrgyGrp">*@
+                                                                        <select class="form-control" id="ddlplanning" ng-model="erp.PlanningStrgyGrp" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Planning strgy' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Avail Check</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.AvailCheck">*@
+                                                                        <select class="form-control" id="ddlavilchk" ng-model="erp.AvailCheck" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Avali check' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Schedule Margin</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="mrpdata.ScheduleMargin">*@
+                                                                        <select class="form-control" id="ddlschedule" ng-model="erp.ScheduleMargin" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Schedule Margin' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div id="Sales_Others" class="tab-pane">
+                                                    <div class="panel-body active-box">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Acc Asignmt Category</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.AccAsignmtCategory">*@
+                                                                        <select class="form-control" id="ddlasscat" ng-model="erp.AccAsignmtCategory" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Acc Asignmt Category' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Tax Classification Group</label>
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.TaxClassificationGroup">*@
+                                                                        <select class="form-control" id="ddltaxclass" ng-model="erp.TaxClassificationGroup" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Tax Classification Group' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Item Category Group</label>
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.ItemCategoryGroup">*@
+                                                                        <select class="form-control" id="ddlitemcat" ng-model="erp.ItemCategoryGroup" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Item Category Group' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Sales Organization</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.SalesOrganization">*@
+                                                                        <select class="form-control" id="ddlsales" ng-model="erp.SalesOrganization" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Sales Organization' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Distribution Channel</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.DistributionChannel">*@
+                                                                        <select class="form-control" id="ddldistri" ng-model="erp.DistributionChannel" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Distribution Channel' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Material Strategic Group</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.MaterialStrategicGroup">*@
+                                                                        <select class="form-control" id="ddlmatstra" ng-model="erp.MaterialStrategicGroup" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Material Strategic Group' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Purchasing Group</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.PurchasingGroup">*@
+                                                                        <select class="form-control" id="ddlpurchasegrp" ng-model="erp.PurchasingGroup" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Purchasing Group' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Purchasing Value Key</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        @*<input type="text" class="form-control" ng-model="sales.PurchasingValueKey">*@
+                                                                        <select class="form-control" id="ddlpurval" ng-model="erp.PurchasingValueKey" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Purchasing Value Key' }:true)">
+                                                                            <option value="" selected="selected">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Goods Recept processing Time</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.GoodsReceptprocessingTime_">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <label class="col-md-5 control-label" for="inputDefault">Quantity</label>
+
+                                                                    <div class="col-md-7 control-text">
+                                                                        <input type="text" class="form-control" ng-model="erp.Quantity_">
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Unspsc" class="tab-pane {{Unspsc1}}">
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4 class="access-order ng-binding">Unspsc Logic</h4>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">Class Title</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].ClassTitle" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">Class</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" ng-disabled="true" ng-model="Commodities[0].Class" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">Commodity Title</label>
+                                                <div class="col-md-8">
+                                                    <select ng-model="cat.Unspsc" class="form-control" ng-options="x.Commodity as x.CommodityTitle for x in Commodities | filter :{'Class':  clss}">
+                                                        <option value="" selected="selected">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">Commodity</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" style="{{red_commodity}}" ng-model="cat.Unspsc" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h4 class="access-order ng-binding">HSN Logic</h4>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">Search</label>
+                                                <div class="col-md-7">
+                                                    <input type="text" ng-disabled="HSNShow" class="form-control" ng-model="hsn" />
+                                                </div>
+                                                <div class="col-md-1 no-padding">
+
+                                                    <button type="button" ng-show="hsn != null" class="btn btn-xs btn-primary" name="search" ng-click="Searchhsn(hsn)"><i class="fa fa-search"></i></button>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">HSN ID</label>
+                                                <div class="col-md-8">
+                                                    <input type="text" class="form-control" ng-disabled="true" ng-model="HSNID" />
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label" for="textareaDefault">HSN Desc</label>
+                                                <div class="col-md-8">
+                                                    <textarea class="form-control" ng-disabled="true" ng-model="Desc" rows="4"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6 form-group" ng-hide="codeLogic">
+                                            <h4 class="access-order ng-binding">Coda Logic</h4>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Main Code</label>
+                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.drpMain1.$invalid }">
+                                                    <select ng-model="cat.Maincode" style="{{Maincode3}}" class="form-control" name="drpMain1" ng-change="getSubcode()" ng-options="x.code as x.title for x in Groupcodes">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Sub Code</label>
+                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.drpSub1.$invalid }">
+                                                    <select ng-model="cat.Subcode" style="{{Subcode3}}" class="form-control" name="drpSub1" ng-change="getSubsubcode()" ng-options="x.code as x.title for x in getsubgroup">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-4 control-label">Sub-Sub Code</label>
+                                                <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.drpSubsub1.$invalid }">
+                                                    <select ng-model="cat.Subsubcode" ng-change="subsubcodechange()" class="form-control" style="{{Subsubcode3}}" name="drpSubsub1" ng-options="x.SubSubGroupCode as x.SubSubGroupTitle for x in getSubsubgroup">
+                                                        <option value="">Select</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <div id="FLcontent" style="display:none">
+                                    <div class="content">
+                                        <div style="text-align:right"><input type="button" class="btn btn-xs btn-primary classAdd" ng-click="AssignFL()" value="Assign" /></div>
+                                        <div style="max-height:180px;">
+
+                                            <table class="table table-bordered mb-none">
+                                                <thead>
+
+                                                    <tr>
+                                                        <td>Functional Locaion </td>
+                                                        <td>Model Number </td>
+                                                        <td>Serial Number </td>
+                                                        <td>
+                                                            <label for="checkboxExample1" class="ng-scope">
+                                                                <div class="checkbox-custom checkbox-default ng-binding">
+                                                                    <input type="checkbox" ng-model="FLall" ng-click="chkFLall()" name="selectedrole">
+                                                                    <label for="checkboxExample1"></label>
+                                                                </div>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    <tr ng-repeat="clm in funlocList">
+
+                                                        <td><label ng-bind="clm.FunctLocation"></label></td>
+                                                        <td><label ng-bind="clm.Modelno"></label></td>
+                                                        <td><label ng-bind="clm.ManufSerialNo"></label></td>
+                                                        <td>
+                                                            <label for="checkboxExample1" class="ng-scope">
+                                                                <div class="checkbox-custom checkbox-default ng-binding">
+                                                                    <input type="checkbox" ng-model="clm.bu" ng-true-value="1" ng-checked="clm.bu == 1" ng-false-value="0" name="selectedrole">
+                                                                    <label for="checkboxExample1"></label>
+                                                                </div>
+                                                            </label>
+                                                        </td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="cotentid1" style="display:none">
+                                    <div class="content">
+                                        <div class="panel-body">
+                                            <div class="col-md-12">
+
+                                                <div ng-hide="HSN==null">
+                                                    <div class="all-pop">
+                                                        <table class="table table-bordered mb-none">
+                                                            <thead class="top-border" align="center">
+                                                                <tr>
+
+                                                                    <th style="width:10%">HSNID</th>
+                                                                    <th style="width:20%">HSN Desc</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                        </table>
+                                                    </div>
+                                                    <div style="max-height:180px;">
+
+                                                        <table class="table table-bordered mb-none">
+
+                                                            <tbody>
+
+                                                                <tr ng-repeat="H in HSN" id="{{$index}}" ng-click="HSNClick(H,$index,cat.Noun,cat.Modifier)">
+
+                                                                    <td style="width:10%"><label ng-bind="H.HSNID"></label></td>
+                                                                    <td style="width:20%"><label ng-bind="H.Desc"></label></td>
+
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div id="Attach" class="tab-pane">
+                                    <div class="form-group">
+                                        <div class="col-md-2 control-text">
+                                            <label>Title</label>
+                                        </div>
+                                        <div class="col-md-2 control-text">
+                                            <input type="text" ng-model="Title" class="form-control" />
+                                        </div>
+                                        <div class="col-md-4 control-text">
+                                            <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addImg()">Add More</button>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-show="(AtttachmentList[0] !=null || imgList[0]!=null) ? true:false">
+                                        <div class="col-md-8">
+                                            <table id="maintable" class="table mb-none LeftPaddingRemoving">
+
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <th>Title</th>
+                                                        <th>File Name</th>
+                                                        <th>Size</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="x in AtttachmentList">
+                                                        <td><label>{{x.Title}}</label></td>
+                                                        <td><label>{{x.FileName}}</label></td>
+                                                        <td><label>{{x.FileSize}}</label></td>
+                                                        <td class="actions">
+                                                            <a ng-click="Delfile($index,x._id,x.FileId)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                                            <a ng-click="Downloadfile(x.FileName,x.ContentType,x.FileId)" class="on-default edit-row"><i class="fa fa-download"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr ng-repeat="x in imgList">
+                                                        <td><label>{{x.Title}}</label></td>
+                                                        <td><label>{{x.FileName}}</label></td>
+                                                        <td><label>{{x.FileSize}}</label></td>
+                                                        <td class="actions">
+                                                            @*<a class="on-default edit-row"><i class="fa fa-download"></i></a>*@
+                                                            <a ng-click="RemoveFile($index)" class="on-default remove-row"><i class="fa fa-trash-o"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div id="Existing" class="tab-pane" ng-show="Equipments!=null">
+
+                                    <div class="col-md-12 no-padding">
+
+                                        <div class="form-group">
+                                            <label class="col-md-2 control-label no-padding">Part No/Material Code/Item Code</label>
+                                            <div class="col-md-8">
+                                                <input type="text" class="form-control" ng-model="PMIcode" />
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-2 control-label no-padding"></div>
+                                            <div class="col-md-8">
+                                                <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="addExist()">Search</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 no-padding">
+                                        <div class="form-group col-md-10">
+                                            <div class="table-responsive">
+                                                <table id="maintable" class="table mb-none table-bordered">
+
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th>Item Code</th>
+                                                            <th>Material Code</th>
+                                                            <th>Short Desc</th>
+                                                            <th>Long Desc</th>
+                                                            <th>Part Qty</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="pmiMdl in pmiList">
+                                                            <td style="width:15%">
+                                                                <div class="col-md-2 check-order no-padding">
+                                                                    <label for="checkboxExample1" class="ng-scope">
+                                                                        <div class="checkbox-custom checkbox-default ng-binding">
+                                                                            <input type="checkbox" ng-model="pmiMdl.bu" ng-true-value="1" ng-checked="pmiMdl.bu == 1" ng-false-value="0" name="selectedrole">
+                                                                            <label for="checkboxExample1"></label>
+                                                                        </div>
+                                                                    </label>
+                                                                </div>&nbsp;{{pmiMdl.Itemcode}}
+                                                            </td>
+                                                            <td style="width:15%">{{pmiMdl.Materialcode}}</td>
+                                                            <td style="width:30%">{{pmiMdl.Shortdesc}}</td>
+                                                            <td style="width:35%">{{pmiMdl.Longdesc}}</td>
+                                                            <td style="width:5%"><input type="text" class="form-control" ng-model="pmiMdl.PartQty" /></td>
+                                                        </tr>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2 form-group">&nbsp;</div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-md-2 control-label no-padding"></div>
+                                        <div class="col-md-4">
+                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="addExistDB()">Add</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                                <div>
+                                    <div class="form-group">
+                                        <div class="col-md-5 control-text"></div>
+                                        <div class="col-md-4 control-text">
+                                            <button type="submit" class="mb-xs mt-xs mr-xs btn btn-primary">Save</button>
+                                            <div id="divduplicate" style="display:none" class="input-help1">
+                                                <div style="display: block;max-height: 150px;overflow-y: auto;">
+                                                    <i ng-click="closeData1()" class="fa fa-close fa-2x pull-right"></i>
+                                                    <h4 ng-bind="'Below item(s) already exist'"></h4>
+                                                    <div ng-repeat="ls in listptnodup1" class="item-border">
+                                                        <label><label style="font-weight:bold" ng-bind="'Item Code: '"></label><label ng-bind="ls.Itemcode"></label></label>
+                                                        <label><label style="font-weight:bold" ng-bind="'Short Desc: '"></label><label ng-bind="ls.Shortdesc"></label></label>
+
+
+                                                    </div>
+                                                    <label>Save as duplicate ?&nbsp;</label><button type="button" ng-click="writeData()">Yes</button>&nbsp;&nbsp;<button type="button" ng-click="NodupData()">No</button>
+                                                </div>
+                                            </div>
+                                            &nbsp;<button type="button" ng-click="SubmitData()" ng-show="sts1" class="mb-xs mt-xs mr-xs btn btn-primary">Submit</button>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    @*</div>*@
+
+                </form>
+            </section>
+
+
+
+
+
+
+
+        </div>
+
+
+    </div>
+
+</section>
+<script src="/Scripts/ctrls/Equipmentsctrl.js"></script>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="~/Scripts/jBox.js"></script>

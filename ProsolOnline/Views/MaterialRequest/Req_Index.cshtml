@@ -1,0 +1,1619 @@
+﻿
+@{
+    ViewBag.Title = "Material Request";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<link href="/Content/angular-busy.min.css" rel="stylesheet" />
+<link href="~/Content/jBox.css" rel="stylesheet" />
+<section role="main" class="content-body" ng-controller="req_load_controller">
+   
+    <header class="alert-messages">
+        <div class="col-md-12">
+            <div class="col-md-6"></div>
+            <div class="col-md-2">
+                <div cg-busy="cgBusyPromises" style="margin-top: -45px;z-index: 11111;position:fixed;width:50%"> </div>
+            </div>
+        </div>
+    </header>
+    <div class="col-md-12">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            <div class="alert alert-top" ng-show="NotifiyRes" ng-class="Notify" style="margin-top:5px;margin-bottom:5px;">
+                <button type="button" class="close" ng-click="NotifiyRes = !NotifiyRes"><i class="fas fa-times"></i></button>
+                <label ng-bind="Res" class="erroe-hold" />
+            </div>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <section class="panel form-wizard" id="w4">
+                <header class="panel-heading">
+                    <h2 class="panel-title">Material Request</h2>
+                </header>
+
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div class="tabs create-panel">
+                            <ul class="nav nav-tabs">
+
+
+                                <li id="Sig" class="active">
+                                    <a id="a1" href="#Single" data-toggle="tab" aria-expanded="true" ng-click="visiable1()"> Single & Multi Request</a>
+                                </li>
+                                <li class="">
+                                    <a href="#Multiplebulk" data-toggle="tab" aria-expanded="false" ng-click="visiable()">Bulk Request</a>
+                                </li>
+
+                                <li id="rej" class="">
+                                    <a id="a3" href="#Rejected" data-toggle="tab" aria-expanded="false" ng-click="visiable1()">Rejected Request</a>
+                                </li>
+                                <li id="clari" class="">
+                                    <a id="a4" href="#Clarification" data-toggle="tab" aria-expanded="false" ng-click="visiable2()">Clarification Request</a>
+                                </li>
+                                <li id="appr" class="">
+                                    <a id="a5" href="#Approved" data-toggle="tab" aria-expanded="false" ng-click="visiable3()">Approved Request</a>
+                                </li>
+                                <a class="download pull-right" ng-show="makevisiable && !codeLogic" href="/Common/BulkRequestGenral.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                                <a class="download pull-right" ng-show="makevisiable && codeLogic" href="/Common/BulkRequestCustomized.xlsx"><i class="fa fa-download example-2"></i>&nbsp; Download Template</a>
+                            </ul>
+                            <div class="tab-content">
+
+
+
+                                <div id="Single" class="tab-pane active">
+
+                                    <div class="col-md-7">
+                                        <form name="reqform_multi" ng-submit="addrowtobulktable(reqform_multi.$valid)" novalidate>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Plant<span style="color:red;font-weight:bold">*</span></label>
+                                                <input type="hidden" ng-bind="itemId" />
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlplant1.$invalid }">
+                                                    <select name="ddlplant1" class="form-control" ng-model="ddlplant1" ng-options="plant1.Plantcode as plant1.Plantname for plant1 in Plantoptions1" ng-change="getStoragecode_name1()" ng-required="true"> <option value="">  Select Plant</option></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Storage Location<span style="color:red;font-weight:bold">*</span> </label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlsl1.$invalid }">
+                                                    <select name="ddlsl1" class="form-control" ng-model="ddlstorage1" ng-options="storage1.Code as storage1.Title for storage1 in Storageoptions1" ng-required="true">
+                                                     <option value="">  Select Storage Location</option></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group" ng-show="codeLogic">
+                                                <label class="col-md-3 control-label">Group Code<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlgroup1.$invalid }">
+                                                    <select name="ddlgroup1" class="form-control" ng-model="ddlgroup1" ng-options="group1.code as group1.title for group1 in Groupoptions1" ng-change="getsubgroupCode_Name1()"> <option value="">  Select Group</option></select>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" ng-show="codeLogic">
+                                                <label class="col-md-3 control-label">Sub Group Code<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlsg1.$invalid }">
+                                                    <select name="ddlsg1" class="form-control" ng-model="ddlsubgroup1" ng-options="subgroup1.code as subgroup1.title for subgroup1 in SubGroupoptions1">
+                                                        <option value="">  Select Sub Group</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Material Type@*<span style="color:red;font-weight:bold">*</span>*@ </label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlsl2.$invalid }">
+                                                    <select class="form-control" id="ddlmaterial" ng-model="Materialtype" name="ddlsl2" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Material type' })">
+                                                        <option value="" selected="selected">Select MaterialType </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Industrial Sector@*<span style="color:red;font-weight:bold"></span>*@ </label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlsl3.$invalid }">
+                                                    <select name="ddlsl3" class="form-control" ng-model="Industrysector"  ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Industry sector' })">
+                                                     <option value="">  Select Industrial Sector</option></select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Material Group@*<span style="color:red;font-weight:bold">*</span>*@ </label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.ddlsl4.$invalid }">
+                                                    <select name="ddlsl4" class="form-control" ng-model="MaterialStrategicGroup" ng-options="x.Code as x.Title for x in (MasterList | filter:{'Label': 'Material Strategic Group' })">
+                                                     <option value="">  Select Group</option></select>
+                                                </div>
+                                            </div>
+                                            @*<div class="form-group">
+                                                <label class="col-md-3 control-label">Unit Price@*<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.up.$invalid }">
+                                                    <input type="text" class="form-control" ng-model="UnitPrice" name="up">
+                                                </div>
+                                            </div>*@
+                                        
+
+                                            <div class="form-group">
+
+                                                <label class="col-md-3 control-label">Source<span style="color:red;font-weight:bold">*</span></label>
+                                                <div class="col-md-7" ng-class="{'has-error': reqform_multi.$submitted && reqform_multi.txtsource1.$invalid }">
+                                                    <textarea name="txtsource1" class="form-control" rows="5" ng-model="source1" ng-required="true"></textarea>
+                                                </div>
+                                                <div class="col-md-2 no-padding">
+                                                    <button type="button" class="btn btn-xs btn-primary" name="search" ng-click="getpossibledup(source2)"><i class="fa fa-search" ng-hide="search"></i><i ng-hide="load" class="fa fa-spinner fa-spin"></i></button>
+                                                    @*<button type="button" class="btn btn-xs btn-primary" name="search" ng-click="getpossibledup()"><i class="fa fa-search"></i></button>*@
+                                                </div>
+
+                                            </div>
+                                            <div class="form-group" ng-show="itemId!=null">
+
+                                                <label class="col-md-3 control-label">Remark</label>
+                                                <div class="col-md-7">
+                                                    <textarea name="txtremark1" class="form-control" rows="5" ng-model="remark1"></textarea>
+                                                </div>
+
+
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-md-3 control-label">Attachment</label>
+                                                <div class="col-md-8 control-text">
+                                                    <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                        <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                        <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadFileData(this.files)"></span>
+                                                        <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+
+
+
+
+
+                                            <div class="form-group">
+                                                <div class="col-md-3"></div>
+                                                <div class="col-md-6">
+                                                    <button type="submit" id="btnAdd" class="btn btn-xs btn-primary classAdd" ng-show="add_button">Add</button>
+                                                    <button type="button" id="btnRereq" class="btn btn-xs btn-primary classAdd" ng-click="ReRequest()" ng-show="rereq_btn">Re-request</button>
+                                                    <button type="button" id="btnupdate" ng-click="reqform_multi.$valid && update_table()" class="btn btn-xs btn-primary classAdd" ng-show="update_button">Update</button>
+                                                      <button class="btn btn-xs btn-primary classAdd" ng-click="reset_reqform_multi()" type="button">Clear</button>
+                                                   
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+
+                                    <div class="col-md-5">
+
+                                        <div class="table-responsive" style="max-height:300px">
+
+                                            <table class="table table-bordered mb-none" ng-hide=hidetb1>
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <th>Item Code</th>
+                                                        <th>Short Desc</th>                                                     
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="src in sResult">
+                                                        <td><label ng-bind="src.Itemcode"></label></td>
+                                                        <td><label ng-bind="src.Shortdesc"></label></td>                                                       
+                                                        <td class="actions">
+
+                                                            <div class="col-md-3" id="Modal-2" ng-click="clickToOpen(src.Itemcode)" style="cursor:pointer"><i class="fa fa-search"></i></div>
+                                                            @*<a class="modal-with-form" style="cursor:pointer" href="#popup1" ng-click="clickToOpen(src.Itemcode)"><i class="fa fa-search"></i></a>*@
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <div id="cotentid" style="display:none">
+                                                <div class="content">
+                                                    <div class="panel-body">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4 popup-scroll">
+                                                                <div class="all-pop">
+                                                                    <form>
+                                                                        <div class="form-group">
+
+                                                                            <div class="text-center" style="background: #c2d8eb;">Item Data</div>
+
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Item Code</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="ccontrol-label" ng-bind="cat.Itemcode">{{cat.Itemcode}}</label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Material Code</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="ccontrol-label" ng-bind="cat.Materialcode"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Legacy</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Legacy"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Short Desc</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Shortdesc"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Long Desc</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Longdesc"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Noun</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Noun"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <label class="col-md-5 control-label">Modifier</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Modifier"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group pop-bg">
+                                                                            <label class="col-md-5 control-label">Addition Info</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Additionalinfo"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group">
+                                                                            <div class="text-center" style="background: #c2d8eb;">Vender Suplier</div>
+                                                                        </div>
+                                                                        <div class="table-responsive">
+
+                                                                            <table id="maintable" class="table mb-none LeftPaddingRemoving">
+                                                                                <thead class="top-border">
+                                                                                </thead>
+
+                                                                                <tr ng-repeat="ls in cat.Vendorsuppliers">
+                                                                                    <td>
+                                                                                        <label class="control-label col-md-6" ng-bind="ls.Type"></label> : {{ls.Name}}<br />
+                                                                                        <label class="control-label col-md-6" ng-bind="ls.Refflag"></label> : {{ls.RefNo}}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="form-group ">
+                                                                            <label class="col-md-5 control-label">UNSPSC</label>
+                                                                            <div class="col-md-7">
+                                                                                <label class="control-label" ng-bind="cat.Unspsc"></label>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="form-group ">
+                                                                            <div class="col-md-7">
+                                                                                <img src="{{img.FileData}}" ng-show="img.FileData == null ? false:true" width="200" height="130" />
+                                                                            </div>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 popup-scroll">
+                                                                <div class="all-pop">
+
+                                                                    <div class="form-group">
+
+                                                                        <div class="text-center" style="background: #c2d8eb;">Attribute Detail</div>
+
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <table class="table table-bordered mb-none" style="width: 100% !important;margin: 0 auto;">
+                                                                            <thead class="top-border">
+                                                                                <tr>
+                                                                                    <td><label class="control-label" style="font-weight:bold">Attribute</label></td>
+                                                                                    <td><label class="control-label" style="font-weight:bold">Value</label></td>
+                                                                                    <td><label class="control-label" style="font-weight:bold">UOM</label></td>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+
+                                                                                <tr ng-repeat="ls in cat.Characteristics">
+                                                                                    <td><label class="control-label" ng-bind="ls.Characteristic"></label></td>
+                                                                                    <td>
+
+                                                                                        @*<label class="col-md-6 control-label" ng-bind="ls.Value"></label>*@
+                                                                                        {{ls.Value}}
+                                                                                    </td>
+                                                                                    <td>
+                                                                                        {{ls.UOM}}
+                                                                                        @*<label class="col-md-1 control-label" ng-bind="ls.UOM"></label>*@
+
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+
+
+
+                                                                    </div>
+
+                                                                    <div class="form-group">
+
+                                                                        <div class="text-center" style="background: #c2d8eb;">Equipment Detail</div>
+
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Equipment Name</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="cat.Equipment.Name"></label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Equipment Manufacturer</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="cat.Equipment.Manufacturer"></label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Equipment Model No</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="cat.Equipment.Modelno"></label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Equipment Tag No</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="cat.Equipment.Tagno"></label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Equipment Serial No</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="cat.Equipment.Serialno"></label>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Additional Information</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="cat.Equipment.Additionalinfo"></label>
+                                                                        </div>
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-4 popup-scroll">
+                                                                <div class="all-pop">
+                                                                    <div class="form-group">
+
+                                                                        <div class="text-center" style="background: #c2d8eb;">Plant</div>
+
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Plant</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Plant_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Profit Center</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ProfitCenter_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Storage Location</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.StorageLocation_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Storage Bin</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.StorageBin_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Valuation Class</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ValuationClass_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Valuation Type</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ValuationType_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Price Control</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.PriceControl_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Standard Price</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.StandardPrice_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Moving Avg price</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.MovingAvgprice_"></label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Valuation Category</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ValuationCategory_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Variance Key</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.VarianceKey_"></label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group">
+
+                                                                        <div class="text-center" style="background: #c2d8eb;">General</div>
+
+                                                                    </div>
+
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Industry sector</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Industrysector_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Material Type</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Materialtype_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Base UOP</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.BaseUOP_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Unit of Issue</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Unit_issue_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Alternate UOM</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.AlternateUOM_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Inspection Type</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Inspectiontype_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Inspection Code</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Inspectioncode_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Old Material No</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Oldmaterialno_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Division</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Division_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Sales Unit</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.Salesunit_"></label>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div class="form-group ">
+
+                                                                        <div class="text-center" style="background:#c2d8eb;">MRP Data</div>
+
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">MRP Type</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.MRPType_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">MRP Controller</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.MRPController_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">LOT Size</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.LOTSize_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Re-Order Point</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ReOrderPoint_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Procurement Type</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ProcurementType_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Safety Stock</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.SafetyStock_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Planning Strgy Grp</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.PlanningStrgyGrp_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Avail Check</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.AvailCheck_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Schedule Margin</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ScheduleMargin_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+
+                                                                        <div class="text-center" style="background: #c2d8eb;">Sales & Others</div>
+
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Acc Asignmt Category</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.AccAsignmtCategory_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Tax Classification Group</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.TaxClassificationGroup_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Item Category Group</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.ItemCategoryGroup_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Sales Organization</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.SalesOrganization_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Distribution Channel</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.DistributionChannel_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Material Strategic Group</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.MaterialStrategicGroup_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group pop-bg">
+                                                                        <label class="col-md-5 control-label">Purchasing Group</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.PurchasingGroup_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label">Purchasing Value Key</label>
+                                                                        <div class="col-md-7">
+                                                                            <label class="control-label" ng-bind="erp.PurchasingValueKey_"></label>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                    <form ng-submit="bulk_material_request()" ng-show="(rows| filter:Sequence).length">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table id="maintable" class="table table-responsive table-bordered">
+                                                    <thead class="top-border">
+                                                        <tr>
+                                                            <th style="width: 6%">S.No</th>
+                                                            <th style="width: 10%">Plant</th>
+                                                            <th style="width: 10%">Storage Location</th>
+                                                            <th style="width: 10%">Materialtype</th>
+                                                            <th style="width: 10%">Industrysector</th>
+                                                            <th style="width: 10%">Materialgroup</th>
+                                                            @*<th style="width: 10%">UnitPrice</th>*@
+                                                            <th style="width: 12%"  ng-show="codeLogic">Group</th>
+                                                            <th style="width: 12%"  ng-show="codeLogic">Sub Group</th>
+                                                            <th style="width: 18%">Source</th>
+                                                            <th style="width: 20%">Attachment</th>
+
+                                                            @*<th style="width: 5%">Approver</th>*@
+                                                            <th style="width: 7%">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr class="data-contact-person" ng-repeat="Req in rows">
+                                                            <td style="width:6%">
+                                                                <label class="req-label" ng-model="Req.Sequence" id="Squence"> {{Req.Sequence}} </label>
+                                                            </td>
+                                                            <td style="width:10%">
+                                                                <label class="req-label" ng-model="Req.plant"> {{Req.hplant}} </label>
+                                                            </td>
+                                                            <td style="width:10%">
+                                                                <label class="req-label" ng-model="Req.storage_Location"> {{Req.hstorage_Location}} </label>
+                                                            </td>
+                                                            <td style="width:12%">
+                                                                <label class="req-label" ng-model="Req.materialtype"> {{Req.hmaterialtype}} </label>
+                                                            </td>
+                                                            <td style="width:12%">
+                                                                <label class="req-label" ng-model="Req.Industrysector"> {{Req.hIndustrysector}} </label>
+                                                            </td>
+                                                            <td style="width:12%">
+                                                                <label class="req-label" ng-model="Req.MaterialStrategicGroup"> {{Req.hMaterialStrategicGroup}} </label>
+                                                            </td>
+                                                            @*<td style="width:12%">
+                                                                <label class="req-label" ng-model="Req.UnitPrice"> {{Req.hUnitPrice}} </label>
+                                                            </td>*@
+                                                            <td style="width:12%" ng-show="codeLogic">
+                                                                <label class="req-label" ng-model="Req.group"> {{Req.hgroup}} </label>
+                                                            </td>
+                                                            <td style="width:12%" ng-show="codeLogic">
+                                                                <label class="req-label" ng-model="Req.subGroup"> {{Req.hsubGroup}} </label>
+
+                                                            </td>
+                                                            <td style="width:18%">
+                                                                <label class="req-label" ng-model="Req.source">{{Req.hsource}} </label>
+
+                                                            </td>
+
+                                                            <td style="width:20%">
+                                                                <label class="req-label" ng-model="Req.Attachment">{{Req.hAttachment}} </label>
+                                                            </td>
+
+
+
+
+                                                            @*<td>
+                                                    <label class="form-control req-label" ng-model="Req.approver"> {{Req.happrover}} </label>
+                                                </td>*@
+
+                                                            <td>
+
+                                                                <button type="button" id="btnedit" class="btn btn-xs" style="padding:0px 5px !important" ng-click="updaterow($index)"> <i class="fa fa-pencil-alt"></i></button>
+
+                                                                <button type="button" id="btnDelete" class="btn btn-xs" style="padding:0px 5px !important" ng-click="removerow($index)"><i class="fa fa-trash-alt"></i></button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-md-12">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-2">
+                                                <input type="submit" ng-disabled="false != ngdis" class="btn btn-xs btn-primary pull-right" value="Request">
+
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                @*<div class="col-md-1"><div cg-busy="promise" style="top:50px"></div></div>*@
+                                                @*<div ng-show="show_loading_multiple"><div ><img src="~/Images/loading.gif" /></div></div>*@
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+
+                                    </form>
+                                </div>
+
+                                <div id="Multiplebulk" class="tab-pane">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label" style="text-align:right;">File Upload  </label>
+                                        <div class="col-md-5">
+                                            <div class="col-md-10">
+                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select file</span><span class="fileinput-exists">Change</span><input type="file" name="file" onchange="angular.element(this).scope().LoadFileData1(this.files)"></span>
+                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <button type="button" class="btn btn-primary" ng-click="Loadfile1()">Load</button>
+                                            </div>
+
+                                        </div>
+
+                                        @*<div class="col-md-5">
+                                <button class="download pull-right" title="Download Template"><a href="/Common/BulkRequest.xlsx"><i class="fa fa-download"></i>&nbsp; Template</a></button>
+                            </div>*@
+                                    </div>
+                                    @*muthuraj*@
+
+                                    <div class="col-md-12" ng-hide=hidetb2>
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered mb-none">
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <th>Plant</th>
+                                                        <th>StorageLocation</th>
+                                                        <th ng-show="codeLogic">Group</th>
+                                                        <th ng-show="codeLogic">SubGroup</th>
+                                                        <th>Source</th>
+                                                        <th>MaterialType</th>
+                                                        <th>Industrysector</th>
+                                                        <th>MaterialGroup</th>
+                                                        @*<th>UnitPrice</th>*@
+                                                        <th>Show Duplicate</th>
+                                                        <th>Remove</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="src in sResultbulk">
+                                                        <td><label ng-bind="src.plant"></label></td>
+                                                        <td><label ng-bind="src.storage_Location"></label></td>
+                                                        <td ng-show="codeLogic"><label ng-bind="src.group" ></label></td>
+                                                        <td ng-show="codeLogic"><label ng-bind="src.subGroup" ></label></td>
+                                                        <td><label ng-bind="src.source"></label></td>
+                                                        <td><label ng-bind="src.Materialtype"></label></td>
+                                                        <td><label ng-bind="src.Industrysector"></label></td>
+                                                        <td><label ng-bind="src.MaterialStrategicGroup"></label></td>
+                                                        @*<td><label ng-bind="src.UnitPrice"></label></td>*@
+                                                        <td class="actions">
+
+                                                            <div class="col-md-3" ng-click="clickToOpenBulkduplicates(src)" style="cursor:pointer"><i class="fa fa-search"></i></div>
+                                                            @*<a class="modal-with-form" style="cursor:pointer" href="#popup1" ng-click="clickToOpen(src.Itemcode)"><i class="fa fa-search"></i></a>*@
+
+                                                        </td>
+                                                        <td><div class="col-md-3" ng-click="clickToremoverow($index)" style="cursor:pointer"><i class="fas fa-times"></i></div></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-2">
+                                                <div class="col-md-4"><button type="button" class="btn btn-primary" ng-click="bulkupload_material_request()">Submit</button></div>
+
+
+                                            </div>
+                                            <div class="col-md-2">
+                                                @*<div class="col-md-1"><div cg-busy="promise" style="top:50px"></div></div>*@
+
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="col-md-12">
+
+                                        <div id="cotentid123" class="table-responsive">
+
+                                            <table class="table table-bordered mb-none" ng-hide="hidetb3">
+
+                                                <thead class="top-border">
+                                                    <tr>
+                                                        <th>Item Code</th>
+                                                        <th>Short Desc</th>
+                                                     
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr ng-repeat="src in sResultbulk_blktabl">
+                                                        <td><label ng-bind="src.Itemcode"></label></td>
+                                                        <td><label ng-bind="src.Shortdesc"></label></td>
+                                                      
+                                                        <td class="actions">
+
+                                                            <div class="col-md-3" ng-click="clickToOpen(src.Itemcode)" style="cursor:pointer"><i class="fa fa-search"></i></div>
+                                                
+
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+
+                                          <label ng-bind="res" style="color:red;font-weight:bold; text-align:center" ng-show="hidetb3"/>
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                                <div id="Rejected" class="tab-pane">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+
+                                            <section class="content-with-menu mailbox">
+                                                <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+                                                    <div class="inner-body mailbox-folder">
+
+                                                        <div id="mailbox-email-list" class="mailbox-email-list">
+                                                            <div class="nano has-scrollbar nano-view">
+                                                                <div class="nano-content" tabindex="0">
+
+
+                                                                    <ul id="" class="list-unstyled">
+                                                                        <li style="background-color:#c2d8eb">
+                                                                            <div class="col-sender">
+
+                                                                                <p class="m-none ib">
+                                                                                    Item Id
+
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="col-mail">
+                                                                                <p class="m-none mail-content">
+                                                                                    <span class="subject"> Source </span>
+                                                                                </p>
+                                                                                <p class="m-none mail-date">Rejected On</p>
+                                                                                @*<p class="actions">Action</p>*@
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-repeat="data2 in rows_rej" class="{{data2.itemStatus}}">
+                                                                            <a href="#" ng-click="load_data_of_rejected($index)">
+                                                                                <div class="col-sender">
+
+                                                                                    <p class="m-none ib">{{data2.itemId}}</p>
+                                                                                </div>
+                                                                                <div class="col-mail">
+                                                                                    <p class="m-none mail-content">
+                                                                                        <span class="subject">{{data2.source}}</span>
+
+                                                                                    </p>
+                                                                                    <p class="m-none mail-date">
+                                                                                        {{data2.requestStatus}}&nbsp;&nbsp;<a ng-click="editRequest(data2.itemId)" class="on-default edit-row"><i class="fa fa-pencil-alt"> </i></a>
+
+                                                                                        &nbsp;<a ng-click="DelRequest(data2.itemId)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
+                                                                                    </p>
+                                                                                    @*<p></p>*@
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+
+
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="col-md-6">
+
+                                            <fieldset>
+                                                <legend>
+                                                    Item : {{Req2.itemId}}<span><a id="showstatus2" ng-show="Req2.itemId!=null" style="cursor:pointer;color:black;text-align:right;margin-top:15px" ng-click="showuserMap(Req2.itemId)"><i class="fas fa-clipboard-list" style="font-size: 20px !important;width: 30px;height: 30px;border: 2px solid #3e79cb;line-height: 24px;text-align: center;" title="View Item Status"></i></a></span>
+                                                    @*<h5 class="message-date pull-right">{{Req2.approver}}</h5>*@
+                                                </legend>
+                                                <div class="panel-body" ng-show="rej_visible">
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Request Id </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.requestId}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Plant</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.plant}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Storage Location </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.storage_Location}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" ng-show="codeLogic">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.group">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" ng-show="codeLogic">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.subGroup">@*{{Req.subGroup}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Material Type</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.Materialtype"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Industrial Sector</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.Industrysector"> </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Material Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.MaterialStrategicGroup">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Unit Price</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.UnitPrice">@*{{Req.group}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+          
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.group}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.subGroup}}  </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Source</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.source}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Approver</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.requester}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Reason</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.reason_rejection}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="Clarification" class="tab-pane">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <section class="content-with-menu mailbox">
+                                                <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+                                                    <div class="inner-body mailbox-folder">
+
+                                                        <div id="mailbox-email-list" class="mailbox-email-list">
+                                                            <div class="nano has-scrollbar nano-view">
+                                                                <div class="nano-content" tabindex="0">
+
+
+                                                                    <ul id="" class="list-unstyled">
+                                                                        <li style="background-color:#c2d8eb">
+                                                                            <div class="col-sender">
+
+                                                                                <p class="m-none ib">
+                                                                                    Item Id
+
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="col-mail">
+                                                                                <p class="m-none mail-content">
+                                                                                    <span class="subject"> Source </span>
+                                                                                </p>
+                                                                                <p class="m-none mail-date">Clarification requested On</p>
+                                                                                @*<p class="actions">Action</p>*@
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-repeat="data2 in rows_clr" class="{{data2.itemStatus}}">
+                                                                            <a href="#" ng-click="load_data_of_clarification($index)">
+                                                                                <div class="col-sender">
+
+                                                                                    <p class="m-none ib">{{data2.itemId}}</p>
+                                                                                </div>
+                                                                                <div class="col-mail">
+                                                                                    <p class="m-none mail-content">
+                                                                                        <span class="subject">{{data2.source}}</span>
+
+                                                                                    </p>
+                                                                                    <p class="m-none mail-date">
+                                                                                        {{data2.requestStatus}}&nbsp;&nbsp;<a ng-click="editRequest(data2.itemId)" class="on-default edit-row"><i class="fa fa-pencil-alt"> </i></a>
+
+
+                                                                                    </p>
+                                                                                    @*<p></p>*@
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+
+
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <fieldset>
+                                                <legend>
+                                                    Item : {{Req2.itemId}}<span><a id="showstatus3" ng-show="Req2.itemId!=null" style="cursor:pointer;color:black;text-align:right;margin-top:15px" ng-click="showuserMap(Req2.itemId)"><i class="fas fa-clipboard-list" style="font-size: 20px !important;width: 30px;height: 30px;border: 2px solid #3e79cb;line-height: 24px;text-align: center;" title="View Item Status"></i></a></span>
+                                                    @*<h5 class="message-date pull-right">{{Req2.approver}}</h5>*@
+                                                </legend>
+                                                <div class="panel-body" ng-show="clr_visible">
+
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Request Id </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.requestId}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Plant</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.plant}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Storage Location </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.storage_Location}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" ng-show="codeLogic">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.group">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" ng-show="codeLogic">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.subGroup">@*{{Req.subGroup}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Material Type</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.Materialtype"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Industrial Sector</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.Industrysector"> </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Material Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.MaterialStrategicGroup">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Unit Price</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req2.UnitPrice">@*{{Req.group}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                 
+                                   
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.group}}</label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.subGroup}}  </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Source</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.source}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Approver</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.requester}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Reason</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label">{{Req2.reason_rejection}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </fieldset>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="Approved" class="tab-pane">
+                                    <div class="form-group">
+                                        <div class="col-md-6">
+                                            <section class="content-with-menu mailbox">
+                                                <div class="content-with-menu-container" data-mailbox data-mailbox-view="folder">
+                                                    <div class="inner-body mailbox-folder">
+
+                                                        <div id="mailbox-email-list" class="mailbox-email-list">
+                                                            <div class="nano has-scrollbar nano-view">
+                                                                <div class="nano-content" tabindex="0">
+                                                                    <ul id="" class="list-unstyled">
+                                                                        <li style="background-color:#c2d8eb">
+                                                                            <div class="col-sender">
+
+                                                                                <p class="m-none ib">
+                                                                                    Item Id
+
+                                                                                </p>
+                                                                            </div>
+                                                                            <div class="col-mail">
+                                                                                <p class="m-none mail-content">
+                                                                                    <span class="subject"> Source </span>
+                                                                                </p>
+                                                                                <p class="m-none mail-date">Approved on</p>
+                                                                            </div>
+                                                                        </li>
+                                                                        <li ng-repeat="data1 in rows_app" class="{{data1.itemStatus}} req-hand">
+                                                                            <a ng-click="load_data_of_approved($index)">
+                                                                                <div class="col-sender">
+
+                                                                                    <p class="m-none ib" ng-bind="data1.itemId">@*{{data1.itemId}}*@</p>
+                                                                                </div>
+                                                                                <div class="col-mail">
+                                                                                    <p class="m-none mail-content">
+                                                                                        {{data1.source}}
+                                                                                    </p>
+                                                                                    <p class="m-none mail-date" ng-bind="data1.requestStatus">@*{{data1.requestStatus}}*@</p>
+                                                                                </div>
+                                                                            </a>
+                                                                        </li>
+
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="panel-body" ng-show="app_visible">
+                                                <fieldset>
+                                                    <legend>Item : {{Req1.itemId}} <span><a id="showstatus1" ng-show="Req1.itemId!=null" style="cursor:pointer;color:black;text-align:right;margin-top:15px" ng-click="showuserMap(Req1.itemId)"><i class="fas fa-clipboard-list" style="font-size: 20px !important;width: 30px;height: 30px;border: 2px solid #3e79cb;line-height: 24px;text-align: center;" title="View Item Status"></i></a></span></legend>
+                                                    <div class="col-md-12">
+
+
+                                                        @*<h5 class="message-date pull-right" ng-bind="Req1.approver">requested date</h5>*@
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Request Id </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.requestId">@*{{Req1.requestId}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Plant</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.plant">@*{{Req1.plant}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Storage Location </label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.storage_Location">@*{{Req1.storage_Location}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" ng-show="codeLogic">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.group">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12" ng-show="codeLogic">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.subGroup">@*{{Req.subGroup}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Material Type</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.Materialtype"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Industrial Sector</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.Industrysector"> </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Material Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.MaterialStrategicGroup">@*{{Req.group}}*@ </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Unit Price</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.UnitPrice">@*{{Req.group}} </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                     
+                                                    @*<div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Group</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.group"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Subgroup</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.subGroup"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>*@
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Source</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.source"></label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <div class="col-md-12">
+                                                            <div class="col-md-4">
+                                                                <label class="control-label bold">Approver</label>
+                                                            </div>
+                                                            <div class="col-md-8">
+                                                                <label class="control-label" ng-bind="Req1.requester">@*{{Req1.requester}}*@  </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    @*<div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="col-md-4">
+                                                    <label class="control-label">Cataloguer</label>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <label class="control-label">{{Req1.cataloguer}}  </label>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                                </fieldset>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <table id="flowconId" style="display:none">
+                                    <tr>
+                                        <td colspan="10">
+                                            <ul style="list-style:none">
+                                                <li style="float: left;width: 20%;"><span style="border: 1px solid #008000;background: #008000;float: left;width: 12px;height: 12px;margin: 3px;"></span>Completed</li>
+                                                <li style="float: left;width: 20%;"><span style="border: 1px solid orange;background: orange;float: left;width: 12px;height: 12px;margin: 3px;"></span>In Progress</li>
+                                                <li style="float: left;width: 20%;"><span style="border: 1px solid lightgray;background: lightgray;float: left;width: 12px;height: 12px;margin: 3px;"></span>To be done</li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                    <tr><td colspan="5"><h5>Request Id : <label ng-bind="itemstatusLst[0].RequestId" /></h5></td><td colspan="5"><h5>Item Code : <label ng-bind="itemstatusLst[0].Itemcode" /></h5></td></tr>
+                                    <tr>
+                                        <td width="5%">
+                                            <i class="fa fa-user fa-5x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-arrow-{{itemstatusLst[0].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[0].Status==0?'gray':''}}{{itemstatusLst[0].Status==-1?'orange':''}}{{itemstatusLst[0].Status==2?'green':''}}"></i>
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-user fa-5x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==1|| itemstatusLst[1].Status==-1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-arrow-{{itemstatusLst[1].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[1].Status==0?'gray':''}}{{itemstatusLst[1].Status==-1?'orange':''}}{{itemstatusLst[1].Status==2?'green':''}}"></i>
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-user fa-5x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-arrow-{{itemstatusLst[2].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[2].Status==0?'gray':''}}{{itemstatusLst[2].Status==-1?'gray':''}}{{itemstatusLst[2].Status==1 || itemstatusLst[2].Status==-1?'orange':''}}{{itemstatusLst[2].Status==2?'green':''}}"></i>
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-user fa-5x {{itemstatusLst[3].Status==0?'gray':''}}{{itemstatusLst[3].Status==1 || itemstatusLst[3].Status==-1 || itemstatusLst[3].Status==-2?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-arrow-{{itemstatusLst[4].Status==-1?'left':'right'}} fa-2x {{itemstatusLst[3].Status==0 ||(itemstatusLst[4].Status==0 && itemstatusLst[3].Status!=1)?'gray':''}}{{itemstatusLst[4].Status==-1 ?'orange':''}}{{itemstatusLst[3].Status==1?'orange':''}}{{itemstatusLst[3].Status==2?'green':''}}"></i>
+                                        </td>
+                                        <td width="5%">
+                                            <i class="fa fa-user fa-5x {{itemstatusLst[4].Status==0?'gray':''}}{{itemstatusLst[4].Status==1 || itemstatusLst[4].Status==-1?'orange':''}}{{itemstatusLst[4].Status==2?'green':''}}"></i>
+
+                                        </td>
+
+
+                                    </tr>
+
+                                    <tr>
+                                        <td width="5%">
+
+                                            <h6 class="user-h6">Requester</h6>
+                                            <p class="user-para">{{itemstatusLst[0].UserName}}, {{itemstatusLst[0].Date}}</p>
+                                        </td>
+                                        <td width="5%"></td>
+                                        <td width="5%">
+
+                                            <h6 class="user-h6">Approver</h6>
+                                            <p class="user-para">{{itemstatusLst[1].UserName}}, {{itemstatusLst[1].Date}}</p>
+                                        </td>
+                                        <td width="5%"></td>
+                                        <td width="5%">
+
+                                            <h6 class="user-h6">Cataloguer</h6>
+                                            <p class="user-para">{{itemstatusLst[2].UserName}}, {{itemstatusLst[2].Date}}</p>
+                                        </td>
+                                        <td width="5%"></td>
+                                        <td width="5%">
+
+                                            <h6 class="user-h6">Reviewer</h6>
+                                            <p class="user-para">{{itemstatusLst[3].UserName}}, {{itemstatusLst[3].Date}}</p>
+                                        </td>
+                                        <td width="5%"></td>
+                                        <td width="5%">
+
+                                            <h6 class="user-h6">Releaser</h6>
+                                            <p class="user-para">{{itemstatusLst[4].UserName}}, {{itemstatusLst[4].Date}}</p>
+                                        </td>
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+
+            </section>
+        </div>
+    </div>
+</section>
+<script src="/Scripts/angular-busy.min.js"></script>
+<script src="/Scripts/ctrls/MaterialRequest.js"></script>
+<script src="~/Scripts/jBox.js"></script>
