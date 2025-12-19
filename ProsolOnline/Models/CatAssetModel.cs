@@ -12,6 +12,7 @@ namespace ProsolOnline.Models
         //Technical
         public string UniqueId { get; set; }
         public string AssetNo { get; set; }
+        public string EquipmentNo { get; set; }
         public string pvAssetNo { get; set; }
         public string AssetQRCode { get; set; }
         public string Description { get; set; }
@@ -31,6 +32,7 @@ namespace ProsolOnline.Models
 
         public string Rework { get; set; }
         public string Rework_Remarks { get; set; }
+        public string Cat_Remarks { get; set; }
         public string assetConditionRemarks { get; set; }
         public int ItemStatus { get; set; }
         public string PVstatus { get; set; }

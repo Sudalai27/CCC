@@ -2599,8 +2599,6 @@ D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Debug\Pros
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.csproj.CopyComplete
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.dll
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.pdb
-D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.csproj.AssemblyReference.cache
-D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.csproj.CoreCompileInputs.cache
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\ApplicationInsights.config
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\csc.exe
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
@@ -2717,6 +2715,8 @@ D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\Antlr3.Runtime.pdb
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\zxing.xml
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\zxing.presentation.xml
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\bin\log4net.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.csproj.AssemblyReference.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.csproj.CoreCompileInputs.cache
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.csproj.CopyComplete
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.dll
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\ProsolOnline\obj\Debug\ProsolOnline.pdb

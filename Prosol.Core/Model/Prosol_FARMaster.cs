@@ -12,6 +12,8 @@ namespace Prosol.Core.Model
         public string Label { get; set; }
         public string Code { get; set; }
         public string Title { get; set; }
+        public string Parent { get; set; }
+        public int Sequence { get; set; }
         public bool Islive { get; set; }
     }
 }

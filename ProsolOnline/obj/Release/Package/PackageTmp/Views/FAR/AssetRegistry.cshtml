@@ -219,40 +219,74 @@
         background: #f82f2f2f;
     }
 
-
-    .table-tree {
-        width: 100%;
+    .divider {
+        padding: 0 2px;
+        border-top: 0.25px solid gray;
+        border-bottom: 0.25px solid gray;
     }
 
-        .table-tree .expand-btn {
-            cursor: pointer;
+    .bom-tree,
+    .bom-tree ul {
+        list-style-type: none;
+        position: relative;
+        padding-left: 25px; /* spacing for lines */
+        margin: 0;
+    }
+
+        .bom-tree li {
+            position: relative;
+            margin-top: 2px;
+            padding-left: 20px;
+            margin-left: 10px;
         }
 
-        .table-tree .child-row {
-            display: none;
-        }
-
-            .table-tree .child-row.open {
-                display: table-row;
+            /* Draw vertical lines */
+            .bom-tree li::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                border-left: 1px solid #ccc;
+                height: 100%;
             }
 
-    .indent {
-        padding-left: 20px;
+            /* Draw branch connection lines */
+            .bom-tree li::after {
+                content: "";
+                position: absolute;
+                top: 12px;
+                left: 0;
+                width: 15px;
+                border-top: 1px solid #ccc;
+            }
+
+            /* Remove line for last child */
+            .bom-tree li:last-child::before {
+                height: 12px;
+            }
+
+    /* Node icons and label */
+    .node-line {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        cursor: pointer;
     }
 
-    .tr-proxy {
-        background: #d6f5ff;
+    .node-icon {
+        margin-right: 5px;
     }
 
-    .tree-view {
-        list-style-type: none;
-        padding-left: 20px;
+    .node-label b {
+        font-weight: 600;
+    }
+    .qcard {
+        background: #b4b4b48c;
+        padding: 2px 6px;
+        border-radius: 4px;
+        padding-bottom: 1px;
     }
 
-        .tree-view li {
-            margin: 4px 0;
-            cursor: pointer;
-        }   
 </style>
 
 <link href="~/Content/angular-busy.min.css" rel="stylesheet" />
@@ -295,76 +329,76 @@
 
                         <!--<div class="form-group">
 
-    <div class="form-group col-md-4">
-        <label class="col-md-3 control-label" for="inputDefault">FAR ID</label>
+                        <div class="form-group col-md-4">
+                            <label class="col-md-3 control-label" for="inputDefault">FAR ID</label>
 
-        <!--<div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.site.$invalid || form.site.$error.pattern}" style="display: none">
+                            <!--<div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.site.$invalid || form.site.$error.pattern}" style="display: none">
 
-        <select class="form-control" id="business" name="site" ng-model="asset.FARId"-->
+                            <select class="form-control" id="business" name="site" ng-model="asset.FARId"-->
                         <!--@*ng-change="loadMajorClass(asset.Business)"*@-->
                         <!--<!--ng-options="far for far in FAR_Master | filter: { Label: 'SiteId' }">
-            <option value="" selected="selected">Select</option>
-        </select>
-    </div>-->
+                                <option value="" selected="selected">Select</option>
+                            </select>
+                        </div>-->
                         <!--<div class="col-md-7">
-            <div class="dropdown" auto-close="outsideClick">
-                <button class="form-control" type="button" id="individualDrop" style="padding: 3px; font-size: 12px; font-weight: 700; text-align: left;" data-toggle="dropdown">
-                    {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
-                </button>
-                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
-                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
-                    <li role="presentation">
-                        <input disable-auto-close type="search" style="position:relative;display: flex;width: 100%;" ng-model="searchFar" placeholder="Search">
-                    </li>
-                    <li role="presentation" ng-repeat="far in FARMaster | filter: searchFar">
-                        <a role="menuitem" ng-click="BindBusinessList(far)">{{far}}</a>
-                    </li>
-                </ul>
+                                <div class="dropdown" auto-close="outsideClick">
+                                    <button class="form-control" type="button" id="individualDrop" style="padding: 3px; font-size: 12px; font-weight: 700; text-align: left;" data-toggle="dropdown">
+                                        {{BtnFARmodel}}<span class="caret mycustom-caret" style=""></span>
+                                    </button>
+                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                        <li role="presentation">
+                                            <input disable-auto-close type="search" style="position:relative;display: flex;width: 100%;" ng-model="searchFar" placeholder="Search">
+                                        </li>
+                                        <li role="presentation" ng-repeat="far in FARMaster | filter: searchFar">
+                                            <a role="menuitem" ng-click="BindBusinessList(far)">{{far}}</a>
+                                        </li>
+                                    </ul>
 
-            </div>
-        </div>
+                                </div>
+                            </div>
 
-        <button type="button" class="col-md-1 btn btn-xs btn-primary" name="search" ng-click="clearFar()">
-            <i class="fas fa-sync-alt"></i>
-        </button>
-    </div>
-    <div class="form-group col-md-3">
-        <label class="col-md-3 control-label" for="inputDefault">Region</label>
+                            <button type="button" class="col-md-1 btn btn-xs btn-primary" name="search" ng-click="clearFar()">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label class="col-md-3 control-label" for="inputDefault">Region</label>
 
-        <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+                            <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
 
-            <input type="text" class="form-control" ng-model="asset.Region" ng-disabled="true">-->
+                                <input type="text" class="form-control" ng-model="asset.Region" ng-disabled="true">-->
                         <!--<select class="form-control" id="business" name="busines" ng-model="asset.Region"--><!--@*ng-change="loadequipment(asset.MinorClass)"*@-->
                         <!--<!--ng-options="x for x in RegionMaster">
-        <option value="" selected="selected">Select</option>
-    </select>-->
+                            <option value="" selected="selected">Select</option>
+                        </select>-->
                         <!--</div>-->
                         @*<div class="col-md-7">
-            <div class="dropdown" auto-close="outsideClick">
-                <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 3px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
-                    {{BtnRegmodel}}<span class="caret mycustom-caret" style=""></span>
-                </button>
-                <span ng-show="submitted"><label class="error">Select an Individual</label></span>
-                <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
-                    <input disable-auto-close type="search" ng-model="serchReg" placeholder="Search" style="width:100%;"></input>
-                    <li role="presentation" ng-repeat="reg in RegionMaster | filter : serchReg"><a role="menuitem" ng-click="selectRegEntity(BtnFARmodel,reg)">{{reg}}</a></li>
-                </ul>
-            </div>
-        </div>*@
+                                <div class="dropdown" auto-close="outsideClick">
+                                    <button class="btn btn-default dropdown-toggle Drop-btn" type="button" id="individualDrop" style="padding: 3px 4px;font-size: 12px;font-weight: 700;" data-toggle="dropdown">
+                                        {{BtnRegmodel}}<span class="caret mycustom-caret" style=""></span>
+                                    </button>
+                                    <span ng-show="submitted"><label class="error">Select an Individual</label></span>
+                                    <ul class="dropdown-menu mycustom-ul" role="menu" aria-labelledby="individualDrop">
+                                        <input disable-auto-close type="search" ng-model="serchReg" placeholder="Search" style="width:100%;"></input>
+                                        <li role="presentation" ng-repeat="reg in RegionMaster | filter : serchReg"><a role="menuitem" ng-click="selectRegEntity(BtnFARmodel,reg)">{{reg}}</a></li>
+                                    </ul>
+                                </div>
+                            </div>*@
                         <!--</div>
-    <div class="form-group col-md-5">
-        <label class="col-md-4 control-label" for="inputDefault">Asset Description</label>
+                        <div class="form-group col-md-5">
+                            <label class="col-md-4 control-label" for="inputDefault">Asset Description</label>
 
-        <div class="col-md-5 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
+                            <div class="col-md-5 control-text" ng-class="{'has-error': form.$submitted && form.busines.$invalid }">
 
-            <input type="text" class="form-control" ng-model="asset.AssetDesc" ng-disabled="true">-->
+                                <input type="text" class="form-control" ng-model="asset.AssetDesc" ng-disabled="true">-->
                         <!--<select class="form-control" id="business" name="busines" ng-model="asset.AssetDesc"--> <!--@*ng-change="loadequipment(asset.MinorClass)"*@-->
                         <!--ng-options="x for x in AssetDescMaster">
-        <option value="" selected="selected">Select</option>
-    </select>-->
+                            <option value="" selected="selected">Select</option>
+                        </select>-->
                         <!--</div>
-        </div>
-    </div>-->
+                            </div>
+                        </div>-->
                         <div class="col-md-12 table-responsive fixTableHead">
                             <table class="table table-bordered mb-none" style="width: 100%">
                                 <thead class="top-border" align="center">
@@ -372,112 +406,112 @@
 
                                     <!--<tr>-->
                                     @*<th><input type="text" placeholder="FAR ID" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>
-                    <th><input type="text" placeholder="Region" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>*@
+                                        <th><input type="text" placeholder="Region" class="form-control" ng-model="sCode" ng-blur="searchMaster()" /></th>*@
 
                                     @*<th>
-                        <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
-                            <option value="" selected="selected">All</option>
-                        </select>
-                    </th>
+                                            <select ng-model="sUser" class="form-control" ng-change="searchMaster()" ng-options="x for x in UserList">
+                                                <option value="" selected="selected">All</option>
+                                            </select>
+                                        </th>
 
-                    <th>
-                        <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
-                            <option value="" selected="selected">All</option>
-                            <option>Catalogue</option>
-                            <option>Catalogue Rework</option>
-                            <option>QC</option>
-                            <option>QA</option>
-                            <option>Released</option>
+                                        <th>
+                                            <select ng-model="sStatus" ng-change="searchMaster()" class="form-control">
+                                                <option value="" selected="selected">All</option>
+                                                <option>Catalogue</option>
+                                                <option>Catalogue Rework</option>
+                                                <option>QC</option>
+                                                <option>QA</option>
+                                                <option>Released</option>
 
-                        </select>
-                    </th>
-                    <th>
-                        Select
-                    </th>*@
+                                            </select>
+                                        </th>
+                                        <th>
+                                            Select
+                                        </th>*@
 
 
 
                                     <!--</tr>-->
                                     <tr class="top-tr">
                                         @*<th ng-click="sortData('UniqueId')">
-                            FAR ID<div ng-class="getSortClass('UniqueId')"></div>
-                        </th>*@
+                                                FAR ID<div ng-class="getSortClass('UniqueId')"></div>
+                                            </th>*@
                                         @*<th>
-                            Region
-                        </th>*@
+                                                Region
+                                            </th>*@
                                         @*<th ng-click="sortData('Legacy')">
-                            Area<div ng-class="getSortClass('Legacy')"></div>
-                        </th>*@
+                                                Area<div ng-class="getSortClass('Legacy')"></div>
+                                            </th>*@
                                         <th style="width:10%" ng-click="sortData('UniqueId')" class="col-md-1">
                                             @*Item ID*@  <input type="text" class="form-control" placeholder="Item ID" name="itemIdSearch" ng-model="sCode" ng-change="searchMaster()"> <div ng-class="getSortClass('Shortdesc')"></div>
                                         </th>
                                         <th style="width:13%" ng-click="sortData('FuncLocation')" class="col-md-1">
                                             Functional Location
-                        </th>
-                        <th style="width:8%" ng-click="sortData('AssetNo')" class="col-md-1">
-                            @*Asset Number*@ <input type="text" class="form-control" placeholder="Asset Number" name="itemIdSearch" ng-model="sSource" ng-change="searchMaster()"> <div ng-class="getSortClass('Shortdesc')"></div>
-                        </th>
-                        <th style="width:10%" class="col-md-1">
-                            @*Asset Number*@ <input type="text" class="form-control" placeholder="Tech. Ident. Code" name="itemIdSearch" ng-model="qr" ng-change="searchMaster()">
-                        </th>
-                        <th style="width:10%" class="col-md-1">
-                            Description
-                        </th>
-                        @*<th>
-            Equipment Desc
-        </th>*@
-                        <th style="width:8%" class="col-md-1">PV/Cat/QC</th>
-                        <th style="width:8%" class="col-md-1">Status</th>
-                        <th style="width:10%" class="col-md-3">
-                            PV Date
-                        </th>
+                                        </th>
+                                        <th style="width:8%" ng-click="sortData('AssetNo')" class="col-md-1">
+                                            @*Asset Number*@ <input type="text" class="form-control" placeholder="Asset Number" name="itemIdSearch" ng-model="sSource" ng-change="searchMaster()"> <div ng-class="getSortClass('Shortdesc')"></div>
+                                        </th>
+                                        <th style="width:10%" class="col-md-1">
+                                            @*Asset Number*@ <input type="text" class="form-control" placeholder="Tech. Ident. Code" name="itemIdSearch" ng-model="qr" ng-change="searchMaster()">
+                                        </th>
+                                        <th style="width:10%" class="col-md-1">
+                                            Description
+                                        </th>
+                                        @*<th>
+                                                Equipment Desc
+                                            </th>*@
+                                        <th style="width:8%" class="col-md-1">PV/Cat/QC</th>
+                                        <th style="width:8%" class="col-md-1">Status</th>
+                                        <th style="width:10%" class="col-md-3">
+                                            PV Date
+                                        </th>
 
-                        <th style="width:3%" class="col-md-1" z-index: 101">
-                            <div class="checkbox-custom checkbox-default" style="margin-left:4px;display:none">
-                                <input type="checkbox" ng-model="bumu" ng-true-value="1" ng-checked="bumu == 1" ng-false-value="0" ng-click="chkmuall()" id="muall" /> <label for="checkboxExample11"></label>
-                            </div>
-                        </th>
+                                        <th style="width:3%" class="col-md-1" z-index: 101">
+                                            <div class="checkbox-custom checkbox-default" style="margin-left:4px;display:none">
+                                                <input type="checkbox" ng-model="bumu" ng-true-value="1" ng-checked="bumu == 1" ng-false-value="0" ng-click="chkmuall()" id="muall" /> <label for="checkboxExample11"></label>
+                                            </div>
+                                        </th>
 
-                        </tr>
-                        </thead>
-                        <tbody style="width: 100%">
-                            <tr id="{{$index}}"
-                                ng-click="RowClick(cat1, $index)"
-                                ng-repeat="cat1 in AssetdataList"
-                                ng-class="getRowClass(cat1, $index)">
+                                    </tr>
+                                </thead>
+                                <tbody style="width: 100%">
+                                    <tr id="{{$index}}"
+                                        ng-click="RowClick(cat1, $index)"
+                                        ng-repeat="cat1 in AssetdataList"
+                                        ng-class="getRowClass(cat1, $index)">
 
 
-                                @*<td style="width: 13.5%"><label ng-bind="cat1.FixedAssetNo"></label> </td>*@
-                                @*<td style="width: 13.5%"><label ng-bind="cat1.Region"></label></td>*@
-                                @*<td><label ng-bind="cat1.Area"></label></td>*@
-                                <td class="col-md-1"><label ng-bind="cat1.UniqueId"></label></td>
-                                <td class="col-md-1"><label ng-bind="cat1.Func_Location"></label></td>
-                                <td class="col-md-2"><label ng-bind="cat1.AssetNo"></label></td>
-                                <td class="col-md-2"><label ng-bind="cat1.TechIdentNo"></label></td>    
-                                <td class="col-md-2"><label ng-bind="cat1.Description"></label></td>
-                                @*<td class="col-md-2" title="{{cat1.Description_}}"><label ng-bind="cat1.Description_.length >30 ? (cat1.Description_ | limitTo: 30) +'...' : cat1.Description_"></label></td>*@
-                                @*<td ng-hide="cat1.Equipment_Short" class="col-md-1" title="{{cat1.Description}}"> <label ng-bind="cat1.Description.length >30 ? (cat1.Description | limitTo: 30) +'...' : cat1.Description"></label></td>*@
-                                @*<td ng-show="cat1.Equipment_Short" class="col-md-1" title="{{cat1.Equipment_Short}}"> <label ng-bind="cat1.Equipment_Short.length >30 ? (cat1.Equipment_Short | limitTo: 30) +'...' : cat1.Equipment_Short"></label></td>*@
-                                @*<td><label ng-bind="cat1.EquipmentDesc"></label></td>*@
-                                <td class="col-md-1"><label>{{cat1.PVuser.Name}} | {{cat1.Catalogue.Name}} | {{cat1.Review.Name}} </label></td>
-                                <td class="col-md-1"><label ng-bind="(cat1.ItemStatus == 4 || cat1.ItemStatus == 5 ) ? 'QC':'Catalogue'"></label></td>
-                                <td width="5%">
-                                    <label>
-                                        {{ cat1.PVuser.UpdatedOn.replace('/Date(','').replace(')/','') | date:'dd/MM/yyyy':'UTC' }}
-                                    </label>
-                                </td>
-                                @*<td style="width: 8%"><label ng-bind="cat1.ItemStatus"></label></td>*@
-                                <td class="col-md-1">
-                                    <div class="checkbox-custom checkbox-default" style="margin-left:4px;">
-                                        <input type="checkbox" ng-model="cat1.bu" ng-true-value="1" ng-checked="cat1.bu == 1" ng-false-value="0" id="chksss{{$index}}" /> <label for="checkboxExample1"></label>
+                                        @*<td style="width: 13.5%"><label ng-bind="cat1.FixedAssetNo"></label> </td>*@
+                                        @*<td style="width: 13.5%"><label ng-bind="cat1.Region"></label></td>*@
+                                        @*<td><label ng-bind="cat1.Area"></label></td>*@
+                                        <td class="col-md-1"><label ng-bind="cat1.UniqueId"></label></td>
+                                        <td class="col-md-1"><label ng-bind="cat1.Func_Location"></label></td>
+                                        <td class="col-md-2"><label ng-bind="cat1.AssetNo"></label></td>
+                                        <td class="col-md-2"><label ng-bind="cat1.TechIdentNo"></label></td>
+                                        <td class="col-md-2"><label ng-bind="cat1.Description"></label></td>
+                                        @*<td class="col-md-2" title="{{cat1.Description_}}"><label ng-bind="cat1.Description_.length >30 ? (cat1.Description_ | limitTo: 30) +'...' : cat1.Description_"></label></td>*@
+                                        @*<td ng-hide="cat1.Equipment_Short" class="col-md-1" title="{{cat1.Description}}"> <label ng-bind="cat1.Description.length >30 ? (cat1.Description | limitTo: 30) +'...' : cat1.Description"></label></td>*@
+                                        @*<td ng-show="cat1.Equipment_Short" class="col-md-1" title="{{cat1.Equipment_Short}}"> <label ng-bind="cat1.Equipment_Short.length >30 ? (cat1.Equipment_Short | limitTo: 30) +'...' : cat1.Equipment_Short"></label></td>*@
+                                        @*<td><label ng-bind="cat1.EquipmentDesc"></label></td>*@
+                                        <td class="col-md-1"><label>{{cat1.PVuser.Name}} | {{cat1.Catalogue.Name}} | {{cat1.Review.Name}} </label></td>
+                                        <td class="col-md-1"><label ng-bind="(cat1.ItemStatus == 4 || cat1.ItemStatus == 5 ) ? 'QC':'Catalogue'"></label></td>
+                                        <td width="5%">
+                                            <label>
+                                                {{ cat1.PVuser.UpdatedOn.replace('/Date(','').replace(')/','') | date:'dd/MM/yyyy':'UTC' }}
+                                            </label>
+                                        </td>
+                                        @*<td style="width: 8%"><label ng-bind="cat1.ItemStatus"></label></td>*@
+                                        <td class="col-md-1">
+                                            <div class="checkbox-custom checkbox-default" style="margin-left:4px;">
+                                                <input type="checkbox" ng-model="cat1.bu" ng-true-value="1" ng-checked="cat1.bu == 1" ng-false-value="0" id="chksss{{$index}}" /> <label for="checkboxExample1"></label>
 
-                                    </div>
-                                </td>
-                            </tr>
+                                            </div>
+                                        </td>
+                                    </tr>
 
-                        </tbody>
-                        </table>
-                    </div>
+                                </tbody>
+                            </table>
+                        </div>
 
                         <div style="display:block;max-height:200px;overflow-y:scroll;" class="tbl-content">
                             <input type="hidden" id="usrHid" value="@Request.RequestContext.HttpContext.Session["username"]" />
@@ -502,9 +536,9 @@
                                 <li class="{{gis}}">
                                     <a href="#GIS" data-toggle="tab" aria-expanded="false" ng-click="tabChange('gis')"><i class="fa fa-map-marker-alt"></i>GIS </a>
                                 </li>
-                                @*<li class="{{bom}}">
+                                <li class="{{bom}}">
                                     <a href="#Bom" data-toggle="tab" aria-expanded="false" ng-click="tabChange('bom')"><i class="fa fa-sitemap"></i>BOM </a>
-                                </li>*@
+                                </li>
                                 <li class="{{attach}}">
                                     <a href="#Attach" data-toggle="tab" aria-expanded="false" ng-click="tabChange('attach')"><i class="fa fa-paperclip"></i>Documents </a>
                                 </li>
@@ -516,14 +550,14 @@
                                     <div class="col-md-12">
                                         <div class="panel-group" id="accordion">
                                             @*<div class="panel panel-accordion detail-plan">
-                        <div class="panel-heading">
-                            <h4 class="panel-title">
-                                <a class="accordion-toggle collapse in {{FunLoc}}" data-toggle="collapse" href="#fun_loc" data-parent="#accordion">
-                                    Functional Location
-                                </a>
-                            </h4>
-                        </div>
-                            </div>*@
+                                                <div class="panel-heading">
+                                                    <h4 class="panel-title">
+                                                        <a class="accordion-toggle collapse in {{FunLoc}}" data-toggle="collapse" href="#fun_loc" data-parent="#accordion">
+                                                            Functional Location
+                                                        </a>
+                                                    </h4>
+                                                </div>
+                                                    </div>*@
                                             <div id="fun_loc" class="accordion-body collapse in" data-parent="#accordion">
                                                 <div class="panel-body {{FunLoc}}">
                                                     <div class="form-group">
@@ -595,8 +629,10 @@
                                                                         <label class="col-md-5 control-label" for="inputDefault">MANUFACTURER@*<span style="color:red;font-weight:bold"> *</span>*@</label>
 
                                                                         <div class="col-md-7 control-text">
-                                                                            <input type="text" class="form-control" name="glacc" ng-model="asset.Manufacturer" @*required*@ ng-class="{'is-empty': form.$submitted && form.glacc.$invalid }" capitalize>
+                                                                            <input type="text" class="form-control" name="manufr" ng-model="asset.Manufacturer" ng-change="checkMfr(asset.Manufacturer)" autocomplete="off"
+                                                                                   auto-complete2 ng-required="notMfr" ng-class="{'is-empty': form.$submitted && form.manufr.$invalid }" capitalize>
                                                                         </div>
+                                                                        <label ng-show="notMfr" class="col-md-5 control-label" for="inputDefault" style="color: red">{{mfrBtn}}</label>
                                                                     </div>
                                                                     <div class="form-group">
                                                                         <label class="col-md-5 control-label" for="inputDefault">MODEL NO.@*<span style="color:red;font-weight:bold"> *</span>*@</label>
@@ -704,309 +740,309 @@
 
 
                                             <!--<div class="panel panel-accordion detail-plan">
-                                                            <div class="panel-heading">
-                                                                <h4 class="panel-title">
-                                                                    <a class="accordion-toggle collapse {{AssetBldng}}" data-toggle="collapse" href="#Ass-buil" data-parent="#accordion">
-                                                                        Asset Building
-                                                                    </a>
-                                                                </h4>
-                                                            </div>
-                                                            <div id="Ass-buil" class="accordion-body collapse">
-                                                                <div class="panel-body {{AssetBldng}}">
-                                                                    <div class="col-md-6">
+                                                                                    <div class="panel-heading">
+                                                                                        <h4 class="panel-title">
+                                                                                            <a class="accordion-toggle collapse {{AssetBldng}}" data-toggle="collapse" href="#Ass-buil" data-parent="#accordion">
+                                                                                                Asset Building
+                                                                                            </a>
+                                                                                        </h4>
+                                                                                    </div>
+                                                                                    <div id="Ass-buil" class="accordion-body collapse">
+                                                                                        <div class="panel-body {{AssetBldng}}">
+                                                                                            <div class="col-md-6">
 
-                                                                        <div class="col-md-6">
+                                                                                                <div class="col-md-6">
 
-                                                                            <div class="form-group">
-                                                                                <label class="col-md-5 control-label" for="inputDefault">Building Id</label>
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="col-md-5 control-label" for="inputDefault">Building Id</label>
 
-                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.bldngId.$invalid }">
-                                                                                    <input type="text" class="form-control" name="bldngId" ng-model="asset.building.BuildingId">
+                                                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.bldngId.$invalid }">
+                                                                                                            <input type="text" class="form-control" name="bldngId" ng-model="asset.building.BuildingId">
 
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="col-md-5 control-label no-padding" for="inputDefault">Building Name</label>
+
+                                                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.buildngname.$invalid }">
+                                                                                                            <input type="text" class="form-control" name="buildngname" ng-model="asset.building.BuildingName">
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="col-md-5 control-label" for="inputDefault">Location</label>
+
+                                                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.locatn.$invalid }">
+                                                                                                            <input type="text" class="form-control" name="locatn" ng-model="asset.building.Location">
+
+                                                                                                        </div>
+                                                                                                    </div>
+
+
+                                                                                                </div>
+                                                                                                <div class="col-md-6">
+
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="col-md-5 control-label" for="inputDefault">Width</label>
+
+                                                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.width.$invalid }">
+                                                                                                            <input type="text" class="form-control" name="width" ng-model="asset.building.Width">
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="col-md-5 control-label" for="inputDefault">Length</label>
+
+                                                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lngth.$invalid }">
+                                                                                                            <input type="text" class="form-control" name="lngth" ng-model="asset.building.Length">
+
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div class="form-group">
+                                                                                                        <label class="col-md-5 control-label" for="inputDefault">Height</label>
+
+                                                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.height.$invalid }">
+                                                                                                            <input type="text" class="form-control" name="height" ng-model="asset.building.Height">
+
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                            <div class="col-md-6">
+                                                                                                <fieldset>
+                                                                                                    <legend>Building Image</legend>
+                                                                                                    <div class="col-md-12">
+                                                                                                        <div class="col-md-4" ng-repeat="img in asset.building.BuildingImage">
+
+                                                                                                            <a href="{{img}}" data-toggle="lightbox" data-gallery="gallery{{$index}}">
+                                                                                                                <img src="{{img}}" class="img-fluid rounded">
+                                                                                                            </a>
+
+                                                                                                        </div>
+
+                                                                                                    </div>
+                                                                                                </fieldset>
+                                                                                            </div>
+
+
+
+
+
+                                                                                        </div>
+                                                                                    </div>
                                                                                 </div>
-                                                                            </div>
+                                                                                <div class="panel panel-accordion detail-plan">
+                                                                                    <div class="panel-heading">
+                                                                                        <h4 class="panel-title">
+                                                                                            <a class="accordion-toggle collapse  {{BOM}}" data-toggle="collapse" href="#BOM" data-parent="#accordion">
+                                                                                                BOM ({{rowBOM.length}})
+                                                                                            </a>
+                                                                                        </h4>
+                                                                                    </div>
+                                                                                    <div id="BOM" class="accordion-body collapse">
+                                                                                        <div class="panel-body {{BOM}}">
+                                                                                            <div class="col-md-12 no-padding" ng-repeat="BOM in rowBOM">
 
-                                                                            <div class="form-group">
-                                                                                <label class="col-md-5 control-label no-padding" for="inputDefault">Building Name</label>
+                                                                                                <div class="col-md-12 form-group no-padding">
 
-                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.buildngname.$invalid }">
-                                                                                    <input type="text" class="form-control" name="buildngname" ng-model="asset.building.BuildingName">
+                                                                                                    <div class="col-md-6">
+                                                                                                        <div class="form-group">
+                                                                                                            <label class="col-md-5 control-label" for="inputDefault">BOM UniqueId</label>
 
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label class="col-md-5 control-label" for="inputDefault">Location</label>
+                                                                                                            <div class="col-md-7 control-text">
+                                                                                                                <input ng-model="BOM.UniqueId" name="Uniqueid{{$index}}" type="text" ng-disabled="true" class="form-control" />
 
-                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.locatn.$invalid }">
-                                                                                    <input type="text" class="form-control" name="locatn" ng-model="asset.building.Location">
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="form-group">
 
-                                                                                </div>
-                                                                            </div>
+                                                                                                            <input type="hidden" ng-model="BOM._id" />
+
+                                                                                                            <label class="col-md-5 control-label" for="inputDefault">New Tag Number</label>
+
+                                                                                                            <div class="col-md-7 control-text">
+                                                                                                                <input ng-model="BOM.TagNo" name="Tagno{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="form-group">
+                                                                                                            <label class="col-md-5 control-label" for="inputDefault">Bar Code Unique No</label>
+
+                                                                                                            <div class="col-md-7 control-text">
+                                                                                                                <input ng-model="BOM.Barcode" name="Barcode{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                        <div class="form-group">
+                                                                                                            <label class="col-md-5 control-label" for="inputDefault">Old Tag Number</label>
+
+                                                                                                            <div class="col-md-7 control-text">
+                                                                                                                <input ng-model="BOM.OldTag" name="Oldtag{{$index}}" type="text" ng-disabled="true" class="form-control" />
+
+                                                                                                            </div>
+                                                                                                        </div>
+
+
+                                                                                                        <div class="form-group">
+                                                                                                            <label class="col-md-5 control-label" for="inputDefault">BOM Name</label>
+
+                                                                                                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.bomnamedll{{$index}}.$invalid }">
+                                                                                                                    @*<select class="form-control" name="bomnamedll{{$index}}" ng-model="BOM.BOMName" ng-options="x.EquipmentType as x.EquipmentType for x in BOMEquipmentTypelist">
+                                                    <option value="">Select Bom Name</option>
+                                                </select>*@
+                                                                                                                    <!--<input ng-model="BOM.BOMName" placeholder="BOM Name" name="Bomname{{$index}}" type="text" class="form-control" />
 
 
                                                                         </div>
-                                                                        <div class="col-md-6">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">Description</label>
 
-                                                                            <div class="form-group">
-                                                                                <label class="col-md-5 control-label" for="inputDefault">Width</label>
-
-                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.width.$invalid }">
-                                                                                    <input type="text" class="form-control" name="width" ng-model="asset.building.Width">
-
-                                                                                </div>
-                                                                            </div>
-                                                                            <div class="form-group">
-                                                                                <label class="col-md-5 control-label" for="inputDefault">Length</label>
-
-                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lngth.$invalid }">
-                                                                                    <input type="text" class="form-control" name="lngth" ng-model="asset.building.Length">
-
-                                                                                </div>
-                                                                            </div>
-
-                                                                            <div class="form-group">
-                                                                                <label class="col-md-5 control-label" for="inputDefault">Height</label>
-
-                                                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.height.$invalid }">
-                                                                                    <input type="text" class="form-control" name="height" ng-model="asset.building.Height">
-
-                                                                                </div>
-                                                                            </div>
+                                                                        <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Desc{{$index}}.$invalid }">
+                                                                            <textarea rows="2" ng-model="BOM.Description" name="Desc{{$index}}" type="text" class="form-control"></textarea>
 
                                                                         </div>
-
                                                                     </div>
-                                                                    <div class="col-md-6">
-                                                                        <fieldset>
-                                                                            <legend>Building Image</legend>
-                                                                            <div class="col-md-12">
-                                                                                <div class="col-md-4" ng-repeat="img in asset.building.BuildingImage">
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">Quantity</label>
 
-                                                                                    <a href="{{img}}" data-toggle="lightbox" data-gallery="gallery{{$index}}">
-                                                                                        <img src="{{img}}" class="img-fluid rounded">
-                                                                                    </a>
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input ng-model="BOM.Qty" name="Qty{{$index}}" type="text" value="1" class="form-control" />
 
-                                                                                </div>
-
-                                                                            </div>
-                                                                        </fieldset>
+                                                                        </div>
                                                                     </div>
+                                                                    <div class="form-group">
+                                                                        <label class="col-md-5 control-label" for="inputDefault">UOM</label>
 
+                                                                        <div class="col-md-7 control-text">
+                                                                            <input ng-model="BOM.UOM" name="Uom{{$index}}" type="text" value="EA" class="form-control" />
 
-
-
+                                                                        </div>
+                                                                    </div>
 
                                                                 </div>
+                                                                <div class="col-md-6">
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <fieldset>
+                                                                                <legend>Old Tag Image</legend>
+                                                                                <a href="{{BOM.OldTagImg}}" data-toggle="lightbox" data-gallery="gallerybomold{{$index}}">
+                                                                                    <img src="{{BOM.OldTagImg}}" class="img-fluid rounded" ng-show="BOM.OldTagImg!=null">
+                                                                                </a>
+
+                                                                            </fieldset>
+                                                                        </div>
+                                                                        <div class="form-group">
+
+                                                                            <div class="col-md-9 no-padding">
+                                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomOldTagImg(this.files)"></span>
+                                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <button class="btn btn-primary" type="button" ng-click="UploadBomOldTagImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <fieldset>
+                                                                                <legend>Name Plate Image</legend>
+                                                                                <a href="{{BOM.NamePlateImg}}"  data-magnify="gallery" data-gallery="gallerybomnp{{$index}}">
+                                                                                    <img src="{{BOM.NamePlateImg}}" class="img-fluid rounded" ng-show="BOM.NamePlateImg!=null">
+                                                                                </a>
+
+                                                                            </fieldset>
+                                                                        </div>
+                                                                        <div class="form-group">
+
+                                                                            <div class="col-md-9 no-padding">
+                                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomNamePlateImg(this.files)"></span>
+                                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <button class="btn btn-primary" type="button" ng-click="UploadBomNamePlateImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <fieldset>
+                                                                                <legend>BOM Image</legend>
+                                                                                <a href="{{BOM.BOMImg}}"  data-magnify="gallery" data-gallery="gallerybomimg{{$index}}">
+                                                                                    <img src="{{BOM.BOMImg}}" class="img-fluid rounded" ng-show="BOM.BOMImg!=null">
+                                                                                </a>
+
+                                                                            </fieldset>
+                                                                        </div>
+                                                                        <div class="form-group">
+
+                                                                            <div class="col-md-9 no-padding">
+                                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomImg(this.files)"></span>
+                                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <button class="btn btn-primary" type="button" ng-click="UploadBomImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-md-6">
+                                                                        <div class="form-group">
+                                                                            <fieldset>
+                                                                                <legend>Bar Code Image</legend>
+                                                                                <a href="{{BOM.BarCodeImg}}" data-magnify="gallery" data-gallery="gallerybombc{{$index}}">
+                                                                                    <img src="{{BOM.BarCodeImg}}" class="img-fluid rounded" ng-show="BOM.BarCodeImg!=null">
+                                                                                </a>
+
+                                                                            </fieldset>
+                                                                        </div>
+                                                                        <div class="form-group">
+
+                                                                            <div class="col-md-9 no-padding">
+                                                                                <div class="fileinput fileinput-new input-group" data-provides="fileinput">
+                                                                                    <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
+                                                                                    <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomBarCodeImg(this.files)"></span>
+                                                                                    <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="col-md-3">
+                                                                                <button class="btn btn-primary" type="button" ng-click="UploadBomBarCodeImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
+
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div style="background:#fff;"></div>
                                                             </div>
-                                                        </div>
-                                                        <div class="panel panel-accordion detail-plan">
-                                                            <div class="panel-heading">
-                                                                <h4 class="panel-title">
-                                                                    <a class="accordion-toggle collapse  {{BOM}}" data-toggle="collapse" href="#BOM" data-parent="#accordion">
-                                                                        BOM ({{rowBOM.length}})
-                                                                    </a>
-                                                                </h4>
+
+                                                            <div class="form-group" style="text-align:right">
+                                                                <button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow($index)">Remove</button>
                                                             </div>
-                                                            <div id="BOM" class="accordion-body collapse">
-                                                                <div class="panel-body {{BOM}}">
-                                                                    <div class="col-md-12 no-padding" ng-repeat="BOM in rowBOM">
-
-                                                                        <div class="col-md-12 form-group no-padding">
-
-                                                                            <div class="col-md-6">
-                                                                                <div class="form-group">
-                                                                                    <label class="col-md-5 control-label" for="inputDefault">BOM UniqueId</label>
-
-                                                                                    <div class="col-md-7 control-text">
-                                                                                        <input ng-model="BOM.UniqueId" name="Uniqueid{{$index}}" type="text" ng-disabled="true" class="form-control" />
-
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group">
-
-                                                                                    <input type="hidden" ng-model="BOM._id" />
-
-                                                                                    <label class="col-md-5 control-label" for="inputDefault">New Tag Number</label>
-
-                                                                                    <div class="col-md-7 control-text">
-                                                                                        <input ng-model="BOM.TagNo" name="Tagno{{$index}}" type="text" ng-disabled="true" class="form-control" />
-
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <label class="col-md-5 control-label" for="inputDefault">Bar Code Unique No</label>
-
-                                                                                    <div class="col-md-7 control-text">
-                                                                                        <input ng-model="BOM.Barcode" name="Barcode{{$index}}" type="text" ng-disabled="true" class="form-control" />
-
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="form-group">
-                                                                                    <label class="col-md-5 control-label" for="inputDefault">Old Tag Number</label>
-
-                                                                                    <div class="col-md-7 control-text">
-                                                                                        <input ng-model="BOM.OldTag" name="Oldtag{{$index}}" type="text" ng-disabled="true" class="form-control" />
-
-                                                                                    </div>
-                                                                                </div>
-
-
-                                                                                <div class="form-group">
-                                                                                    <label class="col-md-5 control-label" for="inputDefault">BOM Name</label>
-
-                                                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.bomnamedll{{$index}}.$invalid }">
-                                                                                            @*<select class="form-control" name="bomnamedll{{$index}}" ng-model="BOM.BOMName" ng-options="x.EquipmentType as x.EquipmentType for x in BOMEquipmentTypelist">
-                            <option value="">Select Bom Name</option>
-                        </select>*@
-                                                                                            <!--<input ng-model="BOM.BOMName" placeholder="BOM Name" name="Bomname{{$index}}" type="text" class="form-control" />
-
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-5 control-label" for="inputDefault">Description</label>
-
-                                                <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Desc{{$index}}.$invalid }">
-                                                    <textarea rows="2" ng-model="BOM.Description" name="Desc{{$index}}" type="text" class="form-control"></textarea>
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-5 control-label" for="inputDefault">Quantity</label>
-
-                                                <div class="col-md-7 control-text">
-                                                    <input ng-model="BOM.Qty" name="Qty{{$index}}" type="text" value="1" class="form-control" />
-
-                                                </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label class="col-md-5 control-label" for="inputDefault">UOM</label>
-
-                                                <div class="col-md-7 control-text">
-                                                    <input ng-model="BOM.UOM" name="Uom{{$index}}" type="text" value="EA" class="form-control" />
-
-                                                </div>
-                                            </div>
-
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <fieldset>
-                                                        <legend>Old Tag Image</legend>
-                                                        <a href="{{BOM.OldTagImg}}" data-toggle="lightbox" data-gallery="gallerybomold{{$index}}">
-                                                            <img src="{{BOM.OldTagImg}}" class="img-fluid rounded" ng-show="BOM.OldTagImg!=null">
-                                                        </a>
-
-                                                    </fieldset>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-md-9 no-padding">
-                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomOldTagImg(this.files)"></span>
-                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                            <div style="border-bottom:5px solid #fff  ;height:10px"></div>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomOldTagImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
 
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <fieldset>
-                                                        <legend>Name Plate Image</legend>
-                                                        <a href="{{BOM.NamePlateImg}}"  data-magnify="gallery" data-gallery="gallerybomnp{{$index}}">
-                                                            <img src="{{BOM.NamePlateImg}}" class="img-fluid rounded" ng-show="BOM.NamePlateImg!=null">
-                                                        </a>
-
-                                                    </fieldset>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-md-9 no-padding">
-                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomNamePlateImg(this.files)"></span>
-                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
+                                                        <div class="form-group" style="text-align:right">
+                                                            <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()">Add More</button>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomNamePlateImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
 
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <fieldset>
-                                                        <legend>BOM Image</legend>
-                                                        <a href="{{BOM.BOMImg}}"  data-magnify="gallery" data-gallery="gallerybomimg{{$index}}">
-                                                            <img src="{{BOM.BOMImg}}" class="img-fluid rounded" ng-show="BOM.BOMImg!=null">
-                                                        </a>
-
-                                                    </fieldset>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-md-9 no-padding">
-                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomImg(this.files)"></span>
-                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <fieldset>
-                                                        <legend>Bar Code Image</legend>
-                                                        <a href="{{BOM.BarCodeImg}}" data-magnify="gallery" data-gallery="gallerybombc{{$index}}">
-                                                            <img src="{{BOM.BarCodeImg}}" class="img-fluid rounded" ng-show="BOM.BarCodeImg!=null">
-                                                        </a>
-
-                                                    </fieldset>
-                                                </div>
-                                                <div class="form-group">
-
-                                                    <div class="col-md-9 no-padding">
-                                                        <div class="fileinput fileinput-new input-group" data-provides="fileinput">
-                                                            <div class="form-control" data-trigger="fileinput"><i class="glyphicon glyphicon-file fileinput-exists"></i> <span class="fileinput-filename"></span></div>
-                                                            <span class="input-group-addon btn btn-default btn-file"><span class="fileinput-new">Select</span><span class="fileinput-exists">Change</span><input type="file" name="..." onchange="angular.element(this).scope().LoadBomBarCodeImg(this.files)"></span>
-                                                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">Remove</a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-3">
-                                                        <button class="btn btn-primary" type="button" ng-click="UploadBomBarCodeImg(BOM.UniqueId)"><i class="fa fa-upload" aria-hidden="true"></i></button>&nbsp;
-
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="background:#fff;"></div>
-                                    </div>
-
-                                    <div class="form-group" style="text-align:right">
-                                        <button type="button" id="btnDelete" class="deleteContact btn btn btn-danger btn-xs" ng-click="RemoveRow($index)">Remove</button>
-                                    </div>
-                                    <div style="border-bottom:5px solid #fff  ;height:10px"></div>
-                                </div>
-
-                                <div class="form-group" style="text-align:right">
-                                    <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addRow()">Add More</button>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>-->
+                                            </div>-->
 
 
 
@@ -1075,7 +1111,7 @@
                                                             @*<th style="width: 20%">Unit</th>*@
 
                                                             @*<th style="width: 15%">URL</th>
-                                        <th style="width: 15%">Source</th>*@
+                                                                <th style="width: 15%">Source</th>*@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -1107,6 +1143,10 @@
                                                                 </div>
 
                                                             </td>
+
+
+
+
 
 
 
@@ -1146,59 +1186,59 @@
                                         </div>
                                     </td>-->
                                                             <td>
-                                    <div ng-click="Uomalert(uo.UOM,$index)" id="U{{$index}}">
-                                        <div ng-show="uo.Uom !=null && uo.Uom.length > 0 " ng-class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }">
-                                            <select ng-model="uo.UOM" name="Um11o{{$index}}" class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null && uo.Uom !=null && uo.Uom.length > 0" ng-options="y for y in uo.Uom">
-                                                <option value="">Select</option>
-                                            </select>
-                                        </div>
-                                                            @*<div ng-show="(uo.Uom ==null || uo.Uom.length ==  0) && x.UOMList.length > 0" class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }" ng-repeat="x in UOMs | filter : {'Attribute': uo.Characteristic }:true">
-                                            <select ng-model="uo.UOM" name="Um11o{{$index}}"   class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null &&  x.UOMList.length > 0 " ng-options="y for y in x.UOMList">
-                                                <option value="" selected="selected">Select</option>
-                                            </select>
-                                        </div>*@
-                                                            </div>
-                                    </td>
+                                                                <div ng-click="Uomalert(uo.UOM,$index)" id="U{{$index}}">
+                                                                    <div ng-show="uo.Uom !=null && uo.Uom.length > 0 " ng-class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }">
+                                                                        <select ng-model="uo.UOM" name="Um11o{{$index}}" class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null && uo.Uom !=null && uo.Uom.length > 0" ng-options="y for y in uo.Uom">
+                                                                            <option value="">Select</option>
+                                                                        </select>
+                                                                    </div>
+                                                                    @*<div ng-show="(uo.Uom ==null || uo.Uom.length ==  0) && x.UOMList.length > 0" class="{'has-error': form.Um11o{{$index}}.$invalid || form.Um11o{{$index}}.$error.required }" ng-repeat="x in UOMs | filter : {'Attribute': uo.Characteristic }:true">
+                                                                            <select ng-model="uo.UOM" name="Um11o{{$index}}"   class="form-control" ng-required="uo.UomMandatory=='Yes' && uo.Value!='' && uo.Value!=null &&  x.UOMList.length > 0 " ng-options="y for y in x.UOMList">
+                                                                                <option value="" selected="selected">Select</option>
+                                                                            </select>
+                                                                        </div>*@
+                                                                </div>
+                                                            </td>
                                                             @*<td>
-                                            <input type="text" class="form-control" ng-model="uo.SourceUrl" />
-                                        </td>
+                                                                    <input type="text" class="form-control" ng-model="uo.SourceUrl" />
+                                                                </td>
 
-                                        <td>
-                                            <select class="form-control" ng-init="uo.Source==null?uo.Source='LEGACY DATA':uo.Source" ng-model="uo.Source" ng-options="lst for lst in ['LEGACY DATA','LEGACY DATA/INTERNET','INTERNET']"></select>
-                                        </td>*@
+                                                                <td>
+                                                                    <select class="form-control" ng-init="uo.Source==null?uo.Source='LEGACY DATA':uo.Source" ng-model="uo.Source" ng-options="lst for lst in ['LEGACY DATA','LEGACY DATA/INTERNET','INTERNET']"></select>
+                                                                </td>*@
 
                                                         </tr>
                                                         @*<tr>
-                                        <td>
-                                            <div class="form-group" style="text-align:right">
-                                                <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addattriRow()">Add More</button>
-                                            </div>
-                                        </td>
-                                        <td>
-                                        </td>
-                                    </tr>*@
+                                                                <td>
+                                                                    <div class="form-group" style="text-align:right">
+                                                                        <button type="button" name="btnAdd" class="btn btn-xs btn-primary classAdd" ng-click="addattriRow()">Add More</button>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                </td>
+                                                            </tr>*@
                                                     </tbody>
                                                 </table>
 
 
                                                 @*<div class="col-md-10"></div>
-                            <div class="col-md-2">
+                                                    <div class="col-md-2">
 
-                            </div>*@
+                                                    </div>*@
                                             </div>
 
 
 
                                             @*<div class="form-group">
-                            <label class="col-md-3 control-label" for="inputDefault">Additional Info</label>
-                            <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.additinfo.$invalid }">
-                                <textarea class="form-control" name="additinfo" rows="3" ng-model="asset.AdditionalInfo"></textarea>
-                            </div>
-                        </div>*@
+                                                    <label class="col-md-3 control-label" for="inputDefault">Additional Info</label>
+                                                    <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.additinfo.$invalid }">
+                                                        <textarea class="form-control" name="additinfo" rows="3" ng-model="asset.AdditionalInfo"></textarea>
+                                                    </div>
+                                                </div>*@
                                             <div class="form-group">
                                                 <label class="col-md-3 control-label" for="inputDefault">Item Additional Information</label>
                                                 <div class="col-md-9 control-text" ng-class="{'has-error': form.$submitted && form.equipshort.$invalid }">
-                                                    <textarea class="form-control" name="equipshort" rows="3" ng-model="asset.AdditionalInfo"></textarea>
+                                                    <textarea class="form-control" name="equipshort" rows="3" ng-model="asset.AdditionalInfo" capitalize></textarea>
                                                 </div>
                                             </div>
                                             <div class="form-group">
@@ -1233,12 +1273,31 @@
                                             </div>
 
 
-                                            <div class="form-group">
+                                            <div class="form-group" ng-show="catRemarks">
 
                                                 <div class="col-md-3">
-                                                    <label class="control-label" for="inputDefault">Rework Remarks</label>
+                                                    <label class="control-label" for="inputDefault">Catalogue Remarks</label>
                                                 </div>
                                                 <div class="col-md-9 control-text left" ng-class="{'has-error': form.$submitted && form.rewrem.$invalid }">
+                                                    <div style="padding: 0;margin: 0;" class="form-group">
+                                                        <label style="font-weight:700" ng-hide="asset.Rework_Remarks==null">Reviewer:</label> <label ng-hide="asset.Rework_Remarks==null" ng-bind="asset.Rework_Remarks" style="border: none"></label>
+                                                    </div>
+
+                                                    <textarea rows="2" class="form-control" name="rewrem" ng-model="asset.Cat_Remarks" capitalize></textarea>
+
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group" ng-hide="catRemarks">
+
+                                                <div class="col-md-3">
+                                                    <label class="control-label" for="inputDefault">Review Remarks</label>
+                                                </div>
+                                                <div class="col-md-9 control-text left" ng-class="{'has-error': form.$submitted && form.rewrem.$invalid }">
+                                                    <div style="padding: 0;margin: 0;" class="form-group">
+                                                        <label style="font-weight:700" ng-hide="asset.Cat_Remarks==null">Cataloguer:</label> <label ng-hide="asset.Cat_Remarks==null" ng-bind="asset.Cat_Remarks" style="border: none"></label>
+                                                    </div>
+
                                                     <textarea rows="2" class="form-control" name="rewrem" ng-model="asset.Rework_Remarks" capitalize></textarea>
 
                                                 </div>
@@ -1246,41 +1305,41 @@
 
 
                                             @*<div class="form-group">
-                            <label class="col-md-3 control-label" for="inputDefault">Quantity</label>
+                                                    <label class="col-md-3 control-label" for="inputDefault">Quantity</label>
 
-                            <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.qty.$invalid }">
-                                <input type="text" class="form-control" name="qty" value="1" ng-disabled="true" ng-model="asset.Quantity">
+                                                    <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.qty.$invalid }">
+                                                        <input type="text" class="form-control" name="qty" value="1" ng-disabled="true" ng-model="asset.Quantity">
 
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputDefault">UOM</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="inputDefault">UOM</label>
 
-                            <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.uom.$invalid }">
-                                <input type="text" id="uom1" name="uom" value="EA" ng-disabled="true" class="form-control" ng-model="asset.UOM">
+                                                    <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.uom.$invalid }">
+                                                        <input type="text" id="uom1" name="uom" value="EA" ng-disabled="true" class="form-control" ng-model="asset.UOM">
 
-                            </div>
-                        </div>
+                                                    </div>
+                                                </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" for="inputDefault">Install Yr</label>
-                            <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.YOI.$invalid }">
-                                <input type="text" class="form-control" name="YOI" ng-model="asset.YearOfInstall">
-                            </div>
-                        </div>*@
+                                                <div class="form-group">
+                                                    <label class="col-md-3 control-label" for="inputDefault">Install Yr</label>
+                                                    <div class="col-md-4 control-text" ng-class="{'has-error': form.$submitted && form.YOI.$invalid }">
+                                                        <input type="text" class="form-control" name="YOI" ng-model="asset.YearOfInstall">
+                                                    </div>
+                                                </div>*@
 
 
                                         </div>
                                         <div class="col-md-6">
                                             @*<div class="col-md-12">
-                            <div class="col-md-8">
+                                                    <div class="col-md-8">
 
-                            </div>
-                            <div class="col-md-4">
-                                <button class="btn btn-primary" type="button" ng-click="downloadImages(asset.UniqueId,asset.AssetImages)">Download Images</button>&nbsp;
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <button class="btn btn-primary" type="button" ng-click="downloadImages(asset.UniqueId,asset.AssetImages)">Download Images</button>&nbsp;
 
-                            </div>
-                        </div>*@
+                                                    </div>
+                                                </div>*@
                                             <fieldset>
                                                 <legend>S4 Asset Image</legend>
                                                 <div class="col-md-12 no-padding">
@@ -1397,14 +1456,14 @@
                                                     </div>
                                                 </div>
                                                 @*<div class="col-md-12" ng-repeat="img in asset.AssetImages.NamePlateImgeTwo track by $index">
-                                <a ng-show="editImage" ng-click="RemovenameplateImg2(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
-                                <a href="{{img}}" data-magnify="gallery" data-gallery="gallery2">
-                                    <img src="{{img}}" class="img-fluid rounded">
-                                </a>
+                                                        <a ng-show="editImage" ng-click="RemovenameplateImg2(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                        <a href="{{img}}" data-magnify="gallery" data-gallery="gallery2">
+                                                            <img src="{{img}}" class="img-fluid rounded">
+                                                        </a>
 
 
 
-                            </div>*@
+                                                    </div>*@
                                                 <fieldset>
                                                     <legend>Name Plate Text2</legend>
                                                     <div class="form-group" ng-repeat="txt in asset.AssetImages.NamePlateTextTwo">
@@ -1471,23 +1530,23 @@
                                                         </a>
                                                     </div>
                                                     @*<div class="col-md-4" ng-repeat="img in asset.AssetImages.VirtualTagImage track by $index">
-                                    <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
-                                    <a href="{{img}}" data-magnify="gallery" data-gallery="gallery4">
-                                        <img src="{{img}}" class="img-fluid rounded">
-                                    </a>
-                                </div>
-                                <div class="col-md-4">
-                                    <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
-                                    <a ng-href="/QRImages/{{asset.AssetNo}}_VT{{asset.NewTagNo}}.png" data-magnify="gallery" data-gallery="gallery4">
-                                        <img ng-src="/QRImages/{{asset.AssetNo}}_VT{{asset.NewTagNo}}.png" class="img-fluid rounded">
-                                    </a>
-                                </div>*@
+                                                            <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                            <a href="{{img}}" data-magnify="gallery" data-gallery="gallery4">
+                                                                <img src="{{img}}" class="img-fluid rounded">
+                                                            </a>
+                                                        </div>
+                                                        <div class="col-md-4">
+                                                            <a ng-show="editImage" ng-click="RemoveNewTagImg(img,asset.UniqueId)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                            <a ng-href="/QRImages/{{asset.AssetNo}}_VT{{asset.NewTagNo}}.png" data-magnify="gallery" data-gallery="gallery4">
+                                                                <img ng-src="/QRImages/{{asset.AssetNo}}_VT{{asset.NewTagNo}}.png" class="img-fluid rounded">
+                                                            </a>
+                                                        </div>*@
                                                     <div class="form-group col-md-3">
                                                         <div class="control-text" ng-class="{'has-error': form.$submitted && form.newtag.$invalid }" style="display: flex; flex-direction: row; width: 100%; align-items: center; gap: 5px;">
                                                             <input type="text" style="width:120px" class="form-control" ng-disabled="editQR" name="newtag" ng-model="asset.NewTagNo" ng-change="newQRChange(asset.NewTagNo)" placeholder="New Tag Number">
                                                             @*<button style=" padding: 0px 5px;" class="btn btn-primary" type="button" ng-click="GenerateQR(asset.UniqueId,asset.AssetNo,asset, $index)">
-                                            <i class="fas fa-qrcode" style="font-size:12px"></i>
-                                        </button>&nbsp;*@
+                                                                    <i class="fas fa-qrcode" style="font-size:12px"></i>
+                                                                </button>&nbsp;*@
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1515,8 +1574,8 @@
                                                 <div class="col-md-12 no-padding">
                                                     <div class="form-group col-md-3" ng-show="editImage">
                                                         <div class="control-text" ng-class="{'has-error': form.$submitted && form.newtag.$invalid }" style="display: flex; flex-direction: row; width: 100%; align-items: center; gap: 5px;">-->
-                                                            @*<input type="text" style="width:120px" class="form-control" ng-disabled="editQR" name="newtag" ng-model="asset.NewTagNo" ng-change="newQRChange(asset.NewTagNo)" placeholder="New Tag Number">*@
-                                                            <!--<button style=" padding: 0px 5px;" class="btn btn-primary" type="button" ng-click="GenerateQR(asset.UniqueId,asset.AssetNo,asset, $index)">
+                                            @*<input type="text" style="width:120px" class="form-control" ng-disabled="editQR" name="newtag" ng-model="asset.NewTagNo" ng-change="newQRChange(asset.NewTagNo)" placeholder="New Tag Number">*@
+                                            <!--<button style=" padding: 0px 5px;" class="btn btn-primary" type="button" ng-click="GenerateQR(asset.UniqueId,asset.AssetNo,asset, $index)">
                                                                 <i class="fas fa-qrcode" style="font-size:12px"></i> Generate
                                                             </button>&nbsp;
                                                         </div>
@@ -1545,8 +1604,8 @@
 
                                                             <textarea class="form-control" name="Remarks1" rows="2" ng-model="asset.AdditionalNotes"></textarea>
                                                             @*<select class="form-control" id="Remarks1" name="Remarks1" ng-model="asset.AdditionalNotes" ng-options="x.Code as x.Title for x in (Notes | filter: {'Label': 'AdditionalNotes','Islive':true } :true)">
-                                                                <option value="" selected="selected">Select</option>
-                                                            </select>*@
+                                                                    <option value="" selected="selected">Select</option>
+                                                                </select>*@
 
                                                         </div>
                                                     </div>
@@ -1585,21 +1644,21 @@
                                         <div class="">
                                             <div class="col-md-2"></div>
                                             @*<div class="col-md-4">
-                            <div class="form-group asset-border">
-                                <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
-                                    <input type="radio" name="selectedrole" value="Functional" ng-checked="asset.Condition.Asset_Condition=='Functional'"> Functional
+                                                    <div class="form-group asset-border">
+                                                        <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
+                                                            <input type="radio" name="selectedrole" value="Functional" ng-checked="asset.Condition.Asset_Condition=='Functional'"> Functional
 
-                                </div>
-                                <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
-                                    <input type="radio" name="selectedrole" value="Non Functional" ng-checked="asset.Condition.Asset_Condition=='Non Functional'">Non-Functional
+                                                        </div>
+                                                        <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
+                                                            <input type="radio" name="selectedrole" value="Non Functional" ng-checked="asset.Condition.Asset_Condition=='Non Functional'">Non-Functional
 
-                                </div>
-                                <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
-                                    <input type="radio" name="selectedrole" value="Standby" ng-checked="asset.Condition.Asset_Condition=='Standby'"> Standby
+                                                        </div>
+                                                        <div class="col-md-4 checkbox-custom checkbox-default ng-binding" ng-required="true" required="required">
+                                                            <input type="radio" name="selectedrole" value="Standby" ng-checked="asset.Condition.Asset_Condition=='Standby'"> Standby
 
-                                </div>
-                            </div>
-                        </div>*@
+                                                        </div>
+                                                    </div>
+                                                </div>*@
                                             <div class="col-md-8">
                                                 <div class="form-group asset-border">
                                                     &ensp;&ensp;&ensp;&ensp;&ensp;
@@ -1744,13 +1803,13 @@
                                         <div class="col-md-4">
 
                                             @*<div class="form-group">
-                            <label class="col-md-5 control-label" for="inputDefault">Lattitude Start Pt</label>
+                                                    <label class="col-md-5 control-label" for="inputDefault">Lattitude Start Pt</label>
 
-                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lattitudestrt.$invalid }">
-                                <input type="text" class="form-control" name="lattitudestrt" ng-model="asset.gis.LattitudeStart">
+                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lattitudestrt.$invalid }">
+                                                        <input type="text" class="form-control" name="lattitudestrt" ng-model="asset.gis.LattitudeStart">
 
-                            </div>
-                        </div>*@
+                                                    </div>
+                                                </div>*@
                                             <div class="form-group">
                                                 <label class="col-md-5 control-label" for="inputDefault">Start Point</label>
 
@@ -1771,52 +1830,52 @@
                                                 </div>
                                             </div>
                                             @*<div class="form-group">
-                            <label class="col-md-5 control-label" for="inputDefault">Longitude End Pt</label>
+                                                    <label class="col-md-5 control-label" for="inputDefault">Longitude End Pt</label>
 
-                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Longitudend.$invalid }">
-                                <input type="text" class="form-control" name="Longitudend" ng-model="asset.gis.LongitudeEnd">
+                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Longitudend.$invalid }">
+                                                        <input type="text" class="form-control" name="Longitudend" ng-model="asset.gis.LongitudeEnd">
 
-                            </div>
-                        </div>*@
+                                                    </div>
+                                                </div>*@
                                         </div>
                                         @*<div class="col-md-4">
 
-                        <div class="form-group">
-                            <label class="col-md-5 control-label" for="inputDefault">Lattitude Start Pt</label>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label" for="inputDefault">Lattitude Start Pt</label>
 
-                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lattitudestrt.$invalid }">
-                                <input type="text" class="form-control" name="lattitudestrt" ng-model="asset.gis.LattitudeStart">
+                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.lattitudestrt.$invalid }">
+                                                        <input type="text" class="form-control" name="lattitudestrt" ng-model="asset.gis.LattitudeStart">
 
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-5 control-label" for="inputDefault">Longitude Start Pt</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label" for="inputDefault">Longitude Start Pt</label>
 
-                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.LongitudeSt.$invalid }">
-                                <input type="text" class="form-control" name="LongitudeSt" ng-model="asset.gis.LongitudeStart">
+                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.LongitudeSt.$invalid }">
+                                                        <input type="text" class="form-control" name="LongitudeSt" ng-model="asset.gis.LongitudeStart">
 
-                            </div>
-                        </div>
+                                                    </div>
+                                                </div>
 
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label class="col-md-5 control-label" for="inputDefault">Lattitude End Pt</label>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label" for="inputDefault">Lattitude End Pt</label>
 
-                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Lattitudend.$invalid }">
-                                <input type="text" class="form-control" name="Lattitudend" ng-model="asset.gis.LattitudeEnd">
+                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Lattitudend.$invalid }">
+                                                        <input type="text" class="form-control" name="Lattitudend" ng-model="asset.gis.LattitudeEnd">
 
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-md-5 control-label" for="inputDefault">Longitude End Pt</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-5 control-label" for="inputDefault">Longitude End Pt</label>
 
-                            <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Longitudend.$invalid }">
-                                <input type="text" class="form-control" name="Longitudend" ng-model="asset.gis.LongitudeEnd">
+                                                    <div class="col-md-7 control-text" ng-class="{'has-error': form.$submitted && form.Longitudend.$invalid }">
+                                                        <input type="text" class="form-control" name="Longitudend" ng-model="asset.gis.LongitudeEnd">
 
-                            </div>
-                        </div>
-                    </div>*@
+                                                    </div>
+                                                </div>
+                                            </div>*@
                                         <div class="col-md-4">
                                             <div class="form-group">
                                                 <a href="#" ng-click="openMap(asset.GIS.LongitudeStart,asset.GIS.LattitudeStart)" style="padding:5px;height:20px" class="mb-xs mt-xs mr-xs btn btn-primary">
@@ -1826,10 +1885,10 @@
 
                                                 @*<label class="col-md-5 control-label" for="inputDefault">Length</label>
 
-                            <div class="col-md-7s control-text" ng-class="{'has-error': form.$submitted && form.latlonglen.$invalid }">
-                                <input type="text" class="form-control" name="latlonglen" ng-model="asset.gis.Lat_LongLength">
+                                                    <div class="col-md-7s control-text" ng-class="{'has-error': form.$submitted && form.latlonglen.$invalid }">
+                                                        <input type="text" class="form-control" name="latlonglen" ng-model="asset.gis.Lat_LongLength">
 
-                            </div>*@
+                                                    </div>*@
                                             </div>
                                         </div>
 
@@ -1841,33 +1900,25 @@
                                     <div class="col-md-6">
 
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" style="font-weight:bold">FAR ID :</label>
-                                            <div class="col-sm-10">
-                                                <label ng-bind="asset.FixedAssetNo" />
+                                            <label class="col-sm-4 control-label" style="font-weight:bold">Functional Location :</label>
+                                            <div class="col-sm-8">
+                                                <label ng-bind="asset.Func_Location" />
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <label class="col-sm-2 control-label" style="font-weight:bold">Asset No :</label>
-                                            <div class="col-sm-10">
+                                            <label class="col-sm-4 control-label" style="font-weight:bold">Equipment Number :</label>
+                                            <div class="col-sm-8">
                                                 <label ng-bind="asset.AssetNo" />
                                             </div>
                                         </div>
                                     </div>
-
-                                    <span ng-click="toggleNode()">
-                                        <i class="fa"
-                                           ng-class="{'fa-plus-square': !node.expanded, 'fa-minus-square': node.expanded}"
-                                           ng-if="node.children && node.children.length"></i>
-                                        {{node.name}} <small ng-if="node.category">({{node.category}})</small>
-                                    </span>
-
-
-                                    @*<ul class="tree-view">
-            <tree-node ng-repeat="node in treeBOMData" node="node"></tree-node>
-        </ul>*@
                                     <div class="col-md-12">
+                                        <bom-tree nodes="treeBOMData"></bom-tree>
+                                    </div>
+
+                                    <div class="col-md-12" ng-hide="true">
                                         <table class="table table-bordered" style="width:100%;">
                                             <thead class="top-border" align="center">
                                                 <tr>
@@ -1890,7 +1941,7 @@
                                                     </td>
                                                     <td>{{ bom.BOMId }}</td>
                                                     <td>{{ bom.Materialcode }}</td>
-                                                    <td title="{{bom.BOMDesc}}" >
+                                                    <td title="{{bom.BOMDesc}}">
                                                         {{ bom.BOMDesc.length > 40 ? bom.BOMDesc.substring(0, 40)+ '...' : bom.BOMDesc }}
                                                     </td>
                                                     <td>{{ bom.UOM }}</td>
@@ -1906,11 +1957,11 @@
                                                         </span>
                                                     </td>
                                                     <td>
-                                                        {{ child.Category === 'A' ? child.AssemblyId : (child.Category === 'E'||child.Category === 'N')?"":child.ComponentId }}
+                                                        {{ child.Category === 'I' ? child.AssemblyId : (child.Category === 'L'||child.Category === 'T')?"":child.ComponentId }}
                                                     </td>
                                                     <td>{{ child.Materialcode }}</td>
-                                                    <td title="{{child.Category === 'A' ?child.AssemblyDesc : child.ComponentDesc}}" >
-                                                        {{ child.Category === 'A' ? child.AssemblyDesc.length > 40 ?child.AssemblyDesc .substring(0, 40)+ '...' : child.AssemblyDesc : child.ComponentDesc .length > 40 ?child.ComponentDesc .substring(0, 40)+ '...' : child.ComponentDesc}}
+                                                    <td title="{{child.Category === 'I' ?child.AssemblyDesc : child.ComponentDesc}}">
+                                                        {{ child.Category === 'I' ? child.AssemblyDesc.length > 40 ?child.AssemblyDesc .substring(0, 40)+ '...' : child.AssemblyDesc : child.ComponentDesc .length > 40 ?child.ComponentDesc .substring(0, 40)+ '...' : child.ComponentDesc}}
                                                     </td>
                                                     <td>{{ child.UOM }}</td>
                                                     <td>{{ child.Quantity }}</td>
@@ -1918,18 +1969,18 @@
 
                                                 <!-- SubAssembly or Component under Assembly -->
                                                 <tr ng-repeat-start="sub in child.children" ng-if="child.expanded"
-                                                    ng-style="{'background': sub.Category === 'SA' ? '#f1f9ff' : '#f7fbff'}">
+                                                    ng-style="{'background': sub.Category === 'SI' ? '#f1f9ff' : '#f7fbff'}">
                                                     <td style="text-align: center; padding-left: 40px;">
-                                                        <span ng-if="sub.Category === 'SA' && sub.children.length" ng-click="toggleNode(sub)" style="cursor:pointer;">
+                                                        <span ng-if="sub.Category === 'SI' && sub.children.length" ng-click="toggleNode(sub)" style="cursor:pointer;">
                                                             <strong>{{ sub.expanded ? '-' : '+' }}</strong>
                                                         </span>
                                                     </td>
-                                                    <td>{{ sub.Category === 'SA' ? sub.AssemblyId : (sub.Category === 'E'||sub.Category === 'N')?"":sub.ComponentId }}</td>
+                                                    <td>{{ sub.Category === 'SI' ? sub.AssemblyId : (sub.Category === 'L'||sub.Category === 'T')?"":sub.ComponentId }}</td>
                                                     <td>{{ sub.Materialcode }}</td>
-                                                    @*<td>{{ sub.Category === 'SA' ? sub.AssemblyDesc : sub.ComponentDesc }}</td>*@
-                                                <td title="{{sub.Category === 'A' ?comp.AssemblyDesc : comp.ComponentDesc}}" >
-                                                    {{ sub.Category === 'A' ? sub.AssemblyDesc.length > 40 ?sub.AssemblyDesc .substring(0, 40)+ '...' : sub.AssemblyDesc : sub.ComponentDesc .length > 40 ?sub.ComponentDesc .substring(0, 40)+ '...' : sub.ComponentDesc}}
-                                                </td>
+                                                    @*<td>{{ sub.Category === 'SI' ? sub.AssemblyDesc : sub.ComponentDesc }}</td>*@
+                                                    <td title="{{sub.Category === 'I' ?comp.AssemblyDesc : comp.ComponentDesc}}">
+                                                        {{ sub.Category === 'I' ? sub.AssemblyDesc.length > 40 ?sub.AssemblyDesc .substring(0, 40)+ '...' : sub.AssemblyDesc : sub.ComponentDesc .length > 40 ?sub.ComponentDesc .substring(0, 40)+ '...' : sub.ComponentDesc}}
+                                                    </td>
                                                     <td>{{ sub.UOM }}</td>
                                                     <td>{{ sub.Quantity }}</td>
                                                 </tr>
@@ -1939,7 +1990,7 @@
                                                     <td style="padding-left: 60px;"></td>
                                                     <td>{{ comp.ComponentId }}</td>
                                                     <td>{{ comp.Materialcode }}</td>
-                                                    <td title="{{comp.ComponentDesc}}" >
+                                                    <td title="{{comp.ComponentDesc}}">
                                                         {{ comp.ComponentDesc.length > 40 ? comp.ComponentDesc.substring(0, 40)+ '...' : comp.ComponentDesc }}
                                                     </td>
                                                     <td>{{ comp.UOM }}</td>
@@ -1957,78 +2008,79 @@
 
 
                                 </div>
-                                <div id="Attach" class="tab-pane {{attach}}">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label class="col-md-4">Attachment</label>
-                                            <div class="col-md-8">
-                                                <div class="attachmentscroll">
-                                                    <div class="control-text">
-                                                        <div id="fileuploader">Upload</div>
+                                    <div id="Attach" class="tab-pane {{attach}}">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="col-md-4">Attachment</label>
+                                                <div class="col-md-8">
+                                                    <div class="attachmentscroll">
+                                                        <div class="control-text">
+                                                            <div id="fileuploader">Upload</div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <div class="form-group" ng-hide="Lstattachment != null && Lstattachment != ''">
+                                                    <label class="col-md-4">No files uploaded.</label>
+                                                </div>
+
+                                                <div class="form-group" ng-show="Lstattachment != null && Lstattachment != ''">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-8" style="display: flex;flex-direction: column;">
+                                                        <div ng-repeat="fname in Lstattachment">
+                                                            @*<div class="col-md-12">
+                                    <div class="col-md-6">
+                                        <a ng-click="Downloadfile(asset.UniqueId,fname)" class="on-default edit-row download MRD" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px; "><i class="fa fa-download" style="line-height: 2; letter-spacing: 5px;"></i> {{fname}}</a>
+
                                     </div>
                                     <div class="col-md-6">
-                                        <div class="form-group">
-
-                                            <div class="form-group" ng-hide="Lstattachment != null && Lstattachment != ''">
-                                                <label class="col-md-4">No files uploaded.</label>
-                                            </div>
-
-                                            <div class="form-group" ng-show="Lstattachment != null && Lstattachment != ''">
-                                                <div class="col-md-4"></div>
-                                                <div class="col-md-8" style="display: flex;flex-direction: column;">
-                                                    <div ng-repeat="fname in Lstattachment">
-                                                        @*<div class="col-md-12">
-                                                                <div class="col-md-6">
-                                                                    <a ng-click="Downloadfile(asset.UniqueId,fname)" class="on-default edit-row download MRD" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px; "><i class="fa fa-download" style="line-height: 2; letter-spacing: 5px;"></i> {{fname}}</a>
-
-                                                                </div>
-                                                                <div class="col-md-6">
-                                                                    <select ng-model="source" class="form-control">
-                                                                        <option value="Existing" selected="selected">Existing Source</option>
-                                                                        <option value="Web">Web Source</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>*@
-                                                        <a ng-click="Downloadfile(asset.UniqueId,fname)" class="on-default edit-row download MRD" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px; "><i class="fa fa-download" style="line-height: 2; letter-spacing: 5px;"></i> {{fname}}</a>
+                                        <select ng-model="source" class="form-control">
+                                            <option value="Existing" selected="selected">Existing Source</option>
+                                            <option value="Web">Web Source</option>
+                                        </select>
+                                    </div>
+                                </div>*@
+                                                            <a ng-click="Downloadfile(asset.UniqueId,fname)" class="on-default edit-row download MRD" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px; "><i class="fa fa-download" style="line-height: 2; letter-spacing: 5px;"></i> {{fname}}</a>
+                                                            <a ng-click="Deletefile($index,asset.UniqueId,fname)" style="float: left; display: flex; margin-right: 5px; margin-bottom: 5px;color:red "><i class="fa fa-trash" style="line-height: 2; letter-spacing: 5px;"></i></a>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
 
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 form-group" ng-show="editAction || saveAction">
-
-                                    <div class="col-md-12 no-padding">
-                                        <label class="col-md-2 control-label no-padding" for="textareaDefault">Exceptional</label>
-                                        @*<button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="autoFill()">Auto Fill</button>&nbsp;*@
-                                        @*<label class="col-md-1 control-label no-padding" for="textareaDefault">Documents</label>
-        <div class="col-md-1 no-padding">
-            <div class="checkbox-custom checkbox-default">
-                <input type="checkbox" ng-model="asset.Doc_Availability" /><label for="checkboxExample1"></label>
-            </div>
-        </div>*@
-                                        <div class="col-md-8 no-padding">
-                                            &nbsp;<button type="button" ng-click="PVRework()" @*ng-show="sts2"*@ class="mb-xs mt-xs mr-xs btn btn-primary">Rework to PV</button>
-                                            &nbsp;<button type="button" ng-click="AssetRework()" ng-show="sts2" class="mb-xs mt-xs mr-xs btn btn-primary">Rework to Catalogue</button>
-                                            <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="formShortLong()">Generate Short Long</button>&nbsp;
-                                            &nbsp;<button class="mb-xs mt-xs mr-xs btn btn-primary">Save</button>
-                                            &nbsp;<button type="button" ng-click="SubmitAssetData()" ng-show="sts1" class="mb-xs mt-xs mr-xs btn btn-primary">Submit</button>
-                                        </div>
-                                        <label class="col-md-1 control-label no-padding" for="textareaDefault">Exceptional</label>
-                                        <div class="col-md-1 no-padding">
-                                            <div class="checkbox-custom checkbox-default">
-                                                <input type="checkbox" ng-model="asset.Exchk" ng-click="Exceptional(cat.Noun,cat.Modifier)" /><label for="checkboxExample1"></label>
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-12 form-group" ng-show="editAction || saveAction">
+
+                                        <div class="col-md-12 no-padding">
+                                            @*<label class="col-md-2 control-label no-padding" for="textareaDefault">Exceptional</label>
+                <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="autoFill()">Auto Fill</button>&nbsp;*@
+                                            @*<label class="col-md-1 control-label no-padding" for="textareaDefault">Documents</label>
+                <div class="col-md-1 no-padding">
+                    <div class="checkbox-custom checkbox-default">
+                        <input type="checkbox" ng-model="asset.Doc_Availability" /><label for="checkboxExample1"></label>
+                    </div>
+                </div>*@
+                                            <div class="col-md-8 no-padding">
+                                                &nbsp;<button type="button" ng-click="PVRework()" @*ng-show="sts2"*@ class="mb-xs mt-xs mr-xs btn btn-primary">Rework to PV</button>
+                                                &nbsp;<button type="button" ng-click="AssetRework()" ng-show="sts2" class="mb-xs mt-xs mr-xs btn btn-primary">Rework to Catalogue</button>
+                                                <button type="button" class="mb-xs mt-xs mr-xs btn btn-primary" ng-click="formShortLong()">Generate Short Long</button>&nbsp;
+                                                &nbsp;<button class="mb-xs mt-xs mr-xs btn btn-primary">Save</button>
+                                                &nbsp;<button type="button" ng-click="SubmitAssetData()" ng-show="sts1" class="mb-xs mt-xs mr-xs btn btn-primary">Submit</button>
+                                            </div>
+                                            <label class="col-md-1 control-label no-padding" for="textareaDefault">Exceptional</label>
+                                            <div class="col-md-1 no-padding">
+                                                <div class="checkbox-custom checkbox-default">
+                                                    <input type="checkbox" ng-model="asset.Exchk" ng-click="Exceptional(cat.Noun,cat.Modifier)" /><label for="checkboxExample1"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     </div>
 

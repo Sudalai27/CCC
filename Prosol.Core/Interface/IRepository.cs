@@ -27,6 +27,7 @@ namespace Prosol.Core.Interface
         IEnumerable<T> FindAll(IMongoQuery quer, IMongoSortBy sort);
 
         IEnumerable<T> FindAll(IMongoFields Flds, IMongoQuery query);
+        IEnumerable<T> FindAll(IMongoFields Flds, IMongoQuery query, IMongoSortBy sort);
 
         T Single(Expression<Func<T, bool>> expression);
 

@@ -440,8 +440,6 @@ D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Data\obj\Debug\Proso
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.csproj.CopyComplete
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.dll
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.pdb
-D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.csproj.AssemblyReference.cache
-D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.csproj.CoreCompileInputs.cache
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\Prosol.Data.dll
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\Prosol.Data.pdb
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\AWSSDK.Core.dll
@@ -464,6 +462,8 @@ D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\MongoDB.Bson.
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\MongoDB.Driver.xml
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\MongoDB.Driver.Legacy.xml
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\bin\Debug\Excel.pdb
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.csproj.AssemblyReference.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.csproj.CoreCompileInputs.cache
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.csproj.CopyComplete
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.dll
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Data\obj\Debug\Prosol.Data.pdb

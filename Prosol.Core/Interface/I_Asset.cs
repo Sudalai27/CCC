@@ -71,7 +71,7 @@ namespace Prosol.Core.Interface
         bool InsertDataLoc(Prosol_Location data);
         bool InsertDataBusiness(Prosol_FARMaster data);
         bool InsertDataFar(Prosol_FARRepository data);
-        bool RemoveMfr(string id, bool sts);
+        bool RemoveMfr(string id, bool sts, string flg);
         bool DisableBus(string id, bool sts);
 
         bool Disablemjr(string id, bool sts);
@@ -145,6 +145,7 @@ namespace Prosol.Core.Interface
         List<Prosol_FARMaster> GetMfrMaster();
         string InsertMfr(Prosol_FARMaster item);
         IEnumerable<Prosol_FARMaster> GetDataList(string Label);
+        IEnumerable<Prosol_FARMaster> GetDataList();
         int BulkSwap(HttpPostedFileBase file);
         int BulkAdditional(HttpPostedFileBase file);
         List<Dictionary<string, object>> DownloadMFR(string id);
@@ -157,5 +158,24 @@ namespace Prosol.Core.Interface
         List<string> GetAssetValues(string Noun, string Modifier, string Attribute);
         List<Prosol_AssetMaster> BindAll();
         IEnumerable<Prosol_Users> BindUsersByRole(string role);
+        List<Prosol_Funloc> GetFuncLoc();
+        bool InsertDataFL(Prosol_Funloc data);
+        bool UpdateDataBusiness(Prosol_FARMaster data);
+        bool DisableFunLoc(string section, string id, bool sts);
+        bool UpdateDataFL(Prosol_Funloc data);
+        int BulkParent(HttpPostedFileBase file);
+        int BulkObject(HttpPostedFileBase file);
+        int BulkUNSPSC(HttpPostedFileBase file);
+        int BulkAssetNo(HttpPostedFileBase file);
+        int BulkCost(HttpPostedFileBase file);
+        int BulkDiscipline(HttpPostedFileBase file);
+        int BulkWorkC(HttpPostedFileBase file);
+        bool Deletefile(string uniqueId, string fileName);
+        int BulkAutoShortLong();
+        int BulkURL(HttpPostedFileBase file);
+        List<Prosol_Funloc> GetFL(string id);
+        List<Prosol_AssetBOM> getFLBom(string id);
+        int BulkTag(HttpPostedFileBase file);
+        int BulkLegacy(HttpPostedFileBase file);
     }
 }

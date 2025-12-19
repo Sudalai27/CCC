@@ -252,7 +252,7 @@ namespace ProsolOnline.Controllers
                 AttrMdl.Modifier = NMmodel.Modifier;
                 AttrMdl.Characteristic = LstAtt.Characteristic;
                 AttrMdl.Abbrivation = LstAtt.Abbrivation;
-                AttrMdl.Squence = LstAtt.ShortSquence;
+                AttrMdl.Squence = LstAtt.Squence;
                 AttrMdl.ShortSquence = LstAtt.ShortSquence;
                 AttrMdl.Mandatory = LstAtt.Mandatory;
                 AttrMdl.Definition = LstAtt.Definition;
@@ -364,7 +364,8 @@ namespace ProsolOnline.Controllers
                     NounMod.Modifierabv = Model.Modifierabv;
                     NounMod.ModifierDefinition = Model.ModifierDefinition;
                     NounMod.Similaritems = Model.Similaritems;
-                    NounMod.Formatted = Model.Formatted;
+                    //NounMod.Formatted = Model.Formatted;
+                    NounMod.Formatted = 1;
                     NounMod.uomlist = Model.uomlist;
                     return _NounModifiService.AssetCreate(NounMod, file);
                 }
@@ -380,7 +381,8 @@ namespace ProsolOnline.Controllers
                     NounMod.Modifierabv = Model.Modifierabv;
                     NounMod.ModifierDefinition = Model.ModifierDefinition;
                     NounMod.Similaritems = Model.Similaritems;
-                    NounMod.Formatted = Model.Formatted;
+                    //NounMod.Formatted = Model.Formatted;
+                    NounMod.Formatted = 1;
                     NounMod.uomlist = Model.uomlist;
                     return _NounModifiService.AssetCreate(NounMod, file);
 

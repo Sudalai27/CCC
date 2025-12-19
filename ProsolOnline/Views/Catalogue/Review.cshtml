@@ -1034,14 +1034,14 @@
                                                                     <legend>Asset Image</legend>
                                                                     <div class="col-md-12">
                                                                         <div class="col-md-4" ng-repeat="img in cat.AssetImages.AssetImgs track by $index">
-                                                                            <a ng-show="currentUsr == 'Ramkumar' || currentUsr == 'Aravindm'|| currentUsr == 'Parthiban'" ng-click="RemoveAssetImg(img,cat.Itemcode)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                            <a ng-show="currentUsr == 'Althaf' || currentUsr == 'Yasar'" ng-click="RemoveAssetImg(img,cat.Itemcode)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
                                                                             <a href="{{img}}" data-magnify="gallery" data-gallery="gallery">
                                                                                 <img src="{{img}}" class="img-fluid rounded" style="width: 135px; height: 140px;">
                                                                             </a>
                                                                         </div>
                                                                     </div>
                                                                     <br />
-                                                                    <div class="col-md-12" ng-show="currentUsr == 'Ramkumar' || currentUsr == 'Aravindm'|| currentUsr == 'Parthiban'">
+                                                                    <div class="col-md-12" ng-show="currentUsr == 'Althaf' || currentUsr == 'Yasar'">
                                                                         <label class="col-md-3 control-label">Upload File</label>
                                                                         <div class="col-md-7">
                                                                             <div class="fileinput fileinput-new input-group" data-provides="fileinput">
@@ -1063,7 +1063,7 @@
                                                                     <legend>Name Plate Image</legend>
                                                                     <div class="col-md-12 no-padding">
                                                                         <div class="col-md-4" ng-repeat="img in cat.AssetImages.NameplateImgs track by $index">
-                                                                            <a ng-show="currentUsr == 'Ramkumar' || currentUsr == 'Aravindm'|| currentUsr == 'Parthiban'" ng-click="RemovenameplateImg(img,cat.Itemcode)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
+                                                                            <a ng-show="currentUsr == 'Althaf' || currentUsr == 'Yasar'" ng-click="RemovenameplateImg(img,cat.Itemcode)" style="float: right;padding-right: 4px;cursor:pointer;" title="Delete"><i class="fa fa-trash" style="color: #dc7777;"></i></a>
                                                                             <a href="{{img}}" data-magnify="gallery" data-gallery="gallery1">
                                                                                 <img src="{{img}}" class="img-fluid rounded" style="width: 135px; height: 140px;">
                                                                             </a>
@@ -2067,7 +2067,7 @@
 
                                             <thead class="top-border">
                                                 <tr>
-                                                    <th>Title</th>
+                                                    @*<th>Title</th>*@
                                                     <th>File Name</th>
                                                     <th>Size</th>
                                                     <th>Action</th>
@@ -2075,12 +2075,13 @@
                                             </thead>
                                             <tbody>
                                                 <tr ng-repeat="x in AtttachmentList">
-                                                    <td><label>{{x.Title}}</label></td>
+                                                    @*<td><label>{{x.Title}}</label></td>*@
                                                     <td><label>{{x.FileName}}</label></td>
                                                     <td><label>{{x.FileSize}}</label></td>
                                                     <td class="actions">
                                                         <a ng-click="Delfile($index,x._id,x.FileId)" class="on-default remove-row"><i class="fa fa-trash-alt"></i></a>
-                                                        <a ng-click="Downloadfile(x.FileName,x.ContentType,x.FileId)" class="on-default edit-row"><i class="fa fa-download"></i></a>
+                                                        @*<a ng-click="Downloadfile(x.FileName,x.ContentType,x.FileId)" class="on-default edit-row"><i class="fa fa-download"></i></a>*@
+                                                        <a ng-click="Downloadfile(x.FileName,x.ContentType,cat.Itemcode)" class="on-default edit-row"><i class="fa fa-download"></i></a>
                                                     </td>
                                                 </tr>
                                                 <tr ng-repeat="x in imgList">
@@ -2250,6 +2251,7 @@
                                     &nbsp;<button type="button" ng-click="SubmitData()" ng-show="sts1" class="mb-xs mt-xs mr-xs btn btn-primary">Submit</button>
                                     &nbsp;<button type="button" ng-click="Reworkbtn()" ng-show="cat.Itemcode!=null?true:false" class="mb-xs mt-xs mr-xs btn btn-primary">Rework</button>
                                     &nbsp;<button type="button" ng-click="RejectData()" class="mb-xs mt-xs mr-xs btn btn-primary">Clarification</button>
+                                    &nbsp;<button type="button" ng-click="createData1('No')" @*ng-show="sts5"*@ class="mb-xs mt-xs mr-xs btn btn-primary">Send to PV</button>
                                 </div>
 
                             </div>

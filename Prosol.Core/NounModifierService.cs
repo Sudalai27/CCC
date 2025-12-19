@@ -92,7 +92,7 @@ namespace Prosol.Core
             try
             {
                 //Noun Modifier DB write
-                var query = Query.And(Query.EQ("Noun", NM.Noun), Query.EQ("Modifier", NM.Modifier));
+                var query = Query.And(Query.EQ("Noun", NM.Noun), Query.EQ("Modifier", NM.Modifier), Query.EQ("RP", "MM"));
                // var query = Query.EQ("_id", NM._id);
 
                 var ObjStr = _nounModifierRepository.FindOne(query);
@@ -185,7 +185,7 @@ namespace Prosol.Core
             try
             {
                 //Noun Modifier DB write
-                var query = Query.And(Query.EQ("Noun", NM.Noun), Query.EQ("Modifier", NM.Modifier));
+                var query = Query.And(Query.EQ("Noun", NM.Noun), Query.EQ("Modifier", NM.Modifier), Query.EQ("RP", "Equ"));
                 // var query = Query.EQ("_id", NM._id);
 
                 var ObjStr = _nounModifierRepository.FindOne(query);
@@ -485,7 +485,7 @@ namespace Prosol.Core
         public virtual IEnumerable<Prosol_NounModifiers> GetModifierList(string Noun)
         {         
             var sort = SortBy.Ascending("Modifier");
-            var query = Query.EQ("Noun", Noun);
+            var query = Query.EQ("Noun", Noun); 
             var arrResult = _nounModifierRepository.FindAll(query , sort).ToList();
             return arrResult;
             //  new BsonRegularExpression(string.Format("^{0}", term));

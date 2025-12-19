@@ -140,6 +140,25 @@ namespace Prosol.Core.Model
 
         public string mcpcode { get; set; }
 
-
+        //New
+        public string SuperiorLocation { get; set; }
+        public string SLDesc { get; set; }
+        public string Level1 { get; set; }
+        public string Level2 { get; set; }
+        public string Level3 { get; set; }
+        public string Level4 { get; set; }
+        public string Level5 { get; set; }
+        public string Level6 { get; set; }
+        public string Level7 { get; set; }
+        public string Equipment { get; set; }
+        public string PrimaryEquipment { get; set; }
+        public string SubEquipment1 { get; set; }
+        public string SubEquipment2 { get; set; }
+        public string SubEquipment3 { get; set; }
+        public string SectionNo { get; set; }
+        public string Sequence { get; set; }
+        public string UniqueId { get; set; }
+        public string BOMId { get; set; }
+        public bool Islive { get; set; }
     }
 }

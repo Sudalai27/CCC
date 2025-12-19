@@ -145,7 +145,7 @@
 
                                         <div class="panel-body">
                                             <div class="col-md-12">
-                                                <div class="col-md-6 no-padding">
+                                                <div class="col-md-4 no-padding">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label require-label">Noun </label>
                                                         <div class="col-md-7 no-padding" ng-class="{'has-error': form.$submitted && form.nun.$invalid || form.nun.$error.pattern}">
@@ -159,7 +159,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label class="col-md-4 control-label require-label">Modifier</label>
                                                         <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.modi.$invalid}">
@@ -181,6 +181,15 @@
                                                             <div ng-show="form.modi.$invalid" class="input-help">
                                                                 <h4 ng-show="form.modi.$error.required">Modifier should not be blank</h4>
                                                             </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label class="col-md-4 control-label">NM Abbr.</label>
+                                                        <div class="col-md-8" ng-class="{'has-error': form.$submitted && form.modi.$invalid}">
+                                                            <input type="text" class="form-control" ng-model="NM.Nounabv" ng-blur="NM.Nounabv=NM.Nounabv.toUpperCase();" />
                                                         </div>
                                                     </div>
 
@@ -255,18 +264,18 @@
 
                                                             <thead class="top-border">
                                                                 <tr>
-                                                                    <th style="width: 15%">Characteristic</th>
+                                                                    <th style="width: 35%">Characteristic</th>
                                                                     <th  style="width: 15%">Abbreviation</th>
                                                                     @*<th style="width: 5%">Longseq</th>*@
                                                                     <th style="width: 5%">Short Priority</th>
                                                                     <th style="width: 5%">Sequence</th>
                                                                     <th style="width: 5%">Mandatory</th>
-                                                                    @*<th style="width: 20%">definition</th>*@
-                                                                    <th style="width: 10%">Values</th>
-                                                                    <th style="width: 10%">Classification ID</th>
+                                                                    <th style="width: 5%">Definition</th>
+                                                                    <th style="width: 15%">Values</th>
+                                                                    @*<th style="width: 10%">Classification ID</th>
                                                                     <th style="width: 10%">Hierarchypath</th>
                                                                     <th style="width: 10%">PDesc</th>
-                                                                    <th style="width: 10%">Class Level</th>
+                                                                    <th style="width: 10%">Class Level</th>*@
                                                                     @*<th style="width: 10%">UOM Mandatory</th>
                                                                         <th style="width: 10%">UOM</th>*@
                                                                     <th style="width: 5%">Action</th>
@@ -307,8 +316,8 @@
 
                                                                         <select class="form-control" ng-init="CharaRw.Mandatory==null?CharaRw.Mandatory='No':CharaRw.Mandatory" ng-model="CharaRw.Mandatory" ng-options="lst for lst in ['No','Yes']"></select>
                                                                     </td>
-                                                                    <td ng-show="false">
-                                                                        <input type="text" class="form-control" ng-model="CharaRw.Definition" id="CharDef">
+                                                                    <td>
+                                                                        <input type="text" class="form-control" ng-model="CharaRw.Definition" id="CharDef"  ng-change="onCharacteristicChange('Definition',CharaRw.Definition)">
                                                                     </td>
                                                                     <td>
 
@@ -372,10 +381,10 @@
                                                                             </table>
                                                                         </div>
                                                                     </td>
-                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('ClassificationId',CharaRw.ClassificationId)" ng-model="CharaRw.ClassificationId" ng-blur="CharaRw.ClassificationId=CharaRw.ClassificationId.toUpperCase();" id="CharClsId"></td>
+                                                                    @*<td><input type="text" class="form-control" ng-change="onCharacteristicChange('ClassificationId',CharaRw.ClassificationId)" ng-model="CharaRw.ClassificationId" ng-blur="CharaRw.ClassificationId=CharaRw.ClassificationId.toUpperCase();" id="CharClsId"></td>
                                                                     <td><input type="text" class="form-control" ng-change="onCharacteristicChange('HierarchyPath',CharaRw.HierarchyPath)" ng-model="CharaRw.HierarchyPath" ng-blur="CharaRw.HierarchyPath=CharaRw.HierarchyPath.toUpperCase();" id="CharHrp"></td>
                                                                     <td><input type="text" class="form-control" ng-change="onCharacteristicChange('PDesc',CharaRw.PDesc)" ng-model="CharaRw.PDesc" ng-blur="CharaRw.PDesc=CharaRw.PDesc.toUpperCase();" id="CharPd"></td>
-                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('ClassLevel',CharaRw.ClassLevel)" ng-model="CharaRw.ClassLevel" ng-blur="CharaRw.ClassLevel=CharaRw.ClassLevel.toUpperCase();" id="CharCl"></td>
+                                                                    <td><input type="text" class="form-control" ng-change="onCharacteristicChange('ClassLevel',CharaRw.ClassLevel)" ng-model="CharaRw.ClassLevel" ng-blur="CharaRw.ClassLevel=CharaRw.ClassLevel.toUpperCase();" id="CharCl"></td>*@
 
                                                                     @*<td>
 

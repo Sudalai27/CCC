@@ -1110,11 +1110,15 @@ namespace ProsolOnline.Controllers
 
                 if (option == "Overall")
                 {
-                    fileName = "Cat_Report";
+                    fileName = "Tracking_Report";
                 }
                 else if (option == "Pvcompleted")
                 {
                     fileName = "PV_Report";
+                }
+                else if (option == "Delivery")
+                {
+                    fileName = "Delivery_Report";
                 }
 
                 ClosedXML.Excel.XLWorkbook wbook = new ClosedXML.Excel.XLWorkbook();

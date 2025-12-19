@@ -20,7 +20,7 @@ using System.Web;
 
 namespace Prosol.Core
 {
-    public partial class AssetService : I_Asset
+    public partial class AssetService : I_Asset 
     {
         private readonly IRepository<Prosol_AssetMaster> _assetRepository;
         private readonly IRepository<Prosol_Users> _UsercreateRepository;
@@ -54,6 +54,8 @@ namespace Prosol.Core
         private readonly IRepository<Prosol_Dashboard> _dashRepository;
         private readonly IRepository<Prosol_Master> _MasterRepository;
         private readonly IRepository<Prosol_RequestRunning> _ReqRunningRepository;
+        private readonly IRepository<Prosol_Vendor> _VendorRepository;
+        private readonly IRepository<Prosol_Funloc> _FuncLocRepository;
         public AssetService(IRepository<Prosol_AssetMaster> assetRepository,
             IRepository<Prosol_Users> UsercreateRepository,
             IRepository<Prosol_AssetBOM> AssetBOMRepository,
@@ -85,6 +87,8 @@ namespace Prosol.Core
             IRepository<Prosol_Dashboard> dashRepository,
             IRepository<Prosol_Master> MasterRepository,
             IRepository<Prosol_RequestRunning> ReqRunningRepository,
+            IRepository<Prosol_Vendor> VendorRepository,
+            IRepository<Prosol_Funloc> FuncLocRepository,
             IRepository<Prosol_Attribute> attributeRepository)
         {
             this._assetRepository = assetRepository;
@@ -119,6 +123,8 @@ namespace Prosol.Core
             this._dashRepository = dashRepository;
             this._MasterRepository = MasterRepository;
             this._ReqRunningRepository = ReqRunningRepository;
+            this._VendorRepository = VendorRepository;
+            this._FuncLocRepository = FuncLocRepository;
         }
 
         public List<prosol_FARdashboard> GetFARInfo()
@@ -2668,10 +2674,10 @@ namespace Prosol.Core
                 var allUsers = _UsercreateRepository.FindAll().ToList();
 
                 if (dt.Columns[0].ToString() == "UNIQUE ID" &&
-                    dt.Columns[1].ToString() == "ASSET NO." &&
+                    dt.Columns[1].ToString() == "EQUIPMENT NO." &&
                     dt.Columns[2].ToString() == "TECHNICAL IDENT. (TAG NO)" &&
                     dt.Columns[3].ToString() == "P&ID NUMBER" &&
-                    dt.Columns[4].ToString() == "P&ID NAME" &&
+                    dt.Columns[4].ToString() == "P&ID NAME" && 
                     dt.Columns[5].ToString() == "SECTION NUMBER" &&
                     dt.Columns[6].ToString() == "SECTION NAME" &&
                     dt.Columns[7].ToString() == "SYSTEM" &&
@@ -2713,7 +2719,7 @@ namespace Prosol.Core
                             Prosol_AssetMaster brl1 = new Prosol_AssetMaster();
 
                             //SiteId
-                            brl1.AssetNo = row["ASSET NO."].ToString();
+                            brl1.AssetNo = row["EQUIPMENT NO."].ToString();
                             brl1.UniqueId = row["UNIQUE ID"].ToString();
 
                             if (brl1.UniqueId == null)
@@ -2851,8 +2857,9 @@ namespace Prosol.Core
             DataTable dt1 = res.Tables[0];
             DataTable dt = res.Tables[1];
 
-            string[] columns = {  "BOMID", "ASSEMBLYID", "MATERIALCODE", "ITEMCATEGORY", "SEQUENCE", "QUANTITY", "UOM", "HEADERDESCRIPTION", "ASSEMBLYDESCRIPTION", "COMPONENTDESCRIPTION" };
-
+            string[] columns = {  "FUNCTIONAL LOCATION", "TECHNICAL IDENT. (TAG NO)", "BOMID", "ASSEMBLYID", "MATERIALCODE", "ITEMCATEGORY", "SEQUENCE", "QUANTITY", "UOM", "HEADERDESCRIPTION", "HEADERLONGDESCRIPTION", "ASSEMBLYDESCRIPTION", "ASSEMBLYLONGDESCRIPTION", "COMPONENTDESCRIPTION" , "COMPONENTLONGDESCRIPTION" };
+            string unqId = "";
+            bool colErr = false;
 
             if (dt.Rows.Count > 0)
             {
@@ -2860,22 +2867,16 @@ namespace Prosol.Core
                 {
                     if (columns.Contains(d.ColumnName.ToUpper().Trim()) == false)
                     {
-
-                        return d.ColumnName + " is invalid columns name, please use below columns names:-  BOMID, ASSEMBLYID, MATERIALCODE, ITEMCATEGORY, SEQUENCE, QUANTITY, UOM, HEADERDESCRIPTION, ASSEMBLYDESCRIPTION, COMPONENTDESCRIPTION";
+                        colErr = true;
+                        return d.ColumnName + " is invalid columns name, please use below columns names:-  FUNCTIONAL LOCATION, TECHNICAL IDENT. (TAG NO), BOMID, ASSEMBLYID, MATERIALCODE, ITEMCATEGORY, SEQUENCE, QUANTITY, UOM, HEADERDESCRIPTION, ASSEMBLYDESCRIPTION, COMPONENTDESCRIPTION";
 
                     }
 
                 }
-                foreach (DataRow drw in dt1.Rows)
+                if(!colErr)
                 {
-                    var query = Query.Or(Query.EQ("UniqueId", drw[0].ToString()), Query.EQ("AssetNo", drw[0].ToString()));
-                    var ast = _assetRepository.FindOne(query);
-                    if (ast != null)
-                    {
-                        ast.Bom = new BOM();
-                        ast.Bom.BOMId = drw[1].ToString();
-                        _assetRepository.Add(ast);
-                    }
+                    unqId = "BOMC-" + (GetLastRunning("BOM") + 1).ToString("D6");
+                    UpdateRunning("BOM", int.Parse(unqId.Substring(5)));
                 }
                 foreach (DataRow drw1 in dt.Rows)
                 {
@@ -2885,19 +2886,37 @@ namespace Prosol.Core
                     //if (mdl == null)
                     //{
                         var mdl = new Prosol_AssetBOM();
-                        mdl.BOMId = drw1[0].ToString();
-                        mdl.AssemblyId = drw1[1].ToString();
-                        mdl.ComponentId = drw1[2].ToString();
-                        mdl.Category = drw1[3].ToString();
-                        mdl.Sequence = drw1[4].ToString();
-                        mdl.Quantity = drw1[5].ToString();
-                        mdl.UOM = drw1[6].ToString();
-                        mdl.BOMDesc = drw1[7].ToString();
-                        mdl.AssemblyDesc = drw1[8].ToString();
-                        mdl.ComponentDesc = drw1[9].ToString();
+                        mdl.Func_Location = drw1[0].ToString();
+                        mdl.TechIdentNo = drw1[1].ToString();
+                        mdl.BOMId = drw1[2].ToString();
+                        mdl.AssemblyId = drw1[3].ToString();
+                        mdl.ComponentId = drw1[4].ToString();
+                        mdl.Category = drw1[5].ToString();
+                        mdl.Sequence = drw1[6].ToString();
+                        mdl.Quantity = drw1[7].ToString();
+                        mdl.UOM = drw1[8].ToString();
+                        mdl.BOMDesc = drw1[9].ToString();
+                        mdl.BOMLongDesc = drw1[10].ToString();
+                        mdl.AssemblyDesc = drw1[11].ToString();
+                        mdl.AssemblyLongDesc = drw1[12].ToString();
+                        mdl.ComponentDesc = drw1[13].ToString();
+                        mdl.ComponentLongDesc = drw1[14].ToString();
+                        mdl.UniqueId = unqId;
                         _AssetBOMRepository.Add(mdl);
                         cunt++;
                     //}
+                }
+                foreach (DataRow drw in dt1.Rows)
+                {
+                    var query = Query.Or(Query.EQ("UniqueId", drw[0].ToString()), Query.EQ("AssetNo", drw[0].ToString()));
+                    var ast = _assetRepository.FindOne(query);
+                    if (ast != null)
+                    {
+                        ast.Bom = new BOM();
+                        ast.Bom.BOMId = unqId;
+                        //ast.Bom.BOMId = drw[1].ToString();
+                        _assetRepository.Add(ast);
+                    }
                 }
             }
 
@@ -3226,7 +3245,7 @@ namespace Prosol.Core
             reader.Close();
             DataTable dt = res.Tables[0];
 
-            string[] columns = { "EQUIPMENTUNIQUEID", "NOUN", "MODIFIER", "ATTRIBUTE", "VALUE" };
+            string[] columns = { "EQUIPMENTUNIQUEID", "NOUN", "MODIFIER", "ATTRIBUTE", "VALUE", "UOM" };
 
             //var assetAttr = _AssetattriRepository.FindAll().ToList();
             //foreach (var attr in assetAttr)
@@ -3244,7 +3263,7 @@ namespace Prosol.Core
                     if (columns.Contains(d.ColumnName.ToUpper().Trim()) == false)
                     {
 
-                        return d.ColumnName + " is invalid columns name, please use below columns names:-  EquipmentUniqueID, Noun, Modifier, Attribute, Value";
+                        return d.ColumnName + " is invalid columns name, please use below columns names:-  EquipmentUniqueID, Noun, Modifier, Attribute, Value, UOM";
 
 
                     }
@@ -3296,11 +3315,14 @@ namespace Prosol.Core
                                             {
                                                 Characteristic = drw1["Attribute"] != DBNull.Value ? drw1["Attribute"].ToString() : "",
                                                 Value = drw1["Value"] != DBNull.Value ? drw1["Value"].ToString() : "",
-                                                UOM = "",
-                                                //  Mandatory = drw1["Mandatory"] != DBNull.Value ? drw1["Mandatory"].ToString() : "",
+                                                UOM = drw1["UOM"] != DBNull.Value ? drw1["UOM"].ToString() : "",
+                                                // Mandatory = drw1["Mandatory"] != DBNull.Value ? drw1["Mandatory"].ToString() : "",
                                                 Squence = (short)0,
                                                 ShortSquence = (short)0
-                                            }).OrderBy(x => x.ShortSquence).ToList();
+                                            })
+                                            .OrderBy(x => x.ShortSquence)
+                                            .ToList();
+
 
                                 if (mdl2.Count != attrList.Count)
                                 {
@@ -3413,20 +3435,22 @@ namespace Prosol.Core
                             mdl.Manufacturer = drw1[1].ToString();
                             mdl.ModelNo = drw1[2].ToString();
                             mdl.SerialNo = drw1[3].ToString();
-                            mdl.ModelYear = drw1[4].ToString();
+                            mdl.PartNo = drw1[4].ToString();
+                            mdl.MfrYear = drw1[5].ToString();
+                            mdl.MfrCountry = drw1[6].ToString();
                             //mdl.RegNo = drw1[5].ToString();
-                            mdl.Soureurl = drw1[5].ToString();
-                            mdl.Rework_Remarks = drw1[6].ToString();
-                            var catuser = drw1[7].ToString();
-                            if (catuser != "" && catuser != null)
-                            {
-                                var catMdl = new Prosol_UpdatedBy();
-                                var catuserDet = allUsers.Where(u => u.UserName == catuser).ToList();
-                                catMdl.UserId = catuserDet[0].Userid;
-                                catMdl.Name = catuserDet[0].UserName;
-                                catMdl.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                                mdl.Catalogue = catMdl;
-                            }
+                            //mdl.Soureurl = drw1[5].ToString();
+                            //mdl.Rework_Remarks = drw1[6].ToString();
+                            //var catuser = drw1[7].ToString();
+                            //if (catuser != "" && catuser != null)
+                            //{
+                            //    var catMdl = new Prosol_UpdatedBy();
+                            //    var catuserDet = allUsers.Where(u => u.UserName == catuser).ToList();
+                            //    catMdl.UserId = catuserDet[0].Userid;
+                            //    catMdl.Name = catuserDet[0].UserName;
+                            //    catMdl.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+                            //    mdl.Catalogue = catMdl;
+                            //}
                             _assetRepository.Add(mdl);
                             cunt++;
                         }
@@ -3614,6 +3638,103 @@ namespace Prosol.Core
             }
             return res;
         }
+        public bool InsertDataFL(Prosol_Funloc data)
+        {
+            bool res = false;
+            data.Islive = true;
+            var query = Query.And(Query.EQ("FunctLocation", data.FunctLocation), Query.EQ("SectionNo", data.SectionNo));
+            var vn = _FuncLocRepository.FindAll(query).ToList();
+            if (vn.Count == 0)
+            {
+                var qry = Query.And(Query.EQ("Sequence", data.Sequence), Query.EQ("SectionNo", data.SectionNo));
+                var seq = _FuncLocRepository.FindOne(qry);
+                if(seq != null)
+                {
+                    int sameSeq = Convert.ToInt32(seq.Sequence);
+                    var qryy = Query.And(Query.GTE("Sequence", data.Sequence), Query.EQ("SectionNo", data.SectionNo));
+                    var seqLst = _FuncLocRepository.FindAll(qryy).ToList();
+                    foreach (var sq in seqLst)
+                    {
+                        sq.Sequence = (sameSeq+1).ToString();
+                        _FuncLocRepository.Add(sq);
+                        sameSeq++;
+                    }
+                }
+                res = _FuncLocRepository.Add(data);
+            }
+            return res;
+        }
+        public bool UpdateDataFL(Prosol_Funloc data)
+        {
+            bool res = false;
+            data.Islive = true;
+            var query = Query.And(Query.EQ("FunctLocation", data.FunctLocation), Query.EQ("SectionNo", data.SectionNo));
+            var vn = _FuncLocRepository.FindAll(query).ToList();
+            if (vn.Count != 0)
+            {
+                var qry = Query.And(Query.EQ("Sequence", data.Sequence), Query.EQ("SectionNo", data.SectionNo));
+                var seq = _FuncLocRepository.FindOne(qry);
+                int sameSeq = Convert.ToInt32(seq.Sequence);
+                vn[0].Level1 = data.Level1;
+                vn[0].Level2 = data.Level2;
+                vn[0].Level3 = data.Level3;
+                vn[0].Level4 = data.Level4;
+                vn[0].Level5 = data.Level5;
+                vn[0].Level6 = data.Level6;
+                vn[0].Level7 = data.Level7;
+                vn[0].Equipment = data.Equipment;
+                vn[0].PrimaryEquipment = data.PrimaryEquipment;
+                vn[0].SubEquipment1 = data.SubEquipment1;
+                vn[0].SubEquipment2 = data.SubEquipment2;
+                vn[0].SubEquipment3 = data.SubEquipment3;
+                vn[0].FunctLocation = data.FunctLocation;
+                vn[0].SuperiorLocation = data.SuperiorLocation;
+                vn[0].SectionNo = data.SectionNo;
+                vn[0].Sequence = data.Sequence;
+                vn[0].UniqueId = data.UniqueId;
+                vn[0].Islive = data.Islive;
+                res = _FuncLocRepository.Add(vn[0]);
+                if (seq != null)
+                {
+                    var qryy = Query.And(Query.GTE("Sequence", data.Sequence), Query.NE("FunctLocation", data.FunctLocation), Query.EQ("SectionNo", data.SectionNo));
+                    var seqLst = _FuncLocRepository.FindAll(qryy).ToList();
+                    foreach (var sq in seqLst)
+                    {
+                        sq.Sequence = (sameSeq+1).ToString();
+                        _FuncLocRepository.Add(sq);
+                        sameSeq++;
+                    }
+                }
+            }
+            else
+            {
+                var fQry = Query.EQ("FunctLocation", data.FunctLocation);
+                var fLst = _FuncLocRepository.FindAll(fQry).ToList();
+                if (fLst.Count != 0)
+                {
+                    fLst[0].Level1 = data.Level1;
+                    fLst[0].Level2 = data.Level2;
+                    fLst[0].Level3 = data.Level3;
+                    fLst[0].Level4 = data.Level4;
+                    fLst[0].Level5 = data.Level5;
+                    fLst[0].Level6 = data.Level6;
+                    fLst[0].Level7 = data.Level7;
+                    fLst[0].Equipment = data.Equipment;
+                    fLst[0].PrimaryEquipment = data.PrimaryEquipment;
+                    fLst[0].SubEquipment1 = data.SubEquipment1;
+                    fLst[0].SubEquipment2 = data.SubEquipment2;
+                    fLst[0].SubEquipment3 = data.SubEquipment3;
+                    fLst[0].FunctLocation = data.FunctLocation;
+                    fLst[0].SuperiorLocation = data.SuperiorLocation;
+                    fLst[0].SectionNo = data.SectionNo;
+                    fLst[0].Sequence = data.Sequence;
+                    fLst[0].UniqueId = data.UniqueId;
+                    fLst[0].Islive = data.Islive;
+                    res = _FuncLocRepository.Add(fLst[0]);
+                }
+            }
+            return res;
+        }
         public bool DelDatareg(string id)
         {
             var query = Query.EQ("RegionCode", id);
@@ -3761,13 +3882,89 @@ namespace Prosol.Core
             bool res = false;
             data.Islive = true;
             var query = Query.EQ("Code", data.Code);
-            var vn = _FARMasterrep.FindAll(query).ToList();
-            if (vn.Count == 0 || (vn.Count == 1 /*&& vn[0]._id == data._id*/))
+            var vn = _FARMaster.FindAll(query).ToList();
+            if (data.Label == "Section")
             {
-                res = _FARMaster.Add(data);
+                res = UpdateDataBusiness(data);
+            }
+            else {
+                if (vn.Count == 0 || (vn.Count == 1 /*&& vn[0]._id == data._id*/))
+                {
+                    res = _FARMaster.Add(data);
+                }
             }
             return res;
         }
+        public bool UpdateDataBusiness(Prosol_FARMaster data)
+        {
+            data.Islive = true;
+            bool res = false;
+
+            // Case 1: Find by Label + Title
+            var existingByTitle = _FARMaster.FindOne(Query.And(
+                Query.EQ("Label", data.Label),
+                Query.EQ("Title", data.Title)
+            ));
+
+            if (existingByTitle != null)
+            {
+                // Update its Code
+                string shuffleCode = existingByTitle.Code;
+                existingByTitle.Code = data.Code;
+                existingByTitle.Islive = true;
+                _FARMaster.Add(existingByTitle);
+                var withSameCode = _FARMaster.FindOne(Query.And(
+                    Query.EQ("Label", data.Label),
+                    Query.EQ("Code", data.Code)
+                ));
+                withSameCode.Code = shuffleCode;
+                withSameCode.Islive = true;
+                _FARMaster.Add(withSameCode);
+                _FARMaster.Add(existingByTitle);
+                res = true;
+
+                // Shift others
+                ShiftCodes(data.Label, data.Title, data.Code);
+            }
+            else
+            {
+                // Case 2: Insert new
+                _FARMaster.Add(data);
+                res = true;
+
+                // If Code already existed, shift others
+                var existingByCode = _FARMaster.FindOne(Query.And(
+                    Query.EQ("Label", data.Label),
+                    Query.EQ("Code", data.Code)
+                ));
+
+                if (existingByCode != null)
+                {
+                    ShiftCodes(data.Label, data.Title, data.Code);
+                }
+            }
+
+            return res;
+        }
+
+        private void ShiftCodes(string label, string title, string code)
+        {
+            var query = Query.And(
+                Query.EQ("Label", label),
+                Query.GTE("Code", code),
+                Query.NE("Title", title)
+            );
+
+            int i = Convert.ToInt32(code);
+            foreach (var v in _FARMaster.FindAll(query))
+            {
+                v.Code = (++i).ToString();
+                v.Islive = true;
+                _FARMaster.Add(v);
+            }
+        }
+
+
         public bool InsertDataFar(Prosol_FARRepository data)
         {
             bool res = false;
@@ -3847,10 +4044,20 @@ namespace Prosol.Core
             }
             return res;
         }
-        public bool RemoveMfr(string id, bool sts)
+        public bool RemoveMfr(string id, bool sts, string flg)
         {
-            var query = Query.And(Query.EQ("Label" , "Manufacturer"), Query.EQ("Code", id));
+            var query = Query.And(Query.EQ("Label" , flg), Query.EQ("Code", id));
             var res = _FARMaster.Delete(query);
+            return res;
+
+        }
+        public bool DisableFunLoc(string section, string id, bool sts)
+        {
+            var res = false;
+            var query = Query.And(Query.EQ("SectionNo", section),Query.EQ("FunctLocation", id));
+            var data = _FuncLocRepository.FindOne(query);
+            data.Islive = sts;
+            res = _FuncLocRepository.Add(data);
             return res;
 
         }
@@ -4669,12 +4876,21 @@ namespace Prosol.Core
             return str;
         }
 
+        public string getMfrAbbr(string mfr)
+        {
+            string result = "";
+            var querrry = Query.EQ("Name", mfr);
+            var venLst = _VendorRepository.FindOne(querrry);
+            result = venLst != null ? venLst.ShortDescName : "";
+            return result;
+        }
+
         public string ShortDesc(Prosol_AssetMaster cat)
         {
 
             string mfrref = "";
 
-            var FormattedQuery = Query.And(Query.EQ("Noun", cat.Noun), Query.EQ("Modifier", cat.Modifier));
+            var FormattedQuery = Query.And(Query.EQ("Noun", cat.Noun), Query.EQ("Modifier", cat.Modifier), Query.EQ("RP", "Equ"));
             var NMList = _nounModifierRepository.FindOne(FormattedQuery);
             var sort = SortBy.Ascending("Seq").Ascending("Description");
 
@@ -4708,7 +4924,7 @@ namespace Prosol.Core
             //seqList[0].ShortLength = 240 - (regLen + venLen);
             seqList[0].ShortLength = 40;
 
-
+            var venLst = GetTarMaster().Where(v => v.Label == "Manufacturer").ToList();
 
             //Short_Generic
             List<shortFrame> lst = new List<shortFrame>();
@@ -4732,7 +4948,16 @@ namespace Prosol.Core
                                 //if (NMList.Nounabv != null && NMList.Nounabv != "")
                                 //    ShortStr += NMList.Nounabv + sq.Separator;
                                 //else ShortStr += cat.Noun + sq.Separator;
-                                ShortStr += cat.Noun + sq.Separator;
+                                if (NMList != null && !string.IsNullOrEmpty(NMList.Nounabv))
+                                {
+                                    ShortStr += NMList.Nounabv + sq.Separator;
+                                }
+                                else
+                                {
+                                    ShortStr += cat.Noun + sq.Separator;
+                                    if (cat.Modifier != "--")
+                                        ShortStr += cat.Modifier + sq.Separator;
+                                }
                                 //if (NMList.Modifierabv != null && NMList.Modifierabv != "")
                                 //    ShortStr += NMList.Modifierabv + sq.Separator;
                                 //else
@@ -4740,8 +4965,6 @@ namespace Prosol.Core
                                 //    if (cat.Modifier != "--" && cat.Modifier != "NO MODIFIER")
                                 //        ShortStr += cat.Modifier + sq.Separator;
                                 //}
-                                if (cat.Modifier != "--")
-                                    ShortStr += cat.Modifier + sq.Separator;
                             }
                             else
                             {
@@ -4865,533 +5088,478 @@ namespace Prosol.Core
                             if (cat.Characteristics != null)
                             {
                                 int flg = 0;
+                                int i = 0;
+                                string strVen = ShortStr;
+                                string checkVen = "";
+                                string shortCheckMfr = "";
+                                if (!string.IsNullOrEmpty(cat.Manufacturer))
+                                {
+                                    var dt = venLst.Find(d => d.Title == cat.Manufacturer);
+                                    shortCheckMfr = dt.Code;
+                                }
+                                else
+                                    shortCheckMfr = cat.Manufacturer;
+                                //string mfrCheck = !string.IsNullOrEmpty(shortCheckMfr) ? getMfrAbbr(cat.Manufacturer) : (cat.Manufacturer.Length < seqList[0].ShortLength - ShortStr.Length ? cat.Manufacturer : "");
+                                string mfrCheck = "";
+
+                                if (!string.IsNullOrEmpty(shortCheckMfr))
+                                {
+                                    if (cat?.Manufacturer != null)
+                                    {
+                                        var dt = venLst.Find(d => d.Title == cat.Manufacturer);
+                                        mfrCheck = dt.Code;
+                                        //mfrCheck = getMfrAbbr(cat.Manufacturer);
+                                    }
+                                }
+                                else
+                                {
+                                    if (cat?.Manufacturer != null && seqList != null && seqList.Count > 0 && ShortStr != null)
+                                    {
+                                        int comparisonLength = seqList[0].ShortLength - ShortStr.Length;
+                                        if (cat.Manufacturer.Length < comparisonLength)
+                                        {
+                                            mfrCheck = cat.Manufacturer;
+                                        }
+                                    }
+                                }
+
+                                if (!string.IsNullOrEmpty(cat.Manufacturer))
+                                {
+                                    checkVen = !string.IsNullOrEmpty(mfrCheck) ? mfrCheck + ",": "";
+                                }
+                                if (!string.IsNullOrEmpty(cat.ModelNo) || !string.IsNullOrEmpty(cat.PartNo))
+                                {
+                                    var value = !string.IsNullOrEmpty(cat.ModelNo) ? cat.ModelNo : cat.PartNo;
+
+                                    checkVen += value + ",";
+                                }
+
+                                if (checkVen.EndsWith(","))
+                                    checkVen = checkVen.TrimEnd(',');
+                                int charLen = seqList[0].ShortLength - checkVen.Length;
+
                                 foreach (Asset_AttributeList chM in cat.Characteristics.OrderBy(x => x.Squence))
                                 {
 
-                                    var abbQry = Query.And(Query.EQ("Noun", cat.Noun), Query.EQ("Modifier", cat.Modifier), Query.EQ("Characteristic", chM.Characteristic));
-                                    var abb = _CharateristicRepository.FindOne(abbQry);
-                                    if (abb != null)
+                                    //var abbQry = Query.And(Query.EQ("Noun", cat.Noun), Query.EQ("Modifier", cat.Modifier), Query.EQ("Characteristic", chM.Characteristic));
+                                    //var abb = _CharateristicRepository.FindOne(abbQry);
+                                    //if (abb != null)
+                                    //{
+                                    //    if (abb.Abbrivation != null)
+                                    //    {
+                                    //        if (abb.Abbrivation.Contains("_"))
+                                    //            chM.Abbrevated = abb.Abbrivation.Replace("_", " ");
+                                    //        else
+                                    //            chM.Abbrevated = abb.Abbrivation;
+                                    //    }
+                                    //}
+                                    //if (chM.Value != null && chM.Value != "")
+                                    //{
+
+                                    //    if (UOMSet.Long_space == "with space")
+                                    //    {
+                                    //        if (chM.UOM != null && chM.UOM != "")
+                                    //        {
+                                    //            if (chM.Abbrevated == "ADDL INFO")
+                                    //            {
+                                    //                var Value = chM.Value;
+                                    //                string pattern = @"(\w+(\s\w+)*):";
+                                    //                MatchCollection matches = Regex.Matches(chM.Value, pattern);
+                                    //                List<string> result = new List<string>();
+                                    //                foreach (Match match in matches)
+                                    //                {
+                                    //                    result.Add(match.Groups[1].Value);
+                                    //                }
+
+                                    //                //var qry = Query.EQ("Characteristic", "MM");
+                                    //                //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
+                                    //                //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
+                                    //                foreach (var unq in result)
+                                    //                {
+                                    //                    var qry = Query.EQ("Characteristic", unq);
+                                    //                    var charLst = _CharateristicRepository.FindOne(qry);
+                                    //                    if (charLst != null)
+                                    //                    {
+                                    //                        if (Value.Contains(charLst.Characteristic))
+                                    //                        {
+                                    //                            if (charLst.Abbrivation.Contains("_"))
+                                    //                                charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
+                                    //                            Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
+                                    //                        }
+                                    //                    }
+                                    //                }
+                                    //                ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                if(chM.Characteristic == "SIZE" && chM.Value.Contains("X"))
+                                    //                ShortStr += /*chM.Abbrevated + ":" + */chM.Value + " " + chM.UOM + sq.Separator;
+                                    //                else
+                                    //                ShortStr += /*chM.Abbrevated + ":" + */chM.Value + chM.UOM + sq.Separator;
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            if (flg == 0 && chM.Abbrevated == "PART NAME")
+                                    //            {
+                                    //                ShortStr += chM.Value + sq.Separator;
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                if (chM.Abbrevated == "ADDL INFO")
+                                    //                {
+                                    //                    var Value = chM.Value;
+                                    //                    string pattern = @"(\w+(\s\w+)*):";
+                                    //                    MatchCollection matches = Regex.Matches(chM.Value, pattern);
+                                    //                    List<string> result = new List<string>();
+                                    //                    foreach (Match match in matches)
+                                    //                    {
+                                    //                        result.Add(match.Groups[1].Value);
+                                    //                    }
+
+                                    //                    //var qry = Query.EQ("Characteristic", "MM");
+                                    //                    //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
+                                    //                    //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
+                                    //                    foreach (var unq in result)
+                                    //                    {
+                                    //                        var qry = Query.EQ("Characteristic", unq);
+                                    //                        var charLst = _CharateristicRepository.FindOne(qry);
+                                    //                        if (charLst != null)
+                                    //                        {
+                                    //                            if (Value.Contains(charLst.Characteristic))
+                                    //                            {
+                                    //                                if (charLst.Abbrivation.Contains("_"))
+                                    //                                    charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
+                                    //                                Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
+                                    //                            }
+                                    //                        }
+                                    //                    }
+                                    //                    ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
+                                    //                }
+                                    //                else
+                                    //                {
+                                    //                    ShortStr += /*chM.Abbrevated + ":" + */chM.Value + sq.Separator;
+                                    //                }
+                                    //            }
+                                    //        }
+                                    //    }
+                                    //    else
+                                    //    {
+                                    //        if (chM.UOM != null && chM.UOM != "")
+                                    //        {
+                                    //            if (chM.Abbrevated == "ADDL INFO")
+                                    //            {
+                                    //                var Value = chM.Value;
+                                    //                string pattern = @"(\w+(\s\w+)*):";
+                                    //                MatchCollection matches = Regex.Matches(chM.Value, pattern);
+                                    //                List<string> result = new List<string>();
+                                    //                foreach (Match match in matches)
+                                    //                {
+                                    //                    result.Add(match.Groups[1].Value);
+                                    //                }
+
+                                    //                //var qry = Query.EQ("Characteristic", "MM");
+                                    //                //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
+                                    //                //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
+                                    //                foreach (var unq in result)
+                                    //                {
+                                    //                    var qry = Query.EQ("Characteristic", unq);
+                                    //                    var charLst = _CharateristicRepository.FindOne(qry);
+                                    //                    if (charLst != null)
+                                    //                    {
+                                    //                        if (Value.Contains(charLst.Characteristic))
+                                    //                        {
+                                    //                            if (charLst.Abbrivation.Contains("_"))
+                                    //                                charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
+                                    //                            Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
+                                    //                        }
+                                    //                    }
+                                    //                }
+                                    //                ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
+                                    //            }
+                                    //            else
+                                    //            {
+                                    //                if (chM.Characteristic == "SIZE" && chM.Value.Contains("X"))
+                                    //                    ShortStr += /*chM.Abbrevated + ":" + */chM.Value + " " + chM.UOM + sq.Separator;
+                                    //                ShortStr += /*chM.Abbrevated + ":" + */chM.Value + chM.UOM + sq.Separator;
+                                    //            }
+                                    //        }
+                                    //        else
+                                    //        {
+                                    //            if (flg == 0 && chM.Abbrevated == "PART NAME")
+                                    //                ShortStr += chM.Value + sq.Separator;
+                                    //            else
+                                    //            {
+                                    //                if (chM.Abbrevated == "ADDL INFO")
+                                    //                {
+                                    //                    var Value = chM.Value;
+                                    //                    string pattern = @"(\w+(\s\w+)*):";
+                                    //                    MatchCollection matches = Regex.Matches(chM.Value, pattern);
+                                    //                    List<string> result = new List<string>();
+                                    //                    foreach (Match match in matches)
+                                    //                    {
+                                    //                        result.Add(match.Groups[1].Value);
+                                    //                    }
+
+                                    //                    //var qry = Query.EQ("Characteristic", "MM");
+                                    //                    //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
+                                    //                    //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
+                                    //                    foreach (var unq in result)
+                                    //                    {
+                                    //                        var qry = Query.EQ("Characteristic", unq);
+                                    //                        var charLst = _CharateristicRepository.FindOne(qry);
+                                    //                        if (charLst != null)
+                                    //                        {
+                                    //                            if (Value.Contains(charLst.Characteristic))
+                                    //                            {
+                                    //                                if (charLst.Abbrivation.Contains("_"))
+                                    //                                    charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
+                                    //                                Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
+                                    //                            }
+                                    //                        }
+                                    //                    }
+                                    //                    ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
+                                    //                }
+                                    //                else
+                                    //                {
+                                    //                    ShortStr += /*chM.Abbrevated + ":" + */chM.Value + sq.Separator;
+                                    //                }
+                                    //            }
+                                    //        }
+                                    //    }
+
+                                    //}
+                                    //flg = 1;
+
+                                    //New
+                                    string dumbChar = ShortStr;
+                                    if (chM.Value != null && chM.Value != "" && chM.Value != "--" && chM.Characteristic != "ADDITIONAL INFORMATION")
                                     {
-                                        if (abb.Abbrivation != null)
+                                        if (!string.IsNullOrEmpty(chM.UOM))
                                         {
-                                            if (abb.Abbrivation.Contains("_"))
-                                                chM.Abbrevated = abb.Abbrivation.Replace("_", " ");
+                                            if(chM.Characteristic == "SIZE" && chM.Value.Contains("X"))
+                                                dumbChar = ShortStr + chM.Value+" "+chM.UOM;
                                             else
-                                                chM.Abbrevated = abb.Abbrivation;
-                                        }
-                                    }
-                                    if (chM.Value != null && chM.Value != "")
-                                    {
-
-                                        if (UOMSet.Long_space == "with space")
-                                        {
-                                            if (chM.UOM != null && chM.UOM != "")
-                                            {
-                                                if (chM.Abbrevated == "ADDL INFO")
-                                                {
-                                                    var Value = chM.Value;
-                                                    string pattern = @"(\w+(\s\w+)*):";
-                                                    MatchCollection matches = Regex.Matches(chM.Value, pattern);
-                                                    List<string> result = new List<string>();
-                                                    foreach (Match match in matches)
-                                                    {
-                                                        result.Add(match.Groups[1].Value);
-                                                    }
-
-                                                    //var qry = Query.EQ("Characteristic", "MM");
-                                                    //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
-                                                    //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
-                                                    foreach (var unq in result)
-                                                    {
-                                                        var qry = Query.EQ("Characteristic", unq);
-                                                        var charLst = _CharateristicRepository.FindOne(qry);
-                                                        if (charLst != null)
-                                                        {
-                                                            if (Value.Contains(charLst.Characteristic))
-                                                            {
-                                                                if (charLst.Abbrivation.Contains("_"))
-                                                                    charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
-                                                                Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
-                                                            }
-                                                        }
-                                                    }
-                                                    ShortStr += chM.Abbrevated + ":" + Value + sq.Separator;
-                                                }
-                                                else
-                                                {
-                                                    ShortStr += chM.Abbrevated + ":" + chM.Value + " " + chM.UOM + sq.Separator;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (flg == 0 && chM.Abbrevated == "PART NAME")
-                                                {
-                                                    ShortStr += chM.Value + sq.Separator;
-                                                }
-                                                else
-                                                {
-                                                    if (chM.Abbrevated == "ADDL INFO")
-                                                    {
-                                                        var Value = chM.Value;
-                                                        string pattern = @"(\w+(\s\w+)*):";
-                                                        MatchCollection matches = Regex.Matches(chM.Value, pattern);
-                                                        List<string> result = new List<string>();
-                                                        foreach (Match match in matches)
-                                                        {
-                                                            result.Add(match.Groups[1].Value);
-                                                        }
-
-                                                        //var qry = Query.EQ("Characteristic", "MM");
-                                                        //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
-                                                        //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
-                                                        foreach (var unq in result)
-                                                        {
-                                                            var qry = Query.EQ("Characteristic", unq);
-                                                            var charLst = _CharateristicRepository.FindOne(qry);
-                                                            if (charLst != null)
-                                                            {
-                                                                if (Value.Contains(charLst.Characteristic))
-                                                                {
-                                                                    if (charLst.Abbrivation.Contains("_"))
-                                                                        charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
-                                                                    Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
-                                                                }
-                                                            }
-                                                        }
-                                                        ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
-                                                    }
-                                                    else
-                                                    {
-                                                        ShortStr += /*chM.Abbrevated + ":" + */chM.Value + sq.Separator;
-                                                    }
-                                                }
-                                            }
+                                                dumbChar = ShortStr + chM.Value + chM.UOM;
                                         }
                                         else
+                                            dumbChar = ShortStr + chM.Value;
+                                    }
+
+
+                                    if (NMList.Formatted == 1 || flg == 1 || NMList.Formatted == 2)//&& NMList.Formatted != 0
+                                    {
+
+                                        if (chM.Value != null && chM.Value != "")
                                         {
-                                            if (chM.UOM != null && chM.UOM != "")
+                                            if (dumbChar.Length < charLen)
                                             {
-                                                if (chM.Abbrevated == "ADDL INFO")
-                                                {
-                                                    var Value = chM.Value;
-                                                    string pattern = @"(\w+(\s\w+)*):";
-                                                    MatchCollection matches = Regex.Matches(chM.Value, pattern);
-                                                    List<string> result = new List<string>();
-                                                    foreach (Match match in matches)
-                                                    {
-                                                        result.Add(match.Groups[1].Value);
-                                                    }
+                                                string strValue = "";
+                                                var frmMdl = new shortFrame();
+                                                frmMdl.position = chM.Squence;
 
-                                                    //var qry = Query.EQ("Characteristic", "MM");
-                                                    //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
-                                                    //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
-                                                    foreach (var unq in result)
-                                                    {
-                                                        var qry = Query.EQ("Characteristic", unq);
-                                                        var charLst = _CharateristicRepository.FindOne(qry);
-                                                        if (charLst != null)
-                                                        {
-                                                            if (Value.Contains(charLst.Characteristic))
-                                                            {
-                                                                if (charLst.Abbrivation.Contains("_"))
-                                                                    charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
-                                                                Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
-                                                            }
-                                                        }
-                                                    }
-                                                    ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
-                                                }
-                                                else
-                                                {
-                                                    ShortStr += /*chM.Abbrevated + ":" + */chM.Value + chM.UOM + sq.Separator;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                if (flg == 0 && chM.Abbrevated == "PART NAME")
-                                                    ShortStr += chM.Value + sq.Separator;
-                                                else
-                                                {
-                                                    if (chM.Abbrevated == "ADDL INFO")
-                                                    {
-                                                        var Value = chM.Value;
-                                                        string pattern = @"(\w+(\s\w+)*):";
-                                                        MatchCollection matches = Regex.Matches(chM.Value, pattern);
-                                                        List<string> result = new List<string>();
-                                                        foreach (Match match in matches)
-                                                        {
-                                                            result.Add(match.Groups[1].Value);
-                                                        }
 
-                                                        //var qry = Query.EQ("Characteristic", "MM");
-                                                        //var charLst = _CharacteristicRepository.FindAll(qry).ToList();
-                                                        //var unqCharLst = charLst.GroupBy(p => p.Characteristic).Select(g => g.First()).ToList();
-                                                        foreach (var unq in result)
-                                                        {
-                                                            var qry = Query.EQ("Characteristic", unq);
-                                                            var charLst = _CharateristicRepository.FindOne(qry);
-                                                            if (charLst != null)
-                                                            {
-                                                                if (Value.Contains(charLst.Characteristic))
-                                                                {
-                                                                    if (charLst.Abbrivation.Contains("_"))
-                                                                        charLst.Abbrivation = charLst.Abbrivation.Replace("_", " ");
-                                                                    Value = Value.Replace(charLst.Characteristic, charLst.Abbrivation);
-                                                                }
-                                                            }
-                                                        }
-                                                        ShortStr += /*chM.Abbrevated + ":" + */Value + sq.Separator;
+                                                if (chM.Value.Contains(','))
+                                                {
+                                                    string tmpstr = "";
+                                                    var abbObj = (from Abb in AbbrList where Abb.Value.Equals(chM.Value, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
+                                                    if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
+                                                    {
+                                                        tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ',';
                                                     }
                                                     else
                                                     {
-                                                        ShortStr += /*chM.Abbrevated + ":" + */chM.Value + sq.Separator;
+                                                        string[] strsplt = chM.Value.Split(',');
+                                                        foreach (string str in strsplt)
+                                                        {
+
+
+                                                            abbObj = (from Abb in AbbrList where Abb.Value.Equals(str, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
+                                                            if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
+                                                                tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ',';
+                                                            else tmpstr += str.TrimStart().TrimEnd() + ',';
+
+                                                        }
                                                     }
+                                                    tmpstr = tmpstr.TrimEnd(',');
+                                                    //if (UOMSet.Short_space == "with space")
+                                                    if (chM.Characteristic == "SIZE" && chM.Value.Contains("X"))
+                                                    {
+                                                        if (chM.UOM != null && chM.UOM != "")
+                                                            strValue += tmpstr + " " + chM.UOM + sq.Separator;
+                                                        else strValue += tmpstr + sq.Separator;
+                                                    }
+                                                    else
+                                                    {
+                                                        if (chM.UOM != null && chM.UOM != "")
+                                                            strValue += tmpstr + chM.UOM + sq.Separator;
+                                                        else strValue += tmpstr + sq.Separator;
+                                                    }
+                                                    frmMdl.values = strValue;
                                                 }
+                                                else
+                                                {
+                                                    string tmpstr = "";
+
+                                                    var abbObj = (from Abb in AbbrList where Abb.Value.Equals(chM.Value, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
+                                                    if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
+                                                    {
+                                                        // Abbreivated
+                                                        //if (UOMSet.Short_space == "with space")
+                                                        if (chM.Characteristic == "SIZE" && chM.Value.Contains("X"))
+                                                        {
+                                                            if (chM.UOM != null && chM.UOM != "")
+                                                                strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + " " + chM.UOM + sq.Separator;
+                                                            else strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + sq.Separator;
+                                                        }
+                                                        else
+                                                        {
+                                                            if (chM.UOM != null && chM.UOM != "")
+                                                                strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + chM.UOM + sq.Separator;
+                                                            else strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + sq.Separator;
+                                                        }
+                                                        frmMdl.values = strValue;
+                                                    }
+                                                    else
+                                                    {
+                                                        // Abbreivated not exist
+
+                                                        //if (UOMSet.Short_space == "with space")
+                                                        if (chM.Characteristic == "SIZE" && chM.Value.Contains("X"))
+                                                        {
+                                                            if (chM.UOM != null && chM.UOM != "")
+                                                                strValue += chM.Value.TrimStart().TrimEnd() + " " + chM.UOM + sq.Separator;
+                                                            else strValue += chM.Value.TrimStart().TrimEnd() + sq.Separator;
+                                                        }
+                                                        else
+                                                        {
+                                                            if (chM.UOM != null && chM.UOM != "")
+                                                                strValue += chM.Value.TrimStart().TrimEnd() + chM.UOM + sq.Separator;
+                                                            else strValue += chM.Value.TrimStart().TrimEnd() + sq.Separator;
+                                                        }
+                                                        frmMdl.values = strValue;
+                                                    }
+
+
+                                                }
+
+                                                lst.Add(frmMdl);
+
+                                                ShortStr = strVen;
+                                                string pattern = " X ";
+                                                foreach (shortFrame sMdl in lst)
+                                                {
+                                                    string[] strtmp = { " X " };
+                                                    var x = sMdl.values.Split(strtmp, StringSplitOptions.RemoveEmptyEntries);
+                                                    if (Regex.IsMatch(x[0], "^[0-9]+$", RegexOptions.Compiled))
+                                                    {
+                                                        foreach (Match match in Regex.Matches(sMdl.values, pattern))
+                                                        {
+                                                            sMdl.values = Regex.Replace(sMdl.values, pattern, match.Value.TrimEnd().TrimStart());
+                                                        }
+                                                        // ShortStr += sMdl.values;
+                                                        string pattern1 = " x ";
+                                                        foreach (Match match in Regex.Matches(sMdl.values, pattern1))
+                                                        {
+                                                            sMdl.values = Regex.Replace(sMdl.values, pattern1, match.Value.TrimEnd().TrimStart());
+                                                        }
+                                                    }
+                                                    ShortStr += sMdl.values;
+                                                }
+
+                                                if (!checkLength(ShortStr, seqList[0].ShortLength))
+                                                {
+                                                    ShortStr = ShortStr.Trim();
+                                                    char[] chr = sq.Separator.ToCharArray();
+                                                    ShortStr = ShortStr.TrimEnd(chr[0]);
+                                                    while (ShortStr.Length > seqList[0].ShortLength)
+                                                    {
+                                                        int lstIndx = ShortStr.LastIndexOf(chr[0]);
+                                                        if (lstIndx > -1)
+                                                        {
+                                                            if (lst.Count > 0)
+                                                            {
+
+                                                                if (ShortStr.Substring(lstIndx).Length > 1)
+                                                                {
+                                                                    if (ShortStr.Substring(lstIndx).TrimStart(chr[0]) == lst[lst.Count - 1].values.TrimEnd(chr[0]))
+                                                                    {
+                                                                        lst.RemoveAt(lst.Count - 1);
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        int indx = lst[lst.Count - 1].values.TrimEnd(chr[0]).LastIndexOf(chr[0]);
+                                                                        lst[lst.Count - 1].values = lst[lst.Count - 1].values.Remove(indx) + chr[0];
+                                                                    }
+                                                                }
+                                                            }
+                                                            ShortStr = ShortStr.Remove(lstIndx);
+
+                                                        }
+                                                        else
+                                                        {
+                                                            lstIndx = ShortStr.LastIndexOf(' ');
+                                                            ShortStr = ShortStr.Remove(lstIndx);
+                                                            if (lst.Count > 0)
+                                                            {
+                                                                int indx = lst[lst.Count - 1].values.LastIndexOf(' ');
+                                                                lst[lst.Count - 1].values = lst[lst.Count - 1].values.Remove(indx);
+                                                            }
+                                                        }
+
+                                                    }
+                                                    ShortStr = ShortStr + chr[0];
+                                                }
+                                                i++;
                                             }
                                         }
-
                                     }
-                                    flg = 1;
+                                    else flg = 1;
                                 }
                             }
                             break;
-                        //case 103:
-                        //    int flg = 0;
-
-
-                        //    //  int[] arrPos= new int[cat.Characteristics.Count];
-                        //    //  string[] arrVal = new string[cat.Characteristics.Count];
-                        //    int i = 0;
-                        //    if (cat.Characteristics != null)
-                        //    {
-                        //        foreach (Asset_AttributeList chM in cat.Characteristics.OrderBy(x => x.ShortSquence))
-                        //        {
-                        //            if (NMList.Formatted == 1 || flg == 1 || NMList.Formatted == 2)
-                        //            {
-
-                        //                if (chM.Value != null && chM.Value != "")
-                        //                {
-                        //                    string strValue = "";
-                        //                    var frmMdl = new shortFrame();
-                        //                    frmMdl.position = chM.Squence;
-
-
-                        //                    if (chM.Value.Contains(','))
-                        //                    {
-                        //                        string tmpstr = "";
-                        //                        var abbObj = (from Abb in AbbrList where Abb.Value.Equals(chM.Value, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                        if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                        {
-                        //                            tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ',';
-                        //                        }
-                        //                        else
-                        //                        {
-                        //                            string[] strsplt = chM.Value.Split(',');
-                        //                            foreach (string str in strsplt)
-                        //                            {
-                        //                                //for space split
-                        //                                if (str.Contains(' '))
-                        //                                {
-                        //                                    abbObj = (from Abb in AbbrList where Abb.Value.Equals(str, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                                    if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                                        tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ',';
-                        //                                    else
-                        //                                    {
-                        //                                        string[] spaceSpt = str.Split(' ');
-                        //                                        foreach (string spceStr in spaceSpt)
-                        //                                        {
-                        //                                            abbObj = (from Abb in AbbrList where Abb.Value.Equals(spceStr, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                                            if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                                                tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ' ';
-                        //                                            else
-                        //                                                tmpstr += spceStr.TrimStart().TrimEnd() + ' ';
-
-                        //                                        }
-                        //                                        tmpstr = tmpstr.TrimEnd(' ');
-                        //                                    }
-
-
-                        //                                }
-                        //                                else
-                        //                                {
-
-                        //                                    abbObj = (from Abb in AbbrList where Abb.Value.Equals(str, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                                    if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                                        tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ',';
-                        //                                    else tmpstr += str.TrimStart().TrimEnd() + ',';
-                        //                                }
-                        //                            }
-                        //                        }
-                        //                        tmpstr = tmpstr.TrimEnd(',');
-                        //                        if (UOMSet.Short_space == "with space")
-                        //                        {
-                        //                            if (chM.UOM != null && chM.UOM != "")
-                        //                                strValue += tmpstr + " " + chM.UOM + sq.Separator;
-                        //                            else strValue += tmpstr + sq.Separator;
-                        //                        }
-                        //                        else
-                        //                        {
-                        //                            if (chM.UOM != null && chM.UOM != "")
-                        //                                strValue += tmpstr + chM.UOM + sq.Separator;
-                        //                            else strValue += tmpstr + sq.Separator;
-                        //                        }
-                        //                        frmMdl.values = strValue;
-                        //                    }
-                        //                    else
-                        //                    {
-                        //                        string tmpstr = "";
-                        //                        if (chM.Value.Contains(' '))
-                        //                        {
-                        //                            //fore space split
-
-                        //                            var abbObj = (from Abb in AbbrList where Abb.Value.Equals(chM.Value, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                            if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                                tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ',';
-                        //                            else
-                        //                            {
-                        //                                string[] spaceSpt = chM.Value.Split(' ');
-                        //                                foreach (string spceStr in spaceSpt)
-                        //                                {
-                        //                                    abbObj = (from Abb in AbbrList where Abb.Value.Equals(spceStr, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                                    if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                                        tmpstr += abbObj.Abbrevated.TrimStart().TrimEnd() + ' ';
-                        //                                    else
-                        //                                        tmpstr += spceStr.TrimStart().TrimEnd() + ' ';
-
-                        //                                }
-                        //                                tmpstr = tmpstr.TrimEnd(' ');
-                        //                            }
-                        //                            tmpstr = tmpstr.Trim(',');
-                        //                            if (UOMSet.Short_space == "with space")
-                        //                            {
-                        //                                if (chM.UOM != null && chM.UOM != "")
-                        //                                    strValue += tmpstr.TrimStart().TrimEnd() + " " + chM.UOM + sq.Separator;
-                        //                                else strValue += tmpstr.TrimStart().TrimEnd() + sq.Separator;
-                        //                            }
-                        //                            else
-                        //                            {
-                        //                                if (chM.UOM != null && chM.UOM != "")
-                        //                                    strValue += tmpstr.TrimStart().TrimEnd() + chM.UOM + sq.Separator;
-                        //                                else strValue += tmpstr.TrimStart().TrimEnd() + sq.Separator;
-                        //                            }
-                        //                            frmMdl.values = strValue;
-
-                        //                        }
-                        //                        else
-                        //                        {
-                        //                            var abbObj = (from Abb in AbbrList where Abb.Value.Equals(chM.Value, StringComparison.OrdinalIgnoreCase) select Abb).FirstOrDefault();
-                        //                            if (abbObj != null && (abbObj.Abbrevated != null && abbObj.Abbrevated != ""))
-                        //                            {
-                        //                                // Abbreivated
-                        //                                if (UOMSet.Short_space == "with space")
-                        //                                {
-                        //                                    if (chM.UOM != null && chM.UOM != "")
-                        //                                        strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + " " + chM.UOM + sq.Separator;
-                        //                                    else strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + sq.Separator;
-                        //                                }
-                        //                                else
-                        //                                {
-                        //                                    if (chM.UOM != null && chM.UOM != "")
-                        //                                        strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + chM.UOM + sq.Separator;
-                        //                                    else strValue += abbObj.Abbrevated.TrimStart().TrimEnd() + sq.Separator;
-                        //                                }
-                        //                                frmMdl.values = strValue;
-                        //                            }
-                        //                            else
-                        //                            {
-                        //                                // Abbreivated not exist
-
-                        //                                if (UOMSet.Short_space == "with space")
-                        //                                {
-                        //                                    if (chM.UOM != null && chM.UOM != "")
-                        //                                        strValue += chM.Value.TrimStart().TrimEnd() + " " + chM.UOM + sq.Separator;
-                        //                                    else strValue += chM.Value.TrimStart().TrimEnd() + sq.Separator;
-                        //                                }
-                        //                                else
-                        //                                {
-                        //                                    if (chM.UOM != null && chM.UOM != "")
-                        //                                        strValue += chM.Value.TrimStart().TrimEnd() + chM.UOM + sq.Separator;
-                        //                                    else strValue += chM.Value.TrimStart().TrimEnd() + sq.Separator;
-                        //                                }
-                        //                                frmMdl.values = strValue;
-                        //                            }
-                        //                        }
-
-                        //                    }
-
-                        //                    lst.Add(frmMdl);
-
-                        //                    ShortStr = strNM;
-                        //                    string pattern = " X ";
-                        //                    foreach (shortFrame sMdl in lst)
-                        //                    {
-                        //                        string[] strtmp = { " X " };
-                        //                        var x = sMdl.values.Split(strtmp, StringSplitOptions.RemoveEmptyEntries);
-                        //                        if (Regex.IsMatch(x[0], "^[0-9]+$", RegexOptions.Compiled))
-                        //                        {
-                        //                            foreach (Match match in Regex.Matches(sMdl.values, pattern))
-                        //                            {
-                        //                                sMdl.values = Regex.Replace(sMdl.values, pattern, match.Value.TrimEnd().TrimStart());
-                        //                            }
-                        //                            // ShortStr += sMdl.values;
-                        //                            string pattern1 = " x ";
-                        //                            foreach (Match match in Regex.Matches(sMdl.values, pattern1))
-                        //                            {
-                        //                                sMdl.values = Regex.Replace(sMdl.values, pattern1, match.Value.TrimEnd().TrimStart());
-                        //                            }
-                        //                        }
-                        //                        ShortStr += sMdl.values;
-                        //                    }
-
-                        //                    if (!checkLength(ShortStr, seqList[0].ShortLength))
-                        //                    {
-                        //                        ShortStr = ShortStr.Trim();
-                        //                        char[] chr = sq.Separator.ToCharArray();
-                        //                        ShortStr = ShortStr.TrimEnd(chr[0]);
-                        //                        while (ShortStr.Length > seqList[0].ShortLength)
-                        //                        {
-                        //                            int lstIndx = ShortStr.LastIndexOf(chr[0]);
-                        //                            if (lstIndx > -1)
-                        //                            {
-                        //                                if (lst.Count > 0)
-                        //                                {
-
-                        //                                    if (ShortStr.Substring(lstIndx).Length > 1)
-                        //                                    {
-                        //                                        if (ShortStr.Substring(lstIndx).TrimStart(chr[0]) == lst[lst.Count - 1].values.TrimEnd(chr[0]))
-                        //                                        {
-                        //                                            lst.RemoveAt(lst.Count - 1);
-                        //                                        }
-                        //                                        else
-                        //                                        {
-                        //                                            int indx = lst[lst.Count - 1].values.TrimEnd(chr[0]).LastIndexOf(chr[0]);
-                        //                                            lst[lst.Count - 1].values = lst[lst.Count - 1].values.Remove(indx) + chr[0];
-                        //                                        }
-                        //                                    }
-                        //                                }
-                        //                                ShortStr = ShortStr.Remove(lstIndx);
-
-                        //                            }
-                        //                            else
-                        //                            {
-                        //                                lstIndx = ShortStr.LastIndexOf(' ');
-                        //                                ShortStr = ShortStr.Remove(lstIndx);
-                        //                                if (lst.Count > 0)
-                        //                                {
-                        //                                    int indx = lst[lst.Count - 1].values.LastIndexOf(' ');
-                        //                                    lst[lst.Count - 1].values = lst[lst.Count - 1].values.Remove(indx);
-                        //                                }
-                        //                            }
-
-                        //                        }
-                        //                        ShortStr = ShortStr + chr[0];
-                        //                    }
-                        //                    i++;
-                        //                }
-                        //            }
-                        //            else flg = 1;
-                        //        }
-                        //        ShortStr = strNM;
-                        //        foreach (shortFrame sMdl in lst.OrderBy(x => x.position))
-                        //        {
-                        //            ShortStr += sMdl.values;
-                        //        }
-                        //    }
-
-                        //    break;
-
                         case 104:
                             dumbVen = "";
+                            string shortMfr = "";
                             if (!string.IsNullOrEmpty(cat.Manufacturer))
-                                dumbVen = ShortStr + cat.Manufacturer + ",";
-                            if(dumbVen.Length < seqList[0].ShortLength)
-                                ShortStr += cat.Manufacturer + ",";
+                            {
+                                var dt1 = venLst.Find(d => d.Title == cat.Manufacturer);
+                                shortMfr = dt1.Code;
+                                //shortMfr = getMfrAbbr(cat.Manufacturer);
+                            }
+                            else
+                                shortMfr = cat.Manufacturer;
+                            string gShortMfr = "";
+                            if (!string.IsNullOrEmpty(cat.Manufacturer))
+                            {
+                                var dt2 = venLst.Find(d => d.Title == cat.Manufacturer);
+                                gShortMfr = dt2.Code;
+                            }
+                            string mfr = !string.IsNullOrEmpty(shortMfr) ? gShortMfr : cat.Manufacturer;
+                            //string mfr = !string.IsNullOrEmpty(shortMfr) ? getMfrAbbr(cat.Manufacturer) : cat.Manufacturer;
+                            if (!string.IsNullOrEmpty(cat.Manufacturer))
+                            {
+                                dumbVen = ShortStr + mfr + ",";
+                            }
+                            if(!string.IsNullOrEmpty(mfr) && dumbVen.TrimEnd(',').Length <= seqList[0].ShortLength)
+                                ShortStr += mfr + ",";
                             break;
-                        //if (cat.Vendorsuppliers != null)
-                        //{
-                        //    foreach (Vendorsuppliers vs in cat.Vendorsuppliers)
-                        //    {
-                        //        if (vs.s == 1)
-                        //        {
-                        //            if (vs.Name != null && vs.Name != "")
-                        //            {
-                        //                var querry = Query.EQ("Name", vs.Name);
-                        //                var shtmfr = _VendorRepository.FindOne(querry);
-                        //                if (shtmfr != null)
-                        //                {
-                        //                    if (shtmfr.ShortDescName != null && shtmfr.ShortDescName != "")
-                        //                    {
-                        //                        vs.shortmfr = shtmfr.ShortDescName;
-                        //                    }
-                        //                }
-                        //                else
-                        //                {
-                        //                    vs.shortmfr = vs.Name;
-                        //                }
-                        //            }
-                        //            //else
-                        //            //{
-                        //            //    vs.shortmfr = vs.Name;
-                        //            //}
-
-                        //            if (vs.shortmfr != null && vs.shortmfr != "" && vs.shortmfr != "undefined")
-                        //            {
-                        //                mfrref = vs.Name;
-                        //                var frmMdl = new shortFrame();
-                        //                frmMdl.position = 101;
-                        //                frmMdl.values = vs.shortmfr + sq.Separator;
-                        //                lst.Add(frmMdl);
-                        //                ShortStr += vs.shortmfr + sq.Separator;
-                        //                if (!checkLength(ShortStr, seqList[0].ShortLength))
-                        //                {
-                        //                    ShortStr = ShortStr.Trim();
-                        //                    char[] chr = sq.Separator.ToCharArray();
-                        //                    ShortStr = ShortStr.TrimEnd(chr[0]);
-                        //                    while (ShortStr.Length > seqList[0].ShortLength)
-                        //                    {
-                        //                        int lstIndx = ShortStr.LastIndexOf(chr[0]);
-                        //                        if (lstIndx > -1)
-                        //                        {
-                        //                            if (lst.Count > 0)
-                        //                            {
-                        //                                if (ShortStr.Substring(lstIndx).Length > 1)
-                        //                                    lst.RemoveAt(lst.Count - 1);
-                        //                            }
-                        //                            ShortStr = ShortStr.Remove(lstIndx);
-
-                        //                        }
-                        //                        else
-                        //                        {
-                        //                            lstIndx = ShortStr.LastIndexOf(' ');
-                        //                            ShortStr = ShortStr.Remove(lstIndx);
-                        //                            if (lst.Count > 0)
-                        //                            {
-                        //                                int indx = lst[lst.Count - 1].values.LastIndexOf(' ');
-                        //                                lst[lst.Count - 1].values = lst[lst.Count - 1].values.Remove(indx);
-                        //                            }
-                        //                        }
-                        //                    }
-                        //                    ShortStr = ShortStr + chr[0];
-                        //                }
-                        //                break;
-                        //            }
-
-                        //        }
-                        //    }
-                        //}
-                        //break;
                         case 105:
                             //if (!string.IsNullOrEmpty(cat.TechIdentNo))
                             //    ShortStr += "," + cat.TechIdentNo;
                             dumbVen = "";
-                            if (!string.IsNullOrEmpty(cat.ModelNo))
-                                dumbVen = ShortStr+ cat.ModelNo + ",";
-                            if (dumbVen.Length < seqList[0].ShortLength)
-                                ShortStr += cat.ModelNo + ",";
-                            if (!string.IsNullOrEmpty(cat.PartNo))
-                                dumbVen = ShortStr + cat.PartNo+ ",";
-                            if (dumbVen.Length < seqList[0].ShortLength)
-                                ShortStr += cat.PartNo+ ",";
+                            if (!string.IsNullOrEmpty(cat.ModelNo) || !string.IsNullOrEmpty(cat.PartNo))
+                            {
+                                var value = !string.IsNullOrEmpty(cat.ModelNo) ? cat.ModelNo : cat.PartNo;
+
+                                dumbVen = ShortStr + value + ",";
+
+                                if (dumbVen.TrimEnd(',').Length <= seqList[0].ShortLength)
+                                {
+                                    ShortStr += value + ",";
+                                }
+                            }
+
                             //if (!string.IsNullOrEmpty(cat.SerialNo))
                             //    ShortStr += "," + cat.SerialNo;
                             break;
@@ -5670,6 +5838,10 @@ namespace Prosol.Core
             }
 
             //ShortStr += ven + reg;
+            if (ShortStr.Contains(",,,"))
+                ShortStr.Replace(",,,", ",");
+            if (ShortStr.Contains(",,"))
+                ShortStr.Replace(",,", ",");
             return ShortStr;
 
 
@@ -5694,7 +5866,7 @@ namespace Prosol.Core
             var FormattedQuery = Query.And(Query.EQ("Noun", cat.Noun), Query.EQ("Modifier", cat.Modifier));
             var NMList = _nounModifierRepository.FindOne(FormattedQuery);
             var sort = SortBy.Ascending("Seq").Ascending("Description");
-            var query = Query.EQ("Description", "Long");
+            var query = Query.EQ("Description", "Long_OEM");
             string LongStr = "";
             var seqList = _SequenceRepository.FindAll(query, sort).ToList();
             var UOMSet = _UOMRepository.FindOne();
@@ -5891,6 +6063,8 @@ namespace Prosol.Core
                             break;
 
                         case 104:
+                            if (!string.IsNullOrEmpty(cat.TechIdentNo))
+                                LongStr += "TAG NUMBER:" + cat.TechIdentNo + ",";
                             if (!string.IsNullOrEmpty(cat.Manufacturer))
                                 LongStr += "MANUFACTURER:" +cat.Manufacturer + ",";
                             break;
@@ -5954,8 +6128,6 @@ namespace Prosol.Core
                         //break;
 
                         case 105:
-                            if (!string.IsNullOrEmpty(cat.TechIdentNo))
-                                LongStr += "TAG NUMBER:" + cat.TechIdentNo + ",";
                             if (!string.IsNullOrEmpty(cat.ModelNo))
                                 LongStr += "MODEL NUMBER:" + cat.ModelNo+ ",";
                             if (!string.IsNullOrEmpty(cat.PartNo))
@@ -6216,12 +6388,75 @@ namespace Prosol.Core
                         mdl1.MissingValue = MissingValue(mdl1);
                         mdl1.EnrichedValue = PapulatedValue(mdl1);
                         mdl1.Characteristics = null;
-                        var qc = new Prosol_UpdatedBy();
-                        qc.Name = "KHAMIZ";
-                        qc.UserId = "172";
-                        qc.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                        mdl1.Review = qc;
-                        mdl1.ItemStatus = 5;
+                        //var qc = new Prosol_UpdatedBy();
+                        //qc.Name = "SACHIN";
+                        //qc.UserId = "33";
+                        //qc.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+                        //mdl1.Review = qc;
+                        //mdl1.ItemStatus = 5;
+                        _assetRepository.Add(mdl1);
+                        cunt++;
+                    }
+                }
+
+            }
+
+
+            return cunt;
+        }
+        public virtual int BulkAutoShortLong()
+        {
+            int cunt = 0;
+            var qry = Query.And(Query.NE("Noun", BsonNull.Value),Query.NE("Modifier", BsonNull.Value),Query.NE("Characterisitics", BsonNull.Value));
+            var lst = _AssetattriRepository.FindAll(qry).ToList();
+            foreach (var drw in lst)
+            {
+                var query1 = Query.And(Query.EQ("UniqueId", drw.UniqueId));
+                var mdl1 = _assetRepository.FindOne(query1);
+                var mdl2 = _AssetattriRepository.FindOne(query1);
+                if (mdl2 != null)
+                {
+                    var ListCharas = mdl2.Characterisitics;
+
+                    var lstCharateristics = new List<Asset_AttributeList>();
+                    if (ListCharas != null && ListCharas.Count > 0)
+                    {
+
+                        foreach (Asset_AttributeList LstAtt in ListCharas)
+                        {
+                            var AttrMdl = new Asset_AttributeList();
+                            AttrMdl.Characteristic = LstAtt.Characteristic;
+                            AttrMdl.Value = LstAtt.Value;
+                            AttrMdl.UOM = LstAtt.UOM;
+
+                            var d = Query.And(Query.EQ("Noun", mdl2.Noun), Query.EQ("Modifier", mdl2.Modifier), Query.EQ("Characteristic", AttrMdl.Characteristic));
+                            var m1 = _CharateristicRepository.FindOne(d);
+                            if (m1 != null)
+                            {
+                                AttrMdl.ShortSquence = m1.ShortSquence;
+                                AttrMdl.Squence = m1.Squence;
+                                AttrMdl.Source = LstAtt.Source;
+                                lstCharateristics.Add(AttrMdl);
+                            }
+
+                        }
+                    }
+                    if (mdl1 != null)
+                    {
+                        mdl1.Characteristics = lstCharateristics;
+                        mdl1.Noun = mdl2.Noun;
+                        mdl1.Modifier = mdl2.Modifier;
+                        mdl1.Equipment_Short = ShortDesc(mdl1);
+                        mdl1.Equipment_Long = LongDesc(mdl1);
+                        mdl1.MissingValue = MissingValue(mdl1);
+                        mdl1.EnrichedValue = PapulatedValue(mdl1);
+                        mdl1.Characteristics = null;
+                        //var qc = new Prosol_UpdatedBy();
+                        //qc.Name = "SACHIN";
+                        //qc.UserId = "33";
+                        //qc.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+                        //mdl1.Review = qc;
+                        //mdl1.ItemStatus = 5;
                         _assetRepository.Add(mdl1);
                         cunt++;
                     }
@@ -9204,38 +9439,38 @@ namespace Prosol.Core
 
             return cunt;
         }
-        public virtual int BulkAdditional(HttpPostedFileBase file)
-        {
-            int cunt = 0;
-            Stream stream = file.InputStream;
-            IExcelDataReader reader = null;
-            if (file.FileName.EndsWith(".xls"))
-            {
-                reader = ExcelReaderFactory.CreateBinaryReader(stream);
-            }
-            else if (file.FileName.EndsWith(".xlsx"))
-            {
-                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-            }
-            reader.IsFirstRowAsColumnNames = true;
-            var res = reader.AsDataSet();
-            reader.Close();
-            DataTable dt = res.Tables[0];
+        //public virtual int BulkAdditional(HttpPostedFileBase file)
+        //{
+        //    int cunt = 0;
+        //    Stream stream = file.InputStream;
+        //    IExcelDataReader reader = null;
+        //    if (file.FileName.EndsWith(".xls"))
+        //    {
+        //        reader = ExcelReaderFactory.CreateBinaryReader(stream);
+        //    }
+        //    else if (file.FileName.EndsWith(".xlsx"))
+        //    {
+        //        reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+        //    }
+        //    reader.IsFirstRowAsColumnNames = true;
+        //    var res = reader.AsDataSet();
+        //    reader.Close();
+        //    DataTable dt = res.Tables[0];
 
-            foreach (DataRow drw1 in dt.Rows)
-            {
-                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString())); 
-                var mdl2 = _assetRepository.FindOne(query2);
-                if (mdl2 != null)
-                {
-                    mdl2.AdditionalNotes = drw1[1].ToString();
-                    _assetRepository.Add(mdl2);
-                }
-                cunt++;
-            }
+        //    foreach (DataRow drw1 in dt.Rows)
+        //    {
+        //        var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString())); 
+        //        var mdl2 = _assetRepository.FindOne(query2);
+        //        if (mdl2 != null)
+        //        {
+        //            mdl2.AdditionalNotes = drw1[1].ToString();
+        //            _assetRepository.Add(mdl2);
+        //        }
+        //        cunt++;
+        //    }
 
-            return cunt;
-        }
+        //    return cunt;
+        //}
         public virtual int MfrBulkUpload(HttpPostedFileBase file)
         {
             int cunt = 0;
@@ -9300,6 +9535,361 @@ namespace Prosol.Core
         //    return cunt;
         //}
 
+        public virtual int BulkParent(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.Parent = drw1[1].ToString();
+                    mdl2.ParentName = drw1[2].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkObject(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.ObjType = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkUNSPSC(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.Unspsc = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkAssetNo(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.EquipmentNo = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkCost(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.CostCenter = drw1[1].ToString();
+                    mdl2.CostCenter_Desc = drw1[2].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkDiscipline(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.Discipline = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkWorkC(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.MainWorkCenter = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkAdditional(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.AdditionalInfo = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkURL(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.Soureurl = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkTag(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.TechIdentNo = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+        public virtual int BulkLegacy(HttpPostedFileBase file)
+        {
+            int cunt = 0;
+            Stream stream = file.InputStream;
+            IExcelDataReader reader = null;
+            if (file.FileName.EndsWith(".xls"))
+            {
+                reader = ExcelReaderFactory.CreateBinaryReader(stream);
+            }
+            else if (file.FileName.EndsWith(".xlsx"))
+            {
+                reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+            }
+            reader.IsFirstRowAsColumnNames = true;
+            var res = reader.AsDataSet();
+            reader.Close();
+            DataTable dt = res.Tables[0];
+
+            foreach (DataRow drw1 in dt.Rows)
+            {
+                var query2 = Query.Or(Query.EQ("UniqueId", drw1[0].ToString()), Query.EQ("AssetNo", drw1[0].ToString()));
+                var mdl2 = _assetRepository.FindOne(query2);
+                if (mdl2 != null)
+                {
+                    mdl2.Description = drw1[1].ToString();
+                    _assetRepository.Add(mdl2);
+                }
+                cunt++;
+            }
+
+            return cunt;
+        }
+
         public IEnumerable<Prosol_Dashboard> getDashboard()
         {
             var objLst = _dashRepository.FindAll();
@@ -9344,12 +9934,17 @@ namespace Prosol.Core
             var rs = _FARMaster.FindAll().ToList();
             return rs;
         }
+        public List<Prosol_Funloc> GetFuncLoc()
+        {
+            var rs = _FuncLocRepository.FindAll().ToList();
+            return rs;
+        }
         public string InsertMfr(Prosol_FARMaster item)
         {
             var qry = Query.And(
                 Query.EQ("Label", item.Label),
                 Query.EQ("Code", item.Code)
-            );
+            );  
 
             var existing = _FARMaster.FindOne(qry);
 
@@ -9383,6 +9978,11 @@ namespace Prosol.Core
             var lst = _FARMaster.FindAll(query);
             return lst;
         }
+        public IEnumerable<Prosol_FARMaster> GetDataList()
+        {
+            var lst = _FARMaster.FindAll();
+            return lst;
+        }
 
         public List<Dictionary<string, object>> DownloadMFR(string id)
         {
@@ -9394,7 +9994,8 @@ namespace Prosol.Core
             foreach (var code in datalist)
             {
                 row = new Dictionary<string, object>(); 
-                row.Add("Name", code.Code);
+                row.Add("Manufacturer Abbrevation", code.Code);
+                row.Add("Manufacturer Name", code.Title);
                 row.Add("Status", code.Islive == true ? "Approved" : "Pending");
                 rows.Add(row);
             }
@@ -9438,8 +10039,8 @@ namespace Prosol.Core
                 asset.AssetImages.VirtualTagImage = new[] { model.fileName };
             }
             asset.VirtualTagNo = tagNo;
-            insertImages(asset);
-            UpdateRunning("VT", int.Parse(tagNo.Substring(1)));
+                insertImages(asset);
+                UpdateRunning("VT", int.Parse(tagNo.Substring(1)));
 
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
@@ -9481,9 +10082,25 @@ namespace Prosol.Core
         public List<Prosol_AssetBOM> GetBOM(string id)
         {
             var bomLst = new List<Prosol_AssetBOM>();
-            var query = Query.EQ("BOMId", id);
+            var query = Query.EQ("UniqueId", id);
             bomLst = _AssetBOMRepository.FindAll(query).ToList();
             return bomLst;
+        }
+
+        public List<Prosol_AssetBOM> getFLBom(string id)
+        {
+            var flBomLst = new List<Prosol_AssetBOM>();
+            var query = Query.Matches("Func_Location", new BsonRegularExpression("^" + id, "i"));
+            flBomLst = _AssetBOMRepository.FindAll(query).ToList();
+            return flBomLst;
+        }
+
+        public List<Prosol_Funloc> GetFL(string id)
+        {
+            var flLst = new List<Prosol_Funloc>();
+            //var query = Query.Matches("FunctLocation", id);
+            flLst = _FuncLocRepository.FindAll().ToList();
+            return flLst;
         }
         public List<string> GetAssetValues(string Noun, string Modifier, string Attribute)
         {
@@ -9553,6 +10170,33 @@ namespace Prosol.Core
             var query = Query.And(Query.EQ("Roles.Name", role), Query.EQ("Islive", "Active"), Query.In("Modules", new BsonArray { "Asset" }));
             var gtuser = _UsercreateRepository.FindAll(query).ToList();
             return gtuser;
+        }
+
+        public bool Deletefile (string uniqueId, string fileName)
+        {
+            bool res = false;
+            var qry = Query.EQ("UniqueId", uniqueId);
+            var lst = _assetRepository.FindOne(qry);
+            if(lst != null)
+            {
+                if (!string.IsNullOrEmpty(lst.Attachment))
+                {
+                    var aStr = lst.Attachment.Split(',');
+                    var nAttch = new List<string>();
+                    string attachment = "";
+                    foreach (var a in aStr)
+                    {
+                        if(a != fileName)
+                        {
+                            nAttch.Add(a);
+                        }
+                    }
+                    attachment = string.Join(",", nAttch);
+                    lst.Attachment = attachment;
+                    res = _assetRepository.Add(lst);
+                } 
+            }
+            return res;
         }
 
         //public bool AddAssetValue(string Value, string user)

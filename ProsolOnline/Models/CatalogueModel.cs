@@ -123,6 +123,7 @@ namespace ProsolOnline.Models
         public string Stock_Status { set; get; }
         public string PVRemarks { set; get; }
         public List<VStorageLoc> StorageLocations { get; set; }
+        public List<UpdatedBy> PVLog { get; set; }
 
     }
     public class VStorageLoc

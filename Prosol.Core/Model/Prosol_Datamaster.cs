@@ -117,6 +117,7 @@ namespace Prosol.Core.Model
         public string Stock_Status { set; get; }
         public string PVRemarks { set; get; }
         public List<StorageLoc> StorageLocations { get; set; }
+        public List<Prosol_UpdatedBy> PVLog { get; set; }
     }
     public class StorageLoc
     {

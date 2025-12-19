@@ -853,12 +853,17 @@
         };
 
        
-        $scope.Downloadfile = function (fileName, type, imgId) {
-          //  alert(angular.toJson(fileName));
-          //  alert(angular.toJson(type));
-          //  alert(angular.toJson(imgId));
+        //$scope.Downloadfile = function (fileName, type, imgId) {
+        //  //  alert(angular.toJson(fileName));
+        //  //  alert(angular.toJson(type));
+        //  //  alert(angular.toJson(imgId));
 
-            $window.open('/Catalogue/Downloadfile?fileName=' + fileName + '&type=' + type + '&imgId=' + imgId);
+        //    $window.open('/Catalogue/Downloadfile?fileName=' + fileName + '&type=' + type + '&imgId=' + imgId);
+
+        //};
+        $scope.Downloadfile = function (fileName, type, imgId) {
+
+            $window.open('/Catalogue/Downloadfile?ItemId=' + imgId + '&fName=' + fileName);
 
         };
         $scope.RemoveFile = function (indx) {
@@ -1171,6 +1176,199 @@
             // }
         };
 
+        $scope.createData1 = function (sts) {
+
+            if ($scope.cat.RelRemarks == undefined || $scope.cat.RelRemarks == null || $scope.cat.RelRemarks == "" || $scope.cat.RelRemarks == "CATALOGUER-REMARK:") {
+                $scope.isClf = true;
+                alert(angular.toJson("Please Provide Remarks for Rework"));
+            }
+            else {
+
+
+                if (confirm("Are you sure, send to rework for pv this record?")) {
+                    //    alert(angular.toJson($scope.cat));
+
+                    if ($filter('filter')($scope.DataList, { 'bu': '1' }).length >= 1) {
+
+                        $scope.DataList = $filter('filter')($scope.DataList, { 'bu': '1' })
+
+                    }
+
+                    //   $scope.DataList = $filter('filter')($scope.DataList, { 'ItemStatus': '11' });
+
+
+                    $timeout(function () {
+                        $('#divNotifiy').attr('style', 'display: none');
+                    }, 5000);
+
+                    var formData = new FormData();
+                    for (var i = 0; i < $scope.attachment.length; i++) {
+                        formData.append('files', $scope.attachment[i]);
+                    }
+
+                    //general             
+                    $scope.erp.Industrysector_ = $scope.erp.Industrysector != null ? $("#ddlindustry").find("option:selected").text() : null;
+                    $scope.erp.Materialtype_ = $scope.erp.Materialtype != null ? $("#ddlmaterial").find("option:selected").text() : null;
+                    $scope.erp.BaseUOP_ = $scope.erp.BaseUOP != null ? $("#ddlbaseuop").find("option:selected").text() : null;
+                    $scope.erp.Unit_issue_ = $scope.erp.Unit_issue != null ? $("#ddluis").find("option:selected").text() : null;
+                    $scope.erp.AlternateUOM_ = $scope.erp.AlternateUOM != null ? $("#ddlalteruom").find("option:selected").text() : null;
+                    $scope.erp.Inspectiontype_ = $scope.erp.Inspectiontype != null ? $("#ddlinstype").find("option:selected").text() : null;
+                    $scope.erp.Inspectioncode_ = $scope.erp.Inspectioncode != null ? $("#ddlinscode").find("option:selected").text() : null;
+                    $scope.erp.Division_ = $scope.erp.Division != null ? $("#ddldivision").find("option:selected").text() : null;
+                    $scope.erp.Salesunit_ = $scope.erp.Salesunit != null ? $("#ddlsaleunit").find("option:selected").text() : null;
+
+                    //plant
+                    $scope.erp.Plant_ = $scope.erp.Plant != null ? $("#ddlPlant").find("option:selected").text() : null;
+                    $scope.erp.ProfitCenter_ = $scope.erp.ProfitCenter != null ? $("#ddlprofit").find("option:selected").text() : null;
+                    $scope.erp.StorageLocation_ = $scope.erp.StorageLocation != null ? $("#ddlstoreage").find("option:selected").text() : null;
+                    $scope.erp.StorageBin_ = $scope.erp.StorageBin != null ? $("#ddlbin").find("option:selected").text() : null;
+                    $scope.erp.ValuationClass_ = $scope.erp.ValuationClass != null ? $("#ddlvclass").find("option:selected").text() : null;
+                    $scope.erp.PriceControl_ = $scope.erp.PriceControl != null ? $("#ddlprice").find("option:selected").text() : null;
+                    $scope.erp.ValuationCategory_ = $scope.erp.ValuationCategory != null ? $("#ddlvcat").find("option:selected").text() : null;
+                    $scope.erp.VarianceKey_ = $scope.erp.VarianceKey != null ? $("#ddlvkey").find("option:selected").text() : null;
+
+
+                    //Mrp data
+                    $scope.erp.MRPType_ = $scope.erp.MRPType != null ? $("#ddlmrptype").find("option:selected").text() : null;
+                    $scope.erp.MRPController_ = $scope.erp.MRPController != null ? $("#ddlmrpcontrol").find("option:selected").text() : null;
+                    $scope.erp.LOTSize_ = $scope.erp.LOTSize != null ? $("#ddllotsize").find("option:selected").text() : null;
+                    $scope.erp.ProcurementType_ = $scope.erp.ProcurementType != null ? $("#ddlprocurement").find("option:selected").text() : null;
+                    $scope.erp.PlanningStrgyGrp_ = $scope.erp.PlanningStrgyGrp != null ? $("#ddlplanning").find("option:selected").text() : null;
+                    $scope.erp.AvailCheck_ = $scope.erp.AvailCheck != null ? $("#ddlavilchk").find("option:selected").text() : null;
+                    $scope.erp.ScheduleMargin_ = $scope.erp.ScheduleMargin != null ? $("#ddlschedule").find("option:selected").text() : null;
+
+                    //Sales & others
+                    $scope.erp.AccAsignmtCategory_ = $scope.erp.AccAsignmtCategory != null ? $("#ddlasscat").find("option:selected").text() : null;
+                    $scope.erp.TaxClassificationGroup_ = $scope.erp.TaxClassificationGroup != null ? $("#ddltaxclass").find("option:selected").text() : null;
+                    $scope.erp.ItemCategoryGroup_ = $scope.erp.ItemCategoryGroup != null ? $("#ddlitemcat").find("option:selected").text() : null;
+                    $scope.erp.SalesOrganization_ = $scope.erp.SalesOrganization != null ? $("#ddlsales").find("option:selected").text() : null;
+                    $scope.erp.DistributionChannel_ = $scope.erp.DistributionChannel != null ? $("#ddldistri").find("option:selected").text() : null;
+                    $scope.erp.MaterialStrategicGroup_ = $scope.erp.MaterialStrategicGroup != null ? $("#ddlmatstra").find("option:selected").text() : null;
+                    $scope.erp.PurchasingGroup_ = $scope.erp.PurchasingGroup != null ? $("#ddlpurchasegrp").find("option:selected").text() : null;
+                    $scope.erp.PurchasingValueKey_ = $scope.erp.PurchasingValueKey != null ? $("#ddlpurval").find("option:selected").text() : null;
+
+
+                    // formData.append('files', $scope.attachment);
+
+                    formData.append("itemsts", "11");
+                    formData.append("PVStatus", "Pending");
+                    formData.append("cat", angular.toJson($scope.cat));
+
+                    formData.append("attri", angular.toJson($scope.Characteristics));
+                    formData.append("ERP", angular.toJson($scope.erp));
+
+                    //formData.append("Generalinfo", angular.toJson($scope.gen));
+                    //formData.append("Plantinfo", angular.toJson($scope.plant));
+                    //formData.append("MRPdata", angular.toJson($scope.mrpdata));
+                    //formData.append("Salesinfo", angular.toJson($scope.sales));
+                    formData.append("Equ", angular.toJson($scope.Equ));
+                    formData.append("vendorsupplier", angular.toJson($scope.rows));
+                    formData.append("Attachments", angular.toJson($scope.imgList));
+                    formData.append("sts", sts);
+                    formData.append("HSNID", angular.toJson($scope.HSNID));
+                    formData.append("Desc", angular.toJson($scope.Desc));
+
+
+                    //  formData.append("DataList", angular.toJson($scope.DataList));
+
+
+                    $scope.promise = $http({
+                        url: "/Catalogue/InsertData",
+                        method: "POST",
+                        headers: { "Content-Type": undefined },
+                        transformRequest: angular.identity,
+                        data: formData
+                    }).success(function (data, status, headers, config) {
+                        // alert(angular.toJson(data));
+                        if (data.success === false) {
+
+                            $scope.Res = data.errors;
+                            $scope.Notify = "alert-danger";
+                            $('#divNotifiy').attr('style', 'display: block');
+
+                        }
+                        else {
+                            //   alert(angular.toJson(data));
+                            //   alert(angular.toJson(data.success));
+                            if (data > -1) {
+
+                                $scope.reset();
+
+                                $scope.cat = null;
+                                $scope.Characteristics = null;
+                                $scope.gen = null;
+                                $scope.plant = null;
+                                $scope.mrpdata = null;
+                                $scope.sales = null;
+                                $scope.Equ = null;
+                                $scope.rows = null;
+                                $scope.HSNID = null;
+                                $scope.Desc = null;
+                                $scope.imgList = null;
+                                $scope.Title = null;
+                                $scope.AtttachmentList = null;
+
+                                if ($scope.Commodities != null && $scope.Commodities.length > 0) {
+                                    $scope.Commodities[0].Class = null;
+                                    $scope.Commodities[0].ClassTitle = null;
+                                    $scope.Commodities = null;
+                                }
+
+                                $scope.rows = [{ 'slno': 1, 's': '0', 'l': '1' }];
+
+
+
+                                //  $scope.LoadData();
+                                $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+
+                                if (data == 0) {
+                                    $scope.fromsave = 1;
+                                    $scope.attachment = [];
+                                    $scope.attcount = "";
+                                    $scope.attcount1 = false;
+                                    // $scope.searchMaster();
+                                    $scope.Res = "PV data Send successfully";
+
+                                    $scope.Notify = "alert-info";
+                                    $('#divNotifiy').attr('style', 'display: block');
+                                }
+                                //if (data == 1) {
+                                //    $scope.Res = "Data duplicated successfully"
+                                //}
+                                //if (data == 2) {
+                                //    $scope.Res = "Duplicate data deleted successfully"
+                                //}
+                                //$scope.Notify = "alert-info";
+                                //if (data == 3) {
+                                //    $scope.Notify = "alert-danger";
+                                //    $scope.Res = "Duplicate data not saved"
+                                //}
+                                // $('#divNotifiy').attr('style', 'display: block');
+
+                                //  $scope.RowClick(lst, idx);
+
+                                // $scope.LoadData();
+                            } else {
+                                if ($scope.Characteristics === null)
+                                    $scope.Res = "Please add characteristics"
+                                else
+                                    $scope.Res = "Data save process failed"
+
+                                $scope.Notify = "alert-info";
+                                $('#divNotifiy').attr('style', 'display: block');
+                            }
+
+                        }
+
+                    }).error(function (data, status, headers, config) {
+                        $scope.Res = data;
+                        $scope.Notify = "alert-danger";
+                        $('#divNotifiy').attr('style', 'display: block');
+                    });
+
+                }
+            }
+        }
 
 
         $scope.loadmodifier = function (noun) {
@@ -1345,11 +1543,11 @@
                     ) &&
                     (response.ItemStatus === 2 || response.ItemStatus === 3)
                 ) {
-                    if (["coda", "Ramkumar", "Aravindm", "Parthiban"].includes(usr)) {
+                    if (["Althaf"].includes(usr)) {
                         $scope.editAction = true;
                     }
                     $scope.editAction = true;
-                } else if (["coda", "Ramkumar", "Aravindm","Parthiban"].includes(usr)) {
+                } else if (["Althaf"].includes(usr)) {
                     $scope.editAction = true;
                 }else {
                     $scope.editAction = false;
@@ -1500,16 +1698,16 @@
             if ($scope.cat.Exchk == true) {
 
                 angular.forEach($scope.Characteristics, function (value1) {
-                    if ($scope.cat.PVstatus == null || $scope.cat.PVstatus == "") {
-                        if (value1.Mandatory === "Yes") {
-                            if (!value1.Value) {
-                                value1.Value = "--";
-                            }
-                        }
-                    }
-                    else {
+                    //if ($scope.cat.PVstatus == null || $scope.cat.PVstatus == "") {
+                    //    if (value1.Mandatory === "Yes") {
+                    //        if (!value1.Value) {
+                    //            value1.Value = "--";
+                    //        }
+                    //    }
+                    //}
+                    //else {
                         value1.Mandatory = 'No';
-                    }
+                    //}
                 });
             }
             else {

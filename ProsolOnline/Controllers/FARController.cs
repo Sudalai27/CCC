@@ -193,7 +193,7 @@ namespace ProsolOnline.Controllers
 
             var usrInfo = _UserCreateService.getimage(Convert.ToString(Session["UserId"]));
 
-            var catasset = _AssetService.getasset(assetvalues.UniqueId);
+                var catasset = _AssetService.getasset(assetvalues.UniqueId);
 
             var AssetBom = Request.Form["AssetBOM"];
             var AssetBomLst = JsonConvert.DeserializeObject<List<AssetBomModel>>(AssetBom);
@@ -212,6 +212,7 @@ namespace ProsolOnline.Controllers
             //Technical 
 
             catasset.AssetNo = assetvalues.AssetNo;
+            catasset.EquipmentNo = assetvalues.EquipmentNo;
             catasset.pvAssetNo = assetvalues.pvAssetNo;
             catasset.UniqueId = assetvalues.UniqueId;
             catasset.Exchk = assetvalues.Exchk;
@@ -225,6 +226,7 @@ namespace ProsolOnline.Controllers
             catasset.RepeatedValue = assetvalues.RepeatedValue;
             catasset.Remarks = assetvalues.Remarks;
             catasset.Rework_Remarks = assetvalues.Rework_Remarks;
+            catasset.Cat_Remarks = assetvalues.Cat_Remarks;
             catasset.Soureurl = assetvalues.Soureurl;
             catasset.Idle_Operational = assetvalues.Idle_Operational;
             catasset.assetConditionRemarks = assetvalues.assetConditionRemarks;
@@ -584,7 +586,14 @@ namespace ProsolOnline.Controllers
         }
         public JsonResult GetMfr(string Label,string Term)
         {
-            var masterLst = _AssetService.GetMfrMaster().Where(i => i.Label == Label && i.Code.Contains(Term)).ToList();
+            var masterLst = _AssetService.GetMfrMaster().Where(i => i.Label == Label && (i.Code.Contains(Term)||i.Title.Contains(Term))).ToList();
+            var jsonResult = Json(masterLst, JsonRequestBehavior.AllowGet);
+            jsonResult.MaxJsonLength = int.MaxValue;
+            return jsonResult;
+        }
+        public JsonResult GetFuncLoc()
+        {
+            var masterLst = _AssetService.GetFuncLoc();
             var jsonResult = Json(masterLst, JsonRequestBehavior.AllowGet);
             jsonResult.MaxJsonLength = int.MaxValue;
             return jsonResult;
@@ -912,14 +921,19 @@ namespace ProsolOnline.Controllers
 
                     uibom.BOMId = mdl.BOMId;
                     uibom.BOMDesc = mdl.BOMDesc;
+                    uibom.BOMLongDesc = mdl.BOMLongDesc;
                     uibom.AssemblyId = mdl.AssemblyId;
                     uibom.AssemblyDesc = mdl.AssemblyDesc;
+                    uibom.AssemblyLongDesc = mdl.AssemblyLongDesc;
                     uibom.ComponentId = mdl.ComponentId;
                     uibom.ComponentDesc = mdl.ComponentDesc;
+                    uibom.ComponentLongDesc = mdl.ComponentLongDesc;
                     uibom.UOM = mdl.UOM;
                     uibom.Sequence = mdl.Sequence;
                     uibom.Quantity = mdl.Quantity;
                     uibom.Category = mdl.Category;
+                    uibom.Func_Location = mdl.Func_Location;
+                    uibom.TechIdentNo = mdl.TechIdentNo;
 
                     uibom.UniqueId = mdl.UniqueId;
                     uibom.EquipmentId = mdl.EquipmentId;
@@ -943,6 +957,25 @@ namespace ProsolOnline.Controllers
 
             return this.Json(lstbomUI, JsonRequestBehavior.AllowGet);
         }
+        [Authorize]
+        public JsonResult getFLBom(string id)
+        {
+            var Lst = _AssetService.getFLBom(id);
+
+            return this.Json(Lst, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult getNestedFL(string id)
+        {
+            var Lst = _AssetService.GetFL(id);
+
+            //var lstFL = Lst.FindAll(l => l.FunctLocation.StartsWith(id)).Select(s => s.FunctLocation).ToList();
+            var lstFL = Lst.FindAll(l => l.FunctLocation.StartsWith(id)).ToList();
+
+            return this.Json(lstFL, JsonRequestBehavior.AllowGet);
+        }
+
         [Authorize]
         public JsonResult GetAttributeinfo(string UniqueId)
         {
@@ -1094,6 +1127,7 @@ namespace ProsolOnline.Controllers
                 catasset.UniqueId = assetvalues.UniqueId;
                 catasset.AssetNo = assetvalues.AssetNo;
                 catasset.Rework_Remarks = assetvalues.Rework_Remarks;
+                catasset.Cat_Remarks = assetvalues.Cat_Remarks;
                 catasset.Rework = assetvalues.Rework;
 
                 catasset.PVuser = assetvalues.PVuser;
@@ -1103,6 +1137,7 @@ namespace ProsolOnline.Controllers
                 //FAR&TAR
 
                 catasset.AssetNo = assetvalues.AssetNo;
+                catasset.EquipmentNo = assetvalues.EquipmentNo;
                 catasset.pvAssetNo = assetvalues.pvAssetNo;
                 catasset.AssetQRCode = assetvalues.AssetQRCode;
                 catasset.Description = assetvalues.Description;
@@ -1166,43 +1201,43 @@ namespace ProsolOnline.Controllers
                 catasset.AdditionalInfo = assetvalues.AdditionalInfo;
 
                 //BOM
-                var bom = new BOM_();
-                //if (assetvalues.Bom != null)
-                //{
-                //    bom.BOMId = assetvalues.Bom.BOMId;
-                //    bom.BOMDescription = assetvalues.Bom.BOMDescription;
-                //    if (assetvalues.Bom.Assembly != null)
-                //    {
-                //        var asmbLst = new List<ASSEMBLY_>();
-                //        foreach(var asm in assetvalues.Bom.Assembly)
-                //        {
-                //            var asmb = new ASSEMBLY_();
-                //            asmb.AssemblyId = asm.AssemblyId;
-                //            asmb.AssemblyDescription = asm.AssemblyDescription;
-                //            asmb.Quantity = asm.Quantity;
-                //            asmb.UOM = asm.UOM;
-                //            asmbLst.Add(asmb);
-                //        }
-                //        bom.Assembly = asmbLst;
-                //    }
-                //    if(assetvalues.Bom.Assembly != null)
-                //    {
-                //        var mtlLst = new List<MAT_>();
-                //        foreach(var asm in assetvalues.Bom.Mat)
-                //        {
-                //            var mtl = new MAT_();
-                //            mtl.Materialcode = asm.Materialcode;
-                //            mtl.MaterialDescription = asm.MaterialDescription;
-                //            mtl.Quantity = asm.Quantity;
-                //            mtl.UOM = asm.UOM;
-                //            mtl.Status = asm.Status;
-                //            mtlLst.Add(mtl);
-                //        }
-                //        bom.Mat = mtlLst;
-                //    }
-                //}
+                var bom = new BOM();
+                if (assetvalues.Bom != null)
+                {
+                    bom.BOMId = assetvalues.Bom.BOMId;
+                    bom.BOMDescription = assetvalues.Bom.BOMDescription;
+                    if (assetvalues.Bom.Assembly != null)
+                    {
+                        var asmbLst = new List<ASSEMBLY>();
+                        foreach (var asm in assetvalues.Bom.Assembly)
+                        {
+                            var asmb = new ASSEMBLY();
+                            asmb.AssemblyId = asm.AssemblyId;
+                            asmb.AssemblyDescription = asm.AssemblyDescription;
+                            asmb.Quantity = asm.Quantity;
+                            asmb.UOM = asm.UOM;
+                            asmbLst.Add(asmb);
+                        }
+                        bom.Assembly = asmbLst;
+                    }
+                    if (assetvalues.Bom.Assembly != null)
+                    {
+                        var mtlLst = new List<MAT>();
+                        foreach (var asm in assetvalues.Bom.Mat)
+                        {
+                            var mtl = new MAT();
+                            mtl.Materialcode = asm.Materialcode;
+                            mtl.MaterialDescription = asm.MaterialDescription;
+                            mtl.Quantity = asm.Quantity;
+                            mtl.UOM = asm.UOM;
+                            mtl.Status = asm.Status;
+                            mtlLst.Add(mtl);
+                        }
+                        bom.Mat = mtlLst;
+                    }
+                }
 
-                //catasset.Bom = bom;
+                catasset.Bom = bom;
 
             }
             return this.Json(catasset, JsonRequestBehavior.AllowGet);
@@ -1398,6 +1433,7 @@ namespace ProsolOnline.Controllers
                     //FAR&TAR
 
                     proCat.AssetNo = mdl.AssetNo;
+                    proCat.EquipmentNo = mdl.EquipmentNo;
                     proCat.UniqueId = mdl.UniqueId;
                     proCat.pvAssetNo = mdl.pvAssetNo;
                     proCat.Description = mdl.Description;
@@ -1412,6 +1448,7 @@ namespace ProsolOnline.Controllers
                     proCat.AdditionalNotes = mdl.AdditionalNotes;
                     proCat.Remarks = mdl.Rework;
                     proCat.Rework_Remarks = mdl.Rework_Remarks;
+                    proCat.Cat_Remarks = mdl.Cat_Remarks;
                     if (mdl.ItemStatus == 3)
                     {
                         proCat.ItemStatus = 4;
@@ -3977,6 +4014,117 @@ namespace ProsolOnline.Controllers
 
         }
         [HttpPost]
+        public JsonResult InsertFuncLoc()
+        {
+            var obj = Request.Form["Data"];
+            var Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Prosol_Funloc>(obj);
+            bool res = false;
+            try
+            {
+                if (Model == null)
+                    Model = new Prosol_Funloc();
+                TryUpdateModel(Model);
+                if (ModelState.IsValid)
+                {  //UOM DB write
+                    var mdl = new Prosol_Funloc();
+                    //mdl._id = Model._id == null ? new MongoDB.Bson.ObjectId() : new MongoDB.Bson.ObjectId(Model._id);
+                    mdl.Level1 = Model.Level1;
+                    mdl.Level2 = Model.Level2;
+                    mdl.Level3 = Model.Level3;
+                    mdl.Level4 = Model.Level4;
+                    mdl.Level5 = Model.Level5;
+                    mdl.Level6 = Model.Level6;
+                    mdl.Level7 = Model.Level7;
+                    mdl.Equipment = Model.Equipment;
+                    mdl.PrimaryEquipment = Model.PrimaryEquipment;
+                    mdl.SubEquipment1 = Model.SubEquipment1;
+                    mdl.SubEquipment2 = Model.SubEquipment2;
+                    mdl.SubEquipment3 = Model.SubEquipment3;
+                    mdl.FunctLocation = Model.FunctLocation;
+                    mdl.SuperiorLocation = Model.SuperiorLocation;
+                    mdl.SectionNo = Model.SectionNo;
+                    mdl.Sequence = Model.Sequence;
+                    mdl.UniqueId = Model.UniqueId;
+                    mdl.Islive = true;
+
+
+                    res = _AssetService.InsertDataFL(mdl);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        errors = ModelState.Keys.SelectMany(k => ModelState[k].Errors)
+                                 .Select(m => m.ErrorMessage).ToArray()
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                var log = new LogManager();
+                log.LogError(log.GetType(), e);
+                res = false;
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult UpdateFuncLoc()
+        {
+            var obj = Request.Form["Data"];
+            var Model = Newtonsoft.Json.JsonConvert.DeserializeObject<Prosol_Funloc>(obj);
+            bool res = false;
+            try
+            {
+                if (Model == null)
+                    Model = new Prosol_Funloc();
+                TryUpdateModel(Model);
+                if (ModelState.IsValid)
+                {  //UOM DB write
+                    var mdl = new Prosol_Funloc();
+                    //mdl._id = Model._id == null ? new MongoDB.Bson.ObjectId() : new MongoDB.Bson.ObjectId(Model._id);
+                    mdl.Level1 = Model.Level1;
+                    mdl.Level2 = Model.Level2;
+                    mdl.Level3 = Model.Level3;
+                    mdl.Level4 = Model.Level4;
+                    mdl.Level5 = Model.Level5;
+                    mdl.Level6 = Model.Level6;
+                    mdl.Level7 = Model.Level7;
+                    mdl.Equipment = Model.Equipment;
+                    mdl.PrimaryEquipment = Model.PrimaryEquipment;
+                    mdl.SubEquipment1 = Model.SubEquipment1;
+                    mdl.SubEquipment2 = Model.SubEquipment2;
+                    mdl.SubEquipment3 = Model.SubEquipment3;
+                    mdl.FunctLocation = Model.FunctLocation;
+                    mdl.SuperiorLocation = Model.SuperiorLocation;
+                    mdl.SectionNo = Model.SectionNo;
+                    mdl.Sequence = Model.Sequence;
+                    mdl.UniqueId = Model.UniqueId;
+                    mdl.Islive = true;
+
+
+                    res = _AssetService.UpdateDataFL(mdl);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        errors = ModelState.Keys.SelectMany(k => ModelState[k].Errors)
+                                 .Select(m => m.ErrorMessage).ToArray()
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                var log = new LogManager();
+                log.LogError(log.GetType(), e);
+                res = false;
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
         public JsonResult InsertDataRegion()
         {
             var obj = Request.Form["data"];
@@ -4330,10 +4478,51 @@ namespace ProsolOnline.Controllers
                     var mdl = new Prosol_FARMaster();
 
                     mdl.Code = Model.Code;
+                    mdl.Title = Model.Title;
                     mdl.Label = Model.Label;
                     mdl.Islive = true;
 
                     res = _AssetService.InsertDataBusiness(mdl);
+                }
+                else
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        errors = ModelState.Keys.SelectMany(k => ModelState[k].Errors)
+                                 .Select(m => m.ErrorMessage).ToArray()
+                    }, JsonRequestBehavior.AllowGet);
+                }
+            }
+            catch (Exception e)
+            {
+                var log = new LogManager();
+                log.LogError(log.GetType(), e);
+                res = false;
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [HttpPost]
+        public JsonResult UpdateDataBusiness()
+        {
+            var obj = Request.Form["data"];
+            var Model = Newtonsoft.Json.JsonConvert.DeserializeObject<AssetFARMaster>(obj);
+            bool res = false;
+            try
+            {
+                if (Model == null)
+                    Model = new AssetFARMaster();
+                TryUpdateModel(Model);
+                if (ModelState.IsValid)
+                {  //UOM DB write
+                    var mdl = new Prosol_FARMaster();
+
+                    mdl.Code = Model.Code;
+                    mdl.Title = Model.Title;
+                    mdl.Label = Model.Label;
+                    mdl.Islive = true;
+
+                    res = _AssetService.UpdateDataBusiness(mdl);
                 }
                 else
                 {
@@ -4437,10 +4626,17 @@ namespace ProsolOnline.Controllers
             }
             return this.Json(res, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult RemoveMfr(string id, bool IsActive)
+        public JsonResult RemoveMfr(string id, bool IsActive, string flg)
         {
 
-            var res = _AssetService.RemoveMfr(id, IsActive);
+            var res = _AssetService.RemoveMfr(id, IsActive, flg);
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+
+        }
+        public JsonResult DisableFunLoc(string section, string id, bool sts)
+        {
+
+            var res = _AssetService.DisableFunLoc(section, id, sts);
             return this.Json(res, JsonRequestBehavior.AllowGet);
 
         }
@@ -6367,6 +6563,7 @@ namespace ProsolOnline.Controllers
             proCat.MfrYear = cat.MfrYear;
             proCat.MfrCountry = cat.MfrCountry;
             proCat.AdditionalInfo = cat.AdditionalInfo;
+            proCat.TechIdentNo = cat.TechIdentNo;
             //new 2
 
 
@@ -6701,6 +6898,15 @@ namespace ProsolOnline.Controllers
             return this.Json(res, JsonRequestBehavior.AllowGet);
         }
 
+        [Authorize]
+
+        public JsonResult BulkShortLong()
+        {
+            int res = 0;
+            res = _AssetService.BulkAutoShortLong();
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+
         public void Catdownload(string id)
         {
             var usr = Convert.ToString(Session["username"]);
@@ -6896,21 +7102,6 @@ namespace ProsolOnline.Controllers
         }
         [Authorize]
 
-        public JsonResult BulkAdditional()
-        {
-            int res = 0;
-            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
-            if (file != null && file.ContentLength > 0)
-            {
-                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
-                {
-                    res = _AssetService.BulkAdditional(file);
-                }
-            }
-            return this.Json(res, JsonRequestBehavior.AllowGet);
-        }
-        [Authorize]
-
         public JsonResult MfrBulkUpload()
         {
             int res = 0;
@@ -6939,6 +7130,164 @@ namespace ProsolOnline.Controllers
         //    }
         //    return this.Json(res, JsonRequestBehavior.AllowGet);
         //}
+        [Authorize]
+
+        public JsonResult BulkParent()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkParent(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+
+        public JsonResult BulkObject()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkObject(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+
+        public JsonResult BulkUNSPSC()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkUNSPSC(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+
+        [Authorize]
+        public JsonResult BulkAssetNo()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkAssetNo(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkCost()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkCost(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkDiscipline()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkDiscipline(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkWorkC()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkWorkC(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkAdditional()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkAdditional(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkURL()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkURL(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkTag()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkTag(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
+        [Authorize]
+        public JsonResult BulkLegacy()
+        {
+            int res = 0;
+            var file = Request.Files.Count > 0 ? Request.Files[0] : null;
+            if (file != null && file.ContentLength > 0)
+            {
+                if (file.FileName.EndsWith(".xls") || file.FileName.EndsWith(".xlsx"))
+                {
+                    res = _AssetService.BulkLegacy(file);
+                }
+            }
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
         [Authorize]
 
         public JsonResult GetDashboard()
@@ -7247,6 +7596,12 @@ namespace ProsolOnline.Controllers
             return this.Json(lst, JsonRequestBehavior.AllowGet);
 
         }
+        public JsonResult GetAllDataList()
+        {
+            var lst = _AssetService.GetDataList();
+            return this.Json(lst, JsonRequestBehavior.AllowGet);
+
+        }
         public void Mfrdownload(string id)
         {
             var res1 = _AssetService.DownloadMFR(id).ToList();
@@ -7397,6 +7752,13 @@ namespace ProsolOnline.Controllers
         //    }
         //    return Json(result, JsonRequestBehavior.AllowGet);
         //}
+        [Authorize]
+        public JsonResult Deletefile(string uniqueId,string fileName)
+        {
+            var res = _AssetService.Deletefile(uniqueId, fileName);
+
+            return this.Json(res, JsonRequestBehavior.AllowGet);
+        }
 
     }
 

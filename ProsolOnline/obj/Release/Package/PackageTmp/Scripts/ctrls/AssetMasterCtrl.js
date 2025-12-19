@@ -8,6 +8,7 @@
     //Bulkdata
     app.controller('AssetBulkController', function ($scope, $http, $timeout, $window, $filter, $location, $rootScope) {
 
+        $scope.usr = $('#usrHid').val();
 
         //$scope.cat.Exceptional = false;
         $scope.NotifiyResclose = function () {
@@ -298,7 +299,7 @@
             };
         }
 
-        $scope.ShortLong = function () {
+        $scope.promise =  $scope.ShortLong = function () {
             if ($scope.files && $scope.files[0]) {
                 // Reset the progress bar and time
                 $scope.ShowHide = true;
@@ -400,6 +401,42 @@
                 console.error('No file selected');
             }
         };
+        $scope.promise = $scope.BulkShortLong = function () {
+
+
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkShortLong",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Error";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+    }
 
         $scope.promise =  $scope.Rework = function () {
 
@@ -570,6 +607,48 @@
                 });
             };
         }
+        $scope.promise = $scope.BulkURL = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000);
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkURL",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
         $scope.promise = $scope.BulkLocation = function () {
 
 
@@ -584,6 +663,426 @@
 
                 $scope.promise = $http({
                     url: "/FAR/BulkLocation",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkParent = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000);
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkParent",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkObject = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000);
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkObject",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkUNSPSC = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000);
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkUNSPSC",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkAssetNo = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkAssetNo",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkCost = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkCost",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkDiscipline = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkDiscipline",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkWorkC = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkWorkC",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkAdditional = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkAdditional",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkTag = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkTag",
+                    method: "POST",
+                    headers: { "Content-Type": undefined },
+                    transformRequest: angular.identity,
+                    data: formData
+                }).success(function (data, status, headers, config) {
+                    //  alert(data);
+                    $scope.ShowHide = false;
+                    if (data === 0)
+                        $scope.Res = "Records already exists"
+                    else $scope.Res = data + " Records uploaded successfully"
+
+
+                    $scope.Notify = "alert-info";
+                    $scope.NotifiyRes = true;
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    $('.fileinput').fileinput('clear');
+
+                }).error(function (data, status, headers, config) {
+                    $scope.ShowHide = false;
+                    $scope.Res = "Please Valid Your Excel File";
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+
+                });
+            };
+        }
+        $scope.promise = $scope.BulkLegacy = function () {
+
+
+            if ($scope.files[0] != null) {
+
+
+                $scope.ShowHide = true;
+                $timeout(function () { $scope.NotifiyRes = false; }, 5000); 
+
+                var formData = new FormData();
+                formData.append('image', $scope.files[0]);
+
+                $scope.promise = $http({
+                    url: "/FAR/BulkLegacy",
                     method: "POST",
                     headers: { "Content-Type": undefined },
                     transformRequest: angular.identity,
@@ -816,6 +1315,8 @@
         $scope.BtnFARmodel1 = "";
         $scope.source = "Existing";
         $scope.cat.Exceptional = false;
+        $scope.notMfr = false;
+        $scope.mfrBtn = "";
         //$scope.isHttpsValid = true;
         //$scope.touched = false;
 
@@ -1099,6 +1600,7 @@
                         newFiles.push($scope.prefileList[i]);
                 }
                 $scope.prefileList = newFiles;
+                console.log($scope.prefileList)
                 // $("#eventsmessage").html($("#eventsmessage").html() + "<br/>Canceled  files: " + JSON.stringify(files));
             }
         });
@@ -1132,6 +1634,9 @@
                     $scope.asset.MissingValue = response[2];
                     $scope.asset.EnrichedValue = response[3];
                     $scope.asset.RepeatedValue = response[4];
+                    $scope.Res = "Short and Long generated";
+                    $scope.Notify = "alert-info";
+                    $('#divNotifiy').attr('style', 'display: block');
                 });
             }).error(function (data, status, headers, config) {
                 // Handle the error
@@ -1140,9 +1645,38 @@
 
         };
 
+        $scope.checkMfr = function (term) {
+            $http({
+                method: "GET",
+                url: '/FAR/GetMfr',
+                params: { Label: "Manufacturer", Term: term }
+            }).then(function (response) {
+                var mfr = response.data || [];
+
+                console.log(mfr);
+                console.log($scope.asset.ItemStatus);
+
+                if (mfr.length === 0) {
+                    $scope.notMfr = true;
+                    $scope.mfrBtn = "Add Manufacturer";
+                } else if (
+                    ($scope.asset.ItemStatus === 4 || $scope.asset.ItemStatus === 5) &&
+                    mfr[0].Islive === false
+                ) {
+                    $scope.notMfr = true;
+                    $scope.mfrBtn = "Approve Manufacturer";
+                } else {
+                    $scope.notMfr = false;
+                }
+            }).catch(function (error) {
+                console.error("Error checking manufacturer:", error);
+                $scope.notMfr = false;
+            });
+        };
+
         $scope.SaveData = function (form) {
-            //alert($scope.shortLong)
-          if ($scope.shortLong != false) {
+            //alert($scope.notMfr)
+            if ($scope.shortLong != false && $scope.notMfr != true ) {
           if (form != false) {
                 if (confirm("Are you sure, do you want to save ths item?")) {
                     $timeout(function () {
@@ -1211,13 +1745,20 @@
           else {
                 $scope.Res = "Please fill the highlighted mandatory field(s)";
                 $scope.Notify = "alert-danger";
-                $('#divNotifiy').attr('style', 'display: block');
+              $('#divNotifiy').attr('style', 'display: block');
             }
           }
-          else {
-                $scope.Res = "Please generate short and long ";
-                $scope.Notify = "alert-danger";
-                $('#divNotifiy').attr('style', 'display: block');
+            else {
+                if ($scope.notMfr) {
+                    $scope.Res = "Please add manufacturer";
+                    $scope.Notify = "alert-danger";
+                    $('#divNotifiy').attr('style', 'display: block');
+                }
+                else {
+                    $scope.Res = "Please generate short and long ";
+                    $scope.Notify = "alert-danger";
+                    $('#divNotifiy').attr('style', 'display: block');
+                }
             }
         }
 
@@ -1452,27 +1993,30 @@
                 if (item.Category === 'H')  {
                     rootMap[item.BOMID] = item;
                 }
-                else if (item.Category === 'A' || (item.AssemblyId === ''))  {
+                else if (item.Category === 'I' || (item.AssemblyId === ''))  {
                     assemblyMap[item.BOMID] = item;
                 }
-                else if (item.Category === 'SA' || (item.AssemblyId === ''))  {
+                else if (item.Category === 'SI' || (item.AssemblyId === ''))  {
                     assemblyMap[item.BOMID] = item;
                 }
             });
         }
 
-        function buildTree(flatData) {
-            const rootMap = {};
-            const assemblyMap = {};
-            const subAssemblyMap = {};
+        //Old tree
 
-            // Initialize
+        function buildTree(flatData) {
+            const rootMap = {};        // H
+            const subHeaderMap = {};   // SH
+            const assemblyMap = {};    // I
+            const subAssemblyMap = {}; // SI
+
+            // Initialize all items
             flatData.forEach(item => {
                 item.children = [];
                 item.expanded = false;
             });
 
-            // Step 1: Map BOMs (H)
+            // STEP 1: Map BOM Headers (H)
             flatData.forEach(item => {
                 if (item.Category === 'H') {
                     rootMap[item.BOMId] = {
@@ -1482,157 +2026,507 @@
                         UOM: item.UOM,
                         Quantity: item.Quantity,
                         Materialcode: item.ComponentId,
+                        Tag: item.TechIdentNo,
                         children: [],
                         expanded: false
                     };
                 }
             });
 
-            // Step 6: Components (N/E) directly under BOM (no AssemblyId)
+            // STEP 2: Map SubHeaders (SH)
             flatData.forEach(item => {
-                if (['N', 'E'].includes(item.Category) && (!item.AssemblyId || item.AssemblyId.trim() === '')) {
+                if (item.Category === 'SH') {
+                    const shObj = {
+                        SubHeaderId: item.AssemblyId,
+                        SubHeaderDesc: item.AssemblyDesc,
+                        Materialcode: item.ComponentId,
+                        Category: 'SH',
+                        UOM: item.UOM,
+                        Quantity: item.Quantity,
+                        Tag: item.TechIdentNo,
+                        children: [],
+                        expanded: false
+                    };
+                    subHeaderMap[item.AssemblyId] = shObj;
+
                     const parent = rootMap[item.BOMId];
-                    if (parent) {
-                        parent.children.push({
-                            ComponentId: item.ComponentId,
-                            ComponentDesc: item.ComponentDesc,
-                            Materialcode: item.ComponentId,
-                            UOM: item.UOM,
-                            Quantity: item.Quantity,
-                            Category: item.Category,
-                            children: [],
-                            expanded: false
-                        });
-                    }
+                    if (parent) parent.children.push(shObj);
                 }
             });
 
-            // Step 2: Map Assemblies (A) under BOM
+            // STEP 3: Map Assemblies (I)
             flatData.forEach(item => {
-                if (item.Category === 'A') {
-                    const parent = rootMap[item.BOMId];
+                if (item.Category === 'I') {
                     const assemblyObj = {
                         AssemblyId: item.AssemblyId,
                         AssemblyDesc: item.AssemblyDesc,
                         Materialcode: item.ComponentId,
-                        Category: 'A',
+                        Category: 'I',
                         UOM: item.UOM,
                         Quantity: item.Quantity,
+                        Tag: item.TechIdentNo,
                         children: [],
                         expanded: false
                     };
 
-                    if (parent) {
-                        parent.children.push(assemblyObj);
-                    }
+                    // Attach to SH if exists, else directly to H
+                    const parent = subHeaderMap[item.AssemblyParentId] || rootMap[item.BOMId];
+                    if (parent) parent.children.push(assemblyObj);
 
                     assemblyMap[item.AssemblyId] = assemblyObj;
                 }
             });
 
-            // Step 4: Pre-create SubAssemblies (SA) and attach components
+            // STEP 4: Map SubAssemblies (SI)
             flatData.forEach(item => {
-                if (item.Category === 'SA') {
-                    subAssemblyMap[item.AssemblyId] = {
+                if (item.Category === 'SI') {
+                    const saObj = {
                         AssemblyId: item.AssemblyId,
                         AssemblyDesc: item.AssemblyDesc,
                         Materialcode: item.ComponentId,
-                        Category: 'SA',
+                        Category: 'SI',
                         UOM: item.UOM,
                         Quantity: item.Quantity,
+                        Tag: item.TechIdentNo,
                         children: [],
                         expanded: false
                     };
+
+                    const parent = assemblyMap[item.AssemblyParentId] ||
+                        Object.values(assemblyMap).find(a => item.AssemblyId.startsWith(a.AssemblyId + '-'));
+
+                    if (parent) parent.children.push(saObj);
+
+                    subAssemblyMap[item.AssemblyId] = saObj;
                 }
             });
 
-            // Step 4 continued: Add components under SubAssemblies
+            // STEP 5: Components (L/T) under proper parent
             flatData.forEach(item => {
-                if (['N', 'E'].includes(item.Category)) {
-                    const parent = subAssemblyMap[item.AssemblyId];
-                    if (parent) {
-                        parent.children.push({
-                            ComponentId: item.ComponentId,
-                            ComponentDesc: item.ComponentDesc,
-                            Materialcode: item.ComponentId,
-                            UOM: item.UOM,
-                            Quantity: item.Quantity,
-                            Category: item.Category,
-                            children: [],
-                            expanded: false
-                        });
+                if (['L', 'T'].includes(item.Category)) {
+                    const component = {
+                        ComponentId: item.ComponentId,
+                        ComponentDesc: item.ComponentDesc,
+                        Materialcode: item.ComponentId,
+                        UOM: item.UOM,
+                        Quantity: item.Quantity,
+                        Category: item.Category,
+                        Tag: item.TechIdentNo,
+                        children: [],
+                        expanded: false
+                    };
+
+                    let parent = null;
+                    if (item.AssemblyId && subAssemblyMap[item.AssemblyId]) {
+                        parent = subAssemblyMap[item.AssemblyId];
+                    } else if (item.AssemblyId && assemblyMap[item.AssemblyId]) {
+                        parent = assemblyMap[item.AssemblyId];
+                    } else if (item.AssemblyParentId && subHeaderMap[item.AssemblyParentId]) {
+                        parent = subHeaderMap[item.AssemblyParentId];
+                    } else if (item.BOMId && rootMap[item.BOMId]) {
+                        parent = rootMap[item.BOMId];
                     }
+
+                    if (parent) parent.children.push(component);
                 }
             });
 
-            // Step 3: Attach SubAssemblies under Assemblies (based on prefix match)
-            Object.values(subAssemblyMap).forEach(subAssembly => {
-                const parent = Object.values(assemblyMap).find(a =>
-                    subAssembly.AssemblyId.startsWith(a.AssemblyId + '-')
-                );
-
-                if (parent) {
-                    parent.children.push(subAssembly);
-
-                    // Ensure components come before subassemblies
-                    parent.children.sort((a, b) => {
-                        const order = { 'N': 1, 'E': 1, 'SA': 2 };
-                        return (order[a.Category] || 3) - (order[b.Category] || 3);
+            // STEP 6: Sort children - components before assemblies/subassemblies
+            const sortChildren = (node) => {
+                if (node.children && node.children.length) {
+                    node.children.sort((a, b) => {
+                        const order = { 'L': 1, 'T': 1, 'SI': 2, 'I': 3, 'SH': 4 };
+                        return (order[a.Category] || 5) - (order[b.Category] || 5);
                     });
+                    node.children.forEach(sortChildren);
                 }
-            });
+            };
 
-            // Step 5: Components under Assembly (not in any SubAssembly)
-            flatData.forEach(item => {
-                if (['N', 'E'].includes(item.Category)) {
-                    if (!subAssemblyMap[item.AssemblyId]) {
-                        const parent = assemblyMap[item.AssemblyId];
-                        if (parent) {
-                            parent.children.push({
-                                ComponentId: item.ComponentId,
-                                Materialcode: item.ComponentId,
-                                ComponentDesc: item.ComponentDesc,
-                                UOM: item.UOM,
-                                Quantity: item.Quantity,
-                                Category: item.Category,
-                                children: [],
-                                expanded: false
-                            });
-                        }
-                    }
-                }
-            });
-
-            // Final Sort: Ensure all assemblies have components before subassemblies
-            Object.values(assemblyMap).forEach(assembly => {
-                assembly.children.sort((a, b) => {
-                    const order = { 'N': 1, 'E': 1, 'SA': 2 };
-                    return (order[a.Category] || 3) - (order[b.Category] || 3);
-                });
-            });
+            Object.values(rootMap).forEach(sortChildren);
 
             return Object.values(rootMap);
         }
 
+        //New tree
+
+        //function buildTree(flatData) {
+        //    const rootMap = {};
+        //    const assemblyMap = {};
+        //    const subAssemblyMap = {};
+
+        //    // Initialize
+        //    flatData.forEach(item => {
+        //        item.children = [];
+        //        item.expanded = false;
+        //    });
+
+        //    // Step 1: Map BOMs (H)
+        //    flatData.forEach(item => {
+        //        if (item.Category === 'H') {
+        //            rootMap[item.BOMId] = {
+        //                BOMId: item.BOMId,
+        //                BOMDesc: item.BOMDesc,
+        //                Category: 'H',
+        //                UOM: item.UOM,
+        //                Quantity: item.Quantity,
+        //                Materialcode: item.ComponentId,
+        //                Tag: item.TechIdentNo,
+        //                children: [],
+        //                expanded: false
+        //            };
+        //        }
+        //    });
+
+        //    // Step 6: Components (N/E) directly under BOM (no AssemblyId)
+        //    flatData.forEach(item => {
+        //        if (['L', 'T'].includes(item.Category) && (!item.AssemblyId || item.AssemblyId.trim() === '')) {
+        //            const parent = rootMap[item.BOMId];
+        //            if (parent) {
+        //                parent.children.push({
+        //                    ComponentId: item.ComponentId,
+        //                    ComponentDesc: item.ComponentDesc,
+        //                    Materialcode: item.ComponentId,
+        //                    UOM: item.UOM,
+        //                    Quantity: item.Quantity,
+        //                    Category: item.Category,
+        //                    Tag: item.TechIdentNo,
+        //                    children: [],
+        //                    expanded: false
+        //                });
+        //            }
+        //        }
+        //    });
+
+        //    // Step 2: Map Assemblies (A) under BOM
+        //    flatData.forEach(item => {
+        //        if (item.Category === 'I') {
+        //            const parent = rootMap[item.BOMId];
+        //            const assemblyObj = {
+        //                AssemblyId: item.AssemblyId,
+        //                AssemblyDesc: item.AssemblyDesc,
+        //                Materialcode: item.ComponentId,
+        //                Category: 'I',
+        //                UOM: item.UOM,
+        //                Quantity: item.Quantity,
+        //                Tag: item.TechIdentNo,
+        //                children: [],
+        //                expanded: false
+        //            };
+
+        //            if (parent) {
+        //                parent.children.push(assemblyObj);
+        //            }
+
+        //            assemblyMap[item.AssemblyId] = assemblyObj;
+        //        }
+        //    });
+
+        //    // Step 4: Pre-create SubAssemblies (SA) and attach components
+        //    flatData.forEach(item => {
+        //        if (item.Category === 'SI') {
+        //            subAssemblyMap[item.AssemblyId] = {
+        //                AssemblyId: item.AssemblyId,
+        //                AssemblyDesc: item.AssemblyDesc,
+        //                Materialcode: item.ComponentId,
+        //                Category: 'SI',
+        //                UOM: item.UOM,
+        //                Quantity: item.Quantity,
+        //                Tag: item.TechIdentNo,
+        //                children: [],
+        //                expanded: false
+        //            };
+        //        }
+        //    });
+
+        //    // Step 4 continued: Add components under SubAssemblies
+        //    flatData.forEach(item => {
+        //        if (['L', 'T'].includes(item.Category)) {
+        //            const parent = subAssemblyMap[item.AssemblyId];
+        //            if (parent) {
+        //                parent.children.push({
+        //                    ComponentId: item.ComponentId,
+        //                    ComponentDesc: item.ComponentDesc,
+        //                    Materialcode: item.ComponentId,
+        //                    UOM: item.UOM,
+        //                    Quantity: item.Quantity,
+        //                    Category: item.Category,
+        //                    Tag: item.TechIdentNo,
+        //                    children: [],
+        //                    expanded: false
+        //                });
+        //            }
+        //        }
+        //    });
+
+        //    // Step 3: Attach SubAssemblies under Assemblies (based on prefix match)
+        //    Object.values(subAssemblyMap).forEach(subAssembly => {
+        //        const parent = Object.values(assemblyMap).find(a =>
+        //            subAssembly.AssemblyId.startsWith(a.AssemblyId + '-')
+        //        );
+
+        //        if (parent) {
+        //            parent.children.push(subAssembly);
+
+        //            // Ensure components come before subassemblies
+        //            parent.children.sort((a, b) => {
+        //                const order = { 'L': 1, 'T': 1, 'SI': 2 };
+        //                return (order[a.Category] || 3) - (order[b.Category] || 3);
+        //            });
+        //        }
+        //    });
+
+        //    // Step 5: Components under Assembly (not in any SubAssembly)
+        //    flatData.forEach(item => {
+        //        if (['L', 'T'].includes(item.Category)) {
+        //            if (!subAssemblyMap[item.AssemblyId]) {
+        //                const parent = assemblyMap[item.AssemblyId];
+        //                if (parent) {
+        //                    parent.children.push({
+        //                        ComponentId: item.ComponentId,
+        //                        Materialcode: item.ComponentId,
+        //                        ComponentDesc: item.ComponentDesc,
+        //                        UOM: item.UOM,
+        //                        Quantity: item.Quantity,
+        //                        Category: item.Category,
+        //                        Tag: item.TechIdentNo,
+        //                        children: [],
+        //                        expanded: false
+        //                    });
+        //                }
+        //            }
+        //        }
+        //    });
+
+        //    // Final Sort: Ensure all assemblies have components before subassemblies
+        //    Object.values(assemblyMap).forEach(assembly => {
+        //        assembly.children.sort((a, b) => {
+        //            const order = { 'L': 1, 'T': 1, 'SI': 2 };
+        //            return (order[a.Category] || 3) - (order[b.Category] || 3);
+        //        });
+        //    });
+
+        //    return Object.values(rootMap);
+        //}
+
+        //function buildTree(flatData) {
+        //    // Normalize
+        //    flatData.forEach(i => {
+        //        i.children = i.children || [];
+        //        i.expanded = false;
+        //    });
+
+        //    // Group by UniqueId
+        //    const groups = flatData.reduce((acc, item) => {
+        //        const uid = item.UniqueId || '__no_uid__';
+        //        acc[uid] = acc[uid] || [];
+        //        acc[uid].push(item);
+        //        return acc;
+        //    }, {});
+
+        //    const results = [];
+
+        //    // Helper: find longest prefix parent
+        //    function findLongestPrefixParent(childId, candidateKeys) {
+        //        if (!childId) return null;
+        //        let best = null, bestLen = 0;
+        //        for (const key of candidateKeys) {
+        //            if (!key) continue;
+        //            if (childId === key || childId.startsWith(key + '-') || childId.startsWith(key + '/')) {
+        //                if (key.length > bestLen) { best = key; bestLen = key.length; }
+        //            }
+        //        }
+        //        return best;
+        //    }
+
+        //    // Process each UniqueId group
+        //    Object.keys(groups).forEach(uid => {
+        //        const group = groups[uid];
+
+        //        const shMap = {}, sshMap = {}, assemblyMap = {}, siMap = {};
+        //        const shKeys = [], sshKeys = [], assemblyKeys = [], siKeys = [];
+
+        //        // Create root
+        //        const hItem = group.find(x => x.Category === 'H');
+        //        const root = hItem ? {
+        //            id: hItem.UniqueId || ('root-' + (hItem.BOMId || Math.random())),
+        //            BOMId: hItem.BOMId,
+        //            BOMDesc: hItem.BOMDesc,
+        //            Category: 'H',
+        //            UOM: hItem.UOM,
+        //            Quantity: hItem.Quantity,
+        //            Materialcode: hItem.ComponentId,
+        //            Tag: hItem.TechIdentNo,
+        //            children: [],
+        //            expanded: false,
+        //            _sourceItems: [hItem]
+        //        } : {
+        //            id: uid,
+        //            BOMId: null,
+        //            BOMDesc: 'Root (' + uid + ')',
+        //            Category: 'H',
+        //            children: [],
+        //            expanded: false,
+        //            _sourceItems: []
+        //        };
+
+        //        // Create SH, SSH, I, SI
+        //        group.forEach(item => {
+        //            const cat = item.Category;
+        //            const node = {
+        //                id: item.AssemblyId || (cat + '-' + Math.random()),
+        //                AssemblyId: item.AssemblyId,
+        //                AssemblyDesc: item.AssemblyDesc || item.BOMDesc,
+        //                Category: cat,
+        //                UOM: item.UOM,
+        //                Quantity: item.Quantity,
+        //                Tag: item.TechIdentNo,
+        //                BOMId: item.BOMId,
+        //                children: [],
+        //                expanded: false,
+        //                _sourceItem: item
+        //            };
+        //            if (cat === 'SH') { shMap[node.AssemblyId] = node; shKeys.push(node.AssemblyId); }
+        //            else if (cat === 'SSH') { sshMap[node.AssemblyId] = node; sshKeys.push(node.AssemblyId); }
+        //            else if (cat === 'I') { assemblyMap[node.AssemblyId] = node; assemblyKeys.push(node.AssemblyId); }
+        //            else if (cat === 'SI') { siMap[node.AssemblyId] = node; siKeys.push(node.AssemblyId); }
+        //        });
+
+        //        // Attach SH under root
+        //        Object.values(shMap).forEach(sh => root.children.push(sh));
+
+        //        // Attach SSH under SH
+        //        Object.values(sshMap).forEach(ssh => {
+        //            const parentKey = findLongestPrefixParent(ssh.AssemblyId, shKeys);
+        //            if (parentKey && shMap[parentKey]) shMap[parentKey].children.push(ssh);
+        //            else root.children.push(ssh);
+        //        });
+
+        //        // Attach Assemblies (I)
+        //        Object.values(assemblyMap).forEach(asm => {
+        //            const parentKey = findLongestPrefixParent(asm.AssemblyId, shKeys);
+        //            if (parentKey && shMap[parentKey]) shMap[parentKey].children.push(asm);
+        //            else root.children.push(asm);
+        //        });
+
+        //        // Attach Sub-Assemblies (SI)
+        //        Object.values(siMap).forEach(sa => {
+        //            const parentAsmKey = findLongestPrefixParent(sa.AssemblyId, assemblyKeys);
+        //            if (parentAsmKey && assemblyMap[parentAsmKey]) {
+        //                assemblyMap[parentAsmKey].children.push(sa);
+        //            } else {
+        //                const parentSHKey = findLongestPrefixParent(sa.AssemblyId, shKeys);
+        //                if (parentSHKey && shMap[parentSHKey]) shMap[parentSHKey].children.push(sa);
+        //                else root.children.push(sa);
+        //            }
+        //        });
+
+        //        // Attach Components (L/T/E)
+        //        group.forEach(item => {
+        //            if (!['L', 'T', 'E'].includes(item.Category)) return;
+
+        //            const comp = {
+        //                ComponentId: item.ComponentId,
+        //                ComponentDesc: item.ComponentDesc,
+        //                Materialcode: item.ComponentId,
+        //                UOM: item.UOM,
+        //                Quantity: item.Quantity,
+        //                Category: item.Category,
+        //                Tag: item.TechIdentNo,
+        //                children: [],
+        //                expanded: false,
+        //                _sourceItem: item
+        //            };
+
+        //            const aid = item.AssemblyId;
+        //            const bid = item.BOMId;
+        //            let attached = false;
+
+        //            // Attach under SI
+        //            if (aid) {
+        //                const bestSI = findLongestPrefixParent(aid, siKeys);
+        //                if (bestSI && siMap[bestSI]) { siMap[bestSI].children.push(comp); attached = true; }
+        //            }
+
+        //            // Attach under I
+        //            if (!attached && aid) {
+        //                const bestI = findLongestPrefixParent(aid, assemblyKeys);
+        //                if (bestI && assemblyMap[bestI]) { assemblyMap[bestI].children.push(comp); attached = true; }
+        //            }
+
+        //            // Attach under SSH (if its AssemblyId matches prefix)
+        //            if (!attached && aid) {
+        //                const bestSSH = findLongestPrefixParent(aid, sshKeys);
+        //                if (bestSSH && sshMap[bestSSH]) { sshMap[bestSSH].children.push(comp); attached = true; }
+        //            }
+
+        //            // 🔹 Attach under SH if BOMId matches (direct component under SH)
+        //            if (!attached && bid) {
+        //                const directSH = Object.values(shMap).find(sh => sh.BOMId === bid);
+        //                if (directSH) { directSH.children.push(comp); attached = true; }
+        //            }
+
+        //            // 🔹 Attach under root if BOMId matches (direct component under H)
+        //            if (!attached && root.BOMId === bid) {
+        //                root.children.push(comp);
+        //                attached = true;
+        //            }
+
+        //            // Fallback
+        //            if (!attached) root.children.push(comp);
+        //        });
+
+        //        // Sort for clarity
+        //        const weight = n => {
+        //            const order = { 'L': 1, 'T': 1, 'E': 1, 'SI': 3, 'I': 4, 'SSH': 5, 'SH': 6, 'H': 0 };
+        //            return order[n.Category] || 99;
+        //        };
+        //        function sortRec(node) {
+        //            if (!node.children || !node.children.length) return;
+        //            node.children.sort((a, b) => weight(a) - weight(b));
+        //            node.children.forEach(sortRec);
+        //        }
+        //        sortRec(root);
+
+        //        results.push(root);
+        //    });
+
+        //    return results;
+        //}
+
 
         $scope.getbOM = function (id) {
-
             $http({
                 method: 'GET',
                 url: '/FAR/getAssetBom',
-                params: {id: id}
+                params: { id: id }
             }).success(function (response) {
-
                 $scope.sitetypelist = response;
-
                 $scope.flatData = response;
                 console.log($scope.flatData);
+
                 $scope.treeBOMData = buildTree($scope.flatData);
                 console.log($scope.treeBOMData);
+
+                //// --- Download as file ---
+                //let dataStr = JSON.stringify($scope.flatData, null, 2); // formatted JSON
+                //let blob = new Blob([dataStr], { type: "application/json" });
+                //let url = window.URL.createObjectURL(blob);
+
+                //// Create a temporary <a> element to trigger download
+                //let a = document.createElement('a');
+                //a.href = url;
+                //a.download = "flatData.json"; // file name
+                //document.body.appendChild(a);
+                //a.click();
+
+                //// Clean up
+                //document.body.removeChild(a);
+                //window.URL.revokeObjectURL(url);
             }).error(function (data, status, headers, config) {
-                //alert("error");
+                console.error("Error fetching BOM data:", status);
             });
         };
+
         $scope.loadsitetype();
 
         $scope.selectedRowIndex = -1;
@@ -1645,6 +2539,7 @@
         $scope.currentusr = "";
         $scope.editImage = false;
         $scope.editQR = true;
+        $scope.catRemarks = true;
 
         var cataloguer = "";
         var reviewer = "";
@@ -1658,11 +2553,11 @@
             $scope.editAction = false;
             usr = $('#usrHid').val();
             $scope.currentusr = $('#usrHid').val();
-            if (["coda", "KHAMIZ", "Badri", "Mivinkumar", "Ajith", "Kimilson", "Falilrashith", "Yuvaraj", "Hajisyed", "Imran", "Mohamed", "Halid"].includes(usr))
+            if (["Coda", "Althaf", "Yasar"].includes(usr))
                 $scope.editImage = true;
             else
                 $scope.editImage = false;
-            if (["coda", "KHAMIZ", "Badri", "Mivinkumar", "Ajith", "Kimilson", "Falilrashith", "Yuvaraj", "Mivinkumar", "Hajisyed"].includes(usr)) {
+            if (["Coda", "Althaf", "Yasar"].includes(usr)) {
                 $scope.saveAction = true;
                 $scope.editQR = false;
             }
@@ -1685,6 +2580,8 @@
                 params: { UniqueId: lst.UniqueId }
             }).success(function (response) {
                 $scope.asset = response;
+                console.log(response)
+                $scope.checkMfr($scope.asset.Manufacturer);
                 if ($scope.asset.Bom != null && $scope.asset.Bom.BOMId != null && $scope.asset.Bom.BOMId != "") {
                     $scope.getbOM($scope.asset.Bom.BOMId);
                 }
@@ -1695,6 +2592,7 @@
                 //alert(response.Catalogue.Name)
                 itmSts = response.ItemStatus;
                 if (response.ItemStatus == 2 || response.ItemStatus == 3) {
+                    $scope.catRemarks = true;
                     if (response.Catalogue != null && response.Catalogue.Name == usr) {
                         cataloguer = response.Catalogue.Name;
                         $scope.editAction = true;
@@ -1702,6 +2600,7 @@
                     else $scope.editAction = false;
                 }
                 if (response.ItemStatus == 4 || response.ItemStatus == 5) {
+                    $scope.catRemarks = false;
                     if (response.Review != null && response.Review.Name == usr) {
                         //alert(response.Review.Name)
                         reviewer = response.Review.Name;
@@ -1975,6 +2874,39 @@
             $window.open('/Catalogue/Downloadfile?ItemId=' + RequestId + '&fName=' + fname);
 
         };
+        
+        //$scope.Delfile = function (indx, _id, imgId) {
+        //    if (confirm("Are you sure, deactivate this record?")) {
+        //        $http({
+        //            method: 'GET',
+        //            url: '/Catalogue/Deletefile',
+        //            params: { id: _id, imgId: imgId }
+        //        }).success(function (response) {
+        //            $scope.AtttachmentList.splice(indx, 1);
+
+        //        }).error(function (data, status, headers, config) {
+        //            // alert("error");
+        //        });
+        //    }
+        //};
+
+        $scope.Deletefile = function (idx, Id, fName) {
+            console.log($scope.Lstattachment)
+            $scope.Lstattachment.splice(idx, 1);
+            console.log($scope.prefileList)
+            if (confirm("Are you sure, deactivate this record?")) {
+                $http({
+                    method: 'GET',
+                    url: '/FAR/Deletefile',
+                    params: { uniqueId: Id, fileName: fName }
+                }).success(function (response) {
+                    $scope.AtttachmentList.splice(indx, 1);
+
+                }).error(function (data, status, headers, config) {
+                    // alert("error");
+                });
+            }
+        }
 
         $scope.changeFAR = function (far) {
             $scope.BtnFARmodel1 = far;
@@ -3988,37 +4920,6 @@
                 });
         };
 
-        $scope.notMfr = false;
-        $scope.mfrBtn = "Add";
-
-        $scope.checkMfr = function (term) {
-            $http({
-                method: "GET",
-                url: '/FAR/GetMfr',
-                params: { Label: "Manufacturer", Term: term }
-            }).then(function (response) {
-                var mfr = response.data || [];
-
-                console.log(mfr);
-                console.log($scope.asset.ItemStatus);
-
-                if (mfr.length === 0) {
-                    $scope.notMfr = true;
-                    $scope.mfrBtn = "Add";
-                } else if (
-                    ($scope.asset.ItemStatus === 4 || $scope.asset.ItemStatus === 5) &&
-                    mfr[0].Islive === false
-                ) {
-                    $scope.notMfr = true;
-                    $scope.mfrBtn = "Approve";
-                } else {
-                    $scope.notMfr = false;
-                }
-            }).catch(function (error) {
-                console.error("Error checking manufacturer:", error);
-                $scope.notMfr = false;
-            });
-        };
 
         $scope.AddMfr = function (term) {
             $scope.mfr = {};
@@ -4192,13 +5093,13 @@
                         AutoCompleteService.search(searchTerm.term).success(function (autocompleteResults) {
                             const filteredResults = autocompleteResults.filter(function (item) {
                                 return item.Label === "Manufacturer" &&
-                                    item.Code.toLowerCase().includes(searchTerm.term.toLowerCase());
+                                    (item.Code.toLowerCase().includes(searchTerm.term.toLowerCase())||item.Title.toLowerCase().includes(searchTerm.term.toLowerCase()));
                             });
 
                             response($.map(filteredResults, function (item) {
                                 return {
-                                    label: item.Code,
-                                    value: item.Code
+                                    label: item.Title,
+                                    value: item.Title
                                 };
                             }));
                         });
@@ -4245,6 +5146,102 @@
             controller: function ($scope) {
                 $scope.toggleNode = function (node) {
                     node.expanded = !node.expanded;
+                };
+            }
+        };
+    });
+
+    app.directive('bomTree', function ($timeout) {
+        return {
+            restrict: 'E',
+            scope: { nodes: '=' },
+            template: `
+      <ul class="bom-tree">
+        <li ng-repeat="node in nodes" class="bom-node">
+
+          <div class="node-line" ng-click="toggle(node, $event)">
+            <!-- Expand/Collapse Icon -->
+            <i ng-if="node.children && node.children.length"
+               class="fa toggle-icon"
+               ng-class="node.expanded ? 'fa-minus-square text-dark' : 'fa-plus-square text-dark'"></i>
+
+            <!-- Node Type Icon -->
+            <i ng-class="getNodeIcon(node)" class="fa node-icon"></i>
+
+            <!-- Node Label -->
+            <span class="node-label">
+              <b>{{ getLabelPrefix(node) }}</b>:
+              <span>{{ node.BOMDesc || node.AssemblyDesc || node.ComponentDesc }}</span>
+              <span ng-if="node.Quantity" class="qcard">
+                {{ node.Quantity }} {{ node.UOM }}
+              </span>
+            </span>
+          </div>
+
+          <!-- Recursive Rendering -->
+          <bom-tree ng-if="node.expanded && node.children && node.children.length"
+                    nodes="node.children"></bom-tree>
+        </li>
+      </ul>
+    `,
+            link: function (scope) {
+
+                // Expand/Collapse toggle
+                scope.toggle = function (node, event) {
+                    event.stopPropagation();
+
+                    if (node.children && node.children.length) {
+                        node.expanded = !node.expanded;
+                    } else if (!node.childrenLoaded && (node.Category === 'I' || node.Category === 'SI')) {
+                        // Simulate async load of child nodes (spares/components)
+                        node.loading = true;
+                        $timeout(function () {
+                            // Example mock children (you can replace this with API call)
+                            node.children = [
+                                {
+                                    Category: 'SH',
+                                    BOMDesc: 'Spare Header',
+                                    Quantity: '',
+                                    UOM: '',
+                                    children: [
+                                        { Category: 'E', ComponentDesc: 'Component 1', Quantity: 2, UOM: 'Nos' },
+                                        { Category: 'E', ComponentDesc: 'Component 2', Quantity: 4, UOM: 'Nos' }
+                                    ]
+                                }
+                            ];
+                            node.childrenLoaded = true;
+                            node.loading = false;
+                            node.expanded = true;
+                        }, 300);
+                    }
+                };
+
+                // FontAwesome icon per category
+                scope.getNodeIcon = function (node) {
+                    switch (node.Category) {
+                        case 'H': return 'fa-sitemap text-warning';           // Equipment root
+                        case 'I': return 'fa-cogs text-primary';              // Assembly
+                        case 'SI': return 'fa-cog text-secondary';            // SubAssembly
+                        case 'SH': return 'fa-layer-group text-info';         // SubHeader
+                        case 'SSH': return 'fa-indent text-teal';             // SubSubHeader
+                        case 'L':
+                        case 'T':
+                        case 'E': return 'fa-cube text-success';              // Component
+                        default: return 'fa-circle text-muted';
+                    }
+                };
+
+                // Label prefix per category
+                scope.getLabelPrefix = function (node) {
+                    switch (node.Category) {
+                        case 'H': return node.Tag;
+                        case 'I': return 'Assembly';
+                        case 'SI': return 'Sub-Assembly';
+                        case 'SH': return 'Sub-Equipment';
+                        case 'SSH': return 'SubSub-Equipment';
+                        case 'L': case 'T': case 'E': return 'Component';
+                        default: return 'Item';
+                    }
                 };
             }
         };

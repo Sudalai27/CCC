@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <_PublishTargetUrl>D:\CC_Publish</_PublishTargetUrl>
-    <History>True|2025-09-17T10:33:12.2446178Z;True|2025-09-16T15:25:03.4620134+05:30;True|2025-09-16T15:20:23.7813005+05:30;True|2025-09-16T12:46:17.6521611+05:30;True|2025-09-12T11:23:37.3310590+05:30;True|2025-09-10T17:44:35.6543995+05:30;True|2025-09-10T16:31:17.4368104+05:30;True|2025-09-04T10:09:18.4268708+05:30;True|2025-09-02T11:12:37.5756220+05:30;True|2025-08-29T10:18:03.1609504+05:30;True|2025-08-22T10:22:49.3175343+05:30;True|2025-08-21T12:09:45.2102925+05:30;True|2025-08-20T18:50:50.0178965+05:30;True|2025-08-20T12:24:45.3783576+05:30;True|2025-08-11T16:29:24.6703308+05:30;True|2025-08-10T10:03:47.7077736+05:30;True|2025-08-09T11:43:56.6793849+05:30;True|2025-08-08T16:19:16.5552372+05:30;True|2025-08-06T12:03:26.8322758+05:30;True|2025-08-05T17:14:13.4571314+05:30;</History>
+    <History>True|2025-12-16T05:34:36.7312323Z;True|2025-12-08T11:06:54.7102657+05:30;True|2025-12-05T14:19:28.8688489+05:30;True|2025-12-04T13:05:30.5674475+05:30;True|2025-12-03T10:19:42.6188565+05:30;True|2025-11-27T10:45:39.5401289+05:30;True|2025-11-25T11:23:17.7052201+05:30;True|2025-11-21T11:26:36.5214138+05:30;True|2025-11-21T10:26:55.4681052+05:30;True|2025-11-20T18:50:50.8174077+05:30;True|2025-11-20T15:30:29.3275058+05:30;True|2025-11-19T18:26:22.1426585+05:30;False|2025-11-13T17:05:55.2588959+05:30;True|2025-11-07T15:17:42.8024774+05:30;True|2025-11-07T14:46:22.5857236+05:30;True|2025-11-04T14:20:00.9719098+05:30;True|2025-11-03T17:53:53.8313103+05:30;True|2025-11-03T12:56:42.1750135+05:30;True|2025-11-01T18:48:23.7091045+05:30;True|2025-10-29T16:41:13.0348086+05:30;True|2025-10-28T14:03:00.9876524+05:30;True|2025-10-25T16:07:29.1892153+05:30;True|2025-10-22T13:28:51.7551397+05:30;True|2025-10-17T11:14:00.3832327+05:30;True|2025-10-16T11:54:34.6448804+05:30;True|2025-10-13T11:29:08.6461484+05:30;True|2025-10-09T16:19:40.9024808+05:30;True|2025-10-03T12:54:18.2175981+05:30;False|2025-10-01T16:17:09.6741895+05:30;True|2025-09-30T13:16:25.4097222+05:30;True|2025-09-19T11:09:45.7856258+05:30;True|2025-09-17T16:03:12.2446178+05:30;True|2025-09-16T15:25:03.4620134+05:30;True|2025-09-16T15:20:23.7813005+05:30;True|2025-09-16T12:46:17.6521611+05:30;True|2025-09-12T11:23:37.3310590+05:30;True|2025-09-10T17:44:35.6543995+05:30;True|2025-09-10T16:31:17.4368104+05:30;True|2025-09-04T10:09:18.4268708+05:30;True|2025-09-02T11:12:37.5756220+05:30;True|2025-08-29T10:18:03.1609504+05:30;True|2025-08-22T10:22:49.3175343+05:30;True|2025-08-21T12:09:45.2102925+05:30;True|2025-08-20T18:50:50.0178965+05:30;True|2025-08-20T12:24:45.3783576+05:30;True|2025-08-11T16:29:24.6703308+05:30;True|2025-08-10T10:03:47.7077736+05:30;True|2025-08-09T11:43:56.6793849+05:30;True|2025-08-08T16:19:16.5552372+05:30;True|2025-08-06T12:03:26.8322758+05:30;True|2025-08-05T17:14:13.4571314+05:30;</History>
   </PropertyGroup>
   <ItemGroup>
     <File Include="ApplicationInsights.config">
@@ -126,10 +126,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:18</publishTime>
     </File>
     <File Include="bin/MvcDemo.Common.dll">
-      <publishTime>04/28/2025 14:29:13</publishTime>
+      <publishTime>11/03/2025 12:56:24</publishTime>
     </File>
     <File Include="bin/MvcDemo.Common.pdb">
-      <publishTime>04/28/2025 14:29:13</publishTime>
+      <publishTime>11/03/2025 12:56:24</publishTime>
     </File>
     <File Include="bin/Nest.dll">
       <publishTime>12/26/2023 12:42:00</publishTime>
@@ -147,25 +147,25 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:04</publishTime>
     </File>
     <File Include="bin/Prosol.Core.dll">
-      <publishTime>09/17/2025 16:03:03</publishTime>
+      <publishTime>12/17/2025 12:52:03</publishTime>
     </File>
     <File Include="bin/Prosol.Core.dll.config">
       <publishTime>06/11/2024 13:48:26</publishTime>
     </File>
     <File Include="bin/Prosol.Core.pdb">
-      <publishTime>09/17/2025 16:03:03</publishTime>
+      <publishTime>12/17/2025 12:52:03</publishTime>
     </File>
     <File Include="bin/Prosol.Data.dll">
-      <publishTime>09/17/2025 16:03:03</publishTime>
+      <publishTime>12/17/2025 12:52:04</publishTime>
     </File>
     <File Include="bin/Prosol.Data.pdb">
-      <publishTime>09/17/2025 16:03:03</publishTime>
+      <publishTime>12/17/2025 12:52:04</publishTime>
     </File>
     <File Include="bin/ProsolOnline.dll">
-      <publishTime>09/17/2025 16:03:09</publishTime>
+      <publishTime>12/17/2025 12:52:16</publishTime>
     </File>
     <File Include="bin/ProsolOnline.pdb">
-      <publishTime>09/17/2025 16:03:09</publishTime>
+      <publishTime>12/17/2025 12:52:16</publishTime>
     </File>
     <File Include="bin/QRCoder.dll">
       <publishTime>06/30/2024 16:20:06</publishTime>
@@ -252,7 +252,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:30</publishTime>
     </File>
     <File Include="Common/AssetBulkUpload.xlsx">
-      <publishTime>09/04/2025 17:09:57</publishTime>
+      <publishTime>10/01/2025 10:08:43</publishTime>
     </File>
     <File Include="Common/BOMBulkUpload.xlsx">
       <publishTime>07/22/2025 17:23:02</publishTime>
@@ -612,13 +612,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/31/2025 14:20:43</publishTime>
     </File>
     <File Include="Scripts/ctrls/AssetMasterCtrl.js">
-      <publishTime>07/23/2025 18:40:20</publishTime>
+      <publishTime>11/13/2025 17:04:43</publishTime>
     </File>
     <File Include="Scripts/ctrls/Assetreport.js">
       <publishTime>07/29/2025 18:03:43</publishTime>
     </File>
     <File Include="Scripts/ctrls/AssetToolCtrl.js">
-      <publishTime>07/11/2025 10:22:01</publishTime>
+      <publishTime>11/12/2025 14:31:49</publishTime>
     </File>
     <File Include="Scripts/ctrls/AssignWorkctrl.js">
       <publishTime>09/05/2025 11:52:45</publishTime>
@@ -645,7 +645,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:56</publishTime>
     </File>
     <File Include="Scripts/ctrls/Cataloguectrl.js">
-      <publishTime>09/10/2025 15:23:42</publishTime>
+      <publishTime>12/11/2025 16:12:42</publishTime>
     </File>
     <File Include="Scripts/ctrls/catAssignWork.js">
       <publishTime>05/20/2024 10:19:36</publishTime>
@@ -663,7 +663,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:58</publishTime>
     </File>
     <File Include="Scripts/ctrls/Dictionaryctrl.js">
-      <publishTime>07/24/2025 12:16:50</publishTime>
+      <publishTime>09/22/2025 16:57:11</publishTime>
     </File>
     <File Include="Scripts/ctrls/DictionaryViewctrl.js">
       <publishTime>11/22/2024 09:54:28</publishTime>
@@ -750,7 +750,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:58</publishTime>
     </File>
     <File Include="Scripts/ctrls/Reviewctrl.js">
-      <publishTime>09/10/2025 15:14:13</publishTime>
+      <publishTime>11/03/2025 12:55:37</publishTime>
     </File>
     <File Include="Scripts/ctrls/Sampledocsctrl.js">
       <publishTime>12/26/2023 12:42:58</publishTime>
@@ -792,7 +792,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:42:58</publishTime>
     </File>
     <File Include="Scripts/ctrls/Tracking.js">
-      <publishTime>08/01/2024 12:28:28</publishTime>
+      <publishTime>11/24/2025 15:10:57</publishTime>
     </File>
     <File Include="Scripts/ctrls/UNSPSCctrl.js">
       <publishTime>12/26/2023 12:43:00</publishTime>
@@ -927,7 +927,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:43:00</publishTime>
     </File>
     <File Include="Views/Catalogue/index.cshtml">
-      <publishTime>09/10/2025 15:14:13</publishTime>
+      <publishTime>12/11/2025 16:11:24</publishTime>
     </File>
     <File Include="Views/Catalogue/Pvdata.cshtml">
       <publishTime>08/22/2025 12:33:01</publishTime>
@@ -939,7 +939,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:43:00</publishTime>
     </File>
     <File Include="Views/Catalogue/Review.cshtml">
-      <publishTime>09/10/2025 15:14:12</publishTime>
+      <publishTime>11/03/2025 12:56:10</publishTime>
     </File>
     <File Include="Views/Dashboard/Dashboard1.cshtml">
       <publishTime>07/19/2024 12:21:46</publishTime>
@@ -957,7 +957,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>12/26/2023 12:43:00</publishTime>
     </File>
     <File Include="Views/Dictionary/add.cshtml">
-      <publishTime>07/30/2024 17:24:26</publishTime>
+      <publishTime>09/22/2025 14:59:54</publishTime>
     </File>
     <File Include="Views/Dictionary/Characteristics.cshtml">
       <publishTime>12/26/2023 12:43:00</publishTime>
@@ -993,13 +993,13 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>07/29/2025 18:22:47</publishTime>
     </File>
     <File Include="Views/FAR/AssetDictionary.cshtml">
-      <publishTime>07/30/2025 15:00:49</publishTime>
+      <publishTime>10/07/2025 16:19:52</publishTime>
     </File>
     <File Include="Views/FAR/AssetQR.cshtml">
       <publishTime>07/07/2025 12:58:19</publishTime>
     </File>
     <File Include="Views/FAR/AssetRegistry.cshtml">
-      <publishTime>09/16/2025 18:28:03</publishTime>
+      <publishTime>11/06/2025 15:42:46</publishTime>
     </File>
     <File Include="Views/FAR/AssetReport.cshtml">
       <publishTime>09/12/2025 09:10:08</publishTime>
@@ -1008,10 +1008,10 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
       <publishTime>06/02/2025 18:07:29</publishTime>
     </File>
     <File Include="Views/FAR/AssetTools.cshtml">
-      <publishTime>08/21/2025 17:05:05</publishTime>
+      <publishTime>11/12/2025 13:10:05</publishTime>
     </File>
     <File Include="Views/FAR/Asset_BulkUpload.cshtml">
-      <publishTime>07/21/2025 17:55:09</publishTime>
+      <publishTime>11/13/2025 17:10:31</publishTime>
     </File>
     <File Include="Views/FAR/Asset_QR.cshtml">
       <publishTime>04/28/2025 14:32:38</publishTime>

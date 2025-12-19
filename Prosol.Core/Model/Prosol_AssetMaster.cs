@@ -14,6 +14,7 @@ namespace Prosol.Core.Model
         //Technical
         public string UniqueId { get; set; }
         public string AssetNo { get; set; }
+        public string EquipmentNo { get; set; }
         public string pvAssetNo { get; set; }
         public string AssetQRCode { get; set; }
         public string Description { get; set; }
@@ -33,6 +34,7 @@ namespace Prosol.Core.Model
 
         public string Rework { get; set; }
         public string Rework_Remarks { get; set; }
+        public string Cat_Remarks { get; set; }  
         public string assetConditionRemarks { get; set; }
         public int ItemStatus { get; set; }
         public string PVstatus { get; set; }
@@ -76,6 +78,7 @@ namespace Prosol.Core.Model
         public string MainWorkCenter { get; set; }
         public string ObjType { get; set; }
         public string Parent { get; set; }
+        public string ParentName { get; set; }
         public string System { get; set; }
         public string PartNo { get; set; }
         public string SerialNo { get; set; }

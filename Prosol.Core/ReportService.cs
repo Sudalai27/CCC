@@ -1616,7 +1616,7 @@ namespace Prosol.Core
                 }
                 else if (option == "Overall")
                 {
-                    qury1 = Query.And(Query.GTE("ItemStatus", 0), Query.LTE("ItemStatus", 13));
+                    qury1 = Query.And(Query.GTE("ItemStatus", -1), Query.LTE("ItemStatus", 13));
                 }
                 else if (option == "Delivery")
                 {
@@ -1902,6 +1902,10 @@ namespace Prosol.Core
                     var datalist1 = _UserreportRepository.FindAll(qury2).ToList();
                     foreach (var cde in datalist1)
                     {
+                        if(cde.Materialcode == "18002072")
+                        {
+
+                        }
                         var erp = _ERPInfoRepository.FindOne(Query.EQ("Itemcode", cde.Itemcode));
 
                         if (cde.StorageLocations != null && cde.StorageLocations.Count() > 0)
@@ -2254,6 +2258,7 @@ namespace Prosol.Core
                         row.Add("UNSPSC", cde.Unspsc);
                         row.Add("ITEM ADDITIONAL INFO", cde.Additionalinfo ?? "");
                         row.Add("REMARKS", cde.Remarks);
+                        row.Add("PV REMARKS", cde.PVRemarks ?? "");
                         //row.Add("Batch", cde.Maincode);
                         rows.Add(row);
                     }
@@ -2534,6 +2539,7 @@ namespace Prosol.Core
                         row.Add("QC", cde.Review.Name);
                         row.Add("QA", cde.Release.Name);
 
+                        row.Add("PVRemarks", cde.PVRemarks ?? "");
                         row.Add("Remarks", cde.Remarks);
                         row.Add("RevRemarks", cde.RevRemarks);
                         row.Add("RelRemarks", cde.RelRemarks);

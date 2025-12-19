@@ -531,7 +531,7 @@ namespace Prosol.Core
                                 }).ToList();
 
 
-                    var query = Query.EQ("Materialcode", dr[0].ToString());
+                    var query = Query.Or(Query.EQ("Itemcode", dr[0].ToString()), Query.EQ("Materialcode", dr[0].ToString()));
                     var mdl = _DatamasterRepository.FindOne(query);
                     mdl.Characteristics = null;
                     _DatamasterRepository.Add(mdl);
@@ -2410,6 +2410,13 @@ namespace Prosol.Core
             string[] legarray = cat.Legacy.Split(new char[] { ' ', ',', ':', ';' }, StringSplitOptions.RemoveEmptyEntries)
                                 .Select(s => s.Trim())
                                 .ToArray();
+            string[] longlegarray = new string[0];
+            if(longlegarray.Count() > 0)
+            longlegarray = cat.Legacy2.Split(new char[] { ' ', ',', ':', ';' }, StringSplitOptions.RemoveEmptyEntries)
+                                .Select(s => s.Trim())
+                                .ToArray();
+
+            legarray.Concat(longlegarray);
 
             //  string tmpstr1 = Regex.Replace(cat.Longdesc.Trim(), @"[^\w\d]", " ");
             // string[] longarray = tmpstr1.Split(' ');
@@ -5160,7 +5167,7 @@ namespace Prosol.Core
                             //else ShortStr += cat.Noun + sq.Separator;
 
 
-                            if (cat.Noun != "OEM" && cat.Noun != "KIT" && cat.Modifier != "PARTS")
+                            if (cat.Noun != "OEM" /*&& cat.Noun != "KIT" */&& cat.Modifier != "PARTS")
                             {
                                 if (cat.Modifier != "--" && cat.Modifier != "NO MODIFIER")
                                 {
@@ -5179,10 +5186,10 @@ namespace Prosol.Core
                                         ShortStr += cat.Noun + sq.Separator;
                                 }
                             }
-                            else if (cat.Noun == "KIT")
-                            {
-                                ShortStr += cat.Characteristics[0].Value + sq.Separator;
-                            }
+                            //else if (cat.Noun == "KIT")
+                            //{
+                            //    ShortStr += cat.Characteristics[0].Value + sq.Separator;
+                            //}
                             else
                             {
                                 ShortStr += "";
@@ -5214,32 +5221,35 @@ namespace Prosol.Core
                             {
                                 if (cat.Vendorsuppliers[0].s == 1)
                                 {
-                                    var querry = Query.EQ("Name", cat.Vendorsuppliers[0].Name);
-                                    var shtmfr = _VendorRepository.FindOne(querry);
-                                    if (shtmfr != null)
+                                    if (!string.IsNullOrEmpty(cat.Vendorsuppliers[0].Name))
                                     {
-                                        if (shtmfr.ShortDescName != null && shtmfr.ShortDescName != "")
+                                        var querry = Query.EQ("Name", cat.Vendorsuppliers[0].Name);
+                                        var shtmfr = _VendorRepository.FindOne(querry);
+                                        if (shtmfr != null)
                                         {
-                                            ven = shtmfr.ShortDescName;
+                                            if (shtmfr.ShortDescName != null && shtmfr.ShortDescName != "")
+                                            {
+                                                ven = shtmfr.ShortDescName;
+                                            }
+                                        }
+                                        else
+                                        {
+                                            ven = cat.Vendorsuppliers[0].Name;
                                         }
                                     }
-                                    else
-                                    {
-                                        ven = cat.Vendorsuppliers[0].Name;
-                                    }
-                                    var querrry = Query.EQ("Type", cat.Vendorsuppliers[0].Refflag);
-                                    var refLst = _ReftypeRepository.FindOne(querrry);
-                                    if (refLst != null)
-                                    {
-                                        if (refLst.Code != null && shtmfr.Code != "")
-                                        {
-                                            reff = refLst.Code+":"+ cat.Vendorsuppliers[0].RefNo;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        reff = cat.Vendorsuppliers[0].RefNo;
-                                    }  
+                                    //var querrry = Query.EQ("Type", cat.Vendorsuppliers[0].Refflag);
+                                    //var refLst = _ReftypeRepository.FindOne(querrry);
+                                    //if (refLst != null)
+                                    //{
+                                    //    if (refLst.Code != null && shtmfr.Code != "")
+                                    //    {
+                                    //        reff = refLst.Code+":"+ cat.Vendorsuppliers[0].RefNo;
+                                    //    }
+                                    //}
+                                    //else
+                                    //{
+                                    reff = cat.Vendorsuppliers[0].RefNo;
+                                    //}  
                                 }
                             }
 
@@ -5770,11 +5780,13 @@ namespace Prosol.Core
                                         }
                                         var frmMdl = new shortFrame();
                                         frmMdl.position = 100;
-                                        frmMdl.values = prefix + vs.RefNo.Trim() + sq.Separator;
+                                        //frmMdl.values = prefix + vs.RefNo.Trim() + sq.Separator;
+                                        frmMdl.values = vs.RefNo.Trim() + sq.Separator;
                                         lst.Add(frmMdl);
                                         // ShortStr = strNM;
 
-                                        ShortStr += prefix+vs.RefNo.Trim() + sq.Separator;
+                                        //ShortStr += prefix+vs.RefNo.Trim() + sq.Separator;
+                                        ShortStr += vs.RefNo.Trim() + sq.Separator;
                                         if (!checkLength(ShortStr, seqList[0].ShortLength))
                                         {
                                             ShortStr = ShortStr.Trim();
@@ -8518,6 +8530,7 @@ namespace Prosol.Core
             proCat.Noun = cat.Noun;
             proCat.Modifier = cat.Modifier;
             proCat.Partno = cat.Partno;
+            proCat.Reworkcat = cat.Reworkcat;
             proCat.Characteristics = lstCharateristics;
             proCat.Vendorsuppliers = LstVendors;
 
@@ -8603,6 +8616,11 @@ namespace Prosol.Core
             {
 
                 var dupList = checkDuplicate1(cat);
+                if (cat.ItemStatus == 11)
+                {
+                    cat.Rework = "PV";
+                    cat.PVuser = vn[0].PVuser;
+                }
 
                 if (stus == "Yes" && dupList != null && dupList.Count > 0)
                 {
@@ -8614,7 +8632,6 @@ namespace Prosol.Core
 
 
                     }
-
                     cat.Catalogue = vn[0].Catalogue;
 
                     if (cat.Review == null)
@@ -8646,7 +8663,7 @@ namespace Prosol.Core
                     cat.UOM = dupList[0].UOM;
                     cat.Catalogue.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
 
-                    cat.Rework = vn[0].Rework;
+                    //cat.Rework = vn[0].Rework;
                     cat.Reworkcat = vn[0].Reworkcat;
                     cat.Junk = vn[0].Junk;
 
@@ -8747,7 +8764,7 @@ namespace Prosol.Core
                         cat.Release.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
                     }
 
-                    cat.Rework = vn[0].Rework;
+                    //cat.Rework = vn[0].Rework;
                     cat.Reworkcat = vn[0].Reworkcat;
                     cat.Junk = vn[0].Junk;
                     cat.CreatedOn = vn[0].CreatedOn;

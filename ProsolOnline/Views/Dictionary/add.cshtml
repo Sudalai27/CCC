@@ -300,9 +300,9 @@
 
                                                             <thead class="top-border">
                                                                 <tr>
-                                                                    <th style="width: 35%">characteristic</th>
-                                                                    @*<th>abbreviation</th>*@
-                                                                    @*<th style="width: 5%">Longseq</th>*@
+                                                                    <th style="width: 25%">Characteristic</th>
+                                                                    @*<th>Abbreviation</th>*@
+                                                                    <th style="width: 5%">Long Seq</th>
                                                                     <th style="width: 5%">Short Priority</th>
                                                                     <th style="width: 5%">Mandatory</th>
                                                                     <th style="width: 20%">definition</th>
@@ -315,7 +315,7 @@
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr class="data-contact-person" ng-repeat="CharaRw in rows | orderBy:'Squence'| filter: { Definition: 'MM' } ">
+                                                                <tr class="data-contact-person" ng-repeat="CharaRw in rows | orderBy:toNumber | filter: { Definition: 'MM' }">
                                                                     <td>
                                                                         <div ng-class="{'has-error': form.$submitted && form.ddlAttri{{$index}}.$invalid || charcheck}">
 
@@ -325,12 +325,12 @@
 
                                                                     </td>
                                                                     @*<td><input type="text" class="form-control"    ng-model="CharaRw.Abbrivation" ng-blur="CharaRw.Abbrivation=CharaRw.Abbrivation.toUpperCase();" id="CharAbv"></td>*@
-                                                                    @*<td ng-hide="true">
+                                                                    <td>
                                                                 <div ng-class="{'has-error': form.$submitted && form.lsque.$invalid || form.lsque.$error.pattern || Seqcheck1}">
-                                                                    <input type="text" class="form-control" name="lsque" ng-pattern="/^\d+$/" ng-model="CharaRw.Squence" ng-disabled="false" id="Squence">
+                                                                    <input type="text" class="form-control" name="lsque" ng-pattern="/^\d+$/" ng-model="CharaRw.Squence" ng-disabled="false" id="Squence" ng-blur="changeSeq()">
 
                                                                 </div>
-                                                            </td>*@
+                                                            </td>
                                                                     <td>
                                                                         <div ng-class="{'has-error': form.$submitted && form.ssque.$invalid || form.ssque.$error.pattern || Seqcheck2}">
                                                                             <input type="text" class="form-control" name="ssque" ng-pattern="/^\d+$/" ng-model="CharaRw.ShortSquence" ng-disabled="false" id="sSquence">

@@ -211,6 +211,11 @@ namespace Prosol.Data
             var QryItem = _collection.Find(query).SetSortOrder(sort);
             return QryItem;
         }
+        public IEnumerable<T> FindAll(IMongoFields Flds, IMongoQuery query, IMongoSortBy sort)
+        {
+            var QryItem = _collection.Find(query).SetFields(Flds).SetSortOrder(sort);
+            return QryItem;
+        }
 
 
         //Delete

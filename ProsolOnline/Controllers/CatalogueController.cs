@@ -445,11 +445,12 @@ namespace ProsolOnline.Controllers
             {
                 res = 0;
                 proCat.PVstatus = "Pending";
-                var PV = new Prosol_UpdatedBy();
-                PV.UserId = usrInfo.Userid;
-                PV.Name = usrInfo.UserName;
-                PV.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                proCat.PVuser = PV;
+                proCat.Reworkcat = "PV";
+                //var PV = new Prosol_UpdatedBy();
+                //PV.UserId = usrInfo.Userid;
+                //PV.Name = usrInfo.UserName;
+                //PV.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+                //proCat.PVuser = PV;
             }
 
             if (res < 8)
@@ -870,6 +871,20 @@ namespace ProsolOnline.Controllers
                     proCat.PVstatus = cat.PVstatus;
                 }
 
+                var pvLogs = new List<Prosol_UpdatedBy>();
+                if (cat.PVLog != null && cat.PVLog.Count() > 0)
+                {
+                    foreach (var pl in cat.PVLog)
+                    {
+                        var log = new Prosol_UpdatedBy();
+                        log.UserId = pl.UserId;
+                        log.Name = pl.Name;
+                        log.UpdatedOn = pl.UpdatedOn;
+                        pvLogs.Add(log);
+                    }
+                    proCat.PVLog = pvLogs;
+                }
+
                 string tmpStr = "";
                 foreach (TargetExn ent in usrInfo.Roles)
                 {
@@ -1224,6 +1239,21 @@ namespace ProsolOnline.Controllers
                     updted.UpdatedOn = cat.PVuser.UpdatedOn;
                     proCat.PVuser = updted;
                 }
+
+                var pvLogs = new List<UpdatedBy>();
+                if (cat.PVLog != null && cat.PVLog.Count() > 0)
+                {
+                    foreach (var pl in cat.PVLog)
+                    {
+                        var log = new UpdatedBy();
+                        log.UserId = pl.UserId;
+                        log.Name = pl.Name;
+                        log.UpdatedOn = pl.UpdatedOn;
+                        pvLogs.Add(log);
+                    }
+                    proCat.PVLog = pvLogs;
+                }
+
                 proCat.PVstatus = cat.PVstatus;
                 proCat.Characteristics = lstCharateristics;
                 proCat.exCharacteristics = lstCharateristics1;
@@ -2296,6 +2326,7 @@ namespace ProsolOnline.Controllers
             proCat.exManufacturer = cat.exManufacturer;
             //new 2
             proCat.Legacy = cat.Legacy;
+            proCat.Legacy2 = cat.Legacy2;
             proCat.Longdesc = cat.Longdesc;
     
             //Equipment
@@ -3497,7 +3528,8 @@ namespace ProsolOnline.Controllers
             var autormrk = "TOOL-REMARK: PROVIDE ";
 
             var lstCharateristics = new List<Prosol_AttributeList>();
-          
+            if (ListCharas != null)
+            {
                 foreach (AttributeList LstAtt in ListCharas)
                 {
                     var AttrMdl = new Prosol_AttributeList();
@@ -3523,6 +3555,7 @@ namespace ProsolOnline.Controllers
                     lstCharateristics.Add(AttrMdl);
 
                 }
+            }
             
             //Vendorsuppliers
             var LstVendors = new List<Vendorsuppliers>();
@@ -3545,8 +3578,9 @@ namespace ProsolOnline.Controllers
                 }
 
             }
-           
-            var arrChar = _CharateristicService.GetCharateristic(catModel.Noun, catModel.Modifier);
+            if (catModel.Noun != null && catModel.Modifier != null)
+            {
+                var arrChar = _CharateristicService.GetCharateristic(catModel.Noun, catModel.Modifier);
                 var lstChar = new List<NM_AttributesModel>();
                 foreach (Prosol_Charateristics nm_Char in arrChar)
                 {
@@ -3568,14 +3602,14 @@ namespace ProsolOnline.Controllers
 
                     }
                 }
-            var arrStr = _Nounmodifier.GetNounModifier(catModel.Noun, catModel.Modifier);
+                var arrStr = _Nounmodifier.GetNounModifier(catModel.Noun, catModel.Modifier);
             ///foreach (Vendorsupplier y in vendorsuppliersList)
            // {
-               if(vendorsuppliersList[0].Name == null && (arrStr.Formatted == 0 || arrStr.Formatted == 2))
+               if(vendorsuppliersList[0].Name == null && (arrStr?.Formatted == 0 || arrStr?.Formatted == 2))
                 {
                     autormrk += "MANUFACTURER,";
                 }
-                if (vendorsuppliersList[0].RefNo == null && (arrStr.Formatted == 0 || arrStr.Formatted == 2))
+                if (vendorsuppliersList[0].RefNo == null && (arrStr?.Formatted == 0 || arrStr?.Formatted == 2))
                 {
                     if (vendorsuppliersList[0].Refflag != null)
                         autormrk += vendorsuppliersList[0].Refflag;
@@ -3590,6 +3624,7 @@ namespace ProsolOnline.Controllers
                     autormrk += "EQUIPMENT DETAILS,";
 
                 }
+            }
 
 
             var procat = new Prosol_Datamaster();
@@ -3627,8 +3662,6 @@ namespace ProsolOnline.Controllers
 
             var row = tbl.NewRow();
             row["Item Code"] = catModel.Itemcode;
-
-
             row["Legacy"] = catModel.Legacy;
             row["Clarification Remarks"] = catModel.Remarks;
             tbl.Rows.Add(row);
@@ -3642,6 +3675,10 @@ namespace ProsolOnline.Controllers
         }
         public JsonResult GetRejectCode1(string Itemcode, string RevRemarks)
         {
+            var cat = Request.Form["cat"];
+            var catModel = JsonConvert.DeserializeObject<CatalogueModel>(cat);
+            Itemcode = catModel.Itemcode;
+            RevRemarks = catModel.RevRemarks;
             string userid = Session["userid"].ToString();
             string username = Session["username"].ToString();
           

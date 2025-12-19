@@ -49,6 +49,7 @@ namespace Prosol.Core
         private readonly IRepository<Prosol_EquipmentClass> _EquipClassRepository;
         private readonly IRepository<Prosol_Master> _masterRepository;
         private readonly IRepository<Prosol_Access> _accessRepository;
+        private readonly IRepository<Prosol_Attachment> _attchmentRepository;
 
         private readonly IRepository<Prosol_Users> _UsersRepository;
         public GeneralSettingService(IRepository<Prosol_UOM> uomRepository,
@@ -78,6 +79,7 @@ namespace Prosol.Core
                 IRepository<Prosol_EquipmentType> EquipRepository,
                 IRepository<Prosol_Master> masterRepository,
                 IRepository<Prosol_Access> accessRepository,
+                IRepository<Prosol_Attachment> attchmentRepository,
                 IRepository<Prosol_EquipmentClass> EquipClassRepository
               )
         {
@@ -109,6 +111,7 @@ namespace Prosol.Core
             this._EquipClassRepository = EquipClassRepository;
             this._masterRepository = masterRepository;
             this._accessRepository = accessRepository;
+            this._attchmentRepository = attchmentRepository;
         }
 
         // Get Unit List
@@ -1411,20 +1414,19 @@ namespace Prosol.Core
                 //    }
                 //}
 
-
                 //foreach (DataRow drw1 in dt1.Rows)
                 //{
-                //    var query1 = Query.EQ("Materialcode", drw1[0].ToString());
+                //    var query1 = Query.Or(Query.EQ("Itemcode", drw1[0].ToString()), Query.EQ("Materialcode", drw1[0].ToString()));
                 //    var mdl = _datamasterRepository.FindOne(query1);
                 //    if (mdl != null)
                 //    {
-                //        mdl.Noun = drw1[1].ToString();
-                //        mdl.Modifier = drw1[2].ToString();
+                //        mdl.PVRemarks = drw1[1].ToString();
+                //        //mdl.Noun = drw1[1].ToString();
+                //        //mdl.Modifier = drw1[2].ToString();
                 //        _datamasterRepository.Add(mdl);
                 //        cunt++;
                 //    }
                 //}
-
 
                 //foreach (DataRow drw1 in dt1.Rows)
                 //{
@@ -1461,14 +1463,26 @@ namespace Prosol.Core
                 //var lst = _datamasterRepository.FindAll().ToList();
                 //foreach (DataRow drw1 in dt1.Rows)
                 //{
-                //    int lstCount = lst.Count() + cunt;
+                //    //int lstCount = lst.Count() + cunt;
                 //    var mdl = new Prosol_Datamaster();
-                //    var itemCode = "AD2" + lstCount.ToString("D7");
+                //    var erp = new Prosol_ERPInfo();
+                //    //var itemCode = "CODA-N-3" + lstCount.ToString("D5");
+                //    var itemCode = drw1[12].ToString();
+                //    mdl.Itemcode = drw1[0].ToString();
                 //    mdl.Materialcode = drw1[0].ToString();
-                //    mdl.Legacy2 = drw1[1].ToString();
-                //    mdl.exPartno = drw1[2].ToString();
-                //    mdl.Legacy = drw1[3].ToString();
+                //    mdl.exMaterialcode = drw1[1].ToString();
+                //    mdl.Legacy = drw1[2].ToString();
+                //    mdl.Legacy2 = drw1[3].ToString();
+                //    mdl.UOM = drw1[4].ToString();
                 //    mdl.Itemcode = itemCode;
+                //    erp.Itemcode = itemCode;
+                //    erp.MaterialStrategicGroup = drw1[5].ToString();
+                //    erp.MaterialStrategicGroup_ = drw1[6].ToString();
+                //    erp.MRPType = drw1[7].ToString();
+                //    erp.MRPType_ = drw1[8].ToString();
+                //    erp.ReOrderPoint_ = drw1[9].ToString();
+                //    erp.SafetyStock_ = drw1[10].ToString();
+                //    erp.MaxStockLevel_ = drw1[11].ToString();
                 //    _datamasterRepository.Add(mdl);
                 //    cunt++;
                 //}
@@ -1710,12 +1724,18 @@ namespace Prosol.Core
                 //}
                 //foreach (DataRow drw1 in dt1.Rows)
                 //{
-                //    var query2 = Query.EQ("Materialcode", drw1[0].ToString());
+                //    var qry = Query.And(Query.EQ("Noun", drw1[0].ToString()), Query.EQ("Modifier", drw1[1].ToString()), Query.EQ("RP", "Equ"));
+                //    var mdl2 = _nounModifierRepository.DeleteAll(qry);
+                //    cunt++;
+                //}
+                //foreach (DataRow drw1 in dt1.Rows)
+                //{
+                //    var query2 = Query.Or(Query.EQ("Itemcode", drw1[0].ToString()), Query.EQ("Materialcode", drw1[0].ToString()));
                 //    //var query2 = Query.And(Query.EQ("Noun", drw1[0].ToString()), Query.EQ("Modifier", drw1[1].ToString()), Query.EQ("RP", "Equ"));
                 //    var mdl2 = _datamasterRepository.FindOne(query2);
                 //    if (mdl2 != null)
                 //    {
-                //        mdl2.Remarks = drw1[1].ToString();
+                //        mdl2.Additionalinfo = drw1[1].ToString();
                 //        //mdl2.UOM = drw1[1].ToString();
                 //        //mdl2.exManufacturer = drw1[2].ToString();
                 //        //mdl2.exPartno = drw1[3].ToString();
@@ -1805,30 +1825,45 @@ namespace Prosol.Core
 
                 //foreach (DataRow drw1 in dt1.Rows)
                 //{
-                //var query2 = Query.EQ("Materialcode", drw1[0].ToString());
-                //var mdl2 = _datamasterRepository.FindOne(query2);
-                //if (mdl2 != null)
-                //{
-                //mdl2.Legacy2 = drw1[1].ToString();
-                //mdl2.exNoun = drw1[1].ToString();
-                //mdl2.exModifier = drw1[2].ToString();
-                //mdl2.Noun = drw1[1].ToString();
-                //mdl2.Modifier = drw1[2].ToString();
-                //mdl2.Type = drw1[6].ToString();
-                //mdl2.UOM = drw1[7].ToString();
+                //    //var mdl2 = new Prosol_Datamaster();
+                //    var query2 = Query.Or(Query.EQ("Itemcode", drw1[0].ToString()), Query.EQ("Materialcode", drw1[0].ToString()));
+                //    var mdl2 = _datamasterRepository.FindOne(query2);
+                //    if (mdl2 != null)
+                //    {
+                //        if(mdl2.Characteristics != null)
+                //        {
+                //            foreach (var cha in mdl2.Characteristics)
+                //            {
+                //                if (cha.Value == "--")
+                //                    cha.Value = "";
+                //            }
+                //        }
+                //        //mdl2.Itemcode = drw1[0].ToString();
+                //        //mdl2.Materialcode = drw1[1].ToString();
+                //        //mdl2.Legacy = drw1[2].ToString();
+                //        //mdl2.Legacy2 = drw1[3].ToString();
+                //        //mdl2.UOM = drw1[4].ToString();
+                //        //mdl2.UOM = drw1[1].ToString();
+                //        //mdl2.Legacy2 = drw1[1].ToString();
+                //        //mdl2.exNoun = drw1[1].ToString();
+                //        //mdl2.exModifier = drw1[2].ToString();
+                //        //mdl2.Noun = drw1[1].ToString();
+                //        //mdl2.Modifier = drw1[2].ToString();
+                //        //mdl2.Type = drw1[6].ToString();
+                //        //mdl2.UOM = drw1[7].ToString();
 
-                //var usrQry = Query.Matches("UserName", BsonRegularExpression.Create(new Regex(drw1[1].ToString().TrimStart().TrimEnd(), RegexOptions.IgnoreCase)));
-                //var usrInfo = _UsersRepository.FindOne(usrQry);
-                //var pv = new Prosol_UpdatedBy();
-                //pv.UserId = usrInfo.Userid;
-                //pv.Name = usrInfo.UserName;
-                //pv.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
-                //mdl2.PVuser = pv;
-                //mdl2.PVstatus = "Completed";
+                //        //var usrQry = Query.Matches("UserName", BsonRegularExpression.Create(new Regex(drw1[1].ToString().TrimStart().TrimEnd(), RegexOptions.IgnoreCase)));
+                //        //var usrInfo = _UsersRepository.FindOne(usrQry);
+                //        //var pv = new Prosol_UpdatedBy();
+                //        //pv.UserId = usrInfo.Userid;
+                //        //pv.Name = usrInfo.UserName;
+                //        //pv.UpdatedOn = DateTime.SpecifyKind(DateTime.Now, DateTimeKind.Utc);
+                //        //mdl2.PVuser = pv;
+                //        //mdl2.PVstatus = "Completed";
 
-                //_datamasterRepository.Add(mdl2);
-                //}
-                //cunt++;
+                //        _datamasterRepository.Add(mdl2);
+                //    }
+                //    cunt++;
                 //}
 
                 //foreach (DataRow drw1 in dt1.Rows)
@@ -2661,73 +2696,73 @@ namespace Prosol.Core
                 //            erp.ReOrderPoint_ = drw[11].ToString();
                 //            erp.SafetyStock_ = drw[12].ToString();
                 //            erp.MaxStockLevel_ = drw[13].ToString();
-                //            erp.StorageLocation = drw[16].ToString();
-                //            erp.StorageLocation_ = drw[17].ToString();
-                //            erp.StorageLocation2 = drw[18].ToString();
-                //            erp.StorageLocation2_ = drw[19].ToString();
-                //            erp.StorageLocation3 = drw[20].ToString();
-                //            erp.StorageLocation3_ = drw[21].ToString();
-                //            erp.StorageLocation4 = drw[22].ToString();
-                //            erp.StorageLocation4_ = drw[23].ToString();
-                //            erp.StorageLocation5 = drw[24].ToString();
-                //            erp.StorageLocation5_ = drw[25].ToString();
-                //            erp.StorageBin = drw[26].ToString();
-                //            erp.StorageBin2 = drw[27].ToString();
-                //            erp.StorageBin3 = drw[28].ToString();
-                //            erp.StorageBin4 = drw[29].ToString();
-                //            erp.StorageBin5 = drw[30].ToString();
-                //            erp.Quantity_ = drw[31].ToString();
-                //            erp.Quantity2_ = drw[32].ToString();
-                //            erp.Quantity3_ = drw[33].ToString();
-                //            erp.Quantity4_ = drw[34].ToString();
-                //            erp.Quantity5_ = drw[35].ToString();
-                //            erp.Price_Unit = drw[36].ToString();
-                //            erp.Price_Unit2 = drw[37].ToString();
-                //            erp.Price_Unit3 = drw[38].ToString();
-                //            erp.Price_Unit4 = drw[39].ToString();
-                //            erp.Price_Unit5 = drw[40].ToString();
-                //            erp.Currency = drw[41].ToString();
-                //            erp.Currency2 = drw[42].ToString();
-                //            erp.Currency3 = drw[43].ToString();
-                //            erp.Currency4 = drw[44].ToString();
-                //            erp.Currency5 = drw[45].ToString();
-                //            obj.StorageLocations = new List<StorageLoc>();
+                //            //erp.StorageLocation = drw[16].ToString();
+                //            //erp.StorageLocation_ = drw[17].ToString();
+                //            //erp.StorageLocation2 = drw[18].ToString();
+                //            //erp.StorageLocation2_ = drw[19].ToString();
+                //            //erp.StorageLocation3 = drw[20].ToString();
+                //            //erp.StorageLocation3_ = drw[21].ToString();
+                //            //erp.StorageLocation4 = drw[22].ToString();
+                //            //erp.StorageLocation4_ = drw[23].ToString();
+                //            //erp.StorageLocation5 = drw[24].ToString();
+                //            //erp.StorageLocation5_ = drw[25].ToString();
+                //            //erp.StorageBin = drw[26].ToString();
+                //            //erp.StorageBin2 = drw[27].ToString();
+                //            //erp.StorageBin3 = drw[28].ToString();
+                //            //erp.StorageBin4 = drw[29].ToString();
+                //            //erp.StorageBin5 = drw[30].ToString();
+                //            //erp.Quantity_ = drw[31].ToString();
+                //            //erp.Quantity2_ = drw[32].ToString();
+                //            //erp.Quantity3_ = drw[33].ToString();
+                //            //erp.Quantity4_ = drw[34].ToString();
+                //            //erp.Quantity5_ = drw[35].ToString();
+                //            //erp.Price_Unit = drw[36].ToString();
+                //            //erp.Price_Unit2 = drw[37].ToString();
+                //            //erp.Price_Unit3 = drw[38].ToString();
+                //            //erp.Price_Unit4 = drw[39].ToString();
+                //            //erp.Price_Unit5 = drw[40].ToString();
+                //            //erp.Currency = drw[41].ToString();
+                //            //erp.Currency2 = drw[42].ToString();
+                //            //erp.Currency3 = drw[43].ToString();
+                //            //erp.Currency4 = drw[44].ToString();
+                //            //erp.Currency5 = drw[45].ToString();
+                //            //obj.StorageLocations = new List<StorageLoc>();
 
-                //            for (int i = 0; i < 5; i++)
-                //            {
-                //                string locProp = i == 0 ? "StorageLocation" : $"StorageLocation{i + 1}";
-                //                string locProp_ = i == 0 ? "StorageLocation_" : $"StorageLocation{i + 1}_";
-                //                string binProp = i == 0 ? "StorageBin" : $"StorageBin{i + 1}";
-                //                string qtyProp = i == 0 ? "Quantity_" : $"Quantity{i + 1}_";
+                //            //for (int i = 0; i < 5; i++)
+                //            //{
+                //            //    string locProp = i == 0 ? "StorageLocation" : $"StorageLocation{i + 1}";
+                //            //    string locProp_ = i == 0 ? "StorageLocation_" : $"StorageLocation{i + 1}_";
+                //            //    string binProp = i == 0 ? "StorageBin" : $"StorageBin{i + 1}";
+                //            //    string qtyProp = i == 0 ? "Quantity_" : $"Quantity{i + 1}_";
 
-                //                string location = erp.GetType().GetProperty(locProp)?.GetValue(erp)?.ToString();
-                //                string location_ = erp.GetType().GetProperty(locProp_)?.GetValue(erp)?.ToString();
-                //                string bin = erp.GetType().GetProperty(binProp)?.GetValue(erp)?.ToString();
-                //                string qty = erp.GetType().GetProperty(qtyProp)?.GetValue(erp)?.ToString();
+                //            //    string location = erp.GetType().GetProperty(locProp)?.GetValue(erp)?.ToString();
+                //            //    string location_ = erp.GetType().GetProperty(locProp_)?.GetValue(erp)?.ToString();
+                //            //    string bin = erp.GetType().GetProperty(binProp)?.GetValue(erp)?.ToString();
+                //            //    string qty = erp.GetType().GetProperty(qtyProp)?.GetValue(erp)?.ToString();
 
-                //                if (!string.IsNullOrEmpty(location))
-                //                {
-                //                    var slObj = new StorageLoc
-                //                    {
-                //                        StorageLocation = location,
-                //                        StorageLocation_ = location_,
-                //                        DataCollection = new List<StorageBin>()
-                //                    };
+                //            //    if (!string.IsNullOrEmpty(location))
+                //            //    {
+                //            //        var slObj = new StorageLoc
+                //            //        {
+                //            //            StorageLocation = location,
+                //            //            StorageLocation_ = location_,
+                //            //            DataCollection = new List<StorageBin>()
+                //            //        };
 
-                //                    if (!string.IsNullOrEmpty(bin))
-                //                    {
-                //                        var sbObj = new StorageBin
-                //                        {
-                //                            Observation = bin,
-                //                            sQty = !string.IsNullOrEmpty(qty) ? qty : "",
-                //                            dQty = ""
-                //                        };
-                //                        slObj.DataCollection.Add(sbObj);
-                //                    }
+                //            //        if (!string.IsNullOrEmpty(bin))
+                //            //        {
+                //            //            var sbObj = new StorageBin
+                //            //            {
+                //            //                Observation = bin,
+                //            //                sQty = !string.IsNullOrEmpty(qty) ? qty : "",
+                //            //                dQty = ""
+                //            //            };
+                //            //            slObj.DataCollection.Add(sbObj);
+                //            //        }
 
-                //                    obj.StorageLocations.Add(slObj);
-                //                }
-                //            }
+                //            //        obj.StorageLocations.Add(slObj);
+                //            //    }
+                //            //}
 
                 //            _datamasterRepository.Add(obj);
                 //            _erpRepository.Add(erp);
@@ -2818,6 +2853,8 @@ namespace Prosol.Core
                 //    //}
                 //    cunt++;
                 //}
+
+
                 //foreach (DataRow drw in dt1.Rows)
                 //{
                 //    var Qry = Query.EQ("Materialcode", drw[1].ToString());
@@ -2925,61 +2962,70 @@ namespace Prosol.Core
                 //    }
                 //}
                 //cunt++;
-                foreach (DataRow drw in dt1.Rows)
-                {
-                    var materialCode = drw[0].ToString();
-                    var uom = drw[1].ToString();
-                    var storageLocation = drw[2].ToString();
-                    var storageLocationName = drw[3].ToString();
-                    var observation = drw[4].ToString();
-                    var qty = drw[5].ToString();
-                    //var qtyD = drw[12].ToString();
-                    var qtyD = "";
 
-                    var query = Query.EQ("Materialcode", materialCode);
-                    var obj = _datamasterRepository.FindOne(query);
+                //latest sl updataion
 
-                    if (obj != null)
-                    {
-                        obj.UOM = drw[1].ToString();
-                        //obj.Stock_Status = "Stock";
+                //foreach (DataRow drw in dt1.Rows)
+                //{
+                //    var materialCode = drw[0].ToString();
+                //    var uom = drw[1].ToString();
+                //    var storageLocation = drw[2].ToString();
+                //    var storageLocationName = drw[3].ToString();
+                //    var observation = drw[4].ToString();
+                //    var qty = drw[5].ToString();
+                //    var mT = drw[6].ToString();
+                //    var mG = drw[7].ToString();
+                //    var old = drw[8].ToString();
+                //    //var qtyD = drw[12].ToString();
+                //    var qtyD = "";
 
-                        obj.StorageLocations = new List<StorageLoc>
-                        {
-                            new StorageLoc
-                            {
-                                StorageLocation = storageLocation,
-                                StorageLocation_ = storageLocationName,
-                                DataCollection = new List<StorageBin>
-                                {
-                                    new StorageBin
-                                    {
-                                        Observation = observation,
-                                        sQty = qty,
-                                        dQty = qtyD
-                                    }
-                                }
-                            }
-                        };
+                //    var query = Query.EQ("Materialcode", materialCode);
+                //    var obj = _datamasterRepository.FindOne(query);
 
-                        var erpQuery = Query.EQ("Itemcode", obj.Itemcode);
-                        var erp = _erpRepository.FindOne(erpQuery);
-                        if (erp != null)
-                        {
-                            erp.StorageLocation = storageLocation;
-                            erp.StorageLocation_ = storageLocationName;
-                            erp.StorageBin = observation;
-                            erp.Quantity_ = qty;
-                            //erp.Materialtype = drw[6].ToString();
-                            //erp.MaterialStrategicGroup = drw[7].ToString();
+                //    if (obj != null)
+                //    {
+                //        obj.UOM = uom;
+                //        obj.exMaterialcode = old;
+                //        //obj.Stock_Status = "Stock";
 
-                            _erpRepository.Add(erp);
-                        }
+                //        obj.StorageLocations = new List<StorageLoc>
+                //        {
+                //            new StorageLoc
+                //            {
+                //                StorageLocation = storageLocation,
+                //                StorageLocation_ = storageLocationName,
+                //                DataCollection = new List<StorageBin>
+                //                {
+                //                    new StorageBin
+                //                    {
+                //                        Observation = observation,
+                //                        sQty = qty,
+                //                        dQty = qtyD
+                //                    }
+                //                }
+                //            }
+                //        };
 
-                        _datamasterRepository.Add(obj);
-                        cunt++;
-                    }
-                }
+                //        var erpQuery = Query.EQ("Itemcode", obj.Itemcode);
+                //        var erp = _erpRepository.FindOne(erpQuery);
+                //        if (erp != null)
+                //        {
+                //            erp.StorageLocation = storageLocation;
+                //            erp.StorageLocation_ = storageLocationName;
+                //            erp.StorageBin = observation;
+                //            erp.Quantity_ = qty;
+                //            //erp.Materialtype = mT;
+                //            //erp.MaterialStrategicGroup = mG;
+                //            //erp.Materialtype = drw[6].ToString();
+                //            //erp.MaterialStrategicGroup = drw[7].ToString();
+
+                //            _erpRepository.Add(erp);
+                //        }
+
+                //        _datamasterRepository.Add(obj);
+                //        cunt++;
+                //    }
+                //}
 
                 //foreach (DataRow drw in dt1.Rows)
                 //{
@@ -3072,9 +3118,269 @@ namespace Prosol.Core
                 //    }
                 //}
 
+
+
+                //Files Download
+
+                //var query = Query.NE("Attachment", BsonNull.Value);
+                //var lst = _assetmasterRepository.FindAll(query).ToList();
+                //foreach (var l in lst)
+                //{
+                //    foreach (var fl in l.Attachment.Split(','))
+                //    {
+                //        string fName = fl;
+                //        var ListItems = GetAttachment(l.UniqueId).ToList();
+                //        if (ListItems != null && ListItems.Count > 0)
+                //        {
+                //            foreach (var strNmae in ListItems)
+                //            {
+                //                if (strNmae.FileName == fName)
+                //                {
+                //                    if (!string.IsNullOrEmpty(strNmae._id.ToString()))
+                //                    {
+                //                        var queryq = Query.EQ("_id", new ObjectId(strNmae.FileId.ToString().Trim()));
+                //                        byte[] byt = _attchmentRepository.GridFsFindOne(queryq);
+
+                //                        if (byt != null)
+                //                        {
+                //                            // Save file to folder
+                //                            string folder = Path.Combine("D:\\CC_Attachments", l.UniqueId);
+                //                            Directory.CreateDirectory(folder);
+                //                            string filePath = Path.Combine(folder, fName);
+                //                            File.WriteAllBytes(filePath, byt);
+                //                        }
+                //                    }
+                //                }
+                //            }
+                //        }
+                //    }
+                //}
+
+                //foreach (DataRow drw in dt1.Rows)
+                //{
+                //    var query = Query.EQ("Materialcode", drw[0].ToString());
+                //    var obj = _datamasterRepository.FindOne(query);
+
+                //    //if (obj != null &&
+                //    //    obj.StorageLocations != null && obj.StorageLocations.Any() &&
+                //    //    obj.StorageLocations[0].DataCollection != null && obj.StorageLocations[0].DataCollection.Any())
+                //    //{
+                //    //    obj.StorageLocations[0].DataCollection[0].dQty = drw[1]?.ToString();
+                //    //    _datamasterRepository.Add(obj);
+                //    //}
+                //    if (obj != null)
+                //    {
+                //        obj.UOM = drw[1]?.ToString();
+                //        _datamasterRepository.Add(obj);
+                //    }
+                //}
+
+                //foreach (DataRow drw in dt1.Rows)
+                //{
+                //    //var query = Query.EQ("UniqueId", drw[0].ToString());
+                //    //var obj = _assetmasterRepository.FindOne(query);
+                //    var query = Query.Or(Query.EQ("Itemcode", drw[0].ToString()), Query.EQ("Materialcode", drw[0].ToString()));
+                //    var obj = _datamasterRepository.FindOne(query);
+
+                //    if (obj != null)
+                //    {
+
+                //        //if (obj.AssetImages != null)
+                //        //{
+                //        //    if (obj.AssetImages.NamePlateImge != null && obj.AssetImages.NamePlateImge.Length > 0)
+                //        //    {
+                //        //        var list = obj.AssetImages.NamePlateImge.ToList();
+                //        //        list.Add(drw[1].ToString());
+                //        //        obj.AssetImages.NamePlateImge = list.ToArray();
+                //        //    }
+                //        //    else
+                //        //    {
+                //        //        obj.AssetImages.NamePlateImge = new string[] { drw[1].ToString() };
+                //        //    }
+                //        //}
+
+                //        obj.UOM = drw[1]?.ToString();
+                //        //obj.ParentName = drw[1]?.ToString();
+                //        //obj.Parent = drw[2]?.ToString();
+                //        //obj.ObjType = drw[3]?.ToString();
+                //        //obj.Unspsc = drw[4]?.ToString();
+                //        //obj.CostCenter = drw[5]?.ToString();
+                //        //obj.CostCenter_Desc = drw[6]?.ToString();
+                //        //obj.Equ_Category = drw[7]?.ToString();
+                //        //obj.MainWorkCenter = drw[8]?.ToString();
+                //        _datamasterRepository.Add(obj);
+                //    }
+                //}
+
+                //Images Fetch
+
+                //string basePath = HttpContext.Current.Server.MapPath("~/AssetImages");
+                //var folderImages = new List<ImgLst>();
+
+                //foreach (DataRow drw in dt1.Rows)
+                //{
+                //    string uniqueId = drw["UNIQUE ID"].ToString();
+                //    string assetNo = drw["UNIQUE ID"].ToString();
+                //    string folderName = drw["FOLDER NAME"].ToString();
+                //    string fileName = drw["FILE NAME"].ToString();
+
+                //    string folderPath = Path.Combine(basePath, folderName);
+                //    if (!Directory.Exists(folderPath))
+                //        continue;
+
+                //    var query = Query.EQ("TechIdentNo", uniqueId);
+                //    var assetData = _assetmasterRepository.FindOne(query);
+                //    if (assetData == null)
+                //        continue;
+
+                //    int npImg = assetData.AssetImages?.NamePlateImge?.Length ?? 0;
+
+                //    // Find exact file match (case-insensitive)
+                //    var matchedFile = Directory.GetFiles(folderPath, "*.*")
+                //        .FirstOrDefault(f =>
+                //            Path.GetFileName(f).Equals(fileName, StringComparison.OrdinalIgnoreCase) &&
+                //            new[] { ".jpg", ".jpeg", ".png", ".gif" }
+                //                .Contains(Path.GetExtension(f).ToLower()));
+
+                //    if (matchedFile == null)
+                //        continue;
+
+                //    // New image name
+                //    string imgName = string.Format("{0}NP-{1}.jpeg", assetNo, npImg);
+
+                //    // Upload to AWS and update DB image path
+                //    UploadImage(matchedFile, imgName, newImg =>
+                //    {
+                //        assetData.AssetImages.NamePlateImge =
+                //            (assetData.AssetImages.NamePlateImge ?? new string[0])
+                //            .Concat(newImg)
+                //            .ToArray();
+                //    });
+
+                //    // Save changes in DB
+                //    _assetmasterRepository.Add(assetData);
+
+                //    // Track processed image
+                //    folderImages.Add(new ImgLst
+                //    {
+                //        UniqueId = uniqueId,
+                //        AssetNo = assetNo,
+                //        Images = new[] { matchedFile }
+                //    });
+                //    cunt++;
+                //}
+
+                //PV Single to Multiple Entry
+                foreach (DataRow drw1 in dt1.Rows)
+                {
+                    var qry = Query.NE("PVuser", BsonNull.Value);
+                    var pvLst = _datamasterRepository.FindAll(qry).ToList();
+
+                    foreach (var pv in pvLst)
+                    {
+                        if (pv.PVuser == null)
+                            continue;
+
+                        //if (pv.PVLog != null && pv.PVLog.Count > 0)
+                        //{
+                        //    var logs = new List<Prosol_UpdatedBy>();
+                        //    for (int i = 0;i< pv.PVLog.Count()+1; i++)
+                        //    {
+                        //        var log = new Prosol_UpdatedBy();
+                        //        if (i == 0)
+                        //            log = pv.PVuser;
+                        //        else
+                        //            log = pv.PVLog[i-1];
+
+                        //        logs.Add(log);
+                        //    }
+                        //    pv.PVLog = logs;
+                        //}
+                        if (pv.PVLog == null && pv.PVLog.Count == 0)
+                        {
+                            if (pv.PVLog == null)
+                                pv.PVLog = new List<Prosol_UpdatedBy>();
+
+                            pv.PVLog.Insert(0, pv.PVuser); 
+                        }
+
+                         _datamasterRepository.Add(pv);
+                    }
+                }
             }
             return cunt + " Items assigned successfully";
+        }
 
+        private void UploadImage(string filePath, string imgName, ref string[] assign)
+        {
+            const string apiBaseUrl = "https://d30f70hjt97rz5.cloudfront.net/";
+            const string uploadUrl = "https://w6z8s5dwce.execute-api.me-south-1.amazonaws.com/dev/upload";
+            const string apiKey = "Pw3IgcUkno9xGTf3VtUBn2Gmi9rKA3Sb7Fh8liIH";
+
+            if (!File.Exists(filePath))
+                return;
+
+            try
+            {
+                // Read the file
+                byte[] data = File.ReadAllBytes(filePath);
+
+                // Create CloudFront URL and assign to array
+                string fullImgUrl = apiBaseUrl + imgName;
+                assign = (assign ?? new string[0]).Concat(new[] { fullImgUrl }).ToArray();
+
+                // Prepare upload request
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uploadUrl);
+                request.Method = "POST";
+                request.Headers.Add("file-name", imgName);
+                request.Headers.Add("x-api-key", apiKey);
+                request.ContentType = "image/jpeg";
+                request.ContentLength = data.Length;
+                request.Timeout = 300000; // 5 min
+                request.ReadWriteTimeout = 300000;
+
+                // Write file bytes to request stream
+                using (Stream stream = request.GetRequestStream())
+                {
+                    stream.Write(data, 0, data.Length);
+                }
+
+                // Get response
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                {
+                    if (response.StatusCode != HttpStatusCode.OK)
+                        Console.WriteLine("Upload failed: " + response.StatusCode);
+                }
+            }
+            catch (WebException ex)
+            {
+                Console.WriteLine("Upload failed: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error uploading image: " + ex.Message);
+            }
+        }
+
+        public IEnumerable<Prosol_Attachment> GetAttachment(string Itemcode)
+        {
+            var query = Query.EQ("Itemcode", Itemcode);
+            var attres = _attchmentRepository.FindAll(query);
+            return attres;
+
+        }
+
+        public byte[] Downloadfile(string imgId)
+        {
+            if (imgId != null)
+            {
+                var query1 = Query.EQ("_id", new ObjectId(imgId));
+                byte[] byt = _attchmentRepository.GridFsFindOne(query1);
+                return byt;
+                // if (byt != null)
+                // String.Format("data:image/jpg;base64,{0}", Convert.ToBase64String(byt));              
+            }
+            else return null;
         }
 
         private void UploadImage(string filePath, string imgName, Action<string[]> assign)
@@ -4412,7 +4718,7 @@ namespace Prosol.Core
 
                 foreach (DataRow drw1 in dt1.Rows)
                 {
-                        var query2 = Query.Or(Query.EQ("Itemcode", drw1[0].ToString()), Query.EQ("Materialcode", drw1[0].ToString()));
+                    var query2 = Query.Or(Query.EQ("Itemcode", drw1[0].ToString()), Query.EQ("Materialcode", drw1[0].ToString()));
                     var mdl2 = _datamasterRepository.FindOne(query2);
                     if (mdl2 != null)
                     {
@@ -4509,8 +4815,8 @@ namespace Prosol.Core
 
                         //var erpQuery = Query.EQ("Itemcode", mdl2.Itemcode);
                         //var erpDt = _erpRepository.FindOne(erpQuery);
-                        if (mdl2.PVstatus == "Completed")
-                        {
+                        if (mdl2.PVuser == null || mdl2.PVstatus == "Completed")
+                        { 
                             mdl2.ItemStatus = 0;
                         //var usrQry = Query.EQ("UserName", drw1[1].ToString());
                         var usrQry = Query.Matches("UserName", BsonRegularExpression.Create(new Regex(drw1[1].ToString().TrimStart().TrimEnd(), RegexOptions.IgnoreCase)));

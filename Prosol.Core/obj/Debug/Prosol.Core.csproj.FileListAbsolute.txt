@@ -303,8 +303,6 @@ D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Debug\Proso
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.pdb
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Debug\log4net.dll
 D:\1_INHOUSE\AD_Port_Main\ADPort_Dev_Final - Current\Prosol.Core\bin\Debug\log4net.xml
-D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.csproj.AssemblyReference.cache
-D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.csproj.CoreCompileInputs.cache
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\Prosol.Core.dll.config
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\Prosol.Core.dll
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\Prosol.Core.pdb
@@ -322,6 +320,8 @@ D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\AWSSDK.S3.pdb
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\AWSSDK.S3.xml
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\Excel.pdb
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\bin\Debug\MongoDB.Driver.Legacy.xml
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.csproj.AssemblyReference.cache
+D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.csproj.CoreCompileInputs.cache
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.csproj.CopyComplete
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.dll
 D:\1_INHOUSE\CCP_Main\CC_Dev_Final - Current\Prosol.Core\obj\Debug\Prosol.Core.pdb

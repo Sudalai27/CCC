@@ -43,7 +43,7 @@ namespace Prosol.Core
         }
         public bool Create(List<Prosol_Charateristics> chara)
         {
-            var query = Query.And(Query.EQ("Noun", chara[0].Noun), Query.EQ("Modifier", chara[0].Modifier));
+            var query = Query.And(Query.EQ("Noun", chara[0].Noun), Query.EQ("Modifier", chara[0].Modifier), Query.EQ("Definition", "MM"));
             _CharateristicRepository.Delete(query);
 
            // string[] strArr = { "Unitname" };
@@ -71,7 +71,7 @@ namespace Prosol.Core
         }
         public bool AssetCreate(List<Prosol_Charateristics> chara)
         {
-            var query = Query.And(Query.EQ("Noun", chara[0].Noun), Query.EQ("Modifier", chara[0].Modifier));
+            var query = Query.And(Query.EQ("Noun", chara[0].Noun), Query.EQ("Modifier", chara[0].Modifier), Query.EQ("Definition", "Equ"));
             _CharateristicRepository.Delete(query);
 
            // string[] strArr = { "Unitname" };
@@ -543,10 +543,11 @@ namespace Prosol.Core
             string[] strArr = { "Noun", "Modifier", "Characteristic", "Definition", "Squence", "ShortSquence", "Mandatory","UomMandatory","Values","Uom" };
             var fields = Fields.Include(strArr).Exclude("_id");
             var qry = Query.EQ("Definition","Equ");
+            var nmqry = Query.EQ("RP","Equ");
             var lstCha = _CharateristicRepository.FindAll(qry, sort).ToList();
             string[] strArr1 = { "Noun", "Modifier", "Nounabv", "ModifierDefinition", "ImageId", "Formatted" };
             fields = Fields.Include(strArr1).Exclude("_id");
-            var nmlist = _nounModifierRepository.FindAll(fields, sort);
+            var nmlist = _nounModifierRepository.FindAll( fields, nmqry, sort);
 
             var mergelist = (from nm in nmlist join chr in lstCha on nm.Noun
                              equals chr.Noun where nm.Noun == chr.Noun && nm.Modifier == chr.Modifier select new
@@ -577,20 +578,19 @@ namespace Prosol.Core
                     //    classficationId = data.Noun + "," + data.Modifier;
                     //else
                     //    classficationId = data.Noun;
-                    row.Add("CLASSIFICATIONID", data.ClassificationId);
-                    row.Add("HIERARCHYPATH", data.HierarchyPath);
-                    row.Add("PDESC", data.PDesc);
-                    row.Add("CLASSLEVEL", data.ClassLevel);
-                    row.Add("ASSETATTRID", data.Abbrivation);
-                    row.Add("ASSETATTR_DESC", data.chr);
+                    row.Add("NOUN", data.Noun);
+                    row.Add("MODIFIER", data.Modifier);
+                    row.Add("CHARACTERISTIC", data.chr);
+                    row.Add("ABBREVATION", data.Abbrivation);
+                    row.Add("SHORT SEQUENCE", data.sseq);
                     row.Add("SEQUENCE", data.Squence);
-                    row.Add("BUSIMANDATORY", data.chrman == "Yes" ? "M" : "O");
+                    row.Add("MANDATORY", data.chrman == "Yes" ? "M" : "O");
+                    //row.Add("UOM MANDATORY", data.uomman);
+                    //row.Add("UOM", data.UOM != "" ? getUom(data.UOM) : "");
                     //row.Add("Mandatory", data.chrman);
-                    //row.Add("UOM Mandatory", data.uomman);
                     //row.Add("Short Sequence", data.sseq);
                     //row.Add("Long Sequence", data.lseq);
                     //row.Add("Value", data.value != "" ? getValue(data.value) : "");
-                    //row.Add("UOM", data.UOM != "" ? getUom(data.UOM) : "");
 
                     rows.Add(row);
                 }

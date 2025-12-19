@@ -393,6 +393,21 @@
             }).error(function (data, status, headers, config) {
             });
         };
+
+
+        $scope.changeSeq = function () {
+            console.log($scope.rows);
+            $scope.rows.sort(function (a, b) {
+                return parseInt(a.Squence) - parseInt(b.Squence);
+            });
+            console.log($scope.rows);
+        };
+
+        $scope.toNumber = function (item) {
+            return parseInt(item.Squence) || 0;
+        };
+
+
         $scope.saveData = function () {
 
             var obj = $.grep($scope.rows, function (lst) {

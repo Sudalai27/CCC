@@ -43,21 +43,19 @@
             }
         });
         $scope.attcount1 = false;
-      
+
         $scope.GetRP = function () {
-         //   alert(angular.toJson($scope.cat.Noun))
+            //   alert(angular.toJson($scope.cat.Noun))
             if ($scope.cat.Noun != "" && $scope.cat.Noun != null) {
-          //      alert(angular.toJson($scope.cat.Noun))
+                //      alert(angular.toJson($scope.cat.Noun))
                 $http({
                     method: 'GET',
                     url: '/Dictionary/GetRP?Noun=' + $scope.cat.Noun
                 }).success(function (response) {
-                    
+
                     $scope.RP = response;
-                    if($scope.RP == "CI")
-                    {
-                        if ($scope.erp.Quantity_ != "")
-                        {
+                    if ($scope.RP == "CI") {
+                        if ($scope.erp.Quantity_ != "") {
                             $scope.erp.ReOrderPoint_ = Math.round($scope.erp.Quantity_ / 2);
                         }
                         else {
@@ -65,8 +63,7 @@
                         }
                         $scope.erp.MaxStockLevel_ = $scope.erp.Quantity_;
                     }
-                    else if($scope.RP == "RI")
-                    {
+                    else if ($scope.RP == "RI") {
                         $scope.erp.ReOrderPoint_ = '0';
                         $scope.erp.MaxStockLevel_ = '0';
                     }
@@ -80,836 +77,823 @@
                 });
             }
         }
-        
+
         $scope.desctab = "active";
-              $scope.desctab1 = "active";
-              $scope.dis = false;
-              $scope.RepeatedValue = "";
-            
-              function RestrictSpace() {
-                  if (event.keyCode == 32) {
-                      return false;
-                  }
-              }
+        $scope.desctab1 = "active";
+        $scope.dis = false;
+        $scope.RepeatedValue = "";
 
-              $scope.checkshort = function (index) {
-                  
-                  if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {
-                      $http({
-                          method: 'GET',
-                          url: '/GeneralSettings/getVendorAbbrForShortDesc',
-                          params: { mfr: $scope.rows[index].Name }
-                         
-                      }).success(function (response) {
+        function RestrictSpace() {
+            if (event.keyCode == 32) {
+                return false;
+            }
+        }
 
-                          if (response != '' && response != false && response != 'false') {
-                              $scope.rows[index].shortmfr = response.ShortDescName;
-                          }
-                          else {
-                              $scope.rows[index].shortmfr = "";
-                          }
+        $scope.checkshort = function (index) {
 
-                      }).error(function (data, status, headers, config) {
-                          // alert("error");
+            if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {
+                $http({
+                    method: 'GET',
+                    url: '/GeneralSettings/getVendorAbbrForShortDesc',
+                    params: { mfr: $scope.rows[index].Name }
 
-                      });
+                }).success(function (response) {
 
+                    if (response != '' && response != false && response != 'false') {
+                        $scope.rows[index].shortmfr = response.ShortDescName;
+                    }
+                    else {
+                        $scope.rows[index].shortmfr = "";
+                    }
 
-                      var i = 0;
-                      angular.forEach($scope.rows, function (val, key) {
-                          if (i === index) {
-                              if (val.s != 0) {
-                                  val.s = 1;
-                              }
-                              else {
-                                  val.s = 0;
-                              }
-                          }
-                          else {
-                              val.s = 0;
-                          }
-                          i++;
-                      });
+                }).error(function (data, status, headers, config) {
+                    // alert("error");
+
+                });
 
 
-                  }else
-                  {
-                      $scope.rows[index].redname = "red";
-                      $scope.rows[index].s = '0';
-                  }
-
-             
-              };
-
-              $scope.Uomalert = function (Uom, indx) {
-
-                  if (Uom != undefined) {
-                      var inxx = 0;
-
-                      angular.forEach($scope.Characteristics, function (value1, key1) {
-                          if (value1.UOM != undefined) {
-                              var res = $filter('filter')($scope.UOMs, { 'Attribute': value1.Characteristic }, true);
-
-                              angular.forEach(res, function (value2, key2) {
-                                  // alert(angular.toJson(value2.UOMList))
-                                  if (value2.UOMList != undefined && value2.UOMList.indexOf(Uom) != -1 && value1.UOM != Uom) {
-
-                                      $('#U' + inxx).attr('style', 'display:block;border:2px solid #f7ac02;border-radius: 10px;');
-                                  } else {
-                                      $('#U' + inxx).attr('style', 'display:block;background:none;');
-                                  }
-                              });
-
-                          }
-                          inxx = inxx + 1;
-                      });
-                  }
-              }
-            
-
-              $scope.checklong = function (index) {
-                  if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {
-                      var tst=$scope.rows[index].l;                 
-                      if (tst != 0)
-                      {
-                          $scope.rows[index].l = '1';
-                      }
-                      else
-                      {
-                          $scope.rows[index].l = '1';
-                      }
-                  }else
-                  {
-                      $scope.rows[index].redname = "red";
-                      $scope.rows[index].l = '1';
-                  }
-              };
-
-        
-              $scope.checkvendortype = function (index) {
-                  if($scope.rows[index].Type != "" && $scope.rows[index].Type != null && $scope.rows[index].Type != undefined)
-                  {
-                      $scope.rows[index].red = "";
-                  }
-                  else
-                  {
-                      $scope.rows[index].Name = "";
-                      $scope.rows[index].red = "red";
-                  }
-              };
-
-              $scope.refnochange = function (index) {
-                  if ($scope.rows[index].Refflag != "" && $scope.rows[index].Refflag != null && $scope.rows[index].Refflag != undefined) {
-                      $scope.rows[index].redrefflag = "";
-                  }
-                  else {
-                      $scope.rows[index].RefNo = "";
-                      $scope.rows[index].redrefflag = "red";
-                  }
-              };
+                var i = 0;
+                angular.forEach($scope.rows, function (val, key) {
+                    if (i === index) {
+                        if (val.s != 0) {
+                            val.s = 1;
+                        }
+                        else {
+                            val.s = 0;
+                        }
+                    }
+                    else {
+                        val.s = 0;
+                    }
+                    i++;
+                });
 
 
-              $scope.vebdortypechange = function (index) {
-                 
-                  if ($scope.rows[index].Type != "" && $scope.rows[index].Type != null && $scope.rows[index].Type != undefined) {
-                      var kjkj = 'vendor' + index;
-                      var name = $window.document.getElementById(kjkj);
-                      name.focus();
-                      $scope.rows[index].red = "";
-                      $scope.rows[index].red = "";
-                      if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined)
-                          $scope.rows[index].redname = "";
-                      else
-                          $scope.rows[index].redname = "";
-                  }
-                  else {
-                      if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {
-                          $scope.rows[index].redname = "";
-                          $scope.rows[index].red = "red";
-                      }
-                      else {
-                          $scope.rows[index].redname = "";
-                          $scope.rows[index].red = "";
-                          $scope.rows[index].s = '1';
-                          $scope.rows[index].l = '1';
+            } else {
+                $scope.rows[index].redname = "red";
+                $scope.rows[index].s = '0';
+            }
 
-                      }
 
-                  }
+        };
 
-              };
+        $scope.Uomalert = function (Uom, indx) {
+
+            if (Uom != undefined) {
+                var inxx = 0;
+
+                angular.forEach($scope.Characteristics, function (value1, key1) {
+                    if (value1.UOM != undefined) {
+                        var res = $filter('filter')($scope.UOMs, { 'Attribute': value1.Characteristic }, true);
+
+                        angular.forEach(res, function (value2, key2) {
+                            // alert(angular.toJson(value2.UOMList))
+                            if (value2.UOMList != undefined && value2.UOMList.indexOf(Uom) != -1 && value1.UOM != Uom) {
+
+                                $('#U' + inxx).attr('style', 'display:block;border:2px solid #f7ac02;border-radius: 10px;');
+                            } else {
+                                $('#U' + inxx).attr('style', 'display:block;background:none;');
+                            }
+                        });
+
+                    }
+                    inxx = inxx + 1;
+                });
+            }
+        }
+
+
+        $scope.checklong = function (index) {
+            if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {
+                var tst = $scope.rows[index].l;
+                if (tst != 0) {
+                    $scope.rows[index].l = '1';
+                }
+                else {
+                    $scope.rows[index].l = '1';
+                }
+            } else {
+                $scope.rows[index].redname = "red";
+                $scope.rows[index].l = '1';
+            }
+        };
+
+
+        $scope.checkvendortype = function (index) {
+            if ($scope.rows[index].Type != "" && $scope.rows[index].Type != null && $scope.rows[index].Type != undefined) {
+                $scope.rows[index].red = "";
+            }
+            else {
+                $scope.rows[index].Name = "";
+                $scope.rows[index].red = "red";
+            }
+        };
+
+        $scope.refnochange = function (index) {
+            if ($scope.rows[index].Refflag != "" && $scope.rows[index].Refflag != null && $scope.rows[index].Refflag != undefined) {
+                $scope.rows[index].redrefflag = "";
+            }
+            else {
+                $scope.rows[index].RefNo = "";
+                $scope.rows[index].redrefflag = "red";
+            }
+        };
+
+
+        $scope.vebdortypechange = function (index) {
+
+            if ($scope.rows[index].Type != "" && $scope.rows[index].Type != null && $scope.rows[index].Type != undefined) {
+                var kjkj = 'vendor' + index;
+                var name = $window.document.getElementById(kjkj);
+                name.focus();
+                $scope.rows[index].red = "";
+                $scope.rows[index].red = "";
+                if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined)
+                    $scope.rows[index].redname = "";
+                else
+                    $scope.rows[index].redname = "";
+            }
+            else {
+                if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {
+                    $scope.rows[index].redname = "";
+                    $scope.rows[index].red = "red";
+                }
+                else {
+                    $scope.rows[index].redname = "";
+                    $scope.rows[index].red = "";
+                    $scope.rows[index].s = '1';
+                    $scope.rows[index].l = '1';
+
+                }
+
+            }
+
+        };
 
 
 
-              $scope.refflagchange = function (index) {
-                  if ($scope.rows[index].Refflag != "" && $scope.rows[index].Refflag != null && $scope.rows[index].Refflag != undefined) {
-                      if ($scope.rows[index].Refflag === "DRAWING & POSITION NUMBER")
-                      {
-                          $scope.rows[index].placeholder = "Drawing,Position no";
-                      }
-                      else
-                      {
-                          $scope.rows[index].placeholder = "";
-                      }
-                      var kjkj = 'refno' + index;
-                      var name = $window.document.getElementById(kjkj);
-                      name.focus();
-                      $scope.rows[index].redrefflag = "";
-                      $scope.rows[index].redrefflag = "";
-                      if ($scope.rows[index].RefNo != "" && $scope.rows[index].RefNo != null && $scope.rows[index].RefNo != undefined)
-                          $scope.rows[index].redrefno = "";
-                      else
-                          $scope.rows[index].redrefno = "";
-                  }
-                  else {
-                      if ($scope.rows[index].RefNo != "" && $scope.rows[index].RefNo != null && $scope.rows[index].RefNo != undefined) {
-                          $scope.rows[index].redrefno = "";
-                          $scope.rows[index].redrefflag = "red";
-                      }
-                      else {
-                          $scope.rows[index].redrefno = "";
-                          $scope.rows[index].redrefflag = "";
-                      }
-                  }
-              };
+        $scope.refflagchange = function (index) {
+            if ($scope.rows[index].Refflag != "" && $scope.rows[index].Refflag != null && $scope.rows[index].Refflag != undefined) {
+                if ($scope.rows[index].Refflag === "DRAWING & POSITION NUMBER") {
+                    $scope.rows[index].placeholder = "Drawing,Position no";
+                }
+                else {
+                    $scope.rows[index].placeholder = "";
+                }
+                var kjkj = 'refno' + index;
+                var name = $window.document.getElementById(kjkj);
+                name.focus();
+                $scope.rows[index].redrefflag = "";
+                $scope.rows[index].redrefflag = "";
+                if ($scope.rows[index].RefNo != "" && $scope.rows[index].RefNo != null && $scope.rows[index].RefNo != undefined)
+                    $scope.rows[index].redrefno = "";
+                else
+                    $scope.rows[index].redrefno = "";
+            }
+            else {
+                if ($scope.rows[index].RefNo != "" && $scope.rows[index].RefNo != null && $scope.rows[index].RefNo != undefined) {
+                    $scope.rows[index].redrefno = "";
+                    $scope.rows[index].redrefflag = "red";
+                }
+                else {
+                    $scope.rows[index].redrefno = "";
+                    $scope.rows[index].redrefflag = "";
+                }
+            }
+        };
 
 
 
 
-              $scope.vendornameblur = function (index) {
-                //  alert(index)
-                
-                  if ($scope.rows[index].Type != "" && $scope.rows[index].Type != null && $scope.rows[index].Type != undefined) {
-                      $scope.rows[index].red = "";
-                      if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined)
-                          $scope.rows[index].redname = "";
-                      else
-                          $scope.rows[index].redname = "red";
-                  }
-                  else
-                  {
-                      //if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {                          
-                      //}
-                      //else if ($scope.rows[index].s == '1') {
-                          
-                         
-                      //    $scope.rows[index].l = '1';
+        $scope.vendornameblur = function (index) {
+            //  alert(index)
 
-                      //}
-                      //else {
-                      
-                      //    $scope.rows[index].s = '0';
-                      //    $scope.rows[index].l = '1';
-                      //}
-
-                      $scope.rows[index].red = "";
-                      $scope.rows[index].redname = "";
-                  }
-
-                  if($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined && $scope.rows[index].s != '0')
-                  {
-                      $http({
-                          method: 'GET',
-                          url: '/GeneralSettings/getVendorAbbrForShortDesc',
-                          params :{mfr: $scope.rows[index].Name}
-                      }).success(function (response) {
-
-                          if (response != '' && response != false && response != 'false') {
-                              $scope.rows[index].shortmfr = response.ShortDescName;
-                          }
-                          else {
-                              $scope.rows[index].shortmfr = "";
-                          }
-
-                      }).error(function (data, status, headers, config) {
-                          // alert("error");
-
-                      });
-
-                  }
-                  ///NEW CODE FOR VENDORMASTER
-
-                  //if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined && $scope.rows[index].s != '0') {
-                  //    $http({
-                  //        method: 'GET',
-                  //        url: '/GeneralSettings/FINDVENDORMASTER?mfr=' + $scope.rows[index].Name
-                  //    }).success(function (response) {
-                  //        //alert(response);
-                  //        if (response == false) {
-                  //            $scope.myres1 = true;
-                  //            } else {
-                  //            $scope.myres1 = false;
-                  //            }
-
-                  //    }).error(function (data, status, headers, config) {
-                  //        // alert("error");
-
-                  //    });
-
-                  //}
+            if ($scope.rows[index].Type != "" && $scope.rows[index].Type != null && $scope.rows[index].Type != undefined) {
+                $scope.rows[index].red = "";
+                if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined)
+                    $scope.rows[index].redname = "";
+                else
+                    $scope.rows[index].redname = "red";
+            }
+            else {
+                //if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined) {                          
+                //}
+                //else if ($scope.rows[index].s == '1') {
 
 
-              };
+                //    $scope.rows[index].l = '1';
+
+                //}
+                //else {
+
+                //    $scope.rows[index].s = '0';
+                //    $scope.rows[index].l = '1';
+                //}
+
+                $scope.rows[index].red = "";
+                $scope.rows[index].redname = "";
+            }
+
+            if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined && $scope.rows[index].s != '0') {
+                $http({
+                    method: 'GET',
+                    url: '/GeneralSettings/getVendorAbbrForShortDesc',
+                    params: { mfr: $scope.rows[index].Name }
+                }).success(function (response) {
+
+                    if (response != '' && response != false && response != 'false') {
+                        $scope.rows[index].shortmfr = response.ShortDescName;
+                    }
+                    else {
+                        $scope.rows[index].shortmfr = "";
+                    }
+
+                }).error(function (data, status, headers, config) {
+                    // alert("error");
+
+                });
+
+            }
+            ///NEW CODE FOR VENDORMASTER
+
+            //if ($scope.rows[index].Name != "" && $scope.rows[index].Name != null && $scope.rows[index].Name != undefined && $scope.rows[index].s != '0') {
+            //    $http({
+            //        method: 'GET',
+            //        url: '/GeneralSettings/FINDVENDORMASTER?mfr=' + $scope.rows[index].Name
+            //    }).success(function (response) {
+            //        //alert(response);
+            //        if (response == false) {
+            //            $scope.myres1 = true;
+            //            } else {
+            //            $scope.myres1 = false;
+            //            }
+
+            //    }).error(function (data, status, headers, config) {
+            //        // alert("error");
+
+            //    });
+
+            //}
+
+
+        };
 
 
 
-              $scope.refnoblur = function (index) {
+        $scope.refnoblur = function (index) {
 
 
-                  if ($scope.rows[index].Refflag != "" && $scope.rows[index].Refflag != null && $scope.rows[index].Refflag != undefined) {
-                      $scope.rows[index].redrefflag = "";
-                      if ($scope.rows[index].RefNo != "" && $scope.rows[index].RefNo != null && $scope.rows[index].RefNo != undefined) {
+            if ($scope.rows[index].Refflag != "" && $scope.rows[index].Refflag != null && $scope.rows[index].Refflag != undefined) {
+                $scope.rows[index].redrefflag = "";
+                if ($scope.rows[index].RefNo != "" && $scope.rows[index].RefNo != null && $scope.rows[index].RefNo != undefined) {
 
-                          if ($scope.rows[index].Refflag === "DRAWING & POSITION NUMBER")
-                          {
-                              var hh = $scope.rows[index].RefNo;
-                              $scope.rows[index].RefNo = hh.replace(/[\s]/g, '');
+                    if ($scope.rows[index].Refflag === "DRAWING & POSITION NUMBER") {
+                        var hh = $scope.rows[index].RefNo;
+                        $scope.rows[index].RefNo = hh.replace(/[\s]/g, '');
 
-                              var comma = $scope.rows[index].RefNo.slice(-1);
-                             
-                              if (comma === ',') {
-                                  $scope.rows[index].redrefno = "red";
-                                  //$scope.rows[index].RefNo = $scope.rows[index].RefNo.slice(0, -1);
-                              }
-                              else {
-                                  $scope.rows[index].redrefno = "";
-                              }
-                              if($scope.rows[index].RefNo.indexOf(',') === -1)
-                              {
-                                  $scope.rows[index].redrefno = "red";
-                              }
+                        var comma = $scope.rows[index].RefNo.slice(-1);
 
-                              if (($scope.rows[index].RefNo.split(",").length - 1) > 1)
-                              {
-                                  $scope.rows[index].redrefno = "red";
-                              }
-                          }
-                          else
-                              $scope.rows[index].redrefno = "";
-                      }
-                      else
-                          $scope.rows[index].redrefno = "red";
-                  }
-                  else {
-                      $scope.rows[index].redrefflag = "";
-                      $scope.rows[index].redrefno = "";
-                  }
-              };
+                        if (comma === ',') {
+                            $scope.rows[index].redrefno = "red";
+                            //$scope.rows[index].RefNo = $scope.rows[index].RefNo.slice(0, -1);
+                        }
+                        else {
+                            $scope.rows[index].redrefno = "";
+                        }
+                        if ($scope.rows[index].RefNo.indexOf(',') === -1) {
+                            $scope.rows[index].redrefno = "red";
+                        }
+
+                        if (($scope.rows[index].RefNo.split(",").length - 1) > 1) {
+                            $scope.rows[index].redrefno = "red";
+                        }
+                    }
+                    else
+                        $scope.rows[index].redrefno = "";
+                }
+                else
+                    $scope.rows[index].redrefno = "red";
+            }
+            else {
+                $scope.rows[index].redrefflag = "";
+                $scope.rows[index].redrefno = "";
+            }
+        };
         //clone
-              $scope.pop = false;
-              $scope.N = null;
-              $scope.M = null;
-              $scope.identifyAdd_rows = function (index) {
-                  $('input:checkbox').click(function () {
-                      if ($(this).is(':checked')) {
-
-                          $('#Submit').prop("disabled", false);
-                      } else {
-
-                          if ($('.chk').filter(':checked').length < 2) {
-                              $('#Submit').attr('disabled', true);
-                          }
-                          if ($('.chk').filter(':checked').length < 1) {
-                              $scope.N = null;
-                              $scope.M = null;
-                          }
-                      }
-                  });
-                  if ($scope.N == null) {
-                      $scope.N = $scope.sResult1[index].Noun;
-                      $scope.M = $scope.sResult1[index].Modifier;
-                  }
-                 
-                  if ($scope.sResult1[index].add === 0) {
-                    
-                      if ($scope.sResult1[index].Noun == $scope.N && $scope.sResult1[index].Modifier == $scope.M) {
-                          $scope.sResult1[index].add = 1;
-                          $scope.add = false;
-                      }
-                      else {
-
-                          alert("Please Select Same Noun and Modifier")
-                          angular.forEach($scope.sResult1, function (value, key) {
-                              if (key == index) {
-                                  value.isChecked = false;
-                              }
-                          });
-                      }
-
-                  }
-                  else {
-                      $scope.sResult1[index].add = 0;
-                  }
-
-
-              };
-              //$scope.pop = false;
-              //$scope.identifyAdd_rows = function (index) {
-
-              //    $('input:checkbox').click(function () {
-              //        if ($(this).is(':checked')) {
-              //            $('#Submit').prop("disabled", false);
-              //        } else {
-              //            if ($('.chk').filter(':checked').length < 2) {
-              //                $('#Submit').attr('disabled', true);
-              //            }
-              //        }
-              //    });
-
-              //    if ($scope.sResult1[index].add === 0) {
-              //        $scope.sResult1[index].add = 1;
-              //        $scope.add = false;
-              //    } else {
-              //        $scope.sResult1[index].add = 0;
-              //    }
-              //};
-
-              var listArray = [];
-              var listArray1 = [];
-              $scope.list = [];
-              $scope.Compare = function (Legacy1, Legacy) {
-                 
-                
-                  var listArray = [];
-
-                  angular.forEach($scope.sResult1, function (value, key) {
-                    
-                      if (value.add === 1) {
-                         
-                          if (listArray.length == 0) {
-                              listArray.push({
-                                  "Materialcode": "Materialcode",
-                                  "Noun": "Noun",
-                                  "Modifier": "Modifier",
-                                  "Legacy": "Legacy",
-                                  "Longdesc": "LongDesc",
-                                  "Additionalinfo": "Additional information",
-                                  "Characteristics": value.Characteristics
-                              })
-                          }
-                          listArray.push(value);
-                      }
-                     
-                  });
-
-                  angular.forEach(listArray, function (src, idx) {
-                      src.rem = 0;
-                    
-                  });
-
-                  $scope.list = listArray;
-                  //  $scope.char =$scope.list[0].Characteristics;
-                
-
-                  if ($scope.list.length > 1) {
-
-                      mymodalcompare.open();
-                      mymodalcompare.setTitle('<strong>' + "Legacy : " + '</strong>' + Legacy + '<br>' + '<strong>' + "Search key : " + '</strong>' + Legacy1);
-                      $scope.pop = true;
-                      $scope.N = null;
-                      $scope.M = null;
-                      angular.forEach($scope.sResult1, function (value, key) {
-                          value.add = 0;
-                          value.isChecked = false;
-                      });
-                  }
-                  else {
-                      alert("Please select two or more items to compare")
-                  }
-
-              };
-              var mymodalcompare = new jBox('Modal', {
-
-                  width: 2500,
-                  height: 650,
-                  blockScroll: false,
-                  animation: 'zoomIn',
-                  draggable: false,
-                  overlay: true,
-                  closeButton: true,
-                  content: jQuery('#compare'),
-
-                  // content: jQuery('#cotentid3'),
-
-              });
-              $scope.Remove = function (index) {
-                  var listArray1 = [];
-                  if ($scope.list[index].rem === 0) {
-                      $scope.list[index].rem = 1;
-                      $scope.remove = false;
-                  } else {
-                      $scope.list[index].rem = 0;
-                  }
-                  angular.forEach($scope.list, function (value, key) {
-                      if (value.rem === 0) {
-
-                          listArray1.push(value);
-                      }
-                  });
-                  $scope.list = listArray1;
-                  if (listArray1.length == 1) {
-
-                      mymodalcompare.close();
-                  }
-              };
-
-              var mymodalnew = new jBox('Modal', {
-
-                  width: 1200,
-                  height:500,
-                  blockScroll: false,
-                  animation: 'zoomIn',
-                  draggable: false,
-                  overlay: true,
-                  closeButton: true,
-                  content: jQuery('#cotentidnew'),
-
-                  // content: jQuery('#cotentid3'),
-
-              });
-              $scope.nounmodifier = true;
-              $scope.searchby = function (Key) {
-
-
-                  if (Key == "Noun-Modifier") {
-                      $scope.search = true;
-                      $scope.nounmodifier = false;
-                      mymodalNM.open();
-                  }
-                  else {
-                      $scope.search = false;
-                  }
-              }
-              var mymodalNM = new jBox('Modal', {
-
-                  width: 800,
-                  height: 500,
-                  blockScroll: false,
-                  animation: 'zoomIn',
-                  draggable: false,
-                  overlay: true,
-                  closeButton: true,
-                  content: jQuery('#nmpopup'),
-
-                  // content: jQuery('#cotentid3'),
-
-              });
-              $http({
-                  method: 'GET',
-                  url: '/Dictionary/GetNoun'
-              }).success(function (response) {
-
-                  $scope.Nounsrch = response;
-
-              }).error(function (data, status, headers, config) {
-                  alert("error");
-
-              });
-
-              $scope.SelectNoun1 = function () {
-
-
-                  $scope.modifierDef1 = null;
-                  $scope.pop.Modifier = null;
-                  //if ($scope.list.Noun.toString().indexOf(',') == -1) {
-
-                  //    $scope.getnoun = $scope.list.Noun;
-
-                  //    var NDef = $.grep($scope.Nounsrch, function (list) {
-                  //        return list.Noun == $scope.list.Noun;
-                  //    })[0].NounDefinition;
-
-                  //    $scope.nounDef = NDef;
-                  //}
-
-                  $http({
-                      method: 'GET',
-                      url: '/Dictionary/GetModifier?Noun=' + $scope.pop.Noun
-                  }).success(function (response) {
-
-                      $scope.Modifiersrch = response;
-
-                  }).error(function (data, status, headers, config) {
-                      // alert("error");
-
-                  });
-
-              };
-
-              $scope.SelectModifier1 = function () {
-
-                  $scope.charaterDef = null;
-                  $scope.charater = null;
-
-                  if ($scope.pop.Modifier.toString().indexOf(',') == -1) {
-
-                      var NDef = $.grep($scope.Modifiersrch, function (pop) {
-                          return pop.Modifier == $scope.pop.Modifier;
-                      })[0].ModifierDefinition;
-
-                      $scope.modifierDef1 = NDef;
-                  }
-
-              };
-              $scope.getnm = function (Noun, Modifier) {
-                  $timeout(function () {
-                      $('#divNotifiy').attr('style', 'display: none');
-                  }, 3000);
-                  $scope.promise = $http({
-                      method: 'GET',
-                      url: '/Search/Getitem?Noun=' + Noun + '&Modifier=' + Modifier
-                  }).success(function (response) {
-
-                      if (response != '') {
-                          $scope.sResult1 = response;
-
-                          angular.forEach($scope.sResult1, function (src, idx) {
-                              src.add = 0;
-                              src.rem = 0;
-                              src.isChecked = false;
-                          });
-                          $scope.Res = "Search results : " + response.length + " items."
-                          $scope.Notify = "alert-info";
-
-                          $scope.add = true;
-
-                          mymodalnew.open();
-                          mymodalnew.setTitle("Noun-Modifier : " + Noun + "," + Modifier);
-
-                      } else {
-                          $scope.sResult1 = null;
-                          $scope.Res = "No item found"
-                          $scope.Notify = "alert-danger";
-                          $scope.NotifiyRes = true;
-
-                      }
-
-                  }).error(function (data, status, headers, config) {
-                      alert("error");
-
-                  });
-
-              }
-              $scope.clickToOpen = function (Legacy1, Legacy, Itemcode) {
-
-                  $scope.leg = Legacy;
-                  $scope.Item = Itemcode;
-                  $timeout(function () {
-                      $('#divNotifiy').attr('style', 'display: none');
-                  }, 5000);
-                  if (Legacy1 != " " && Legacy1 != undefined && Legacy1 != null && Legacy1 != '') {
-                      $scope.sResult = {};
-                      $rootScope.cgBusyPromises = $http({
-                          method: 'GET',
-                          url: '/Search/GetSearch',
-                          params:{sKey: Legacy1}
-
-                      }).success(function (response) {
-
-                          $('#divNotifiy').attr('style', 'display: block');
-                          if (response != '') {
-
-                              $scope.sResult1 = response;
-                            
-                              angular.forEach($scope.sResult1, function (src, idx) {
-                                  src.add = 0;
-                                  src.rem = 0;
-                                  src.isChecked = false;
-                              });
-                              $scope.Res = "Search results : " + response.length + " items."
-                              $scope.Notify = "alert-info";
-                              $scope.NotifiyRes = true;
-                              $scope.add = true;
-
-                              mymodalnew.open();
-                              mymodalnew.setTitle('<strong>' + "Legacy : " + '</strong>' + Legacy + '<br>' + '<strong>' + "Search key : " + '</strong>' + Legacy1);
-                            
-                          } else {
-                              $scope.sResult1 = null;
-                              $scope.Res = "No item found"
-                              $scope.Notify = "alert-danger";
-                              $scope.NotifiyRes = true;
-
-                          }
-
-                      }).error(function (data, status, headers, config) {
-
-                      });
-                  }
-              };
+        $scope.pop = false;
+        $scope.N = null;
+        $scope.M = null;
+        $scope.identifyAdd_rows = function (index) {
+            $('input:checkbox').click(function () {
+                if ($(this).is(':checked')) {
+
+                    $('#Submit').prop("disabled", false);
+                } else {
+
+                    if ($('.chk').filter(':checked').length < 2) {
+                        $('#Submit').attr('disabled', true);
+                    }
+                    if ($('.chk').filter(':checked').length < 1) {
+                        $scope.N = null;
+                        $scope.M = null;
+                    }
+                }
+            });
+            if ($scope.N == null) {
+                $scope.N = $scope.sResult1[index].Noun;
+                $scope.M = $scope.sResult1[index].Modifier;
+            }
+
+            if ($scope.sResult1[index].add === 0) {
+
+                if ($scope.sResult1[index].Noun == $scope.N && $scope.sResult1[index].Modifier == $scope.M) {
+                    $scope.sResult1[index].add = 1;
+                    $scope.add = false;
+                }
+                else {
+
+                    alert("Please Select Same Noun and Modifier")
+                    angular.forEach($scope.sResult1, function (value, key) {
+                        if (key == index) {
+                            value.isChecked = false;
+                        }
+                    });
+                }
+
+            }
+            else {
+                $scope.sResult1[index].add = 0;
+            }
+
+
+        };
+        //$scope.pop = false;
+        //$scope.identifyAdd_rows = function (index) {
+
+        //    $('input:checkbox').click(function () {
+        //        if ($(this).is(':checked')) {
+        //            $('#Submit').prop("disabled", false);
+        //        } else {
+        //            if ($('.chk').filter(':checked').length < 2) {
+        //                $('#Submit').attr('disabled', true);
+        //            }
+        //        }
+        //    });
+
+        //    if ($scope.sResult1[index].add === 0) {
+        //        $scope.sResult1[index].add = 1;
+        //        $scope.add = false;
+        //    } else {
+        //        $scope.sResult1[index].add = 0;
+        //    }
+        //};
+
+        var listArray = [];
+        var listArray1 = [];
+        $scope.list = [];
+        $scope.Compare = function (Legacy1, Legacy) {
+
+
+            var listArray = [];
+
+            angular.forEach($scope.sResult1, function (value, key) {
+
+                if (value.add === 1) {
+
+                    if (listArray.length == 0) {
+                        listArray.push({
+                            "Materialcode": "Materialcode",
+                            "Noun": "Noun",
+                            "Modifier": "Modifier",
+                            "Legacy": "Legacy",
+                            "Longdesc": "LongDesc",
+                            "Additionalinfo": "Additional information",
+                            "Characteristics": value.Characteristics
+                        })
+                    }
+                    listArray.push(value);
+                }
+
+            });
+
+            angular.forEach(listArray, function (src, idx) {
+                src.rem = 0;
+
+            });
+
+            $scope.list = listArray;
+            //  $scope.char =$scope.list[0].Characteristics;
+
+
+            if ($scope.list.length > 1) {
+
+                mymodalcompare.open();
+                mymodalcompare.setTitle('<strong>' + "Legacy : " + '</strong>' + Legacy + '<br>' + '<strong>' + "Search key : " + '</strong>' + Legacy1);
+                $scope.pop = true;
+                $scope.N = null;
+                $scope.M = null;
+                angular.forEach($scope.sResult1, function (value, key) {
+                    value.add = 0;
+                    value.isChecked = false;
+                });
+            }
+            else {
+                alert("Please select two or more items to compare")
+            }
+
+        };
+        var mymodalcompare = new jBox('Modal', {
+
+            width: 2500,
+            height: 650,
+            blockScroll: false,
+            animation: 'zoomIn',
+            draggable: false,
+            overlay: true,
+            closeButton: true,
+            content: jQuery('#compare'),
+
+            // content: jQuery('#cotentid3'),
+
+        });
+        $scope.Remove = function (index) {
+            var listArray1 = [];
+            if ($scope.list[index].rem === 0) {
+                $scope.list[index].rem = 1;
+                $scope.remove = false;
+            } else {
+                $scope.list[index].rem = 0;
+            }
+            angular.forEach($scope.list, function (value, key) {
+                if (value.rem === 0) {
+
+                    listArray1.push(value);
+                }
+            });
+            $scope.list = listArray1;
+            if (listArray1.length == 1) {
+
+                mymodalcompare.close();
+            }
+        };
+
+        var mymodalnew = new jBox('Modal', {
+
+            width: 1200,
+            height: 500,
+            blockScroll: false,
+            animation: 'zoomIn',
+            draggable: false,
+            overlay: true,
+            closeButton: true,
+            content: jQuery('#cotentidnew'),
+
+            // content: jQuery('#cotentid3'),
+
+        });
+        $scope.nounmodifier = true;
+        $scope.searchby = function (Key) {
+
+
+            if (Key == "Noun-Modifier") {
+                $scope.search = true;
+                $scope.nounmodifier = false;
+                mymodalNM.open();
+            }
+            else {
+                $scope.search = false;
+            }
+        }
+        var mymodalNM = new jBox('Modal', {
+
+            width: 800,
+            height: 500,
+            blockScroll: false,
+            animation: 'zoomIn',
+            draggable: false,
+            overlay: true,
+            closeButton: true,
+            content: jQuery('#nmpopup'),
+
+            // content: jQuery('#cotentid3'),
+
+        });
+        $http({
+            method: 'GET',
+            url: '/Dictionary/GetNoun'
+        }).success(function (response) {
+
+            $scope.Nounsrch = response;
+
+        }).error(function (data, status, headers, config) {
+            alert("error");
+
+        });
+
+        $scope.SelectNoun1 = function () {
+
+
+            $scope.modifierDef1 = null;
+            $scope.pop.Modifier = null;
+            //if ($scope.list.Noun.toString().indexOf(',') == -1) {
+
+            //    $scope.getnoun = $scope.list.Noun;
+
+            //    var NDef = $.grep($scope.Nounsrch, function (list) {
+            //        return list.Noun == $scope.list.Noun;
+            //    })[0].NounDefinition;
+
+            //    $scope.nounDef = NDef;
+            //}
+
+            $http({
+                method: 'GET',
+                url: '/Dictionary/GetModifier?Noun=' + $scope.pop.Noun
+            }).success(function (response) {
+
+                $scope.Modifiersrch = response;
+
+            }).error(function (data, status, headers, config) {
+                // alert("error");
+
+            });
+
+        };
+
+        $scope.SelectModifier1 = function () {
+
+            $scope.charaterDef = null;
+            $scope.charater = null;
+
+            if ($scope.pop.Modifier.toString().indexOf(',') == -1) {
+
+                var NDef = $.grep($scope.Modifiersrch, function (pop) {
+                    return pop.Modifier == $scope.pop.Modifier;
+                })[0].ModifierDefinition;
+
+                $scope.modifierDef1 = NDef;
+            }
+
+        };
+        $scope.getnm = function (Noun, Modifier) {
+            $timeout(function () {
+                $('#divNotifiy').attr('style', 'display: none');
+            }, 3000);
+            $scope.promise = $http({
+                method: 'GET',
+                url: '/Search/Getitem?Noun=' + Noun + '&Modifier=' + Modifier
+            }).success(function (response) {
+
+                if (response != '') {
+                    $scope.sResult1 = response;
+
+                    angular.forEach($scope.sResult1, function (src, idx) {
+                        src.add = 0;
+                        src.rem = 0;
+                        src.isChecked = false;
+                    });
+                    $scope.Res = "Search results : " + response.length + " items."
+                    $scope.Notify = "alert-info";
+
+                    $scope.add = true;
+
+                    mymodalnew.open();
+                    mymodalnew.setTitle("Noun-Modifier : " + Noun + "," + Modifier);
+
+                } else {
+                    $scope.sResult1 = null;
+                    $scope.Res = "No item found"
+                    $scope.Notify = "alert-danger";
+                    $scope.NotifiyRes = true;
+
+                }
+
+            }).error(function (data, status, headers, config) {
+                alert("error");
+
+            });
+
+        }
+        $scope.clickToOpen = function (Legacy1, Legacy, Itemcode) {
+
+            $scope.leg = Legacy;
+            $scope.Item = Itemcode;
+            $timeout(function () {
+                $('#divNotifiy').attr('style', 'display: none');
+            }, 5000);
+            if (Legacy1 != " " && Legacy1 != undefined && Legacy1 != null && Legacy1 != '') {
+                $scope.sResult = {};
+                $rootScope.cgBusyPromises = $http({
+                    method: 'GET',
+                    url: '/Search/GetSearch',
+                    params: { sKey: Legacy1 }
+
+                }).success(function (response) {
+
+                    $('#divNotifiy').attr('style', 'display: block');
+                    if (response != '') {
+
+                        $scope.sResult1 = response;
+
+                        angular.forEach($scope.sResult1, function (src, idx) {
+                            src.add = 0;
+                            src.rem = 0;
+                            src.isChecked = false;
+                        });
+                        $scope.Res = "Search results : " + response.length + " items."
+                        $scope.Notify = "alert-info";
+                        $scope.NotifiyRes = true;
+                        $scope.add = true;
+
+                        mymodalnew.open();
+                        mymodalnew.setTitle('<strong>' + "Legacy : " + '</strong>' + Legacy + '<br>' + '<strong>' + "Search key : " + '</strong>' + Legacy1);
+
+                    } else {
+                        $scope.sResult1 = null;
+                        $scope.Res = "No item found"
+                        $scope.Notify = "alert-danger";
+                        $scope.NotifiyRes = true;
+
+                    }
+
+                }).error(function (data, status, headers, config) {
+
+                });
+            }
+        };
         //clone
-              $scope.Clone = function (src1) {
+        $scope.Clone = function (src1) {
 
-                 // alert("hai");
-                  $http({
-                      method: 'GET',
-                      url: '/Dictionary/GetModifier',
-                      params: { Noun: src1.Noun }
-                  }).success(function (response) {
-                      var flg = 0;
-                      $scope.Modifiers = response;
-                  });
-                 
-
-                  $scope.cat.Noun = src1.Noun;
-                  $scope.cat.Modifier = src1.Modifier;
-                  $scope.cat.Shortdesc = src1.Shortdesc;
-                  $scope.cat.Longdesc = src1.Longdesc;
-                  
-                  $scope.cat.Additionalinfo = src1.Additionalinfo;
-                  $scope.cat.Junk = src1.Junk;
-                  $scope.cat.Manufacturer = src1.Manufacturer;
-                  $scope.cat.Application = src1.Application;
-                  $scope.cat.Drawingno = src1.Drawingno;
-                  $scope.cat.Referenceno = src1.Referenceno;
-                  $scope.cat.Remarks = src1.Remarks;
-                  $scope.cat.Characteristics = src1.Characteristics;
-                  $scope.cat.UOM = src1.UOM;
-                  $scope.cat.Maincode = $scope.cat.Maincode;
-                  $scope.getSubcode();
-                  $scope.cat.Subcode = $scope.cat.Subcode;
-                  $scope.getSubsubcode();
-                  $scope.cat.Subsubcode = $scope.cat.Subsubcode;
+            // alert("hai");
+            $http({
+                method: 'GET',
+                url: '/Dictionary/GetModifier',
+                params: { Noun: src1.Noun }
+            }).success(function (response) {
+                var flg = 0;
+                $scope.Modifiers = response;
+            });
 
 
+            $scope.cat.Noun = src1.Noun;
+            $scope.cat.Modifier = src1.Modifier;
+            $scope.cat.Shortdesc = src1.Shortdesc;
+            $scope.cat.Longdesc = src1.Longdesc;
 
-
-
-                  //Equipment
-                  $scope.Equ = src1.Equipment;
-
-
-
-                  var tst = src1.Vendorsuppliers;
-                  if (tst != null && tst != '') {
-                      $scope.rows = src1.Vendorsuppliers;
-
-                  } else {
-                      $scope.rows = null;
-                      $scope.rows = [{ 'slno': 1, 's': '1', 'l': '1' }];
-                  }
-
-
-                  $http({
-                      method: 'GET',
-                      url: '/Dictionary/GetModifier',
-                      params :{Noun: src1.Noun}
-                  }).success(function (response) {
-                      var flg = 0;
-                      $scope.Modifiers = response;
-
-                      angular.forEach($scope.Modifiers, function (obj) {
-                          if (obj.Modifier == src1.Modifier)
-                              flg = 1;
-                      });
-                      if (flg == 0) {
-                          $scope.cat.Modifier = '';
-
-                      }
-                  }).error(function (data, status, headers, config) {
-                      // alert("error");
-                  });
-
-                  ///  $scope.getSimiliar();
-
-                  $http({
-                      method: 'GET',
-                      url: '/Dictionary/GetNounModifier2',
-                      params :{ Noun: src1.Noun , Modifier: src1.Modifier}
-                  }).success(function (response) {
-                      if (response != '') {
-                          $scope.NM1 = response.One_NounModifier;
-                          $scope.Characteristics = response.ALL_NM_Attributes;
-                          $http({
-                              method: 'GET',
-                              url: '/Catalogue/GetUnits'
-                          }).success(function (response) {
-                              $scope.UOMs = response;
-                             
-                         
-
-                          }).error(function (data, status, headers, config) {
-                              // 
-                          });
+            $scope.cat.Additionalinfo = src1.Additionalinfo;
+            $scope.cat.Junk = src1.Junk;
+            $scope.cat.Manufacturer = src1.Manufacturer;
+            $scope.cat.Application = src1.Application;
+            $scope.cat.Drawingno = src1.Drawingno;
+            $scope.cat.Referenceno = src1.Referenceno;
+            $scope.cat.Remarks = src1.Remarks;
+            $scope.cat.Characteristics = src1.Characteristics;
+            $scope.cat.UOM = src1.UOM;
+            $scope.cat.Maincode = $scope.cat.Maincode;
+            $scope.getSubcode();
+            $scope.cat.Subcode = $scope.cat.Subcode;
+            $scope.getSubsubcode();
+            $scope.cat.Subsubcode = $scope.cat.Subsubcode;
 
 
 
 
-                          angular.forEach($scope.Characteristics, function (value1, key1) {
 
-                              angular.forEach($scope.cat.Characteristics, function (value2, key2) {
+            //Equipment
+            $scope.Equ = src1.Equipment;
 
-                                  if (value1.Characteristic === value2.Characteristic) {
 
-                                      value1.Value = value2.Value;
-                                      value1.UOM = value2.UOM;
-                                      value1.Source = value2.Source;
-                                      value1.SourceUrl = value2.SourceUrl;
-                                      value1.Squence = value2.Squence;
-                                  }
 
-                              });
-                          });
+            var tst = src1.Vendorsuppliers;
+            if (tst != null && tst != '') {
+                $scope.rows = src1.Vendorsuppliers;
 
-                      }
-                      else {
+            } else {
+                $scope.rows = null;
+                $scope.rows = [{ 'slno': 1, 's': '1', 'l': '1' }];
+            }
 
-                          $scope.Characteristics = null;
-                          // $('#divcharater').attr('style', 'display: none');
-                      }
 
-                  }).error(function (data, status, headers, config) {
-                      // alert("error");
-                  });
+            $http({
+                method: 'GET',
+                url: '/Dictionary/GetModifier',
+                params: { Noun: src1.Noun }
+            }).success(function (response) {
+                var flg = 0;
+                $scope.Modifiers = response;
 
-                  mymodalcompare.close();
-                  mymodalnew.close();
-              };
+                angular.forEach($scope.Modifiers, function (obj) {
+                    if (obj.Modifier == src1.Modifier)
+                        flg = 1;
+                });
+                if (flg == 0) {
+                    $scope.cat.Modifier = '';
+
+                }
+            }).error(function (data, status, headers, config) {
+                // alert("error");
+            });
+
+            ///  $scope.getSimiliar();
+
+            $http({
+                method: 'GET',
+                url: '/Dictionary/GetNounModifier2',
+                params: { Noun: src1.Noun, Modifier: src1.Modifier }
+            }).success(function (response) {
+                if (response != '') {
+                    $scope.NM1 = response.One_NounModifier;
+                    $scope.Characteristics = response.ALL_NM_Attributes;
+                    $http({
+                        method: 'GET',
+                        url: '/Catalogue/GetUnits'
+                    }).success(function (response) {
+                        $scope.UOMs = response;
+
+
+
+                    }).error(function (data, status, headers, config) {
+                        // 
+                    });
+
+
+
+
+                    angular.forEach($scope.Characteristics, function (value1, key1) {
+
+                        angular.forEach($scope.cat.Characteristics, function (value2, key2) {
+
+                            if (value1.Characteristic === value2.Characteristic) {
+
+                                value1.Value = value2.Value;
+                                value1.UOM = value2.UOM;
+                                value1.Source = value2.Source;
+                                value1.SourceUrl = value2.SourceUrl;
+                                value1.Squence = value2.Squence;
+                            }
+
+                        });
+                    });
+
+                }
+                else {
+
+                    $scope.Characteristics = null;
+                    // $('#divcharater').attr('style', 'display: none');
+                }
+
+            }).error(function (data, status, headers, config) {
+                // alert("error");
+            });
+
+            mymodalcompare.close();
+            mymodalnew.close();
+        };
 
         //mapduplicate
-              $scope.Mapdup = function (Itemcode) {
-                //  alert("hai");
+        $scope.Mapdup = function (Itemcode) {
+            //  alert("hai");
 
-                  $timeout(function () {
-                      $('#divNotifiy').attr('style', 'display: none');
-                  }, 5000);
-                  if (confirm("Are You sure, Duplicate this Itemcode '" + Itemcode + "' ?")) {
+            $timeout(function () {
+                $('#divNotifiy').attr('style', 'display: none');
+            }, 5000);
+            if (confirm("Are You sure, Duplicate this Itemcode '" + Itemcode + "' ?")) {
 
-                      $http({
-                          method: 'GET',
-                          url: '/Search/savemapduplicate',
-                          params :{new_code: $scope.Item , existing_code: Itemcode}
-                      }).success(function (response) {
-                          $('#divNotifiy').attr('style', 'display: Block');
-                          if (response == true) {
-                              $scope.reset();
-                              $scope.Res = "Itemcode : '" + $scope.Item + "' is Mapped to itemcode '" + Itemcode + "'"
-                              $scope.Notify = "alert-info";
-                              $scope.NotifiyRes = true;
-                              $scope.LoadData();
-                              mymodalnew.close();
-                              mymodalcompare.close();
-                              $scope.cat = null;
-                              $scope.Characteristics = null;
-                              $scope.Equ = null;
+                $http({
+                    method: 'GET',
+                    url: '/Search/savemapduplicate',
+                    params: { new_code: $scope.Item, existing_code: Itemcode }
+                }).success(function (response) {
+                    $('#divNotifiy').attr('style', 'display: Block');
+                    if (response == true) {
+                        $scope.reset();
+                        $scope.Res = "Itemcode : '" + $scope.Item + "' is Mapped to itemcode '" + Itemcode + "'"
+                        $scope.Notify = "alert-info";
+                        $scope.NotifiyRes = true;
+                        $scope.LoadData();
+                        mymodalnew.close();
+                        mymodalcompare.close();
+                        $scope.cat = null;
+                        $scope.Characteristics = null;
+                        $scope.Equ = null;
 
-                              $scope.Desc = null;
-                              //$scope.sts4 = false;
-                              //$scope.sts3 = false;
-                          }
-                          else {
-                              $scope.Res = "Not Mappped"
-                              $scope.Notify = "alert-info";
-                              $scope.NotifiyRes = true;
-                          }
-                      }).error(function (data, status, headers, config) {
+                        $scope.Desc = null;
+                        //$scope.sts4 = false;
+                        //$scope.sts3 = false;
+                    }
+                    else {
+                        $scope.Res = "Not Mappped"
+                        $scope.Notify = "alert-info";
+                        $scope.NotifiyRes = true;
+                    }
+                }).error(function (data, status, headers, config) {
 
-                      });
+                });
 
-                  }
+            }
 
 
-              }
+        }
 
 
         $scope.getItem = function () {
@@ -917,20 +901,20 @@
             if (url.indexOf("Catalogue/Index?itemId") !== -1) {
 
                 var arrId = url.split('itemId=');
-              
+
                 $scope.cat = {};
 
                 $http({
                     method: 'GET',
                     url: '/Catalogue/getItem',
-                    params :{itemId: arrId[1]}
+                    params: { itemId: arrId[1] }
                 }).success(function (response) {
                     $http({
                         method: 'GET',
                         url: '/GeneralSettings/GetUnspsc',
-                        params :{Noun: response.Noun ,Modifier : response.Modifier}
+                        params: { Noun: response.Noun, Modifier: response.Modifier }
                     }).success(function (response) {
-                       
+
                         if (response != '') {
                             $scope.Commodities = response;
                             if ($scope.Commodities[0].Commodity != null && response[0].Commodity != "")
@@ -955,7 +939,7 @@
                         $scope.getSubcode();
                     }
 
-                 //   $scope.getSubcode();
+                    //   $scope.getSubcode();
                     $scope.cat.Subcode = $scope.cat.Subcode;
                     //  $scope.getSubsubcode();
                     if ($scope.cat.Subcode != null) {
@@ -968,14 +952,14 @@
                         $scope.rows = response.Vendorsuppliers;
                     } else {
                         $scope.rows = null;
-                        
+
                         $scope.rows = [{ 'slno': 1, 's': '1', 'l': '1' }];
-                    }                   
+                    }
 
                     $http({
                         method: 'GET',
                         url: '/Dictionary/GetModifier',
-                        params :{Noun: $scope.cat.Noun}
+                        params: { Noun: $scope.cat.Noun }
                     }).success(function (response) {
                         var flg = 0;
                         $scope.Modifiers = response;
@@ -999,12 +983,12 @@
                     $http({
                         method: 'GET',
                         url: '/Dictionary/GetNounModifier2',
-                        params: { Noun: $scope.cat.Noun, Modifier : $scope.cat.Modifier}
+                        params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
                     }).success(function (response) {
                         if (response != '') {
                             $scope.NM1 = response.One_NounModifier;
                             $scope.Characteristics = response.ALL_NM_Attributes;
-                      
+
                             $http({
                                 method: 'GET',
                                 url: '/Catalogue/GetUnits'
@@ -1016,7 +1000,7 @@
                             $http({
                                 method: 'GET',
                                 url: '/Dictionary/GetForamted',
-                                params :{Noun:$scope.cat.Noun, Modifier: $scope.cat.Modifier}
+                                params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
                             }).success(function (response) {
 
                                 $scope.Type = response;
@@ -1024,14 +1008,14 @@
                                     lst.s = '1';
 
                                 });
-                                if ($scope.Type == "OPM" || $scope.Type == "OEM" ) {
-                                    $scope.ven = true;                                  
+                                if ($scope.Type == "OPM" || $scope.Type == "OEM") {
+                                    $scope.ven = true;
 
                                 }
                                 else {
                                     $scope.ven = false;
                                 }
-                                
+
 
                             });
                             angular.forEach($scope.Characteristics, function (value1, key1) {
@@ -1093,7 +1077,7 @@
             $http({
                 method: 'GET',
                 url: '/User/getItemstatusMap',
-                params :{itmcde:itmcode}
+                params: { itmcde: itmcode }
             }).success(function (response) {
 
                 $scope.itemstatusLst = response;
@@ -1116,17 +1100,17 @@
 
 
         }
-       
+
         $scope.OpenPop = function () {
             $scope.getSimiliar();
             $scope.callpopup();
             $scope.simText = "";
         }
 
-        $scope.callpopup = function () {          
-           
+        $scope.callpopup = function () {
 
-            new jBox('Modal', {              
+
+            new jBox('Modal', {
                 width: 550,
                 height: 500,
                 blockScroll: false,
@@ -1134,7 +1118,7 @@
                 draggable: 'title',
                 closeButton: true,
                 content: jQuery('#simItems'),
-                    //content: $('#simItems').html(),
+                //content: $('#simItems').html(),
                 title: 'Click here to drag me around',
                 overlay: false,
 
@@ -1146,7 +1130,7 @@
                 }
             }).open();
 
-           
+
         }
         $scope.showlitpopup = function (inx) {
 
@@ -1173,21 +1157,21 @@
 
 
         }
-      
+
         $scope.NMLoad = function () {
             $rootScope.cgBusyPromises = $http({
                 method: 'GET',
                 url: '/Catalogue/GetDBNounList'
             }).success(function (response) {
                 $scope.NounList = response;
-               // $scope.sNoun = "";
-               
+                // $scope.sNoun = "";
+
             }).error(function (data, status, headers, config) {
                 // alert("error");
             });
         }
         $scope.GetUserList = function () {
-          //  $scope.NMLoad();
+            //  $scope.NMLoad();
             $http({
                 method: 'GET',
                 url: '/Catalogue/showall_user'
@@ -1230,11 +1214,11 @@
                 indx++;
             });
         }
-        $scope.checkSimilar = function () {           
-           // var nonNullList=$scope.LstsimItems;
-            angular.forEach($scope.LstsimItems, function (value1, key1) {       
-                var incr = 0;                
-                angular.forEach($scope.Characteristics, function (value2, key2) {                              
+        $scope.checkSimilar = function () {
+            // var nonNullList=$scope.LstsimItems;
+            angular.forEach($scope.LstsimItems, function (value1, key1) {
+                var incr = 0;
+                angular.forEach($scope.Characteristics, function (value2, key2) {
                     if (value2.Value != null && value2.Value != "") {
                         angular.forEach(value1.Characteristics, function (value1, key1) {
                             if (value1.Characteristic === value2.Characteristic && value1.Value != null && value1.Value != "") {
@@ -1242,13 +1226,13 @@
                                     incr = incr + 1;
 
                             }
-                        });                     
+                        });
 
                     }
                 });
                 value1.ItemStatus = incr;
-            });           
-          
+            });
+
         }
 
         $scope.SearchCommodityTitle = function (CommodityTitlesh) {
@@ -1279,9 +1263,9 @@
 
         }
         var mymodal1 = new jBox('Modal', {
-           
+
             width: 1200,
-            height:500,
+            height: 500,
             blockScroll: false,
             animation: 'zoomIn',
 
@@ -1294,10 +1278,9 @@
 
         $scope.COMMClick = function (C, idx) {
 
-    
-            if (C.Commodity != null || C.Commodity != "")
-                {
-           
+
+            if (C.Commodity != null || C.Commodity != "") {
+
                 $scope.cat.Unspsc = C.Commodity;
                 $scope.Commodities[0].ClassTitle = C.ClassTitle;
                 $scope.Commodities[0].Class = C.Class
@@ -1305,7 +1288,7 @@
             else
 
                 $scope.cat.Unspsc = C.Class;
-         
+
             mymodal1.close();
 
 
@@ -1316,8 +1299,8 @@
                 method: 'GET',
                 url: '/Catalogue/getplantCode_Name'
             }).success(function (response) {
-                $scope.PlantList = response;               
-                $scope.erp.Plant = response[0].Plantcode;              
+                $scope.PlantList = response;
+                $scope.erp.Plant = response[0].Plantcode;
             }).error(function (data, status, headers, config) {
                 // alert("error");
             });
@@ -1331,7 +1314,7 @@
             }).success(function (response) {
 
                 $scope.MasterList = response;
-               
+
             }).error(function (data, status, headers, config) {
                 // alert("error");
             });
@@ -1350,15 +1333,15 @@
         //sb
         //bincode
         $scope.getbincode = function () {
-        
+
             // alert(angular.toJson($scope.cat.StorageLocation1));
             // $http.get('/Master/getbincode?StorageLocation=' + $scope.erp.StorageLocation 
             $http.get('/Master/getbincode?label= Storage bin' + '&StorageLocation=' + $scope.cat.StorageLocation1
-             ).success(function (response) {
-                 $scope.MasterList1 = response
-                 // alert(angular.toJson($scope.getsubgroup));
-             }).error(function (data, status, headers, config) {
-             });
+            ).success(function (response) {
+                $scope.MasterList1 = response
+                // alert(angular.toJson($scope.getsubgroup));
+            }).error(function (data, status, headers, config) {
+            });
         };
 
         $scope.reset = function () {
@@ -1384,12 +1367,12 @@
             $scope.cat.EnrichedValue = "";
             $scope.cat.RepeatedValue = "";
 
-           
+
             if ($scope.cat.Modifier != null && $scope.cat.Modifier != '') {
                 $http({
                     method: 'GET',
                     url: '/GeneralSettings/GetUnspsc',
-                    params:{Noun:$scope.cat.Noun, Modifier: $scope.cat.Modifier}
+                    params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
                 }).success(function (response) {
 
                     if (response != '') {
@@ -1427,7 +1410,7 @@
                 $http({
                     method: 'GET',
                     url: '/Dictionary/getuomlist1',
-                    params:{Noun:$scope.cat.Noun , Modifier :$scope.cat.Modifier}
+                    params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
                 }).success(function (response) {
 
                     if (response.length > 0) {
@@ -1446,15 +1429,15 @@
 
                 });
 
-              //  $scope.getItem();
+                //  $scope.getItem();
                 $http({
                     method: 'GET',
                     url: '/Dictionary/GetForamted',
                     params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
                 }).success(function (response) {
-                   
+
                     $scope.Type = response;
-                
+
                     //angular.forEach($scope.rows, function (lst) {
                     //    lst.s = '1';
 
@@ -1462,7 +1445,7 @@
                     if ($scope.Type == "OPM" || $scope.Type == "OEM") {
                         $scope.ven = true;
 
-                      
+
                     }
                     else {
                         $scope.ven = false;
@@ -1470,11 +1453,11 @@
 
                 });
 
-                
+
                 $http({
                     method: 'GET',
                     url: '/Dictionary/GetNounModifier2',
-                   params :{Noun:$scope.cat.Noun,Modifier: $scope.cat.Modifier}
+                    params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
                 }).success(function (response) {
                     if (response != '') {
                         $scope.NM1 = response.One_NounModifier;
@@ -1539,25 +1522,25 @@
 
                         //        });
 
-                              
+
                         //    }
 
                         //});
-                       
 
-                      
-                          
-                            $http({
-                                method: 'GET',
-                                url: '/Catalogue/GetUnits'
-                            }).success(function (response) {
-                                $scope.UOMs = response;
 
-                            }).error(function (data, status, headers, config) {
-                                // 
-                            });
 
-                                          
+
+                        $http({
+                            method: 'GET',
+                            url: '/Catalogue/GetUnits'
+                        }).success(function (response) {
+                            $scope.UOMs = response;
+
+                        }).error(function (data, status, headers, config) {
+                            // 
+                        });
+
+
 
                     }
                     else $scope.Characteristics = null;
@@ -1566,54 +1549,54 @@
                     // alert("error");
 
                 });
-              
+
             }
             else {
-            
-               // $scope.cat = null;
+
+                // $scope.cat = null;
                 $scope.Characteristics = null;
-              //  $scope.equ = null;
+                //  $scope.equ = null;
             }
             //   $scope.getSimiliar();    
 
-            
+
         };
-       
+
         $scope.getSimiliar = function () {
-          
+
             $rootScope.cgBusyPromises = $http({
                 method: 'GET',
                 url: '/Catalogue/GetsimItemsList',
-              //  data: formData,
-                params :{Noun:$scope.cat.Noun ,Modifier: $scope.cat.Modifier}
+                //  data: formData,
+                params: { Noun: $scope.cat.Noun, Modifier: $scope.cat.Modifier }
             }).success(function (response) {
-              
-                if (response != null && response.length>0) {                 
-                   // angular.forEach(response, function (obj) {
-                   //     var cnt = 0.0;
-                   //     var cnt1 = 0.0;
-                   //     angular.forEach($scope.cat.Characteristics, function (value1, key1) {
-                   //         if (value1.Value != null && value1.Value != '')
-                   //         {
-                   //             cnt1++;
-                   //         }
-                   //     angular.forEach(obj.Characteristics, function (value2, key2) {
 
-                   //         if (value1.Characteristic === value2.Characteristic && value1.Value === value2.Value) {
-                   //             cnt++;
-                   //         }
-                   //     });
-                   //     });
+                if (response != null && response.length > 0) {
+                    // angular.forEach(response, function (obj) {
+                    //     var cnt = 0.0;
+                    //     var cnt1 = 0.0;
+                    //     angular.forEach($scope.cat.Characteristics, function (value1, key1) {
+                    //         if (value1.Value != null && value1.Value != '')
+                    //         {
+                    //             cnt1++;
+                    //         }
+                    //     angular.forEach(obj.Characteristics, function (value2, key2) {
 
-                   //     //calc
-                   //     var res = ((cnt / cnt1) * 100);
-                   //     obj.batch = res;
-                   //     //alert(cnt)
-                   //     //alert(cnt1)
-                   //     //alert(res)
-                       
-                   // });
-                   //// $scope.checkSimilar();
+                    //         if (value1.Characteristic === value2.Characteristic && value1.Value === value2.Value) {
+                    //             cnt++;
+                    //         }
+                    //     });
+                    //     });
+
+                    //     //calc
+                    //     var res = ((cnt / cnt1) * 100);
+                    //     obj.batch = res;
+                    //     //alert(cnt)
+                    //     //alert(cnt1)
+                    //     //alert(res)
+
+                    // });
+                    //// $scope.checkSimilar();
 
                     $scope.LstsimItems = response;
                 }
@@ -1644,90 +1627,85 @@
 
 
 
-            if ($scope.sNoun == null)
-                {
-           
-            $http({
-                method: 'GET',
-                url: '/Catalogue/GetDataList'
-            }).success(function (response) {
-                $scope.DataList = response;
-                console.log(response)
+            if ($scope.sNoun == null) {
 
-                angular.forEach($scope.DataList, function (lst) {
-                    lst.bu = '0';
+                $http({
+                    method: 'GET',
+                    url: '/Catalogue/GetDataList'
+                }).success(function (response) {
+                    $scope.DataList = response;
+                    console.log(response)
 
-                   // $scope.sortColumn = "Itemcode";
-                    $scope.reverseSort = false;
+                    angular.forEach($scope.DataList, function (lst) {
+                        lst.bu = '0';
 
-                    $scope.sortData = function (Column)
-                    {
-                        $scope.reverseSort = ("Itemcode" == Column) ? !$scope.reverseSort : false;
-                        $scope.sortColumn = Column;
+                        // $scope.sortColumn = "Itemcode";
+                        $scope.reverseSort = false;
+
+                        $scope.sortData = function (Column) {
+                            $scope.reverseSort = ("Itemcode" == Column) ? !$scope.reverseSort : false;
+                            $scope.sortColumn = Column;
 
 
-                    }
-
-                    $scope.getSortClass = function(Column)
-                    {
-                        if($scope.sortColumn == Column)
-                        {
-                            return $scope.reverseSort ? 'arrow-down' : 'arrow-up'
                         }
-                        return '';
-                    }
+
+                        $scope.getSortClass = function (Column) {
+                            if ($scope.sortColumn == Column) {
+                                return $scope.reverseSort ? 'arrow-down' : 'arrow-up'
+                            }
+                            return '';
+                        }
 
 
 
-                });
+                    });
 
-          
+
                     $scope.saveditems = ($filter('filter')($scope.DataList, { 'ItemStatus': '1' })).length;
                     $scope.balanceitems = ($filter('filter')($scope.DataList, { 'ItemStatus': '0' })).length;
-             
-                      
+
+
                     $scope.checkSubmit();
 
-            }).error(function (data, status, headers, config) {
-                // alert("error");
-            });
+                }).error(function (data, status, headers, config) {
+                    // alert("error");
+                });
             }
-            else
-            {
+            else {
 
                 $scope.searchMaster();
             }
 
-        };          
+        };
 
         $scope.getList = function (indx, vals) {
             $scope.sepVal = [];
-            $scope.temp = [];         
+            $scope.temp = [];
             $scope.sepVal1 = [];
             if (vals != null) {
                 $scope.temp = vals[0].Values.split(",");
-                angular.forEach($scope.temp, function (lst) {                     
+                angular.forEach($scope.temp, function (lst) {
                     $scope.sepVal1.push(lst);
-                   
+
                 })
                 $scope.sepVal = $scope.sepVal1;
-            }       
-           
+            }
+
         };
-      
+
         $scope.GetUserList = function () {
 
             $http({
                 method: 'GET',
                 url: '/Catalogue/getReviewerList'
-            }).success(function (response) {              
+            }).success(function (response) {
                 $scope.UserList = response;
             }).error(function (data, status, headers, config) {
                 // alert("error");
             });
 
         };
-       // $scope.GetUserList();
+        // $scope.GetUserList();
         $scope.LoadData();
         //Attachment
         $scope.fileList = [];
@@ -1736,7 +1714,7 @@
 
         $scope.LoadFileData = function (files) {
             $scope.fileList = files;
-          //  alert(angular.toJson(files));
+            //  alert(angular.toJson(files));
 
         };
         $scope.addImg = function () {
@@ -1771,8 +1749,8 @@
                     method: 'GET',
                     url: '/Catalogue/Deletefile',
                     params: { id: _id, imgId: imgId }
-                }).success(function (response) {                    
-                    $scope.AtttachmentList.splice(indx, 1);                   
+                }).success(function (response) {
+                    $scope.AtttachmentList.splice(indx, 1);
 
                 }).error(function (data, status, headers, config) {
                     // alert("error");
@@ -1780,9 +1758,9 @@
             }
         };
 
-        $scope.Downloadfile = function (fileName,type,imgId) {            
+        $scope.Downloadfile = function (fileName, type, imgId) {
 
-            $window.open('/Catalogue/Downloadfile?fileName=' + fileName +'&type='+type+'&imgId=' + imgId);
+            $window.open('/Catalogue/Downloadfile?ItemId=' + imgId + '&fName=' + fileName );
 
         };
 
@@ -1802,18 +1780,18 @@
         });
         $scope.getmultiplecoderesult = function (code) {
             //alert("hai");
-           // alert(angular.toJson(code));
+            // alert(angular.toJson(code));
             if (code != undefined && code != "") {
                 //alert('in');
                 $scope.DataList = [{ 'Itemcode': " " }];
-               // $scope.sCode = "";
+                // $scope.sCode = "";
                 $scope.sCode1 = [];
                 $scope.temp1 = [];
 
                 if (code != null) {
                     $scope.temp1 = code.split(/[, " "]/);
                     angular.forEach($scope.temp1, function (lst) {
-                       // alert(angular.toJson(lst));
+                        // alert(angular.toJson(lst));
                         angular.forEach($scope.DataList1, function (lst1) {
                             //alert(angular.toJson(lst1));
                             //alert(angular.toJson(lst1.Itemcode));
@@ -1827,11 +1805,10 @@
 
                 }
             }
-            else
-            {
+            else {
                 $scope.DataList = $scope.DataList1;
             }
-          //  alert(angular.toJson($scope.DataList));
+            //  alert(angular.toJson($scope.DataList));
 
             ////////////////////
             // alert("in");
@@ -1850,226 +1827,13 @@
 
         $scope.createData = function (sts) {
             //alert(sts);
-           // alert(angular.toJson($scope.myres1));
-          
-                //if (Characteristics.uo.Value != null && Characteristics.uo.UOM == null)
-                //{
-                //    alert (confirm("Are you sure, send to clarification this record?"))
-                //}
-                //else
-                $timeout(function () {
-                    $('#divNotifiy').attr('style', 'display: none');
-                }, 5000);
+            // alert(angular.toJson($scope.myres1));
 
-                var formData = new FormData();
-                for (var i = 0; i < $scope.attachment.length; i++) {
-                    formData.append('files', $scope.attachment[i]);
-                }
-
-                //general             
-                $scope.erp.Industrysector_ = $scope.erp.Industrysector != null ? $("#ddlindustry").find("option:selected").text() : null;
-                $scope.erp.Materialtype_ = $scope.erp.Materialtype != null ? $("#ddlmaterial").find("option:selected").text() : null;
-                $scope.erp.BaseUOP_ = $scope.erp.BaseUOP != null ? $("#ddlbaseuop").find("option:selected").text() : null;
-                $scope.erp.Unit_issue_ = $scope.erp.Unit_issue != null ? $("#ddluis").find("option:selected").text() : null;
-                $scope.erp.AlternateUOM_ = $scope.erp.AlternateUOM != null ? $("#ddlalteruom").find("option:selected").text() : null;
-                $scope.erp.Inspectiontype_ = $scope.erp.Inspectiontype != null ? $("#ddlinstype").find("option:selected").text() : null;
-                $scope.erp.Inspectioncode_ = $scope.erp.Inspectioncode != null ? $("#ddlinscode").find("option:selected").text() : null;
-                $scope.erp.Division_ = $scope.erp.Division != null ? $("#ddldivision").find("option:selected").text() : null;
-                $scope.erp.Salesunit_ = $scope.erp.Salesunit != null ? $("#ddlsaleunit").find("option:selected").text() : null;
-
-                //plant
-                $scope.erp.Plant_ = $scope.erp.Plant != null ? $("#ddlPlant").find("option:selected").text() : null;
-                $scope.erp.ProfitCenter_ = $scope.erp.ProfitCenter != null ? $("#ddlprofit").find("option:selected").text() : null;
-                $scope.erp.StorageLocation_ = $scope.erp.StorageLocation != null ? $("#ddlstoreage").find("option:selected").text() : null;
-                $scope.erp.StorageBin_ = $scope.erp.StorageBin != null ? $("#ddlbin").find("option:selected").text() : null;
-                $scope.erp.ValuationClass_ = $scope.erp.ValuationClass != null ? $("#ddlvclass").find("option:selected").text() : null;
-                $scope.erp.PriceControl_ = $scope.erp.PriceControl != null ? $("#ddlprice").find("option:selected").text() : null;
-                $scope.erp.ValuationCategory_ = $scope.erp.ValuationCategory != null ? $("#ddlvcat").find("option:selected").text() : null;
-                $scope.erp.VarianceKey_ = $scope.erp.VarianceKey != null ? $("#ddlvkey").find("option:selected").text() : null;
-
-
-                //Mrp data
-                $scope.erp.MRPType_ = $scope.erp.MRPType != null ? $("#ddlmrptype").find("option:selected").text() : null;
-                $scope.erp.MRPController_ = $scope.erp.MRPController != null ? $("#ddlmrpcontrol").find("option:selected").text() : null;
-                $scope.erp.LOTSize_ = $scope.erp.LOTSize != null ? $("#ddllotsize").find("option:selected").text() : null;
-                $scope.erp.ProcurementType_ = $scope.erp.ProcurementType != null ? $("#ddlprocurement").find("option:selected").text() : null;
-                $scope.erp.PlanningStrgyGrp_ = $scope.erp.PlanningStrgyGrp != null ? $("#ddlplanning").find("option:selected").text() : null;
-                $scope.erp.AvailCheck_ = $scope.erp.AvailCheck != null ? $("#ddlavilchk").find("option:selected").text() : null;
-                $scope.erp.ScheduleMargin_ = $scope.erp.ScheduleMargin != null ? $("#ddlschedule").find("option:selected").text() : null;
-
-                //Sales & others
-                $scope.erp.AccAsignmtCategory_ = $scope.erp.AccAsignmtCategory != null ? $("#ddlasscat").find("option:selected").text() : null;
-                $scope.erp.TaxClassificationGroup_ = $scope.erp.TaxClassificationGroup != null ? $("#ddltaxclass").find("option:selected").text() : null;
-
-                $scope.erp.ItemCategoryGroup_ = $scope.erp.ItemCategoryGroup != null ? $("#ddlitemcat").find("option:selected").text() : null;
-                $scope.erp.SalesOrganization_ = $scope.erp.SalesOrganization != null ? $("#ddlsales").find("option:selected").text() : null;
-                $scope.erp.DistributionChannel_ = $scope.erp.DistributionChannel != null ? $("#ddldistri").find("option:selected").text() : null;
-                $scope.erp.MaterialStrategicGroup_ = $scope.erp.MaterialStrategicGroup != null ? $("#ddlmatstra").find("option:selected").text() : null;
-                $scope.erp.PurchasingGroup_ = $scope.erp.PurchasingGroup != null ? $("#ddlpurchasegrp").find("option:selected").text() : null;
-                $scope.erp.PurchasingValueKey_ = $scope.erp.PurchasingValueKey != null ? $("#ddlpurval").find("option:selected").text() : null;
-
-            //newly added fields
-              //  $scope.erp.TaxClassification2_ = $scope.erp.TaxClassification2 != null ? $("#ddltaxclass2").find("option:selected").text() : null;
-                $scope.erp.DeliveringPlant_ = $scope.erp.DeliveringPlant != null ? $("#ddldelplant").find("option:selected").text() : null;
-                $scope.erp.TransportationGroup_ = $scope.erp.TransportationGroup != null ? $("#ddltransgrp").find("option:selected").text() : null;
-                $scope.erp.LoadingGroup_ = $scope.erp.LoadingGroup != null ? $("#ddlloadgrp").find("option:selected").text() : null;
-                $scope.erp.OrderUnit_ = $scope.erp.OrderUnit != null ? $("#ddlorderunit").find("option:selected").text() : null;
-                $scope.erp.AutomaticPO_ = $scope.erp.AutomaticPO != null ? $("#ddlatmpo").find("option:selected").text() : null;
-
-
-                // formData.append('files', $scope.attachment);
-                
-                formData.append("itemsts", "1");
-                formData.append("cat", angular.toJson($scope.cat));
-            
-                formData.append("attri", angular.toJson($scope.Characteristics));
-                formData.append("ERP", angular.toJson($scope.erp));
-               
-                //formData.append("Generalinfo", angular.toJson($scope.gen));
-                //formData.append("Plantinfo", angular.toJson($scope.plant));
-                //formData.append("MRPdata", angular.toJson($scope.mrpdata));
-                //formData.append("Salesinfo", angular.toJson($scope.sales));
-                formData.append("Equ", angular.toJson($scope.Equ));
-                formData.append("vendorsupplier", angular.toJson($scope.rows));
-                formData.append("Attachments", angular.toJson($scope.imgList));
-                formData.append("sts", sts);
-                //formData.append("type", angular.toJson($scope.Type));
-                //alert(angular.toJson($scope.Type));
-
-                $scope.cgBusyPromises = $http({
-                    url: "/Catalogue/InsertData",
-                    method: "POST",
-                    headers: { "Content-Type": undefined },
-                    transformRequest: angular.identity,
-                    data: formData
-                }).success(function (data, status, headers, config) {
-
-                    if (data.success === false) {
-
-                        $scope.Res = data.errors;
-                        $scope.Notify = "alert-danger";
-                        $('#divNotifiy').attr('style', 'display: block');
-
-                    }
-                    else {
-
-                        if (data > -1) {
-
-                            if (data == 8) {
-
-                                $scope.Notify = "alert-danger";
-                                $scope.Res = "Please add vendor in vendor master"
-                                $scope.NotifiyRes = true;
-                                $('#divNotifiy').attr('style', 'display: block');
-                                $scope.dis = false;
-                            }else if (data == 9) {
-                               
-                                $scope.Notify = "alert-danger";
-                                $scope.Res = "Please add all values"
-                                $('#divNotifiy').attr('style', 'display: block');
-                                $scope.dis = false;
-                            } else if (data == 10) {
-                                $scope.Notify = "alert-danger";
-                                $scope.Res = "Please approve/add values in value master"
-                                $('#divNotifiy').attr('style', 'display: block');
-                                $scope.dis = false;
-                            } else {
-
-
-                                $scope.dis = false;
-                                $scope.reset();
-                                $scope.Type = null;
-                                $scope.cat = null;
-                                $scope.Characteristics = null;
-                                $scope.gen = null;
-                                $scope.plant = null;
-                                $scope.mrpdata = null;
-                                $scope.sales = null;
-                                $scope.Equ = null;
-                                $scope.rows = null;
-                                $scope.erp = null;
-                                $scope.imgList = null;
-                                $scope.Title = null;
-                                $scope.AtttachmentList = null;
-
-                                if ($scope.Commodities != null && $scope.Commodities.length > 0) {
-                                    $scope.Commodities[0].Class = null;
-                                    $scope.Commodities[0].ClassTitle = null;
-                                    $scope.Commodities = null;
-                                }
-
-                                $scope.rows = [{ 'slno': 1, 's': '1', 'l': '1' }];
-
-
-
-                                //  $scope.LoadData();
-
-
-                                if (data == 0) {
-                                    $scope.fromsave = 1;
-                                    $scope.attachment = [];
-                                    // $scope.searchMaster();
-                                    $scope.Res = "Data saved successfully";
-                                    $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
-                                }
-                                if (data == 1) {
-                                    $scope.Res = "Data duplicated successfully"
-                                    $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
-                                    // $scope.Res = "Data saved successfully";
-                                }
-                                if (data == 2) {
-                                    $scope.Res = "Duplicate data deleted successfully"
-                                    $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
-                                }
-                                $scope.Notify = "alert-info";
-                                if (data == 3) {
-                                    $scope.Notify = "alert-danger";
-                                    $scope.Res = "Duplicate data not saved"
-                                    $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
-
-                                }
-
-                                $('#divNotifiy').attr('style', 'display: block');
-                            }
-
-                            //  $scope.RowClick(lst, idx);
-
-                            // $scope.LoadData();
-                        } else {
-                            if ($scope.Characteristics === null)
-                                $scope.Res = "Please add characteristics"
-                            else
-                                $scope.Res = "Data save process failed"
-
-                            $scope.Notify = "alert-info";
-                            $('#divNotifiy').attr('style', 'display: block');
-                        }
-
-                    }
-
-                }).error(function (data, status, headers, config) {
-                    $scope.Res = data;
-                    $scope.Notify = "alert-danger";
-                    $('#divNotifiy').attr('style', 'display: block');
-                });
-
-         //   }
-        };
-
-        $scope.createData1 = function (sts) {
-
-
-            //    alert(angular.toJson($scope.cat));
-
-            if ($filter('filter')($scope.DataList, { 'bu': '1' }).length >= 1) {
-
-                $scope.DataList = $filter('filter')($scope.DataList, { 'bu': '1' })
-
-            }
-
-            //   $scope.DataList = $filter('filter')($scope.DataList, { 'ItemStatus': '11' });
-
-
+            //if (Characteristics.uo.Value != null && Characteristics.uo.UOM == null)
+            //{
+            //    alert (confirm("Are you sure, send to clarification this record?"))
+            //}
+            //else
             $timeout(function () {
                 $('#divNotifiy').attr('style', 'display: none');
             }, 5000);
@@ -2113,6 +1877,7 @@
             //Sales & others
             $scope.erp.AccAsignmtCategory_ = $scope.erp.AccAsignmtCategory != null ? $("#ddlasscat").find("option:selected").text() : null;
             $scope.erp.TaxClassificationGroup_ = $scope.erp.TaxClassificationGroup != null ? $("#ddltaxclass").find("option:selected").text() : null;
+
             $scope.erp.ItemCategoryGroup_ = $scope.erp.ItemCategoryGroup != null ? $("#ddlitemcat").find("option:selected").text() : null;
             $scope.erp.SalesOrganization_ = $scope.erp.SalesOrganization != null ? $("#ddlsales").find("option:selected").text() : null;
             $scope.erp.DistributionChannel_ = $scope.erp.DistributionChannel != null ? $("#ddldistri").find("option:selected").text() : null;
@@ -2120,11 +1885,18 @@
             $scope.erp.PurchasingGroup_ = $scope.erp.PurchasingGroup != null ? $("#ddlpurchasegrp").find("option:selected").text() : null;
             $scope.erp.PurchasingValueKey_ = $scope.erp.PurchasingValueKey != null ? $("#ddlpurval").find("option:selected").text() : null;
 
+            //newly added fields
+            //  $scope.erp.TaxClassification2_ = $scope.erp.TaxClassification2 != null ? $("#ddltaxclass2").find("option:selected").text() : null;
+            $scope.erp.DeliveringPlant_ = $scope.erp.DeliveringPlant != null ? $("#ddldelplant").find("option:selected").text() : null;
+            $scope.erp.TransportationGroup_ = $scope.erp.TransportationGroup != null ? $("#ddltransgrp").find("option:selected").text() : null;
+            $scope.erp.LoadingGroup_ = $scope.erp.LoadingGroup != null ? $("#ddlloadgrp").find("option:selected").text() : null;
+            $scope.erp.OrderUnit_ = $scope.erp.OrderUnit != null ? $("#ddlorderunit").find("option:selected").text() : null;
+            $scope.erp.AutomaticPO_ = $scope.erp.AutomaticPO != null ? $("#ddlatmpo").find("option:selected").text() : null;
+
 
             // formData.append('files', $scope.attachment);
 
-            formData.append("itemsts", "11");
-            formData.append("PVStatus", "Pending");
+            formData.append("itemsts", "1");
             formData.append("cat", angular.toJson($scope.cat));
 
             formData.append("attri", angular.toJson($scope.Characteristics));
@@ -2138,21 +1910,17 @@
             formData.append("vendorsupplier", angular.toJson($scope.rows));
             formData.append("Attachments", angular.toJson($scope.imgList));
             formData.append("sts", sts);
-            formData.append("HSNID", angular.toJson($scope.HSNID));
-            formData.append("Desc", angular.toJson($scope.Desc));
+            //formData.append("type", angular.toJson($scope.Type));
+            //alert(angular.toJson($scope.Type));
 
-
-            //  formData.append("DataList", angular.toJson($scope.DataList));
-
-
-            $scope.promise = $http({
+            $scope.cgBusyPromises = $http({
                 url: "/Catalogue/InsertData",
                 method: "POST",
                 headers: { "Content-Type": undefined },
                 transformRequest: angular.identity,
                 data: formData
             }).success(function (data, status, headers, config) {
-                // alert(angular.toJson(data));
+
                 if (data.success === false) {
 
                     $scope.Res = data.errors;
@@ -2161,62 +1929,85 @@
 
                 }
                 else {
-                    //   alert(angular.toJson(data));
-                    //   alert(angular.toJson(data.success));
+
                     if (data > -1) {
 
-                        $scope.reset();
+                        if (data == 8) {
 
-                        $scope.cat = null;
-                        $scope.Characteristics = null;
-                        $scope.gen = null;
-                        $scope.plant = null;
-                        $scope.mrpdata = null;
-                        $scope.sales = null;
-                        $scope.Equ = null;
-                        $scope.rows = null;
-                        $scope.HSNID = null;
-                        $scope.Desc = null;
-                        $scope.imgList = null;
-                        $scope.Title = null;
-                        $scope.AtttachmentList = null;
+                            $scope.Notify = "alert-danger";
+                            $scope.Res = "Please add vendor in vendor master"
+                            $scope.NotifiyRes = true;
+                            $('#divNotifiy').attr('style', 'display: block');
+                            $scope.dis = false;
+                        } else if (data == 9) {
 
-                        if ($scope.Commodities != null && $scope.Commodities.length > 0) {
-                            $scope.Commodities[0].Class = null;
-                            $scope.Commodities[0].ClassTitle = null;
-                            $scope.Commodities = null;
-                        }
-
-                        $scope.rows = [{ 'slno': 1, 's': '0', 'l': '1' }];
+                            $scope.Notify = "alert-danger";
+                            $scope.Res = "Please add all values"
+                            $('#divNotifiy').attr('style', 'display: block');
+                            $scope.dis = false;
+                        } else if (data == 10) {
+                            $scope.Notify = "alert-danger";
+                            $scope.Res = "Please approve/add values in value master"
+                            $('#divNotifiy').attr('style', 'display: block');
+                            $scope.dis = false;
+                        } else {
 
 
+                            $scope.dis = false;
+                            $scope.reset();
+                            $scope.Type = null;
+                            $scope.cat = null;
+                            $scope.Characteristics = null;
+                            $scope.gen = null;
+                            $scope.plant = null;
+                            $scope.mrpdata = null;
+                            $scope.sales = null;
+                            $scope.Equ = null;
+                            $scope.rows = null;
+                            $scope.erp = null;
+                            $scope.imgList = null;
+                            $scope.Title = null;
+                            $scope.AtttachmentList = null;
 
-                        //  $scope.LoadData();
-                        $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+                            if ($scope.Commodities != null && $scope.Commodities.length > 0) {
+                                $scope.Commodities[0].Class = null;
+                                $scope.Commodities[0].ClassTitle = null;
+                                $scope.Commodities = null;
+                            }
 
-                        if (data == 0) {
-                            $scope.fromsave = 1;
-                            $scope.attachment = [];
-                            $scope.attcount = "";
-                            $scope.attcount1 = false;
-                            // $scope.searchMaster();
-                            $scope.Res = "PV data Send successfully";
+                            $scope.rows = [{ 'slno': 1, 's': '1', 'l': '1' }];
 
+
+
+                            //  $scope.LoadData();
+
+
+                            if (data == 0) {
+                                $scope.fromsave = 1;
+                                $scope.attachment = [];
+                                // $scope.searchMaster();
+                                $scope.Res = "Data saved successfully";
+                                $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+                            }
+                            if (data == 1) {
+                                $scope.Res = "Data duplicated successfully"
+                                $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+                                // $scope.Res = "Data saved successfully";
+                            }
+                            if (data == 2) {
+                                $scope.Res = "Duplicate data deleted successfully"
+                                $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+                            }
                             $scope.Notify = "alert-info";
+                            if (data == 3) {
+                                $scope.Notify = "alert-danger";
+                                $scope.Res = "Duplicate data not saved"
+                                $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+
+                            }
+
                             $('#divNotifiy').attr('style', 'display: block');
                         }
-                        //if (data == 1) {
-                        //    $scope.Res = "Data duplicated successfully"
-                        //}
-                        //if (data == 2) {
-                        //    $scope.Res = "Duplicate data deleted successfully"
-                        //}
-                        //$scope.Notify = "alert-info";
-                        //if (data == 3) {
-                        //    $scope.Notify = "alert-danger";
-                        //    $scope.Res = "Duplicate data not saved"
-                        //}
-                       // $('#divNotifiy').attr('style', 'display: block');
 
                         //  $scope.RowClick(lst, idx);
 
@@ -2239,8 +2030,202 @@
                 $('#divNotifiy').attr('style', 'display: block');
             });
 
-
+            //   }
         };
+
+        $scope.createData1 = function (sts) {
+
+            if ($scope.cat.RevRemarks == undefined || $scope.cat.RevRemarks == null || $scope.cat.RevRemarks == "" || $scope.cat.RevRemarks == "CATALOGUER-REMARK:") {
+                $scope.isClf = true;
+                alert(angular.toJson("Please Provide Remarks for Rework"));
+            }
+            else {
+
+
+                if (confirm("Are you sure, send to rework for pv this record?")) {
+                    //    alert(angular.toJson($scope.cat));
+
+                    if ($filter('filter')($scope.DataList, { 'bu': '1' }).length >= 1) {
+
+                        $scope.DataList = $filter('filter')($scope.DataList, { 'bu': '1' })
+
+                    }
+
+                    //   $scope.DataList = $filter('filter')($scope.DataList, { 'ItemStatus': '11' });
+
+
+                    $timeout(function () {
+                        $('#divNotifiy').attr('style', 'display: none');
+                    }, 5000);
+
+                    var formData = new FormData();
+                    for (var i = 0; i < $scope.attachment.length; i++) {
+                        formData.append('files', $scope.attachment[i]);
+                    }
+
+                    //general             
+                    $scope.erp.Industrysector_ = $scope.erp.Industrysector != null ? $("#ddlindustry").find("option:selected").text() : null;
+                    $scope.erp.Materialtype_ = $scope.erp.Materialtype != null ? $("#ddlmaterial").find("option:selected").text() : null;
+                    $scope.erp.BaseUOP_ = $scope.erp.BaseUOP != null ? $("#ddlbaseuop").find("option:selected").text() : null;
+                    $scope.erp.Unit_issue_ = $scope.erp.Unit_issue != null ? $("#ddluis").find("option:selected").text() : null;
+                    $scope.erp.AlternateUOM_ = $scope.erp.AlternateUOM != null ? $("#ddlalteruom").find("option:selected").text() : null;
+                    $scope.erp.Inspectiontype_ = $scope.erp.Inspectiontype != null ? $("#ddlinstype").find("option:selected").text() : null;
+                    $scope.erp.Inspectioncode_ = $scope.erp.Inspectioncode != null ? $("#ddlinscode").find("option:selected").text() : null;
+                    $scope.erp.Division_ = $scope.erp.Division != null ? $("#ddldivision").find("option:selected").text() : null;
+                    $scope.erp.Salesunit_ = $scope.erp.Salesunit != null ? $("#ddlsaleunit").find("option:selected").text() : null;
+
+                    //plant
+                    $scope.erp.Plant_ = $scope.erp.Plant != null ? $("#ddlPlant").find("option:selected").text() : null;
+                    $scope.erp.ProfitCenter_ = $scope.erp.ProfitCenter != null ? $("#ddlprofit").find("option:selected").text() : null;
+                    $scope.erp.StorageLocation_ = $scope.erp.StorageLocation != null ? $("#ddlstoreage").find("option:selected").text() : null;
+                    $scope.erp.StorageBin_ = $scope.erp.StorageBin != null ? $("#ddlbin").find("option:selected").text() : null;
+                    $scope.erp.ValuationClass_ = $scope.erp.ValuationClass != null ? $("#ddlvclass").find("option:selected").text() : null;
+                    $scope.erp.PriceControl_ = $scope.erp.PriceControl != null ? $("#ddlprice").find("option:selected").text() : null;
+                    $scope.erp.ValuationCategory_ = $scope.erp.ValuationCategory != null ? $("#ddlvcat").find("option:selected").text() : null;
+                    $scope.erp.VarianceKey_ = $scope.erp.VarianceKey != null ? $("#ddlvkey").find("option:selected").text() : null;
+
+
+                    //Mrp data
+                    $scope.erp.MRPType_ = $scope.erp.MRPType != null ? $("#ddlmrptype").find("option:selected").text() : null;
+                    $scope.erp.MRPController_ = $scope.erp.MRPController != null ? $("#ddlmrpcontrol").find("option:selected").text() : null;
+                    $scope.erp.LOTSize_ = $scope.erp.LOTSize != null ? $("#ddllotsize").find("option:selected").text() : null;
+                    $scope.erp.ProcurementType_ = $scope.erp.ProcurementType != null ? $("#ddlprocurement").find("option:selected").text() : null;
+                    $scope.erp.PlanningStrgyGrp_ = $scope.erp.PlanningStrgyGrp != null ? $("#ddlplanning").find("option:selected").text() : null;
+                    $scope.erp.AvailCheck_ = $scope.erp.AvailCheck != null ? $("#ddlavilchk").find("option:selected").text() : null;
+                    $scope.erp.ScheduleMargin_ = $scope.erp.ScheduleMargin != null ? $("#ddlschedule").find("option:selected").text() : null;
+
+                    //Sales & others
+                    $scope.erp.AccAsignmtCategory_ = $scope.erp.AccAsignmtCategory != null ? $("#ddlasscat").find("option:selected").text() : null;
+                    $scope.erp.TaxClassificationGroup_ = $scope.erp.TaxClassificationGroup != null ? $("#ddltaxclass").find("option:selected").text() : null;
+                    $scope.erp.ItemCategoryGroup_ = $scope.erp.ItemCategoryGroup != null ? $("#ddlitemcat").find("option:selected").text() : null;
+                    $scope.erp.SalesOrganization_ = $scope.erp.SalesOrganization != null ? $("#ddlsales").find("option:selected").text() : null;
+                    $scope.erp.DistributionChannel_ = $scope.erp.DistributionChannel != null ? $("#ddldistri").find("option:selected").text() : null;
+                    $scope.erp.MaterialStrategicGroup_ = $scope.erp.MaterialStrategicGroup != null ? $("#ddlmatstra").find("option:selected").text() : null;
+                    $scope.erp.PurchasingGroup_ = $scope.erp.PurchasingGroup != null ? $("#ddlpurchasegrp").find("option:selected").text() : null;
+                    $scope.erp.PurchasingValueKey_ = $scope.erp.PurchasingValueKey != null ? $("#ddlpurval").find("option:selected").text() : null;
+
+
+                    // formData.append('files', $scope.attachment);
+
+                    formData.append("itemsts", "11");
+                    formData.append("PVStatus", "Pending");
+                    formData.append("cat", angular.toJson($scope.cat));
+
+                    formData.append("attri", angular.toJson($scope.Characteristics));
+                    formData.append("ERP", angular.toJson($scope.erp));
+
+                    //formData.append("Generalinfo", angular.toJson($scope.gen));
+                    //formData.append("Plantinfo", angular.toJson($scope.plant));
+                    //formData.append("MRPdata", angular.toJson($scope.mrpdata));
+                    //formData.append("Salesinfo", angular.toJson($scope.sales));
+                    formData.append("Equ", angular.toJson($scope.Equ));
+                    formData.append("vendorsupplier", angular.toJson($scope.rows));
+                    formData.append("Attachments", angular.toJson($scope.imgList));
+                    formData.append("sts", sts);
+                    formData.append("HSNID", angular.toJson($scope.HSNID));
+                    formData.append("Desc", angular.toJson($scope.Desc));
+
+
+                    //  formData.append("DataList", angular.toJson($scope.DataList));
+
+
+                    $scope.promise = $http({
+                        url: "/Catalogue/InsertData",
+                        method: "POST",
+                        headers: { "Content-Type": undefined },
+                        transformRequest: angular.identity,
+                        data: formData
+                    }).success(function (data, status, headers, config) {
+                        // alert(angular.toJson(data));
+                        if (data.success === false) {
+
+                            $scope.Res = data.errors;
+                            $scope.Notify = "alert-danger";
+                            $('#divNotifiy').attr('style', 'display: block');
+
+                        }
+                        else {
+                            //   alert(angular.toJson(data));
+                            //   alert(angular.toJson(data.success));
+                            if (data > -1) {
+
+                                $scope.reset();
+
+                                $scope.cat = null;
+                                $scope.Characteristics = null;
+                                $scope.gen = null;
+                                $scope.plant = null;
+                                $scope.mrpdata = null;
+                                $scope.sales = null;
+                                $scope.Equ = null;
+                                $scope.rows = null;
+                                $scope.HSNID = null;
+                                $scope.Desc = null;
+                                $scope.imgList = null;
+                                $scope.Title = null;
+                                $scope.AtttachmentList = null;
+
+                                if ($scope.Commodities != null && $scope.Commodities.length > 0) {
+                                    $scope.Commodities[0].Class = null;
+                                    $scope.Commodities[0].ClassTitle = null;
+                                    $scope.Commodities = null;
+                                }
+
+                                $scope.rows = [{ 'slno': 1, 's': '0', 'l': '1' }];
+
+
+
+                                //  $scope.LoadData();
+                                $scope.searchMaster($scope.sCode, $scope.sSource, $scope.sNoun, $scope.sModifier, $scope.sUser);
+
+                                if (data == 0) {
+                                    $scope.fromsave = 1;
+                                    $scope.attachment = [];
+                                    $scope.attcount = "";
+                                    $scope.attcount1 = false;
+                                    // $scope.searchMaster();
+                                    $scope.Res = "PV data Send successfully";
+
+                                    $scope.Notify = "alert-info";
+                                    $('#divNotifiy').attr('style', 'display: block');
+                                }
+                                //if (data == 1) {
+                                //    $scope.Res = "Data duplicated successfully"
+                                //}
+                                //if (data == 2) {
+                                //    $scope.Res = "Duplicate data deleted successfully"
+                                //}
+                                //$scope.Notify = "alert-info";
+                                //if (data == 3) {
+                                //    $scope.Notify = "alert-danger";
+                                //    $scope.Res = "Duplicate data not saved"
+                                //}
+                                // $('#divNotifiy').attr('style', 'display: block');
+
+                                //  $scope.RowClick(lst, idx);
+
+                                // $scope.LoadData();
+                            } else {
+                                if ($scope.Characteristics === null)
+                                    $scope.Res = "Please add characteristics"
+                                else
+                                    $scope.Res = "Data save process failed"
+
+                                $scope.Notify = "alert-info";
+                                $('#divNotifiy').attr('style', 'display: block');
+                            }
+
+                        }
+
+                    }).error(function (data, status, headers, config) {
+                        $scope.Res = data;
+                        $scope.Notify = "alert-danger";
+                        $('#divNotifiy').attr('style', 'display: block');
+                    });
+
+                }
+            }
+        }
 
         $scope.loadmodifier = function (noun) {
            
@@ -2284,16 +2269,16 @@
             if ($scope.cat.Exchk == true) {
 
                 angular.forEach($scope.Characteristics, function (value1) {
-                    if ($scope.cat.PVstatus == null || $scope.cat.PVstatus == "") {
-                        if (value1.Mandatory === "Yes") {
-                            if (!value1.Value) {
-                                value1.Value = "--";
-                            }
-                        }
-                    }
-                    else {
+                    //if ($scope.cat.PVstatus == null || $scope.cat.PVstatus == "") {
+                    //    if (value1.Mandatory === "Yes") {
+                    //        if (!value1.Value) {
+                    //            value1.Value = "--";
+                    //        }
+                    //    }
+                    //}
+                    //else {
                         value1.Mandatory = 'No';
-                    }
+                    //}
                 });
 
             }
@@ -3689,7 +3674,9 @@
         //reject
         $scope.dis1 = false;
         $scope.isClf = false;
+        $scope.isClfClicked = false;
         $scope.RejectData = function (usr) {
+            $scope.isClfClicked = true;
             // alert(angular.toJson($scope.cat));
             var formData = new FormData();
             if ($scope.cat.RevRemarks == undefined || $scope.cat.RevRemarks == null || $scope.cat.RevRemarks == "" || $scope.cat.RevRemarks == "CATALOGUER-REMARK:")
@@ -3728,6 +3715,7 @@
                         $('#divNotifiy').attr('style', 'display: block');
                         //  alert(angular.toJson($scope.checkSubmit));
                     // $scope.checkSubmit();
+                    $scope.isClfClicked = false;
                     $scope.isClf = false;
                        
                         $scope.reset();
