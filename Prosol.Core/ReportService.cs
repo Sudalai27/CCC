@@ -2257,7 +2257,7 @@ namespace Prosol.Core
 
                         row.Add("UNSPSC", cde.Unspsc);
                         row.Add("ITEM ADDITIONAL INFO", cde.Additionalinfo ?? "");
-                        row.Add("REMARKS", cde.Remarks);
+                        row.Add("REMARKS", cde.RevRemarks);
                         row.Add("PV REMARKS", cde.PVRemarks ?? "");
                         //row.Add("Batch", cde.Maincode);
                         rows.Add(row);
